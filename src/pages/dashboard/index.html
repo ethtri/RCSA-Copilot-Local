@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head data-partial-src="../../partials/head.html">
+    <meta charset="utf-8" />
+    <title>RCSA Demo</title>
+  </head>
+  <body class="rcsa-shell rcsa-shell--dashboard" data-page-title="Dashboard">
+    <a class="rcsa-shell__skip-link" href="#page-content">Skip to main content</a>
+    <div class="rcsa-shell__header" data-partial-src="../../partials/header.html"></div>
+
+    <div class="rcsa-shell__grid">
+      <nav class="rcsa-shell__breadcrumbs" aria-label="Breadcrumb">
+        <ol class="rcsa-shell__breadcrumbs-list">
+          <li><a href="/src/">Shell</a></li>
+          <li><span aria-current="page">Dashboard</span></li>
+        </ol>
+      </nav>
+
+      <main id="page-content" class="rcsa-shell__main" tabindex="-1" role="main">
+        <section class="rcsa-section">
+          <header class="rcsa-section__header">
+            <h1 class="rcsa-section__title">Dashboard shell</h1>
+            <p class="rcsa-section__lead">
+              Map dashboard cards and metrics to <code>/assets/data/dashboard-metrics.mock.json</code>.
+            </p>
+          </header>
+          <div class="rcsa-card-grid">
+            <article class="rcsa-card rcsa-card--placeholder">
+              <h3>Metric Cards</h3>
+              <p>Render KPI tiles, charts, and status badges using the design-system grid utilities.</p>
+              <div class="rcsa-card__tokens">
+                <code>--fcb-shadow-md</code>
+                <code>--fcb-spacing-md</code>
+              </div>
+            </article>
+            <article class="rcsa-card">
+              <h3>Automation Insights</h3>
+              <p>Leverage the secondary rail for filters or automation callouts as mock data stabilises.</p>
+              <div class="rcsa-pill">Planned</div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <aside class="rcsa-shell__aside" aria-label="Dashboard guidance">
+        <div class="rcsa-shell__aside-card">
+          <h2>Design Checklist</h2>
+          <p>Ensure consistent card heights on desktop (target ≥320px) to preserve executive readability.</p>
+          <p>On tablet, cards stack; keep headings short and descriptive to maintain scanability.</p>
+        </div>
+      </aside>
+    </div>
+
+    <div data-partial-src="../../partials/footer.html"></div>
+    <div data-partial-src="../../partials/global-scripts.html"></div>
+    <script type="module" src="../../scripts/partial-loader.js"></script>
+  </body>
+</html>

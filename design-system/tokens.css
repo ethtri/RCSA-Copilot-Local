@@ -1,0 +1,58 @@
+/* Typography token exports generated from design-system/tokens/typography.json */
+:root {
+  --rcsa-typography-font-family-base: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --rcsa-typography-scale-xs: 0.75rem;
+  --rcsa-typography-scale-sm: 0.875rem;
+  --rcsa-typography-scale-md: 1rem;
+  --rcsa-typography-scale-lg: 1.125rem;
+  --rcsa-typography-scale-xl: 1.25rem;
+  --rcsa-typography-scale-2xl: 1.5rem;
+  --rcsa-typography-scale-3xl: 1.875rem;
+  --rcsa-typography-scale-4xl: 2.25rem;
+  --rcsa-typography-line-height-body: 1.6;
+}
+
+.token-font-family-base {
+  font-family: var(--rcsa-typography-font-family-base);
+}
+
+.token-text-xs {
+  font-size: var(--rcsa-typography-scale-xs);
+}
+
+.token-text-sm {
+  font-size: var(--rcsa-typography-scale-sm);
+}
+
+.token-text-md {
+  font-size: var(--rcsa-typography-scale-md);
+}
+
+.token-text-lg {
+  font-size: var(--rcsa-typography-scale-lg);
+}
+
+.token-text-xl {
+  font-size: var(--rcsa-typography-scale-xl);
+}
+
+.token-text-2xl {
+  font-size: var(--rcsa-typography-scale-2xl);
+}
+
+.token-text-3xl {
+  font-size: var(--rcsa-typography-scale-3xl);
+}
+
+.token-text-4xl {
+  font-size: var(--rcsa-typography-scale-4xl);
+}
+
+.token-leading-body {
+  line-height: var(--rcsa-typography-line-height-body);
+}
+
+.token-body {
+  font-family: var(--rcsa-typography-font-family-base);
+  line-height: var(--rcsa-typography-line-height-body);
+}

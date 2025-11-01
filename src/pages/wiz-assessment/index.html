@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head data-partial-src="../../partials/head.html">
+    <meta charset="utf-8" />
+    <title>RCSA Demo</title>
+  </head>
+  <body class="rcsa-shell rcsa-shell--wizard" data-page-title="WizAssessment">
+    <a class="rcsa-shell__skip-link" href="#page-content">Skip to main content</a>
+    <div class="rcsa-shell__header" data-partial-src="../../partials/header.html"></div>
+
+    <div class="rcsa-shell__grid">
+      <nav class="rcsa-shell__breadcrumbs" aria-label="Breadcrumb">
+        <ol class="rcsa-shell__breadcrumbs-list">
+          <li><a href="/src/">Shell</a></li>
+          <li><a href="/src/pages/dashboard/">Operational Insights</a></li>
+          <li><span aria-current="page">Assessment Wizard</span></li>
+        </ol>
+      </nav>
+
+      <main id="page-content" class="rcsa-shell__main" tabindex="-1" role="main">
+        <section class="rcsa-section">
+          <header class="rcsa-section__header">
+            <h1 class="rcsa-section__title">Wizard experience shell</h1>
+            <p class="rcsa-section__lead">
+              Stage panes and progressive disclosure within this layout using <code>/assets/data/wizard-insights.mock.json</code>.
+            </p>
+          </header>
+          <div class="rcsa-card-grid">
+            <article class="rcsa-card rcsa-card--placeholder">
+              <h3>Pane Framework</h3>
+              <p>
+                Render each pane as an <code>.assessment-card</code> stack, following the standardization analysis deliverables.
+              </p>
+              <div class="rcsa-card__tokens">
+                <code>var(--fcb-radius-xl)</code>
+                <code>var(--fcb-spacing-lg)</code>
+              </div>
+            </article>
+            <article class="rcsa-card">
+              <h3>Automation Panel</h3>
+              <p>Leverage the aside for AI insights, completion states, or wizard progress summaries.</p>
+              <div class="rcsa-pill">In Scope</div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <aside class="rcsa-shell__aside" aria-label="Wizard guidance">
+        <div class="rcsa-shell__aside-card">
+          <h2>Alignment Tips</h2>
+          <p>Follow the UX standardization doc for consistent card headers, badges, and focus states.</p>
+          <p>Use <code>role="article"</code> and <code>aria-describedby</code> on each pane to reinforce semantics.</p>
+          <p class="rcsa-callout">Respect reduced-motion preferences by keeping animations within the design tokens.</p>
+        </div>
+      </aside>
+    </div>
+
+    <div data-partial-src="../../partials/footer.html"></div>
+    <div data-partial-src="../../partials/global-scripts.html"></div>
+    <script type="module" src="../../scripts/partial-loader.js"></script>
+  </body>
+</html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head data-partial-src="../../partials/head.html">
+    <meta charset="utf-8" />
+    <title>RCSA Demo</title>
+  </head>
+  <body class="rcsa-shell rcsa-shell--home" data-page-title="Home">
+    <a class="rcsa-shell__skip-link" href="#page-content">Skip to main content</a>
+    <div class="rcsa-shell__header" data-partial-src="../../partials/header.html"></div>
+
+    <div class="rcsa-shell__grid">
+      <nav class="rcsa-shell__breadcrumbs" aria-label="Breadcrumb">
+        <ol class="rcsa-shell__breadcrumbs-list">
+          <li><a href="/src/">Shell</a></li>
+          <li><span aria-current="page">Landing Experience</span></li>
+        </ol>
+      </nav>
+
+      <main id="page-content" class="rcsa-shell__main" tabindex="-1" role="main">
+        <section
+          class="home-hero"
+          role="region"
+          aria-labelledby="home-hero-heading"
+          aria-describedby="home-hero-summary home-hero-keyboard"
+        >
+          <div class="home-hero__inner fcb-container">
+            <div class="home-hero__grid">
+              <div class="home-hero__copy">
+                <span class="fcb-badge fcb-badge-secondary home-hero__badge">AI x RCSA</span>
+                <h1 class="fcb-h1 home-hero__heading" id="home-hero-heading">
+                  AI-Powered RCSA That <span class="home-hero__accent">Transforms</span> Banking Risk
+                </h1>
+                <p class="home-hero__summary" id="home-hero-summary" data-home-summary>
+                  Loading performance insights…
+                </p>
+                <div class="home-hero__cta" role="group" aria-label="Primary calls to action">
+                  <a
+                    class="fcb-btn fcb-btn-primary home-hero__cta-primary"
+                    href="/src/pages/wiz-assessment/"
+                    data-ws="WS-06"
+                    aria-describedby="keyboard-guidance"
+                  >
+                    Experience Live Demo
+                  </a>
+                  <a
+                    class="fcb-btn fcb-btn-secondary home-hero__cta-secondary"
+                    href="#roi-section"
+                    data-ws="WS-04"
+                    aria-describedby="keyboard-guidance"
+                  >
+                    See ROI Calculator
+                  </a>
+                </div>
+                <ul class="home-hero__metrics" role="list" aria-label="Executive proof points">
+                  <li class="home-hero__metric" data-home-metric="efficiencyGain">
+                    <span class="home-hero__metric-value" data-home-metric-value>--</span>
+                    <span class="home-hero__metric-label" data-home-metric-label>Efficiency Gain</span>
+                    <span class="home-hero__sr" data-home-metric-detail>Efficiency detail pending data load.</span>
+                  </li>
+                  <li class="home-hero__metric" data-home-metric="residual-risk-reduction">
+                    <span class="home-hero__metric-value" data-home-metric-value>--</span>
+                    <span class="home-hero__metric-label" data-home-metric-label>Residual Risk Reduction</span>
+                    <span class="home-hero__sr" data-home-metric-detail>Residual risk narrative pending data load.</span>
+                  </li>
+                  <li class="home-hero__metric" data-home-metric="controls-mapped">
+                    <span class="home-hero__metric-value" data-home-metric-value>--</span>
+                    <span class="home-hero__metric-label" data-home-metric-label>Controls Mapped</span>
+                    <span class="home-hero__sr" data-home-metric-detail>Controls narrative pending data load.</span>
+                  </li>
+                </ul>
+                <p class="home-hero__keyboard fcb-text-muted" id="home-hero-keyboard">
+                  Keyboard: Tab moves through CTAs, Enter/Space activates. Focus outline inherits <code>fcb-btn</code> focus styles; no
+                  custom override required.
+                </p>
+              </div>
+              <aside class="home-hero__insight fcb-card fcb-card-primary" aria-labelledby="home-hero-insight-title">
+                <div class="fcb-card-header">
+                  <h2 class="fcb-h4 fcb-mb-0" id="home-hero-insight-title">AI Transformation Results</h2>
+                </div>
+                <div class="fcb-card-body home-hero__insight-body">
+                  <dl class="home-hero__insight-list">
+                    <div class="home-hero__insight-item">
+                      <dt>Baseline Monthly Hours</dt>
+                      <dd data-home-insight="baselineHours">--</dd>
+                    </div>
+                    <div class="home-hero__insight-item">
+                      <dt>AI-Assisted Monthly Hours</dt>
+                      <dd data-home-insight="aiHours">--</dd>
+                    </div>
+                    <div class="home-hero__insight-item">
+                      <dt>Annual Platform Investment</dt>
+                      <dd data-home-insight="platformSpend">--</dd>
+                    </div>
+                    <div class="home-hero__insight-item">
+                      <dt>Source</dt>
+                      <dd>ROI defaults and dashboard KPIs</dd>
+                    </div>
+                  </dl>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <section class="home-roi" id="roi-section" aria-labelledby="roi-heading">
+          <div class="home-roi__inner fcb-container">
+            <header class="home-roi__header">
+              <span class="home-roi__eyebrow fcb-eyebrow">ROI Preview</span>
+              <h2 class="fcb-h2 home-roi__title" id="roi-heading" data-roi-headline>Loading ROI headline…</h2>
+              <p class="home-roi__subtitle" data-roi-subheader>Preparing ROI baseline…</p>
+            </header>
+            <div class="home-roi__grid">
+              <article class="home-roi__card fcb-card">
+                <h3 class="fcb-h4 home-roi__card-title">Projected Impact</h3>
+                <div class="home-roi__card-metrics" aria-live="polite">
+                  <div class="home-roi__metric" data-roi-metric="annualHoursSaved">
+                    <span class="home-roi__metric-label">Annual Hours Saved</span>
+                    <span class="home-roi__metric-value" data-roi-metric-value>--</span>
+                  </div>
+                  <div class="home-roi__metric" data-roi-metric="annualCostSaved">
+                    <span class="home-roi__metric-label">Annual Cost Savings</span>
+                    <span class="home-roi__metric-value" data-roi-metric-value>--</span>
+                  </div>
+                  <div class="home-roi__metric" data-roi-metric="roiPercent">
+                    <span class="home-roi__metric-label">Projected ROI</span>
+                    <span class="home-roi__metric-value" data-roi-metric-value>--</span>
+                  </div>
+                  <div class="home-roi__metric" data-roi-metric="efficiencyGain">
+                    <span class="home-roi__metric-label">Efficiency Gain</span>
+                    <span class="home-roi__metric-value" data-roi-metric-value>--</span>
+                  </div>
+                </div>
+              </article>
+              <article class="home-roi__card fcb-card">
+                <h3 class="fcb-h4 home-roi__card-title">Baseline Inputs</h3>
+                <dl class="home-roi__inputs">
+                  <div class="home-roi__input">
+                    <dt>Assessments per Month</dt>
+                    <dd data-roi-input="assessmentsPerMonth">--</dd>
+                  </div>
+                  <div class="home-roi__input">
+                    <dt>Baseline Hours per Assessment</dt>
+                    <dd data-roi-input="baselineHoursPerAssessment">--</dd>
+                  </div>
+                  <div class="home-roi__input">
+                    <dt>Managers in Scope</dt>
+                    <dd data-roi-input="managers">--</dd>
+                  </div>
+                  <div class="home-roi__input">
+                    <dt>Hourly Cost</dt>
+                    <dd data-roi-input="hourlyCost">--</dd>
+                  </div>
+                </dl>
+                <a class="fcb-btn fcb-btn-primary home-roi__cta" data-roi-cta href="#roi-section">Loading CTA…</a>
+                <p class="home-roi__disclaimer fcb-text-muted" data-roi-disclaimer>Loading disclaimer…</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="home-outcome" aria-labelledby="home-outcome-heading">
+          <div class="home-outcome__inner fcb-container">
+            <div class="home-outcome__content">
+              <h2 class="fcb-h3" id="home-outcome-heading">Operational Next Steps</h2>
+              <p class="home-outcome__lead" data-home-outcome-lead>Loading operational guidance…</p>
+              <ul class="home-outcome__list" data-home-alerts role="list" aria-live="polite"></ul>
+              <div class="home-outcome__actions" role="group" aria-label="Secondary calls to action">
+                <a class="fcb-btn fcb-btn-secondary" href="/src/pages/dashboard/">View Dashboard Signals</a>
+                <a class="fcb-btn fcb-btn-outline-primary" href="/src/pages/wiz-assessment/">Review Assessment Workflow</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="rcsa-shell__aside" aria-label="Supporting content">
+        <div class="rcsa-shell__aside-card">
+          <h2>Executive Playback</h2>
+          <p data-home-summary-window>Loading reporting window…</p>
+          <p data-home-summary-refresh>Loading refresh frequency…</p>
+          <p data-home-summary-quality>Loading data quality…</p>
+          <p class="rcsa-callout" data-home-summary-mode>Loading data mode…</p>
+        </div>
+      </aside>
+    </div>
+
+    <div data-partial-src="../../partials/footer.html"></div>
+    <div data-partial-src="../../partials/global-scripts.html"></div>
+    <script type="module" src="../../scripts/partial-loader.js"></script>
+    <script type="module" src="../../scripts/home.js"></script>
+  </body>
+</html>

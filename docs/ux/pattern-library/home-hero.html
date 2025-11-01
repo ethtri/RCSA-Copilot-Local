@@ -1,0 +1,203 @@
+<!-- Pattern: Home Hero CTA (WS-04). Reference: V6 Home_FA591872.webpage.copy.html hero block. -->
+<section class="home-hero" role="region" aria-labelledby="home-hero-heading" aria-describedby="home-hero-summary keyboard-guidance">
+  <div class="home-hero__inner fcb-container">
+    <div class="home-hero__grid">
+      <div class="home-hero__copy">
+        <!-- Badge keeps the AI narrative visible for execs scanning the hero -->
+        <span class="fcb-badge fcb-badge-secondary home-hero__badge">AI x RCSA</span>
+        <h1 class="fcb-h1 home-hero__heading" id="home-hero-heading">
+          AI-Powered RCSA That <span class="home-hero__accent">Transforms</span> Banking Risk Management
+        </h1>
+        <p class="home-hero__summary" id="home-hero-summary">
+          <strong>82% faster assessments.</strong> 95% AI accuracy. Real-time compliance insights surfaced from <code>wizard-insights.mock.json</code>.
+          This snippet removes Power Pages dependencies while preserving the enterprise tone recorded in the CX audit.
+        </p>
+        <div class="home-hero__cta" role="group" aria-label="Primary calls to action">
+          <a class="fcb-btn fcb-btn-primary home-hero__cta-primary" href="/src/pages/wiz-assessment/" data-ws="WS-06" aria-describedby="keyboard-guidance">
+            Experience Live Demo
+          </a>
+          <a class="fcb-btn fcb-btn-secondary home-hero__cta-secondary" href="#roi-section" data-ws="WS-04" aria-describedby="keyboard-guidance">
+            See ROI Calculator
+          </a>
+        </div>
+        <ul class="home-hero__metrics" role="list" aria-label="Executive proof points">
+          <li class="home-hero__metric" data-metric="assessment-speed">
+            <span class="home-hero__metric-value">82%</span>
+            <span class="home-hero__metric-label">Faster assessment cycle time</span>
+            <span class="home-hero__sr">Metric derived from wizard time deltas in mock data.</span>
+          </li>
+          <li class="home-hero__metric" data-metric="accuracy">
+            <span class="home-hero__metric-value">95%</span>
+            <span class="home-hero__metric-label">AI accuracy vs. human baseline</span>
+            <span class="home-hero__sr">Maintain 4.5 to 1 contrast for the value text.</span>
+          </li>
+          <li class="home-hero__metric" data-metric="controls-library">
+            <span class="home-hero__metric-value">50+</span>
+            <span class="home-hero__metric-label">Banking controls available out of the box</span>
+            <span class="home-hero__sr">Communicate that insight wiring maps to <code>dashboard-metrics.mock.json</code>.</span>
+          </li>
+        </ul>
+        <p class="home-hero__keyboard fcb-text-muted" id="keyboard-guidance">
+          Keyboard: Tab moves through CTAs, Enter/Space activates. Focus outline inherits <code>fcb-btn</code> focus styles; no custom override required.
+        </p>
+      </div>
+      <aside class="home-hero__insight fcb-card fcb-card-primary" aria-labelledby="home-hero-insight-title">
+        <div class="fcb-card-header">
+          <h2 class="fcb-h4 fcb-mb-0" id="home-hero-insight-title">AI Transformation Results</h2>
+        </div>
+        <div class="fcb-card-body home-hero__insight-body">
+          <dl>
+            <div class="home-hero__insight-item">
+              <dt>Traditional RCSA Cycle</dt>
+              <dd>45 minutes, manual review, high miss rate</dd>
+            </div>
+            <div class="home-hero__insight-item">
+              <dt>AI-Assisted Cycle</dt>
+              <dd>8.2 minutes with predictive scoring and automated evidence</dd>
+            </div>
+            <div class="home-hero__insight-item">
+              <dt>Stakeholder CTA</dt>
+              <dd>Guide executives to ROI module for projected savings visuals</dd>
+            </div>
+          </dl>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-hero {
+    position: relative;
+    padding: var(--fcb-spacing-3xl) 0;
+    background: linear-gradient(135deg, var(--captech-primary-dark), var(--captech-primary));
+    color: var(--fcb-white);
+    overflow: hidden;
+  }
+
+  .home-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.12), transparent 55%),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.12), transparent 55%);
+    pointer-events: none;
+  }
+
+  .home-hero__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .home-hero__grid {
+    display: grid;
+    gap: var(--fcb-spacing-2xl);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    align-items: start;
+  }
+
+  .home-hero__badge {
+    margin-bottom: var(--fcb-spacing-sm);
+  }
+
+  .home-hero__accent {
+    color: var(--captech-primary-light);
+  }
+
+  .home-hero__summary {
+    margin: var(--fcb-spacing-md) 0 var(--fcb-spacing-lg);
+    font-size: var(--fcb-font-size-lg);
+    max-width: 36rem;
+  }
+
+  .home-hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--fcb-spacing-md);
+    margin-bottom: var(--fcb-spacing-xl);
+  }
+
+  .home-hero__cta a {
+    text-decoration: none;
+  }
+
+  .home-hero__metrics {
+    display: grid;
+    gap: var(--fcb-spacing-md);
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .home-hero__metric {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: var(--fcb-radius-lg);
+    padding: var(--fcb-spacing-md);
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: var(--fcb-spacing-xs);
+  }
+
+  .home-hero__metric-value {
+    font-size: var(--fcb-font-size-4xl);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .home-hero__metric-label {
+    font-size: var(--fcb-font-size-sm);
+  }
+
+  .home-hero__sr {
+    position: absolute;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .home-hero__keyboard {
+    margin-top: var(--fcb-spacing-lg);
+    max-width: 32rem;
+  }
+
+  .home-hero__insight {
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--fcb-white);
+  }
+
+  .home-hero__insight-body dl {
+    display: grid;
+    gap: var(--fcb-spacing-md);
+    margin: 0;
+  }
+
+  .home-hero__insight-item dt {
+    font-weight: 600;
+  }
+
+  .home-hero__insight-item dd {
+    margin: var(--fcb-spacing-xs) 0 0;
+  }
+
+  @media (max-width: 768px) {
+    .home-hero {
+      padding: var(--fcb-spacing-2xl) 0;
+    }
+
+    .home-hero__heading {
+      font-size: var(--fcb-font-size-3xl);
+    }
+
+    .home-hero__summary {
+      font-size: var(--fcb-font-size-base);
+    }
+  }
+</style>

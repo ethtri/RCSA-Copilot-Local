@@ -1,0 +1,11 @@
+# RCSA Demo Local Risk Log (v2025-10-31)
+
+| ID | Risk | Impact | Probability | Owner | Mitigation | Status | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| R-01 | Static site architecture undecided, delaying page builds. | Schedule slip on WS-02 - WS-06. | Medium | Tech Lead (TBD) | Decide on folder structure & tooling by M2 checkpoint; document in delivery plan. | Mitigated | Architecture decision recorded 2025-10-31 (`docs/operations/static-architecture-decision.md`); monitor handoff to WS-03. |
+| R-02 | Design-system drift if agents create bespoke CSS. | Inconsistent UX, higher rework. | Medium | Frontend Lead (TBD) | Enforce CSS import policy, add lint check for forbidden styles, review diffs against `rcsa-styles.css`, verify token parity per `docs/ux/cx-director-audit.md`. | Open | Include in Definition of Done.<br>[2025-11-01, Agent A01] Typography tokens imported; generate shared `tokens.css` bundle + lint checks before WS-03 coding begins.<br>[2025-11-02, Agent A06] Pattern-library hero and wizard snippets give DS-aligned HTML references to reduce bespoke CSS usage.<br>[2025-11-03, Agent A05] `/design-system/tokens.css` now auto-loads via head partial; next mitigation step is lint rule/CI guardrail. |
+| R-03 | Mock data gaps vs. legacy expectations. | Demo credibility diminishes. | Low | Data Steward (TBD) | Validate JSON contracts against legacy audit before page work begins; keep `docs/data-contracts/` synced. | Open | Confirm coverage for dashboard KPIs and wizard insights.<br>[2025-11-03, Agent A08] Dashboard and wizard contracts published; follow-up is automation for cross-file ID validation. |
+| R-04 | Accessibility regressions without automated checks. | Stakeholder rejection, rework. | Medium | QA Lead (TBD) | Introduce manual axe/core run during WS-07; capture results in QA report. | Open | Tooling decision (CLI vs. browser extension) pending. |
+| R-05 | Documentation drift (README, runbook) as site evolves. | Onboarding friction, inconsistent instructions. | Low | RCSA Demo PM | Schedule doc review each milestone; tie updates to WS-08 acceptance. | Mitigated | README + DoD refreshed 2025-11-02; Tuesday/milestone cadence captured in delivery plan notes. |
+
+Update this log alongside major plan changes and reference decisions influencing risk responses in `docs/operations/decision-register.md`.

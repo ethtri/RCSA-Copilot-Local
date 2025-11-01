@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head data-partial-src="../partials/head.html">
+    <!-- Partial loader replaces this node with shared head markup. Keep page-specific metadata here if required. -->
+    <meta charset="utf-8" />
+    <title>RCSA Demo</title>
+  </head>
+  <body class="rcsa-shell rcsa-shell--example" data-page-title="Replace Me">
+    <a class="rcsa-shell__skip-link" href="#page-content">Skip to main content</a>
+
+    <div class="rcsa-shell__header" data-partial-src="../partials/header.html"></div>
+
+    <div class="rcsa-shell__grid">
+      <nav class="rcsa-shell__breadcrumbs" aria-label="Breadcrumb">
+        <ol class="rcsa-shell__breadcrumbs-list">
+          <li><a href="/src/">Parent Section</a></li>
+          <li><span aria-current="page">Current Page</span></li>
+        </ol>
+      </nav>
+
+      <main id="page-content" class="rcsa-shell__main" tabindex="-1" role="main">
+        <section class="rcsa-section">
+          <header class="rcsa-section__header">
+            <h1 class="rcsa-section__title">Page title</h1>
+            <p class="rcsa-section__lead">Introduce the page intent here using existing design tokens.</p>
+          </header>
+
+          <!--
+            Replace the sample content below with feature-specific markup.
+            Use rcsa-card, assessment-card, or other system components to maintain consistency.
+          -->
+          <div class="rcsa-card-grid">
+            <article class="rcsa-card">
+              <h3>Primary module</h3>
+              <p>Drop hero modules, dashboards, or wizard panes here.</p>
+            </article>
+            <article class="rcsa-card">
+              <h3>Secondary module</h3>
+              <p>Leverage cards for supporting insights or contextual guidance.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <aside class="rcsa-shell__aside" aria-label="Supporting content">
+        <div class="rcsa-shell__aside-card">
+          <h2>Optional aside</h2>
+          <p>Use for progress summaries, support links, or contextual automation insights.</p>
+          <p>Leave empty (or set <code>data-shell-aside="hidden"</code>) to hide the column entirely.</p>
+        </div>
+      </aside>
+    </div>
+
+    <div data-partial-src="../partials/footer.html"></div>
+    <div data-partial-src="../partials/global-scripts.html"></div>
+    <script type="module" src="../scripts/partial-loader.js"></script>
+  </body>
+</html>

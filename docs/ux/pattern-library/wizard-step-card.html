@@ -1,0 +1,331 @@
+<!-- Pattern: Wizard Step Card (WS-03 & WS-06). Reference: V6 wizAssessment.en-US.webpage.copy.html pane 1. -->
+<section class="wizard-step-card" role="group" aria-labelledby="wizard-step-heading" aria-describedby="wizard-step-description wizard-keyboard-note">
+  <div class="wizard-step-card__container fcb-container">
+    <header class="wizard-step-card__progress" aria-label="Assessment progress">
+      <div class="fcb-progress" role="list">
+        <div class="fcb-progress-step completed" role="listitem">
+          <span class="fcb-progress-number">1</span>
+          <span class="fcb-progress-label">Risk Review</span>
+        </div>
+        <div class="fcb-progress-step completed" role="listitem">
+          <span class="fcb-progress-number">2</span>
+          <span class="fcb-progress-label">Inherent Risk</span>
+        </div>
+        <div class="fcb-progress-step active" role="listitem" aria-current="step">
+          <span class="fcb-progress-number">3</span>
+          <span class="fcb-progress-label">Control Mapping</span>
+        </div>
+        <div class="fcb-progress-step" role="listitem">
+          <span class="fcb-progress-number">4</span>
+          <span class="fcb-progress-label">Effectiveness</span>
+        </div>
+        <div class="fcb-progress-step" role="listitem">
+          <span class="fcb-progress-number">5</span>
+          <span class="fcb-progress-label">Residual Risk</span>
+        </div>
+        <div class="fcb-progress-step" role="listitem">
+          <span class="fcb-progress-number">6</span>
+          <span class="fcb-progress-label">Response</span>
+        </div>
+        <div class="fcb-progress-step" role="listitem">
+          <span class="fcb-progress-number">7</span>
+          <span class="fcb-progress-label">Review &amp; Submit</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="wizard-step-card__body fcb-row">
+      <div class="fcb-col wizard-step-card__primary">
+        <article class="wizard-step-card__panel fcb-card fcb-card-primary" role="region" aria-labelledby="wizard-step-heading">
+          <div class="fcb-card-header">
+            <h2 class="fcb-h3 fcb-mb-0" id="wizard-step-heading">Review Risks for Wire Transfer Process</h2>
+            <p class="fcb-text-muted fcb-mt-1" id="wizard-step-description">
+              Select the risks that apply to your wire transfer operations. Pre-identified risks come from
+              the shared library; AI recommendations update from <code>wizard-insights.mock.json</code>.
+            </p>
+          </div>
+          <div class="fcb-card-body wizard-step-card__list" role="list" aria-label="Pre-identified risks">
+            <article class="wizard-risk wizard-risk--selected" role="checkbox" aria-checked="true" aria-labelledby="risk-unauthorized-title" aria-describedby="risk-unauthorized-note">
+              <header class="wizard-risk__header">
+                <span class="wizard-risk__status">Selected</span>
+                <h3 class="wizard-risk__title fcb-h5" id="risk-unauthorized-title">Unauthorized Wire Transfer</h3>
+                <span class="wizard-risk__category">Operational Risk</span>
+              </header>
+              <p class="wizard-risk__description">
+                Fraudulent or unauthorized transfers caused by compromised authentication or social engineering exploits.
+              </p>
+              <p class="wizard-risk__meta" id="risk-unauthorized-note">Typically L:4, I:5 &bull; $2M+ potential exposure</p>
+            </article>
+
+            <article class="wizard-risk wizard-risk--selected" role="checkbox" aria-checked="true" aria-labelledby="risk-system-failure-title" aria-describedby="risk-system-failure-note">
+              <header class="wizard-risk__header">
+                <span class="wizard-risk__status">Selected</span>
+                <h3 class="wizard-risk__title fcb-h5" id="risk-system-failure-title">Wire Transfer System Failure</h3>
+                <span class="wizard-risk__category">Technology Risk</span>
+              </header>
+              <p class="wizard-risk__description">
+                Platform outages or degraded performance delaying transfers and impacting customer experience.
+              </p>
+              <p class="wizard-risk__meta" id="risk-system-failure-note">Typically L:3, I:4 &bull; Operational disruption</p>
+            </article>
+
+            <article class="wizard-risk" role="checkbox" aria-checked="false" aria-labelledby="risk-compliance-title" aria-describedby="risk-compliance-note">
+              <header class="wizard-risk__header">
+                <span class="wizard-risk__status">Available</span>
+                <h3 class="wizard-risk__title fcb-h5" id="risk-compliance-title">Regulatory Compliance Violation</h3>
+                <span class="wizard-risk__category">Compliance Risk</span>
+              </header>
+              <p class="wizard-risk__description">
+                Potential AML, BSA, or OFAC gaps when monitoring and reporting wire activity.
+              </p>
+              <p class="wizard-risk__meta" id="risk-compliance-note">Typically L:2, I:5 &bull; Regulatory penalties</p>
+            </article>
+          </div>
+        </article>
+        <p class="wizard-step-card__keyboard fcb-text-muted" id="wizard-keyboard-note">
+          Keyboard: Space toggles risk selection on the focused card; Shift+Tab moves back to the progress indicator.
+        </p>
+      </div>
+
+      <aside class="fcb-col wizard-step-card__ai">
+        <section class="wizard-ai fcb-card fcb-card-warning" aria-labelledby="wizard-ai-title">
+          <div class="fcb-card-header">
+            <h3 class="fcb-h4 fcb-mb-0" id="wizard-ai-title">AI Risk Intelligence</h3>
+            <p class="fcb-text-muted fcb-mt-1">Insights refreshed nightly from peer benchmarking data.</p>
+          </div>
+          <div class="fcb-card-body wizard-ai__body">
+            <article class="wizard-ai__item" role="region" aria-labelledby="wizard-ai-deepfake-title">
+              <div class="wizard-ai__badge wizard-ai__badge--critical">Trending</div>
+              <h4 class="fcb-h5" id="wizard-ai-deepfake-title">Deepfake Voice Authorization</h4>
+              <p class="wizard-ai__description">
+                AI-generated voice patterns mimicking customer approvals. Three peer incidents this month produced $2.8M in losses.
+              </p>
+              <ul class="wizard-ai__meta" role="list">
+                <li>340% increase in reported cases (Dec 2024)</li>
+                <li>12 similar banks added compensating controls</li>
+              </ul>
+              <div class="wizard-ai__actions" role="group" aria-label="Actions for Deepfake Voice suggestion">
+                <button type="button" class="fcb-btn fcb-btn-success">Add to assessment</button>
+                <button type="button" class="fcb-btn fcb-btn-secondary">Review controls</button>
+              </div>
+            </article>
+
+            <article class="wizard-ai__item" role="region" aria-labelledby="wizard-ai-reversal-title">
+              <div class="wizard-ai__badge wizard-ai__badge--info">Regulatory</div>
+              <h4 class="fcb-h5" id="wizard-ai-reversal-title">Real-time Payment Reversal Risk</h4>
+              <p class="wizard-ai__description">
+                FedNow reversal requirements become enforceable in January 2025. Ensure operational scenarios are covered before go-live.
+              </p>
+              <ul class="wizard-ai__meta" role="list">
+                <li>Effective in 18 days</li>
+                <li>75% of peer banks still in remediation</li>
+              </ul>
+              <div class="wizard-ai__actions" role="group" aria-label="Actions for Payment Reversal suggestion">
+                <button type="button" class="fcb-btn fcb-btn-primary">Create mitigation</button>
+                <button type="button" class="fcb-btn fcb-btn-secondary">Dismiss</button>
+              </div>
+            </article>
+
+            <div class="wizard-ai__metrics" role="group" aria-label="AI insight metrics">
+              <div class="wizard-ai__metric">
+                <span class="wizard-ai__metric-value">+15%</span>
+                <span class="wizard-ai__metric-label">Wire fraud this quarter</span>
+              </div>
+              <div class="wizard-ai__metric">
+                <span class="wizard-ai__metric-value">$2.8M</span>
+                <span class="wizard-ai__metric-label">Average peer loss per incident</span>
+              </div>
+              <div class="wizard-ai__metric">
+                <span class="wizard-ai__metric-value">96%</span>
+                <span class="wizard-ai__metric-label">Detection rate with mapped controls</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wizard-step-card {
+    padding: var(--fcb-spacing-2xl) 0;
+    background: var(--fcb-gray-50);
+  }
+
+  .wizard-step-card__progress {
+    margin-bottom: var(--fcb-spacing-2xl);
+  }
+
+  .wizard-step-card__body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--fcb-spacing-2xl);
+  }
+
+  .wizard-step-card__primary,
+  .wizard-step-card__ai {
+    flex: 1 1 320px;
+  }
+
+  .wizard-step-card__panel {
+    height: 100%;
+  }
+
+  .wizard-step-card__list {
+    display: grid;
+    gap: var(--fcb-spacing-md);
+  }
+
+  .wizard-risk {
+    border: 1px solid var(--fcb-gray-200);
+    border-radius: var(--fcb-radius-lg);
+    padding: var(--fcb-spacing-lg);
+    background: var(--fcb-white);
+    display: grid;
+    gap: var(--fcb-spacing-sm);
+    transition: var(--fcb-transition);
+  }
+
+  .wizard-risk:focus-within {
+    outline: 2px solid var(--captech-primary);
+    outline-offset: 2px;
+  }
+
+  .wizard-risk--selected {
+    border-color: var(--captech-primary);
+    box-shadow: var(--fcb-shadow-md);
+  }
+
+  .wizard-risk__header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--fcb-spacing-sm);
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .wizard-risk__status {
+    font-size: var(--fcb-font-size-xs);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--captech-primary-light);
+  }
+
+  .wizard-risk__category {
+    font-size: var(--fcb-font-size-sm);
+    color: var(--fcb-gray-500);
+  }
+
+  .wizard-risk__description {
+    margin: 0;
+  }
+
+  .wizard-risk__meta {
+    margin: 0;
+    font-size: var(--fcb-font-size-sm);
+    color: var(--fcb-gray-500);
+  }
+
+  .wizard-step-card__keyboard {
+    margin-top: var(--fcb-spacing-md);
+  }
+
+  .wizard-ai__body {
+    display: grid;
+    gap: var(--fcb-spacing-lg);
+  }
+
+  .wizard-ai__item {
+    position: relative;
+    padding: var(--fcb-spacing-lg);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: var(--fcb-radius-lg);
+    background: var(--fcb-white);
+    display: grid;
+    gap: var(--fcb-spacing-sm);
+  }
+
+  .wizard-ai__badge {
+    position: absolute;
+    top: var(--fcb-spacing-sm);
+    right: var(--fcb-spacing-sm);
+    padding: var(--fcb-spacing-xs) var(--fcb-spacing-sm);
+    font-size: var(--fcb-font-size-xs);
+    font-weight: 600;
+    border-radius: var(--fcb-radius-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .wizard-ai__badge--critical {
+    background: var(--fcb-danger);
+    color: var(--fcb-white);
+  }
+
+  .wizard-ai__badge--info {
+    background: var(--fcb-info);
+    color: var(--fcb-white);
+  }
+
+  .wizard-ai__description {
+    margin: 0;
+  }
+
+  .wizard-ai__meta {
+    margin: 0;
+    padding-left: var(--fcb-spacing-lg);
+    display: grid;
+    gap: var(--fcb-spacing-xs);
+    font-size: var(--fcb-font-size-sm);
+    color: var(--fcb-gray-500);
+  }
+
+  .wizard-ai__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--fcb-spacing-sm);
+  }
+
+  .wizard-ai__metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--fcb-spacing-md);
+    padding: var(--fcb-spacing-md);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: var(--fcb-radius-lg);
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+  .wizard-ai__metric {
+    display: grid;
+    gap: var(--fcb-spacing-xs);
+    text-align: center;
+  }
+
+  .wizard-ai__metric-value {
+    font-size: var(--fcb-font-size-2xl);
+    font-weight: 600;
+    color: var(--captech-primary);
+  }
+
+  .wizard-ai__metric-label {
+    font-size: var(--fcb-font-size-sm);
+    color: var(--fcb-gray-500);
+  }
+
+  @media (max-width: 768px) {
+    .wizard-step-card {
+      padding: var(--fcb-spacing-xl) 0;
+    }
+
+    .wizard-step-card__body {
+      gap: var(--fcb-spacing-xl);
+    }
+
+    .wizard-ai__badge {
+      position: static;
+      width: fit-content;
+    }
+  }
+</style>
