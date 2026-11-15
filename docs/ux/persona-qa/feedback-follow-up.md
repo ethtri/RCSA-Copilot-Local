@@ -1,0 +1,13 @@
+# Independent second-line follow-up — preserved mapping inspection
+
+Reviewed November 14, 2026. **Verdict: Ready.** The previously identified P2 gap in reviewable prior mappings is verified fixed. No remaining blocker was observed in this targeted correction check.
+
+In a fresh isolated installed Chrome context, I loaded the completed-review scene, switched to First line and selected Incorrect payment details. I browsed the submitted control library, explicitly started an owner revision, and mapped Customer payment confirmation with a new rationale and a Limited coverage judgment. I then opened **Inspect prior version** for reviewed version 2.
+
+The prior-version dialog now exposes **Submitted control mappings (1)** for that risk. Expanding it showed the original **Payment detail check**, its prepared coverage judgment, original **Check beneficiary and amount** rationale and operating evidence. Expanding **Evidence references (1)** showed **Test PD-08 · October sample · October 30, 2026**, the exact **25 standard payment-detail checks** scope, and the original excerpt limiting results to the documented population and period. The newly added Customer payment confirmation and its new rationale were absent from the old record. I inspected the rendered dialog and its screenshot in memory; no screenshot file was written.
+
+As an additional freeze check, I edited the current draft's existing Payment detail check rationale to a distinct CURRENT-ONLY marker and changed its judgment to No current coverage. Reopening prior version 2 still showed the original rationale and prepared judgment; neither that marker nor the newly mapped control appeared. Prior ratings remained High 16 / Elevated 12 for unauthorized wire and Moderate 9 / Moderate 6 for both supporting risks, and the earlier second-line review remained inspectable.
+
+Code inspection of `src/scripts/demo/versions.js` corroborated the UI: submitted mappings use `version.risks` and `version.customControls`, while evidence references resolve the fixed fixture records. This check does not certify arbitrary future edits to shared fixture definitions or every custom-control combination. It verifies the requested current-draft versus prior-submission distinction in the existing synthetic demo.
+
+The earlier intelligence/AI boundary assessment remains positive: source observations and interpretations are separated; inherent and residual lenses differ; targeted response and challenge drafts require explicit use and later human creation/sending. This follow-up did not repeat the full assessment cycle. The owned browser was closed. No app code or other persona report was changed.

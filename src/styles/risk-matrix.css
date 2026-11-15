@@ -1,0 +1,56 @@
+/* Compact assessment map: isolated from the legacy .matrix span/grid rules. */
+.rmx-chart {
+  width: 100%;
+  max-width: 220px;
+  min-width: 0;
+  margin: 0 0 16px;
+}
+
+.rmx-chart .rmx-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  overflow: hidden;
+  font-family: var(--ui, 'Segoe UI', sans-serif);
+}
+
+.rmx-chart .rmx-cell--low { fill: #cde5d6; }
+.rmx-chart .rmx-cell--moderate { fill: #f6dfac; }
+.rmx-chart .rmx-cell--elevated { fill: #eeb694; }
+.rmx-chart .rmx-cell--high { fill: #d68e86; }
+
+.rmx-chart .rmx-axis {
+  fill: none;
+  stroke: #7a8f82;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rmx-chart .rmx-tick {
+  fill: #52675b;
+  font-size: 12px;
+  font-weight: 500;
+  text-anchor: middle;
+}
+
+.rmx-chart .rmx-axis-label {
+  fill: var(--forest, #124d3b);
+  font-size: 13px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+.rmx-chart .rmx-selection circle {
+  fill: var(--forest, #124d3b);
+  stroke: #fff;
+  stroke-width: 1.5;
+}
+
+.rmx-chart .rmx-selection text {
+  fill: #fff;
+  font-size: 12px;
+  font-weight: 650;
+  text-anchor: middle;
+}

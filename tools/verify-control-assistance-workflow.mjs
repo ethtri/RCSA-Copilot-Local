@@ -1,0 +1,91 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {createInitial,currentRating,sendAssessment,startOwnerRevision,reportSignature,requirements} from '../src/scripts/demo/model.js';
+import {recommendationSet,preparePlan,coverageAnalysis,controlSetSignature} from '../src/scripts/demo/control-assistance.js';
+import {useControlRecommendation,applyAssistancePlan,validPlanDate,parsePlanTasks,syncAssistancePlanField,detachAssistancePlan,reviewControlRecommendation} from '../src/scripts/demo/control-assistance-actions.js';
+import {removeMapping} from '../src/scripts/demo/mappings.js';
+import {saveRiskResponse} from '../src/scripts/demo/responses.js';
+import {versionDialog} from '../src/scripts/demo/versions.js';
+import {controlAssistanceView,assistanceRecord} from '../src/scripts/demo/control-assistance-view.js';
+
+const json=async name=>JSON.parse(await readFile(new URL('../assets/data/'+name+'.json',import.meta.url),'utf8'));
+const [workflow,intelligence,research,context,assistance]=await Promise.all(['workflow-demo','risk-intelligence','research-demo','assessment-context','control-assistance'].map(json));
+const data={...workflow,intelligence,research,context,assistance,sources:[...workflow.sources,...intelligence.sources,...research.sources,...context.sources]};
+const draftFor=(s,c)=>({...structuredClone(c.designDraft||{}),candidateId:c.id,riskId:s.selectedRisk,rationale:c.addresses,applicability:'covers'});
+const normalizePlan=(s,p)=>({...p,protectionOwner:p.owner,protectionDue:p.due});
+const unchanged=structuredClone(data.controls);
+
+assert(validPlanDate('2026-11-28'));assert(!validPlanDate('2026-11-31'));assert(!validPlanDate('2026-02-29'));assert(!validPlanDate('2026-11-13'));
+assert.equal(parsePlanTasks('Test | Owner | 2026-11-28',{validation:true}),null);
+assert.equal(parsePlanTasks('Test | Owner | 2026-11-28 | Signed results',{validation:true}).length,1);
+
+for(const riskId of ['unauthorized','details','cutoff']){
+  const s=createInitial(data);s.selectedRisk=riskId;
+  const baseline=structuredClone(currentRating(s,riskId)),beforeHistory=s.history.length;
+  const c=recommendationSet(data,s).find(c=>c.kind==='new');
+  const draft=draftFor(s,c);draft.design+=' Retain a named owner check before release.';draft.owner='Edited design owner';
+  assert(useControlRecommendation(data,s,draft).ok);
+  assert.deepEqual(currentRating(s,riskId),baseline,'Using a design must preserve current confirmed risk');
+  assert(s.history.length>beforeHistory);assert.equal(s.risks[riskId].controlsConfirmed,false);assert.equal(s.risks[riskId].residualConfirmed,false);
+  const mapped=s.customControls.find(control=>control.id===s.selectedControl);
+  assert.equal(mapped.status,'Proposed');assert.equal(mapped.design,draft.design);assert.equal(mapped.owner,draft.owner);
+  assert.equal(mapped.assistance.candidateId,c.id);assert.equal(s.controlAssistance.decisions.at(-1).sourceIds.length,c.sourceIds.length);
+  assert.equal(useControlRecommendation(data,s,draft).ok,false,'Repeated use must not create duplicate proposed designs');
+  reviewControlRecommendation(data,s,recommendationSet(data,s).find(c=>c.kind==='existing').id);
+  assert.equal(reviewControlRecommendation(data,s,c.id).design,draft.design,'Reopening after another candidate shows the mapped edited design');
+  assert(coverageAnalysis(data,s).findings.some(f=>f.id==='implementation-open'));
+  const plan=normalizePlan(s,preparePlan(data,s));assert.equal(plan.protection,draft.design);
+  plan.title='Owner-edited implementation and assurance plan';
+  assert(applyAssistancePlan(data,s,plan).ok);
+  assert.equal(s.risks[riskId].riskResponse.created,false,'Filling a plan does not create the risk response');
+  assert.equal(s.controlAssistance.plans[riskId].title,plan.title);
+  const taskTitle=s.controlAssistance.planDraft.implementationTasks[0].title;
+  s.risks[riskId].riskResponse.protection='Owner changed the protection in the response editor.';syncAssistancePlanField(s,'riskResponse.protection',s.risks[riskId].riskResponse.protection);
+  assert.equal(s.controlAssistance.planDraft.protection,s.risks[riskId].riskResponse.protection,'Editing the response also updates the reopenable plan draft');
+  assert.equal(s.controlAssistance.planDraft.implementationTasks[0].title,taskTitle);
+  assert(saveRiskResponse(s));assert.deepEqual(currentRating(s,riskId),baseline);
+  const saved=structuredClone(s.controlAssistance.plans[riskId]);preparePlan(data,s,riskId,c.id);assert.deepEqual(s.controlAssistance.plans[riskId],saved,'Preview does not overwrite edited work');
+  const report=reportSignature(s);s.controlAssistance.plans[riskId].implementationTasks[0].title+=' — amended';assert.notEqual(reportSignature(s),report);
+  assert(removeMapping(s,mapped.id));assert(s.controlAssistance.plans[riskId].needsReview);
+  assert.equal(applyAssistancePlan(data,s,plan).ok,false,'A removed design cannot apply its obsolete linked plan');
+  assert(!coverageAnalysis(data,s).designCandidateIds.includes(c.id));
+}
+
+const s=createInitial(data),baseControl=structuredClone(data.controls.find(c=>c.id==='callback'));
+const enhancement=recommendationSet(data,s).find(c=>c.kind==='enhance');
+assert(useControlRecommendation(data,s,draftFor(s,enhancement)).ok);
+assert(s.risks.unauthorized.controls.includes('callback'),'A proposed enhancement retains the implemented baseline control');
+assert.equal(s.customControls.at(-1).enhancementOf,enhancement.existingControlId);
+assert.deepEqual(data.controls,unchanged);assert.deepEqual(data.controls.find(c=>c.id==='callback'),baseControl);
+const stalePlan=normalizePlan(s,preparePlan(data,s));s.risks.unauthorized.controlConclusion.text+=' Owner qualification.';
+assert.notEqual(stalePlan.controlSetSignature,controlSetSignature(data,s));assert.equal(applyAssistancePlan(data,s,stalePlan).ok,false);
+const plan=normalizePlan(s,preparePlan(data,s));assert(applyAssistancePlan(data,s,plan).ok);assert(saveRiskResponse(s));
+s.scope=true;s.dependency='confirmed';Object.values(s.risks).forEach(r=>{r.inherentConfirmed=true;r.controlsConfirmed=true;r.residualConfirmed=true;});
+assert(sendAssessment(s));const submitted=structuredClone(s.snapshots[0]);
+assert(submitted.controlAssistance.decisions.length);assert(submitted.controlAssistance.plans.unauthorized);
+assert(versionDialog(data,s,1).includes(plan.title),'Submitted versions expose generated plan provenance');
+assert.equal(useControlRecommendation(data,s,draftFor(s,enhancement)).ok,false);assert.equal(applyAssistancePlan(data,s,plan).ok,false);
+s.role='second';assert.equal(startOwnerRevision(s,data),false);assert.equal(applyAssistancePlan(data,s,plan).ok,false);
+assert(!controlAssistanceView(data,s).includes('data-action="ca-use"'),'Reviewer view offers inspection, not incorporation');
+s.role='first';assert(startOwnerRevision(s,data));s.controlAssistance.plans.unauthorized.title='Later owner revision';s.customControls[0].design='Changed draft design';
+assert.deepEqual(s.snapshots[0],submitted,'An owner revision cannot change the submitted designs or plan');
+assert(assistanceRecord(data,s,{readOnly:true}).includes('Later owner revision'));
+assert(assistanceRecord(data,s.snapshots[0],{readOnly:true}).includes(plan.title));
+assert.equal(assistanceRecord(data,s,{riskId:'details',readOnly:true}),'');
+
+const stale=createInitial(data),staleCandidate=recommendationSet(data,stale).find(c=>c.kind==='new');
+assert(useControlRecommendation(data,stale,draftFor(stale,staleCandidate)).ok);const staleControlId=stale.selectedControl;
+assert(applyAssistancePlan(data,stale,normalizePlan(stale,preparePlan(data,stale))).ok);assert(saveRiskResponse(stale));
+assert(removeMapping(stale,staleControlId));assert(saveRiskResponse(stale));stale.scope=true;stale.dependency='confirmed';Object.values(stale.risks).forEach(r=>{r.inherentConfirmed=true;r.controlsConfirmed=true;r.residualConfirmed=true;});
+assert.equal(requirements(stale).every(r=>r.done),false,'Re-saving a response cannot clear a changed control-plan basis');assert.equal(sendAssessment(stale),false);
+assert(assistanceRecord(data,stale,{readOnly:true}).includes('plan needs review'));
+assert(detachAssistancePlan(stale));assert.equal(stale.controlAssistance.plans.unauthorized,undefined);assert(stale.controlAssistance.archivedPlans[0].detached);assert(requirements(stale).every(r=>r.done));assert(sendAssessment(stale));
+assert(stale.snapshots[0].controlAssistance.archivedPlans[0].detached,'Archived plan evidence remains in the submitted version');
+stale.role='second';assert.equal(detachAssistancePlan(stale),false);
+
+const existing=createInitial(data),candidate=recommendationSet(data,existing).find(c=>c.kind==='existing');
+const preview=normalizePlan(existing,preparePlan(data,existing,existing.selectedRisk,candidate.id));assert.equal(applyAssistancePlan(data,existing,preview).ok,false,'An unselected existing control cannot silently become a selected approach');
+assert(useControlRecommendation(data,existing,draftFor(existing,candidate)).ok);assert(existing.risks.unauthorized.controls.includes(candidate.existingControlId));
+assert.equal(existing.customControls.length,0);assert(coverageAnalysis(data,existing).findings.some(f=>f.id==='limited-detail-coverage'));
+existing.role='second';assert.equal(useControlRecommendation(data,existing,draftFor(existing,candidate)).ok,false);
+console.log('Control-assistance workflow checks passed: editable proposals/plans, evidence boundaries, authority, invalidation, immutable submissions and review/report provenance.');

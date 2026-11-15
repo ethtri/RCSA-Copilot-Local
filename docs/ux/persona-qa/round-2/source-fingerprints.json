@@ -1,0 +1,29 @@
+{
+  "reviewDate": "2026-11-14",
+  "scope": "Final focused round-2 rechecks after submission-aware acceptance correction",
+  "checkedFiles": 21,
+  "applicationChanges": [],
+  "sha256": {
+    "assets/data/workflow-demo.json": "e6ab4d49759100e649b66b79323939ea23689a6ec87c3369f96cc6cd788b378d",
+    "src/index.html": "9af002ebe180146eb7091dcbb15cdb12ea114772299714787a90d66acdc49e35",
+    "src/scripts/demo/app.js": "03378f54b069ba2749b5236de4ddce5f17bb623b3e7fc732750892af63b0e73b",
+    "src/scripts/demo/assessment.js": "8711cdf0827e2b5c49cd8a58bf7403d9a952df29e3daf56084fa6dcc429d8b0c",
+    "src/scripts/demo/controls.js": "b56582bbe1f20cc34fd20cd50a9873314fe3cd0151bd19b74d8ac8071b74c6c7",
+    "src/scripts/demo/dashboard.js": "37b65aed5cc4cbf89a29150ddc772161f10eb677e490d1aa6db862e2dcf1cb27",
+    "src/scripts/demo/decision-brief.js": "266b801d2e426ccb711611069ef3532a905a81b480fd223bc8d69c00d4b429bb",
+    "src/scripts/demo/mappings.js": "c696ce9c3dbb75ba5931f41e21596c7efe77aed46ec95d0dbc14788c4342154a",
+    "src/scripts/demo/model.js": "ecf3255a27d75ec46e40d9343da70f2d7f46ca3c260ee6edf538de1764405c10",
+    "src/scripts/demo/reports.js": "376f0cfc6cc88d3328703680b0f7ab8a4b3052a6954ca2179ebebff03ebe3184",
+    "src/scripts/demo/response-view.js": "d1f6112b4ca9dfdd19e2b92336f9b099e9ba78cef0d758f3bf8c5fc65f5ce6f0",
+    "src/scripts/demo/responses.js": "7a37cfa81336bf2a2a136c9402753968880bc9cfb418e643e9cf26524e331f75",
+    "src/scripts/demo/ui.js": "42fd70261543f710b4a7f2104f626c8365e1d388a6026fbced0d73f03f2624f5",
+    "src/scripts/demo/visuals.js": "c5e41b48229e3c0ef4dd3fe85aa738e9ee8a2aadbac7154d6b9910a56cbfc1b0",
+    "src/scripts/demo/work.js": "25368e0fb30ef7965deb0a9f2b24c24b0e19a4154537d687dc5bc285ba164e8b",
+    "src/styles/controls.css": "2dbcf615a645e903bc9c3a8efdfd67f96f68c48a66e7a105ca5a3fa27529d3c0",
+    "src/styles/dashboard.css": "6a5976417cdf13473ea93afb3fdc5f54827d1902384a572d9c8124455615a552",
+    "src/styles/demo.css": "e8b945bdfaad66025daea0db67711dc5c3e5d116d48658ed9e8eeddf0c5f277e",
+    "src/styles/overrides.css": "93c00d4a62a265559c396e7831a7feb4bc7161735943eb0097a402dc4753c286",
+    "src/styles/product-refresh.css": "cce8dbc51edbc4e3ab5bf88d39ab85b8c0339940507a64a9f610dcf3dc981da0",
+    "src/styles/report-refinement.css": "98742394b5efc22e10d239934e71ff93b0e8db3eff062870b97c00234dfb17e3"
+  }
+}

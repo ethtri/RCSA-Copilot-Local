@@ -1,0 +1,755 @@
+{
+  "version": 1,
+  "asOf": "November 14, 2026",
+  "disclosure": "Illustrative analysis · Fictional sample records and prepared AI suggestions. Review the evidence and make your own assessment.",
+  "sources": [
+    {
+      "id": "ri-wire-activity",
+      "title": "Urgent-wire activity snapshot",
+      "reference": "Operations extract UW-11",
+      "date": "November 6, 2026",
+      "scope": "Seven urgent-route requests logged from October 5 to November 5, 2026; activity context, not control testing",
+      "excerpt": "Seven requests were recorded through the urgent exception route after its introduction. The extract includes the intercepted October 20 request. It records route use, not whether every required verification step operated. The extract is not a full wire-volume denominator and cannot establish an attempt or failure rate."
+    },
+    {
+      "id": "ri-wire-issue",
+      "title": "Contact-change testing issue",
+      "reference": "Issue WI-07 · Open · Payments Operations",
+      "date": "November 6, 2026",
+      "scope": "Issue opened October 23; November 6 status update; urgent requests involving recently changed contact details",
+      "excerpt": "WI-07 remains open. The October 20 near miss prompted a review of contact-change verification and urgent-route evidence. A targeted test is planned for November 28, with Payments Operations accountable. Results and an independently validated verification source have not been supplied. The issue records an gap in test evidence; it does not conclude that every urgent request or every control failed."
+    },
+    {
+      "id": "ri-details-event",
+      "title": "Recalled payment detail error",
+      "reference": "Event PD-019 · Operational event · Closed",
+      "date": "September 26, 2026",
+      "scope": "One September 23 standard payment; recovery completed September 25; historical event outside the October PD-08 sample",
+      "excerpt": "A beneficiary account digit was transposed on a standard payment of $84,000 on September 23. The payment required recall and re-execution; the funds were recovered on September 25. No direct payment loss was recorded, but the customer experienced a two-day delay. Recovery was closed on September 26. This single event does not establish the frequency of detail errors or the current operation of the detail check."
+    },
+    {
+      "id": "ri-details-nearmiss",
+      "title": "Late-amendment near miss",
+      "reference": "Event PD-027 · Near miss · Intercepted",
+      "date": "October 24, 2026",
+      "scope": "One urgent payment amended after the second-operator detail check; intercepted before release",
+      "excerpt": "An amended beneficiary instruction arrived after the recorded detail check. The release operator paused the urgent payment after noticing that the checked instruction and the latest amendment differed. The payment was corrected before release and no loss occurred. The event indicates a transfer of the latest instructions question; it does not establish failure of all detail checks or successful operation across the urgent-route population."
+    },
+    {
+      "id": "ri-details-issue",
+      "title": "Instruction-version trace issue",
+      "reference": "Issue PI-12 · Open · Payments Operations",
+      "date": "November 3, 2026",
+      "scope": "Version evidence at the amendment-to-release handoff; issue opened after PD-027",
+      "excerpt": "PI-12 is open. The instruction version checked before release is not consistently identifiable in the amendment handoff record reviewed for PD-027. A proposed version-reference field and targeted repeat the checks onance remain under assessment; neither implementation nor test results are evidenced. Payments Operations owns the next review on November 28. The issue has not established the prevalence of the gap in the broader population."
+    },
+    {
+      "id": "ri-cutoff-event",
+      "title": "Missed-cutoff settlement event",
+      "reference": "Event QT-011 · Operational event · Recovery closed",
+      "date": "October 12, 2026",
+      "scope": "One October 9 payment delayed in verification; settlement completed the next business day",
+      "excerpt": "One payment awaiting verification missed the October 9 processing cutoff and settled on the next business day. The customer received a $180 service credit. Operational recovery was closed on October 12; closure does not demonstrate that the underlying delay exposure has been removed. This is one recorded event and is not a measured missed-cutoff rate."
+    },
+    {
+      "id": "ri-cutoff-nearmiss",
+      "title": "Verification outage near cutoff",
+      "reference": "Event QT-016 · Near miss · Recovered before cutoff",
+      "date": "November 4, 2026",
+      "scope": "Seventeen-minute verification-service interruption; three urgent payments in the late-afternoon queue",
+      "excerpt": "A seventeen-minute verification-service interruption affected three urgent payments near cutoff on November 4. Operations escalated the queue and all three were released with less than ten minutes remaining. No cutoff was missed in this event. The recovery demonstrates what occurred on that occasion; it does not establish backup processing capacity or service availability under a longer outage."
+    },
+    {
+      "id": "ri-cutoff-issue",
+      "title": "Cutoff resilience review issue",
+      "reference": "Issue QI-04 · Open · Payments Operations",
+      "date": "November 7, 2026",
+      "scope": "Outage and peak-volume coverage of cutoff monitoring; proposed scenario review due November 28",
+      "excerpt": "QI-04 remains open following QT-016. The October queue service review supports monitoring and escalation on sampled days, but does not test a prolonged verification outage or simultaneous peak demand. A capacity and fallback scenario review is proposed for November 28. No validated backup process in place or scenario-test result is recorded. Payments Operations owns the review."
+    }
+  ],
+  "cases": {
+    "unauthorized": {
+      "eyebrow": "Authorization · Changed process",
+      "inherent": {
+        "title": "Urgent requests may make customer impersonation harder to spot.",
+        "takeaway": "Review how someone could pose as a customer when an urgent request follows a contact change. Assess this risk before considering the checks in place.",
+        "changed": "Urgent requests were allowed from October 5. A later fraud attempt involved recently changed contact details. Activity records show that staff are using the new procedure.",
+        "changedSourceIds": [
+          "procedure",
+          "incident",
+          "ri-wire-activity"
+        ],
+        "observation": "The procedure permits an urgent exception route. One attempted fraud was intercepted; the event record reports no payment loss.",
+        "observationSourceIds": [
+          "procedure",
+          "incident"
+        ],
+        "interpretation": "Time pressure and changed contact details may make a false customer request harder to spot. One attempt was stopped, but the records do not show how often this type of attempt occurs.",
+        "considerations": [
+          {
+            "label": "Likelihood",
+            "text": "Consider how often urgent requests are used, which exceptions staff handle manually and when contact details change. Seven logged requests do not show how often fraud is attempted or succeeds.",
+            "sourceIds": [
+              "ri-wire-activity",
+              "incident"
+            ]
+          },
+          {
+            "label": "Impact",
+            "text": "Consider how much could be lost, whether funds could be recovered and the harm to the customer. Stopping one attempt does not limit the loss from a future successful attempt.",
+            "sourceIds": [
+              "incident"
+            ]
+          }
+        ],
+        "unknowns": [
+          "How many urgent requests involve recently changed contact details?",
+          "How much are these payments worth, and how difficult would it be to recover them?"
+        ],
+        "question": "Does your rationale cover urgent requests and contact changes as well as standard payments?",
+        "followup": "Ask how many requests used each procedure and how many involved contact changes. Use this information to check whether the rationale still describes the risk.",
+        "followupSourceIds": [
+          "procedure",
+          "ri-wire-activity",
+          "incident"
+        ]
+      },
+      "residual": {
+        "title": "Urgent requests have not been tested.",
+        "takeaway": "The standard-wire test found no problems, and a separate check stopped one fraud attempt. Neither shows that urgent requests are consistently verified using a separate source.",
+        "changed": "The latest standard-wire test was completed on September 15, before the October 5 change. The October 20 near miss led to an testing issue that remains open.",
+        "changedSourceIds": [
+          "test",
+          "procedure",
+          "incident",
+          "ri-wire-issue"
+        ],
+        "observation": "The standard test found no exceptions in 25 sampled wires. The callback and approval descriptions both reference customer-contact information, and the post-change issue has no supplied test results.",
+        "observationSourceIds": [
+          "test",
+          "callback",
+          "approval",
+          "ri-wire-issue"
+        ],
+        "interpretation": "Both checks may use the same contact record. A different operator does not provide an independent check if both rely on the same information. Ask the owner which sources are used and review the evidence.",
+        "considerations": [
+          {
+            "label": "What testing shows",
+            "text": "The September test covered standard payments before urgent requests were allowed.",
+            "sourceIds": [
+              "test",
+              "procedure"
+            ]
+          },
+          {
+            "label": "What this does not prove",
+            "text": "WI-07 remains open because test evidence is missing. The near miss does not prove every control failed. Planned testing does not reduce today’s risk.",
+            "sourceIds": [
+              "incident",
+              "ri-wire-issue"
+            ]
+          }
+        ],
+        "unknowns": [
+          "After contact details change, what separate source do staff use to verify urgent requests?",
+          "Which urgent requests have been tested since the change, and what do the results show?"
+        ],
+        "question": "What evidence shows that the urgent-request checks work today? Explain any gaps in your rating rationale.",
+        "followup": "Review urgent requests received since the change, including cases with changed contact details. Ask for test results, problems found and records of the verification source used.",
+        "followupSourceIds": [
+          "ri-wire-issue",
+          "test",
+          "callback",
+          "approval"
+        ]
+      },
+      "signals": [
+        {
+          "id": "ri-u-route",
+          "kind": "change",
+          "status": "In use",
+          "date": "October 5, 2026",
+          "title": "Urgent requests now use a separate procedure",
+          "observation": "The procedure introduced the route on October 5; the later activity extract logs seven requests through November 5.",
+          "relevance": {
+            "inherent": "The risk now includes time pressure and exceptions handled manually.",
+            "residual": "The checks now cover requests that were not included in the standard-wire test."
+          },
+          "limit": "Activity records show use of the procedure, not whether its checks worked. They do not count all payments.",
+          "sourceIds": [
+            "procedure",
+            "ri-wire-activity"
+          ],
+          "relatedSignalIds": [
+            "ri-u-test",
+            "ri-u-nearmiss"
+          ]
+        },
+        {
+          "id": "ri-u-nearmiss",
+          "kind": "near-miss",
+          "status": "Intercepted · No loss",
+          "date": "October 20, 2026",
+          "title": "A fraud attempt followed a contact change",
+          "observation": "A secondary check intercepted the instruction before release. No payment loss occurred.",
+          "relevance": {
+            "inherent": "Someone could use changed contact details to pose as a customer.",
+            "residual": "Find out which check stopped the request and whether it is used for other urgent payments."
+          },
+          "limit": "One stopped attempt does not show how often fraud occurs or prove that every control failed.",
+          "sourceIds": [
+            "incident"
+          ],
+          "relatedSignalIds": [
+            "ri-u-route",
+            "ri-u-issue"
+          ]
+        },
+        {
+          "id": "ri-u-issue",
+          "kind": "issue",
+          "status": "Open · Next review Nov 28",
+          "date": "November 6, 2026",
+          "title": "Checks after contact changes still need testing",
+          "observation": "WI-07 records that post-change test results and an independently validated verification source have not been supplied.",
+          "relevance": {
+            "inherent": "Understand which payments are at risk. Missing test results alone do not determine risk before controls.",
+            "residual": "A planned review does not prove that today’s checks work or use a separate source."
+          },
+          "limit": "Missing test evidence does not prove that every urgent request failed verification.",
+          "sourceIds": [
+            "ri-wire-issue",
+            "incident"
+          ],
+          "relatedSignalIds": [
+            "ri-u-nearmiss",
+            "ri-u-test"
+          ]
+        },
+        {
+          "id": "ri-u-test",
+          "kind": "test",
+          "status": "Historical · Standard route",
+          "date": "September 15, 2026",
+          "title": "The standard-wire test came before the change",
+          "observation": "WT-25 found no exceptions in 25 standard wires before the urgent route was introduced.",
+          "relevance": {
+            "inherent": "Assess what could go wrong before considering the test results.",
+            "residual": "The test supports standard wires during the period tested. It does not show how urgent requests are checked."
+          },
+          "limit": "No urgent requests received since the change were included.",
+          "sourceIds": [
+            "test",
+            "procedure"
+          ],
+          "relatedSignalIds": [
+            "ri-u-route",
+            "ri-u-issue"
+          ]
+        }
+      ],
+      "sourceIds": [
+        "procedure",
+        "incident",
+        "ri-wire-activity",
+        "ri-wire-issue",
+        "test",
+        "callback",
+        "approval"
+      ],
+      "prompts": {
+        "controls": [
+          {
+            "title": "Test the source relationship",
+            "question": "Do callback verification and supervisory approval rely on the same contact record, and what independently verified information is used for urgent requests after a contact change?",
+            "sourceIds": [
+              "callback",
+              "approval",
+              "ri-wire-issue"
+            ]
+          }
+        ],
+        "response": [
+          {
+            "title": "Make closure evidence specific",
+            "question": "Will the response cover urgent requests received since the change and contact changes, record exceptions, and demonstrate the verification source actually used?",
+            "sourceIds": [
+              "ri-wire-issue",
+              "test",
+              "incident"
+            ]
+          }
+        ],
+        "review": [
+          {
+            "title": "Challenge current coverage",
+            "question": "How does the residual conclusion distinguish the tested standard route from urgent requests, and what evidence will resolve WI-07?",
+            "sourceIds": [
+              "test",
+              "procedure",
+              "ri-wire-issue"
+            ]
+          }
+        ]
+      },
+      "responseDraft": {
+        "rationale": "Targeted testing is needed because the standard-route test predates the urgent-route change. Include recently changed contact records and validate independent verification before reassessing residual risk. WI-07 remains open; the planned test does not establish current protection.",
+        "title": "Test the urgent route and independent contact verification",
+        "evidence": "Provide the list of urgent wires received since the change, samples with changed contact details, exceptions, results and evidence of an independently established verification source. Reconcile the findings to WI-07 before proposing closure.",
+        "sourceIds": [
+          "test",
+          "incident",
+          "ri-wire-issue"
+        ],
+        "protection": "Require independently established contact verification before releasing urgent requests after contact changes. Document the interim restriction and obtain management direction while implementation remains proposed."
+      }
+    },
+    "details": {
+      "eyebrow": "Payment accuracy · Amendment handoff",
+      "inherent": {
+        "title": "Payment changes can leave earlier checks out of date.",
+        "takeaway": "Staff can enter payment details incorrectly or receive changes after checking them. Either can delay the customer’s payment, even if the money is recovered.",
+        "changed": "A September transposition required recall and re-execution. In October, a late amendment left a previously checked instruction out of date before release.",
+        "changedSourceIds": [
+          "ri-details-event",
+          "ri-details-nearmiss"
+        ],
+        "observation": "One payment incurred a two-day customer delay after an account-digit error. A later urgent-payment discrepancy was intercepted before release.",
+        "observationSourceIds": [
+          "ri-details-event",
+          "ri-details-nearmiss"
+        ],
+        "interpretation": "A payment can go wrong during entry or when instructions change after a check. Recovering an earlier payment does not remove the risk of sending another payment to the wrong account.",
+        "considerations": [
+          {
+            "label": "Likelihood",
+            "text": "Consider entry errors and changes received after a check. Two recorded events do not show an error rate without complete records and the total number of payments.",
+            "sourceIds": [
+              "ri-details-event",
+              "ri-details-nearmiss"
+            ]
+          },
+          {
+            "label": "Impact",
+            "text": "Consider payment amounts, how difficult funds would be to recover and the effect on customers. The earlier $84,000 payment was recovered, but the customer waited two days.",
+            "sourceIds": [
+              "ri-details-event"
+            ]
+          }
+        ],
+        "unknowns": [
+          "How frequently are beneficiary or amount instructions amended after initial entry?",
+          "Which values, destinations and recovery constraints drive the potential loss?"
+        ],
+        "question": "Does your rationale cover changes to instructions as well as initial entry errors?",
+        "followup": "Ask how often instructions change and how those changes are handled before release. Cover both entry errors and later changes in your rationale.",
+        "followupSourceIds": [
+          "ri-details-event",
+          "ri-details-nearmiss"
+        ]
+      },
+      "residual": {
+        "title": "Standard-payment tests do not cover late changes.",
+        "takeaway": "The standard-payment sample had no problems. We still need to know whether staff check the latest instructions when changes arrive before release.",
+        "changed": "PD-027 was intercepted before release on October 24. PI-12 remains open over the link between the checked version and the instruction released.",
+        "changedSourceIds": [
+          "ri-details-nearmiss",
+          "ri-details-issue"
+        ],
+        "observation": "PD-08 found no exceptions in 25 standard payment-detail checks. PI-12 has no implementation evidence or targeted results from repeating the checks for the proposed improvement.",
+        "observationSourceIds": [
+          "details-test",
+          "ri-details-issue"
+        ],
+        "interpretation": "The standard-payment results support those checks. The late-change event raises a different question: did staff verify the version actually released?",
+        "considerations": [
+          {
+            "label": "What testing shows",
+            "text": "PD-08 checked the recipient and amount for 25 standard payments. Its results apply to that sample.",
+            "sourceIds": [
+              "details-test"
+            ]
+          },
+          {
+            "label": "What this does not prove",
+            "text": "The late change and PI-12 still need review. No test of urgent requests with changed instructions has been supplied.",
+            "sourceIds": [
+              "ri-details-nearmiss",
+              "ri-details-issue"
+            ]
+          }
+        ],
+        "unknowns": [
+          "How is a late amendment linked to a new check before release?",
+          "Did testing include amended or urgent instructions, and what evidence identifies the checked version?"
+        ],
+        "question": "What evidence shows that staff check the latest instructions before releasing a changed payment?",
+        "followup": "Repeat the checks on changed payment instructions through release. Save the version checked, check times and problems found. Keep PI-12 open until the results support closure.",
+        "followupSourceIds": [
+          "ri-details-nearmiss",
+          "ri-details-issue",
+          "details-test"
+        ]
+      },
+      "signals": [
+        {
+          "id": "ri-d-event",
+          "kind": "event",
+          "status": "Historical · Recovery closed",
+          "date": "September 23, 2026",
+          "title": "An account-digit error required payment recovery",
+          "observation": "One $84,000 standard payment was recovered and re-executed after a two-day customer delay; recovery closed September 26.",
+          "relevance": {
+            "inherent": "An incorrect detail can delay a customer and require recovery work even if all money is recovered.",
+            "residual": "Recovering this payment does not prove errors are prevented today. It also does not invalidate a later test that found no problems."
+          },
+          "limit": "This event was outside the October test period. One event does not show an error rate.",
+          "sourceIds": [
+            "ri-details-event"
+          ],
+          "relatedSignalIds": [
+            "ri-d-test"
+          ]
+        },
+        {
+          "id": "ri-d-nearmiss",
+          "kind": "near-miss",
+          "status": "Intercepted · No loss",
+          "date": "October 24, 2026",
+          "title": "Instructions changed after the payment was checked",
+          "observation": "The release operator identified a discrepancy between the checked instruction and its latest amendment, and paused the urgent payment.",
+          "relevance": {
+            "inherent": "Instructions can change between entry and release, creating another chance for error.",
+            "residual": "Check how staff pass on the latest instructions. Stopping this payment does not prove that all other checks failed."
+          },
+          "limit": "One stopped payment does not prove that all urgent changes are checked.",
+          "sourceIds": [
+            "ri-details-nearmiss"
+          ],
+          "relatedSignalIds": [
+            "ri-d-issue",
+            "ri-d-test"
+          ]
+        },
+        {
+          "id": "ri-d-issue",
+          "kind": "issue",
+          "status": "Open · Next review Nov 28",
+          "date": "November 3, 2026",
+          "title": "Records do not clearly show which version was checked",
+          "observation": "PI-12 records incomplete records of which version was checked in the reviewed handoff. A field and repeat the checks onance are proposed, with no implementation or test results supplied.",
+          "relevance": {
+            "inherent": "Consider changes to instructions when assessing the risk. Missing records alone do not determine how likely an error is before controls.",
+            "residual": "Check whether staff repeat the detail check after instructions change. Ask for evidence before treating a proposed change as effective."
+          },
+          "limit": "The record does not show how widespread the gap is.",
+          "sourceIds": [
+            "ri-details-issue",
+            "ri-details-nearmiss"
+          ],
+          "relatedSignalIds": [
+            "ri-d-nearmiss",
+            "ri-d-test"
+          ]
+        },
+        {
+          "id": "ri-d-test",
+          "kind": "test",
+          "status": "October · Standard sample",
+          "date": "October 30, 2026",
+          "title": "No problems were found in the standard-payment sample",
+          "observation": "PD-08 compared beneficiary and amount to verified instructions in 25 standard samples, with no exceptions identified.",
+          "relevance": {
+            "inherent": "Assess what could go wrong before considering the tested check.",
+            "residual": "The results support the standard payments tested. They do not answer how urgent changes are checked."
+          },
+          "limit": "No targeted test of late changes or urgent requests was supplied.",
+          "sourceIds": [
+            "details-test",
+            "ri-details-issue"
+          ],
+          "relatedSignalIds": [
+            "ri-d-event",
+            "ri-d-nearmiss"
+          ]
+        }
+      ],
+      "sourceIds": [
+        "ri-details-event",
+        "ri-details-nearmiss",
+        "ri-details-issue",
+        "details-test"
+      ],
+      "prompts": {
+        "controls": [
+          {
+            "title": "Follow the amendment to release",
+            "question": "Does the mapped payment detail check re-verify the latest amendment before release, and what record links the checked instruction version to the payment?",
+            "sourceIds": [
+              "ri-details-nearmiss",
+              "ri-details-issue",
+              "details-test"
+            ]
+          }
+        ],
+        "response": [
+          {
+            "title": "Verify the transfer of the latest instructions",
+            "question": "Should the response include repeat the checks onance of amended instructions through release and evidence of the checked version, timing and exceptions before PI-12 closes?",
+            "sourceIds": [
+              "ri-details-issue",
+              "ri-details-nearmiss"
+            ]
+          }
+        ],
+        "review": [
+          {
+            "title": "Separate standard and amended coverage",
+            "question": "How does the residual rationale account for the clean standard sample and the unresolved amendment-to-release evidence gap?",
+            "sourceIds": [
+              "details-test",
+              "ri-details-issue"
+            ]
+          }
+        ]
+      },
+      "responseDraft": {
+        "rationale": "The clean standard sample does not resolve the late-amendment handoff recorded in PD-027 and PI-12. Review how the latest instruction version is checked through release. Recovery of the earlier payment does not demonstrate current prevention.",
+        "title": "Verify amended instructions through payment release",
+        "evidence": "Provide the amended-instruction population, a trace from the version checked to the version released, check and release timestamps, results from repeating the checks and exceptions. Provide evidence that the change is in place and works before proposing closure of PI-12.",
+        "sourceIds": [
+          "details-test",
+          "ri-details-nearmiss",
+          "ri-details-issue"
+        ],
+        "protection": "Link the instruction version checked to the version released and repeat verification after amendments."
+      }
+    },
+    "cutoff": {
+      "eyebrow": "Timely execution · Service dependency",
+      "inherent": {
+        "title": "Verification delays can leave too little time to pay.",
+        "takeaway": "One payment missed cutoff. A later outage left three urgent payments with less than ten minutes to spare. Consider busy periods and verification delays together.",
+        "changed": "A payment missed cutoff on October 9. A seventeen-minute verification outage on November 4 left three urgent payments with less than ten minutes to spare.",
+        "changedSourceIds": [
+          "ri-cutoff-event",
+          "ri-cutoff-nearmiss"
+        ],
+        "observation": "The October payment settled on the next business day. All three urgent payments in the November event were released before cutoff.",
+        "observationSourceIds": [
+          "ri-cutoff-event",
+          "ri-cutoff-nearmiss"
+        ],
+        "interpretation": "Busy periods and verification delays can leave too little time to complete payments. Recovering from the short November outage does not show what would happen during a longer one.",
+        "considerations": [
+          {
+            "label": "Likelihood",
+            "text": "Consider when payments arrive, how long processing takes and whether verification is available. Two events do not show how often payments miss cutoff.",
+            "sourceIds": [
+              "ri-cutoff-event",
+              "ri-cutoff-nearmiss"
+            ]
+          },
+          {
+            "label": "Impact",
+            "text": "Consider delayed settlement, missed customer obligations and the work needed to resolve them. The October service credit does not limit the harm from another delay.",
+            "sourceIds": [
+              "ri-cutoff-event"
+            ]
+          }
+        ],
+        "unknowns": [
+          "How many payments arrive with limited time remaining, particularly on peak days?",
+          "Which obligations and currencies face the largest consequence from next-day settlement?"
+        ],
+        "question": "Does your rationale cover verification outages during the busiest part of the day?",
+        "followup": "Ask when payments arrive and how long verification takes. Use this to assess the risk before considering monitoring and escalation.",
+        "followupSourceIds": [
+          "ri-cutoff-event",
+          "ri-cutoff-nearmiss"
+        ]
+      },
+      "residual": {
+        "title": "Staff cleared one outage. A longer outage is untested.",
+        "takeaway": "October records show monitoring and escalation on sampled days. Staff also cleared the November backlog. These records do not show whether the backup process can handle a longer outage or a busy day.",
+        "changed": "The November near miss adds a service-availability scenario to the October review. QI-04 remains open for capacity and fallback assessment.",
+        "changedSourceIds": [
+          "queue-review",
+          "ri-cutoff-nearmiss",
+          "ri-cutoff-issue"
+        ],
+        "observation": "The service review records timely monitoring and escalation on sampled days. The November queue recovered before cutoff; no validated fallback or scenario-test result is recorded.",
+        "observationSourceIds": [
+          "queue-review",
+          "ri-cutoff-nearmiss",
+          "ri-cutoff-issue"
+        ],
+        "interpretation": "Monitoring can alert staff to delays, but we do not yet know whether they can complete payments during a longer outage. The November recovery does not resolve QI-04.",
+        "considerations": [
+          {
+            "label": "What testing shows",
+            "text": "October records show monitoring and escalation on the days sampled. QT-016 records how staff handled one seventeen-minute outage.",
+            "sourceIds": [
+              "queue-review",
+              "ri-cutoff-nearmiss"
+            ]
+          },
+          {
+            "label": "What this does not prove",
+            "text": "The review does not cover all payments or a longer outage. A proposed backup review does not mean a backup process is in place.",
+            "sourceIds": [
+              "queue-review",
+              "ri-cutoff-issue"
+            ]
+          }
+        ],
+        "unknowns": [
+          "What volume can the fallback process complete before cutoff during a sustained outage?",
+          "What triggers escalation early enough, and what capacity evidence supports the trigger?"
+        ],
+        "question": "If verification stops, can staff complete the waiting payments before cutoff? What evidence shows this?",
+        "followup": "Test busy-day volumes and a longer outage. Record when staff escalate, how many payments they can complete and the results before reviewing QI-04.",
+        "followupSourceIds": [
+          "ri-cutoff-issue",
+          "queue-review",
+          "ri-cutoff-nearmiss"
+        ]
+      },
+      "signals": [
+        {
+          "id": "ri-c-event",
+          "kind": "event",
+          "status": "Historical · Recovery closed",
+          "date": "October 9, 2026",
+          "title": "A verification delay pushed settlement to the next day",
+          "observation": "One payment missed cutoff and settled the next business day. The customer received a $180 service credit; operational recovery closed October 12.",
+          "relevance": {
+            "inherent": "A delay can disrupt the customer’s obligations even if no payment funds are lost.",
+            "residual": "Resolving this event does not remove the risk of future delays."
+          },
+          "limit": "One event and its service credit do not show a failure rate or maximum possible loss.",
+          "sourceIds": [
+            "ri-cutoff-event"
+          ],
+          "relatedSignalIds": [
+            "ri-c-review",
+            "ri-c-nearmiss"
+          ]
+        },
+        {
+          "id": "ri-c-nearmiss",
+          "kind": "near-miss",
+          "status": "Recovered · No missed cutoff",
+          "date": "November 4, 2026",
+          "title": "An outage left less than ten minutes before cutoff",
+          "observation": "Three urgent payments were escalated during a seventeen-minute verification interruption and released with less than ten minutes remaining.",
+          "relevance": {
+            "inherent": "Verification outages and late arrivals can leave too little time to complete payments.",
+            "residual": "Staff recovered from this outage. A longer one could require more processing capacity."
+          },
+          "limit": "The event does not prove that a backup process works during longer outages.",
+          "sourceIds": [
+            "ri-cutoff-nearmiss"
+          ],
+          "relatedSignalIds": [
+            "ri-c-issue",
+            "ri-c-event"
+          ]
+        },
+        {
+          "id": "ri-c-issue",
+          "kind": "issue",
+          "status": "Open · Next review Nov 28",
+          "date": "November 7, 2026",
+          "title": "Backup processing needs testing on busy days",
+          "observation": "QI-04 proposes a scenario review; there is no supplied validated backup process in place or scenario-test result.",
+          "relevance": {
+            "inherent": "Consider busy periods and verification delays before assessing controls.",
+            "residual": "Do not treat a planned review as a reduction in today’s risk."
+          },
+          "limit": "The missing evidence does not mean that monitoring never works.",
+          "sourceIds": [
+            "ri-cutoff-issue",
+            "queue-review"
+          ],
+          "relatedSignalIds": [
+            "ri-c-nearmiss",
+            "ri-c-review"
+          ]
+        },
+        {
+          "id": "ri-c-review",
+          "kind": "review",
+          "status": "October · Sampled days",
+          "date": "October 31, 2026",
+          "title": "The service review shows escalation on sampled days",
+          "observation": "Sampled days show monitoring before cutoff and escalation of delayed requests to the supervisor.",
+          "relevance": {
+            "inherent": "Assess the risk before considering how the control performed.",
+            "residual": "Use these results for the days sampled. They are not a test of processing during an outage."
+          },
+          "limit": "The review does not prove that verification services are always available.",
+          "sourceIds": [
+            "queue-review",
+            "ri-cutoff-issue"
+          ],
+          "relatedSignalIds": [
+            "ri-c-event",
+            "ri-c-issue"
+          ]
+        }
+      ],
+      "sourceIds": [
+        "ri-cutoff-event",
+        "ri-cutoff-nearmiss",
+        "ri-cutoff-issue",
+        "queue-review"
+      ],
+      "prompts": {
+        "controls": [
+          {
+            "title": "Inspect what escalation can achieve",
+            "question": "Does cutoff monitoring trigger early enough to clear the queue during a verification outage, and what evidence establishes available backup processing capacity?",
+            "sourceIds": [
+              "queue-review",
+              "ri-cutoff-nearmiss",
+              "ri-cutoff-issue"
+            ]
+          }
+        ],
+        "response": [
+          {
+            "title": "Define the resilience evidence",
+            "question": "Should the response include a peak-volume and sustained-outage scenario with escalation timing, number of payments staff can complete and exceptions before QI-04 closes?",
+            "sourceIds": [
+              "ri-cutoff-issue",
+              "ri-cutoff-nearmiss"
+            ]
+          }
+        ],
+        "review": [
+          {
+            "title": "Separate monitoring from capacity",
+            "question": "How does the residual conclusion distinguish evidence of queue escalation from assurance that verification and backup processing capacity can meet cutoff under stress?",
+            "sourceIds": [
+              "queue-review",
+              "ri-cutoff-issue"
+            ]
+          }
+        ]
+      },
+      "responseDraft": {
+        "rationale": "The sampled queue review and recovery during one short interruption do not establish capacity through a sustained outage. If a response is warranted, define evidence for peak arrivals, escalation timing and available backup processing capacity; no current risk reduction follows from this plan.",
+        "title": "Review cutoff resilience under peak load and outage",
+        "evidence": "Provide peak-volume and sustained-verification-outage scenarios, escalation timestamps, number of payments staff can complete, backup process in place evidence, test outcomes and exceptions. Reconcile the results to QI-04 before proposing closure.",
+        "sourceIds": [
+          "queue-review",
+          "ri-cutoff-nearmiss",
+          "ri-cutoff-issue"
+        ],
+        "protection": "Establish approved backup arrangements and earlier escalation triggers for verification interruptions near cutoff."
+      }
+    }
+  }
+}

@@ -1,4 +1,24 @@
-# RCSA Demo Local Delivery Plan (v2025-10-31)
+# RCSA Demo Local Delivery Plan
+
+## Current delivery status, November 15 2026
+
+The [workflow plan](workflow-demo-plan.md) governs the banking-leader demo: a quarterly wire-transfer refresh with complete inherent/control/residual assessment, shared dependency discovery, human challenge/response and reporting. All data and AI interactions are synthetic and scripted. The static architecture has no live service dependencies.
+
+| Phase | Status | Evidence |
+| --- | --- | --- |
+| Scope and scenario | Complete locally | Final plan, linked fixture and data contract. |
+| Visual direction | Implemented | Recommended evidence-first C extended across all surfaces. |
+| Main walkthrough | Verified locally | Five stages, dependency discovery, attestations and challenge/response loop. |
+| Reporting and presentation | Verified locally | Both dashboards, leadership report, sources, versions, reset and scene controls. |
+| Browser verification | Complete locally | Full walkthrough, guards, 1600/834/390 layouts and accessibility spot checks. |
+
+The initial scaffold at `7de17c8` has been replaced at the active entry point. The full demo includes control assistance, plain-language improvements and automatic GRC sync after independent review. Twelve current verification scripts pass; desktop/mobile workflow evidence is linked in the [latest verification](../../output/automatic-grc-sync-2026-11-14/verification.md). See the [runbook](demo-runbook.md) and [Definition of Done](definition-of-done.md).
+
+Owner instruction on November 15: commit and publish the current version to GitHub. The source-control record is the release commit and pull request into `main`. [Delivery tracker #1](https://github.com/ethtri/RCSA-Copilot-Local/issues/1) and issues #2–#15 remain the historical backlog; this release does not claim that every historical issue has been reconciled or closed.
+
+## Historical delivery record from 2025
+
+The sections below preserve the earlier workstream record. Their dates, ownership assignments, visual prescriptions, parity targets, and immediate actions are historical where superseded by the current plan above.
 
 **Mission:** Recreate the Power Pages RCSA Copilot experience as an offline, static demo served from this repository while preserving the polished UX/CX expected by banking stakeholders.
 
@@ -14,10 +34,10 @@
 ## 2. Milestones & Target Cadence
 | Milestone | Target Date* | Notes |
 | --- | --- | --- |
-| M1 – Project Foundations | 2025-11-03 | Repo hygiene confirmed, delivery plan & governance artifacts published (this document, risk log, decision register, prompt guide). |
-| M2 – Static Shell & Build Scripts | 2025-11-05 | Create `public/` or `src/` structure, shared header/footer partials, local preview script, Designer QA checklist. |
-| M3 – Page Parity (Home, Dashboard, WizAssessment) | 2025-11-12 | Port markup with mock data wiring, ensure design-system compliance, capture screenshots/demo script. |
-| M4 – QA & Documentation Lock | 2025-11-15 | Accessibility pass, responsive checks, finalized walkthrough guide and runbook. |
+| M1 â€“ Project Foundations | 2025-11-03 | Repo hygiene confirmed, delivery plan & governance artifacts published (this document, risk log, decision register, prompt guide). |
+| M2 â€“ Static Shell & Build Scripts | 2025-11-05 | Create `public/` or `src/` structure, shared header/footer partials, local preview script, Designer QA checklist. |
+| M3 â€“ Page Parity (Home, Dashboard, WizAssessment) | 2025-11-12 | Port markup with mock data wiring, ensure design-system compliance, capture screenshots/demo script. |
+| M4 â€“ QA & Documentation Lock | 2025-11-15 | Accessibility pass, responsive checks, finalized walkthrough guide and runbook. |
 
 \*Dates assume work begins immediately after this update; adjust as velocity data becomes available.
 
@@ -30,8 +50,8 @@
 | WS-04 | Home Page Rebuild | Recreate hero, ROI modules, CTA flows using mock data. | Agent A07 (Home Page Specialist) | In Progress | M3 | Depends on WS-02/03.<br>[2025-11-01, Agent A01] Align hero/CTA to legacy references noted in `docs/ux/cx-director-audit.md`; map copy to `assets/data/roi-calculator.mock.json`.<br>[2025-11-01, Agent A01] Pull animation timing tokens from `C:\Projects\RCSA_Demp_V6\refresh.css` for static CSS transitions.<br>[2025-11-03, Agent A07] Implemented design-system hero, ROI projections, and CTA modules using mock data bindings; pending CX validation. |
 | WS-05 | Dashboard Page Rebuild | Implement dashboard cards and metrics referencing `assets/data/dashboard-metrics.mock.json`. | To Assign | Not Started | M3 | [2025-11-03, Agent A08] Field contract published in `docs/data-contracts/dashboard.md`; align KPI and alert bindings with WS-03 token guidance. |
 | WS-06 | Wizard Experience | Build `wizAssessment` flow with progressive disclosure and automation insights. | To Assign | Not Started | M3 | Requires mock insight data wiring (`assets/data/wizard-insights.mock.json`).<br>[2025-11-02, Agent A06] Reference `docs/ux/pattern-library/wizard-step-card.html` for static pane structure, ARIA mapping, and progress indicator styling.<br>[2025-11-03, Agent A08] Field contract available in `docs/data-contracts/wizard.md` (note selection-state gap for exports). |
-| WS-07 | QA & Accessibility | Run responsive, accessibility, and browser sanity checks; document results in `docs/ux/qa-report.md`. | To Assign | Not Started | M4 | Blocked until WS-04 – WS-06 complete. |
-| WS-08 | Demo Packaging | Update demo script, screenshots, and local run instructions; verify `python -m http.server` path. | RCSA Demo PM | Not Started | M4 | Collect evidence from WS-04 – WS-07. |
+| WS-07 | QA & Accessibility | Run responsive, accessibility, and browser sanity checks; document results in `docs/ux/qa-report.md`. | To Assign | Not Started | M4 | Blocked until WS-04 â€“ WS-06 complete. |
+| WS-08 | Demo Packaging | Update demo script, screenshots, and local run instructions; verify `python -m http.server` path. | RCSA Demo PM | Not Started | M4 | Collect evidence from WS-04 â€“ WS-07. |
 
 ## 4. Dependencies & Assumptions
 - Mock data files in `assets/data/*.json` remain the single source of truth; agents must update documentation if structure changes.
@@ -49,7 +69,7 @@
 ### WS-03 Notes (2025-11-01)
 - **Base layout:** `src/layouts/base.html` is the canonical scaffold. Copy it when building new surfaces so the skip link, `rcsa-shell__grid`, and landmark structure remain intact.
 - **Shared partials & scripts:** Every page must keep the head/header/footer/global script partials plus the `partial-loader.js` module. The global partial now loads `assets/js/shell.js`, which manages the mobile nav toggle, active-link state, and footer year.
-- **Design tokens:** Layout spacing, cards, and badges pull exclusively from `design-system/rcsa-styles.css` tokens via `src/styles/overrides.css`. Avoid inline styles—extend the overrides file instead.
+- **Design tokens:** Layout spacing, cards, and badges pull exclusively from `design-system/rcsa-styles.css` tokens via `src/styles/overrides.css`. Avoid inline stylesâ€”extend the overrides file instead.
 - **Responsive behaviour:** The shell collapses to a single column at <=1024px; set `data-shell-aside="hidden"` or remove the `<aside>` if a page does not need a secondary rail.
 - **Verification:** Preview via `python -m http.server 8000` and load `/src/` to confirm header/footer render, skip link focus works from the keyboard, and the nav toggle collapses correctly on tablet widths.
 - **Accessibility checklist:** Track focus, landmarks, and responsive nav requirements in `docs/ux/accessibility-shell-checklist.md`; hand off to WS-07 for formal audit.

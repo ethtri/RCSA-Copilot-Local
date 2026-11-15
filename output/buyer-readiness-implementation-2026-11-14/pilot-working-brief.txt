@@ -1,0 +1,14 @@
+RCSA implementation working brief — proposed pilot
+
+Current: synthetic local reference exchange, explicit owner authorization, reviewed-version handoff, conflict/retry demonstration, traceable evidence. No live GRC, SSO or model service.
+
+Before pilot: agree one process, representative changed/unchanged records, source IDs, field ownership, methodology mapping, environment and data classification. Select a bank GRC sandbox and agree read/write permissions.
+
+Bank roles to nominate: operations owner, risk methodology lead, GRC administrator, security/architecture contact, pilot users.
+Vendor roles to nominate: accountable delivery lead, integration engineer, product lead, support/escalation owner. Named people, delivery dates and service commitments are not yet agreed.
+
+Joint decisions: deployment location; identity and role mapping; evidence storage/retention; model/provider/data boundaries; connector scope; audit/export and support arrangements. No certifications or production controls are asserted by this demo.
+
+Acceptance: same external IDs roundtrip; only attested reviewed version transferred; stale update rejected; failed request retried without duplicate action; methodology mismatch blocked; returned clarification visible and unresolved; bank users complete changed and unchanged tasks without coaching. Measure correctness, handling effort, manual re-entry, reviewer returns and useful findings against an agreed baseline. No ROI percentage is assumed.
+
+Exit: retain/export agreed pilot records and evidence, revoke temporary access, remove owned temporary resources, verify cleanup. Bank retains its authoritative GRC records. Agree stop conditions, defect responsibility, support contact and production decision gates before testing.

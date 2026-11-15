@@ -1,79 +1,34 @@
 <!doctype html>
 <html lang="en">
-  <head data-partial-src="./partials/head.html">
-    <meta charset="utf-8" />
-    <title>RCSA Demo</title>
-  </head>
-  <body class="rcsa-shell" data-page-title="Site Overview">
-    <a class="rcsa-shell__skip-link" href="#page-content">Skip to main content</a>
-    <div class="rcsa-shell__header" data-partial-src="./partials/header.html"></div>
-
-    <div class="rcsa-shell__grid">
-      <nav class="rcsa-shell__breadcrumbs" aria-label="Breadcrumb">
-        <ol class="rcsa-shell__breadcrumbs-list">
-          <li><a href="/src/">Shell</a></li>
-          <li><span aria-current="page">Site Overview</span></li>
-        </ol>
-      </nav>
-
-      <main id="page-content" class="rcsa-shell__main" tabindex="-1" role="main">
-        <section class="rcsa-section">
-          <header class="rcsa-section__header">
-            <h1 class="rcsa-section__title">RCSA static shell ready for content teams</h1>
-            <p class="rcsa-section__lead">
-              Start every page with this responsive layout, driven entirely by the design-system tokens.
-            </p>
-          </header>
-          <div class="rcsa-card-grid">
-            <article class="rcsa-card">
-              <h3>Primary Surface</h3>
-              <p>
-                Place hero modules, dashboards, or wizard steps inside
-                <code>&lt;main class="rcsa-shell__main"&gt;</code>. The layout grid keeps spacing consistent.
-              </p>
-              <div class="rcsa-card__tokens">
-                <code>var(--fcb-spacing-xl)</code>
-                <code>var(--fcb-radius-lg)</code>
-                <code>var(--fcb-shadow-sm)</code>
-              </div>
-            </article>
-            <article class="rcsa-card">
-              <h3>Secondary Rail</h3>
-              <p>
-                Use the optional aside for progress, contextual insights, or support links. Leave it empty to hide.
-              </p>
-              <div class="rcsa-card__tokens">
-                <code>var(--fcb-gray-50)</code>
-                <code>var(--fcb-spacing-lg)</code>
-              </div>
-            </article>
-            <article class="rcsa-card">
-              <h3>Accessibility</h3>
-              <p>
-                Skip link, landmarks, and focus management ship with the shell. Follow the checklist to extend safely.
-              </p>
-              <div class="rcsa-card__tokens">
-                <code>role=&quot;main&quot;</code>
-                <code>aria-label</code>
-              </div>
-            </article>
-          </div>
-        </section>
-      </main>
-
-      <aside class="rcsa-shell__aside" aria-label="Shell guidance">
-        <div class="rcsa-shell__aside-card">
-          <h2>Implementation Notes</h2>
-          <p>1. Keep <code>rcsa-styles.css</code> first in every head partial.</p>
-          <p>2. Add page-specific classes on <code>&lt;body&gt;</code> after <code>rcsa-shell</code> if needed.</p>
-          <p>3. Place supporting content here or remove the aside entirely.</p>
-          <p class="rcsa-callout">See docs/operations/delivery-plan.md (WS-03) for integration guidance.</p>
-        </div>
-      </aside>
-    </div>
-
-    <div data-partial-src="./partials/footer.html"></div>
-    <div data-partial-src="./partials/global-scripts.html"></div>
-    <script type="module" src="./scripts/partial-loader.js"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#124d3b">
+<meta name="description" content="An AI-assisted risk and control assessment workflow. Human judgment, supported by evidence.">
+<title>RCSA · A clearer view of risk</title>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/src/styles/demo.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/dashboard.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/controls.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/product-refresh.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/report-refinement.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/control-library.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/risk-matrix.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/risk-intelligence.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/research.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/premium.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/assessment-context.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/control-assistance.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/ux-polish.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/buyer-readiness.css?v=20261114.24">
+<link rel="stylesheet" href="/src/styles/grc-sync.css?v=20261114.24">
+<script type="module" src="/src/scripts/demo/app.js?v=20261114.24"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<div id="app"><main class="loading" aria-live="polite"><span class="wordmark">RCSA</span><p>Preparing your workspace…</p></main></div>
+<noscript><p>This workspace needs JavaScript.</p></noscript>
+<dialog id="detail-dialog" class="detail-dialog" aria-labelledby="dialog-title"></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
 </html>

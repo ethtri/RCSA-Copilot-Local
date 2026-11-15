@@ -1,0 +1,248 @@
+{
+  "version": 1,
+  "period": "Q4 2026",
+  "date": "November 14, 2026",
+  "owner": "Alex Morgan",
+  "reviewer": "Jordan Lee",
+  "team": "Payments Operations",
+  "due": "November 28, 2026",
+  "risks": [
+    {
+      "id": "unauthorized",
+      "name": "Unauthorized wire transfer",
+      "description": "Someone posing as a customer could direct a payment to an unauthorized recipient.",
+      "inherent": {
+        "likelihood": 4,
+        "impact": 4,
+        "likelihoodRationale": "Someone could pose as a customer to send a standard or urgent payment request. Urgent requests now use a separate procedure that allows manual exceptions.",
+        "impactRationale": "An unauthorized payment could cause a large financial loss and disrupt the customer’s business."
+      },
+      "prior": {
+        "likelihood": 2,
+        "impact": 4
+      },
+      "residual": {
+        "likelihood": 3,
+        "impact": 4,
+        "likelihoodRationale": "Current testing covers standard wires only. Urgent requests have not been tested, and both checks may rely on the same contact record.",
+        "impactRationale": "The controls do not limit the amount that could be lost if an unauthorized payment is released."
+      },
+      "controls": [
+        "callback",
+        "approval"
+      ],
+      "sources": [
+        "procedure",
+        "test",
+        "incident"
+      ]
+    },
+    {
+      "id": "details",
+      "name": "Incorrect payment details",
+      "description": "Incorrect beneficiary or amount details could result in a misdirected payment.",
+      "inherent": {
+        "likelihood": 3,
+        "impact": 3,
+        "likelihoodRationale": "Manual entry creates a possibility of incorrect beneficiary or amount details.",
+        "impactRationale": "Staff may need to recover the payment, delaying the customer’s business."
+      },
+      "prior": {
+        "likelihood": 2,
+        "impact": 3
+      },
+      "residual": {
+        "likelihood": 2,
+        "impact": 3,
+        "likelihoodRationale": "The documented detail check is supported by current standard-route testing with no exceptions in the sample.",
+        "impactRationale": "Even when an error is found quickly, staff may need to recover the payment and resolve the customer’s losses or delays."
+      },
+      "controls": [
+        "details-check"
+      ],
+      "sources": [
+        "details-test"
+      ]
+    },
+    {
+      "id": "cutoff",
+      "name": "Delayed execution",
+      "description": "Queue or verification delays could cause a payment to miss the processing cutoff.",
+      "inherent": {
+        "likelihood": 3,
+        "impact": 3,
+        "likelihoodRationale": "Processing peaks and verification delays can affect the payment queue.",
+        "impactRationale": "A missed cutoff could delay settlement and disrupt the customer's obligations."
+      },
+      "prior": {
+        "likelihood": 2,
+        "impact": 3
+      },
+      "residual": {
+        "likelihood": 2,
+        "impact": 3,
+        "likelihoodRationale": "Queue monitoring and escalation are supported by the October service review.",
+        "impactRationale": "Escalation reduces delay likelihood but cannot eliminate the impact of a missed settlement."
+      },
+      "controls": [
+        "queue"
+      ],
+      "sources": [
+        "queue-review"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "callback",
+      "name": "Callback verification",
+      "purpose": "Verify the request",
+      "owner": "Payments Operations",
+      "design": "A callback to the registered customer contact verifies the request before release. The urgent-route exception requires supervisory approval.",
+      "operation": "Not tested for urgent requests",
+      "evidence": "25 standard wires tested. No problems found in that sample.",
+      "source": "callback",
+      "test": "test",
+      "designConclusion": "Documented design; urgent-route coverage needs review."
+    },
+    {
+      "id": "approval",
+      "name": "Supervisory approval",
+      "purpose": "Confirm authorization",
+      "owner": "Payments Operations",
+      "design": "A separate supervisor reviews the instruction and confirmation against the customer-contact record before authorizing release.",
+      "operation": "Not tested for urgent requests",
+      "evidence": "The latest test came before urgent requests were allowed and does not show whether those checks work.",
+      "source": "approval",
+      "test": "test",
+      "designConclusion": "A separate supervisor approves the payment, but the procedure does not identify a separate verification source."
+    },
+    {
+      "id": "details-check",
+      "name": "Payment detail check",
+      "purpose": "Check beneficiary and amount",
+      "owner": "Payments Operations",
+      "design": "A second operator compares entered beneficiary and amount against the verified instruction.",
+      "operation": "Supported by the tested sample",
+      "evidence": "25 payment-detail samples reviewed in October; no exceptions identified.",
+      "source": "details-test",
+      "test": "details-test",
+      "designConclusion": "The documented design addresses this risk."
+    },
+    {
+      "id": "queue",
+      "name": "Cutoff monitoring",
+      "purpose": "Identify and escalate queue delays",
+      "owner": "Payments Operations",
+      "design": "The queue is monitored before cutoff; delayed items are escalated to the duty supervisor.",
+      "operation": "Supported by the service review",
+      "evidence": "October queue records show timely escalation for the sampled processing days.",
+      "source": "queue-review",
+      "test": "queue-review",
+      "designConclusion": "The documented design addresses this risk."
+    },
+    {
+      "id": "customer-confirmation",
+      "name": "Customer payment confirmation",
+      "purpose": "Confirm beneficiary and amount before release",
+      "owner": "Payments Operations",
+      "design": "The customer confirms beneficiary and amount through the authenticated payment channel before a standard wire is released. This supplements the operator entry check; it does not by itself establish independent identity verification for an urgent request.",
+      "operation": "Standard-route confirmations observed in the sample",
+      "evidence": "25 standard-wire customer confirmations were reviewed in October. No beneficiary or amount discrepancies were found in that sample. Urgent-route requests were not tested.",
+      "source": "customer-confirmation-test",
+      "test": "customer-confirmation-test",
+      "designConclusion": "Risk-specific coverage requires owner assessment.",
+      "suggestedFor": [
+        "details"
+      ],
+      "mappingHint": "Adds customer confirmation to the operator detail check. Assess any shared instruction source and the limits of standard-route testing."
+    }
+  ],
+  "sources": [
+    {
+      "id": "prior",
+      "title": "Prior assessment",
+      "reference": "Q3 2026 · Approved assessment",
+      "date": "September 30, 2026",
+      "scope": "Wire-transfer assessment before the urgent-route change",
+      "excerpt": "Residual unauthorized-wire risk was assessed as Moderate (8), based on likelihood 2 and impact 4. The standard route used callback verification and separate supervisory approval."
+    },
+    {
+      "id": "procedure",
+      "title": "Revised wire procedure",
+      "reference": "Wire operations · Section 4",
+      "date": "October 5, 2026",
+      "scope": "Standard wires and the newly introduced urgent exception route",
+      "excerpt": "Standard requests follow the required verification and dual-approval sequence. Urgent requests may use the exception route with supervisory approval. The reviewer consults the registered customer-contact record."
+    },
+    {
+      "id": "callback",
+      "title": "Callback procedure",
+      "reference": "Section 4",
+      "date": "October 5, 2026",
+      "scope": "Documented callback design",
+      "excerpt": "Verify using the registered customer contact.",
+      "phrase": "registered customer contact"
+    },
+    {
+      "id": "approval",
+      "title": "Approval checklist",
+      "reference": "Step 3",
+      "date": "October 5, 2026",
+      "scope": "Documented supervisory approval design",
+      "excerpt": "Compare confirmation against the customer-contact record.",
+      "phrase": "customer-contact record"
+    },
+    {
+      "id": "test",
+      "title": "Standard-wire control test",
+      "reference": "Test WT-25 · Workpapers",
+      "date": "September 15, 2026",
+      "scope": "25 standard-wire samples; urgent exception route not in scope",
+      "excerpt": "25 standard-wire samples were reviewed. No exceptions were identified in the tested population. Testing was completed before the urgent exception route was introduced on October 5, 2026."
+    },
+    {
+      "id": "incident",
+      "title": "Intercepted fraud attempt",
+      "reference": "Event WT-014 · Near miss",
+      "date": "October 20, 2026",
+      "scope": "One intercepted urgent request; no payment loss",
+      "excerpt": "An urgent request involved recently amended customer-contact details. A secondary check intercepted the instruction before release. The event does not establish that every control failed; the relationship between the change and the attempted fraud requires assessment."
+    },
+    {
+      "id": "details-test",
+      "title": "Payment detail testing",
+      "reference": "Test PD-08 · October sample",
+      "date": "October 30, 2026",
+      "scope": "25 standard payment-detail checks",
+      "excerpt": "The sampled detail checks compared beneficiary and amount with the verified instructions. No exceptions were identified in the 25 sampled items. Results support only the documented population and period."
+    },
+    {
+      "id": "queue-review",
+      "title": "Queue service review",
+      "reference": "October operations review",
+      "date": "October 31, 2026",
+      "scope": "October cutoff monitoring and escalation samples",
+      "excerpt": "Queue records for the sampled days showed monitoring before cutoff and escalation of delayed requests to the duty supervisor. The review does not establish the availability of every verification service under all scenarios."
+    },
+    {
+      "id": "customer-confirmation-test",
+      "title": "Customer confirmation review",
+      "reference": "Test PC-12 · October sample",
+      "date": "October 30, 2026",
+      "scope": "25 standard-wire beneficiary and amount confirmations; urgent requests excluded",
+      "excerpt": "The sampled standard-wire requests included customer confirmation of beneficiary and amount in the authenticated payment channel before release. No detail discrepancies were found in the 25 sampled confirmations. The review does not establish urgent-route effectiveness or independent identity verification."
+    }
+  ],
+  "action": {
+    "title": "Test urgent-wire verification and contact changes",
+    "owner": "Payments Operations",
+    "due": "2026-11-28",
+    "evidence": "Document the test population, exceptions, and the independent source used for verification."
+  },
+  "challenge": "How will targeted testing cover urgent wires after contact changes, and how will interim verification avoid the same shared source?",
+  "responses": {
+    "initial": "Staff have been reminded of the callback procedure.",
+    "revised": "Include urgent requests received since the change and recently changed contact records. Record exception samples and document the independent source used for verification. Closure evidence will include test results, exceptions, and proof of that verification source."
+  }
+}

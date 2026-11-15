@@ -1,0 +1,187 @@
+{
+  "asOf": "November 14, 2026",
+  "internalHistory": "Synthetic prior-cycle records prepared for the walkthrough",
+  "history": {
+    "unauthorized": [
+      {
+        "period": "Q1 2026",
+        "inherent": {
+          "likelihood": 4,
+          "impact": 4
+        },
+        "residual": {
+          "likelihood": 2,
+          "impact": 4
+        },
+        "source": "history-q1"
+      },
+      {
+        "period": "Q2 2026",
+        "inherent": {
+          "likelihood": 4,
+          "impact": 4
+        },
+        "residual": {
+          "likelihood": 2,
+          "impact": 4
+        },
+        "source": "history-q2"
+      },
+      {
+        "period": "Q3 2026",
+        "inherent": {
+          "likelihood": 4,
+          "impact": 4
+        },
+        "residual": {
+          "likelihood": 2,
+          "impact": 4
+        },
+        "source": "history-q3"
+      }
+    ],
+    "details": [
+      {
+        "period": "Q1 2026",
+        "inherent": {
+          "likelihood": 3,
+          "impact": 3
+        },
+        "residual": {
+          "likelihood": 2,
+          "impact": 3
+        },
+        "source": "history-q1"
+      },
+      {
+        "period": "Q2 2026",
+        "inherent": {
+          "likelihood": 3,
+          "impact": 3
+        },
+        "residual": {
+          "likelihood": 2,
+          "impact": 3
+        },
+        "source": "history-q2"
+      },
+      {
+        "period": "Q3 2026",
+        "inherent": {
+          "likelihood": 3,
+          "impact": 3
+        },
+        "residual": {
+          "likelihood": 2,
+          "impact": 3
+        },
+        "source": "history-q3"
+      }
+    ],
+    "cutoff": [
+      {
+        "period": "Q1 2026",
+        "inherent": {
+          "likelihood": 3,
+          "impact": 3
+        },
+        "residual": {
+          "likelihood": 2,
+          "impact": 3
+        },
+        "source": "history-q1"
+      },
+      {
+        "period": "Q2 2026",
+        "inherent": {
+          "likelihood": 3,
+          "impact": 3
+        },
+        "residual": {
+          "likelihood": 2,
+          "impact": 3
+        },
+        "source": "history-q2"
+      },
+      {
+        "period": "Q3 2026",
+        "inherent": {
+          "likelihood": 3,
+          "impact": 3
+        },
+        "residual": {
+          "likelihood": 2,
+          "impact": 3
+        },
+        "source": "history-q3"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "history-q1",
+      "title": "Q1 2026 assessment record",
+      "reference": "Prior-cycle RCSA Q1 · Payments Operations",
+      "date": "Q1 2026",
+      "scope": "Prepared prior-cycle wire-transfer assessment; same five-point method and process boundary",
+      "excerpt": "Recorded scores: Unauthorized wire transfer inherent 16, residual 8; Incorrect payment details inherent 9, residual 6; Delayed execution inherent 9, residual 6. These authored prior-cycle records provide the presentation baseline, not live institutional history."
+    },
+    {
+      "id": "history-q2",
+      "title": "Q2 2026 assessment record",
+      "reference": "Prior-cycle RCSA Q2 · Payments Operations",
+      "date": "Q2 2026",
+      "scope": "Prepared prior-cycle wire-transfer assessment; same five-point method and process boundary",
+      "excerpt": "Recorded scores: Unauthorized wire transfer inherent 16, residual 8; Incorrect payment details inherent 9, residual 6; Delayed execution inherent 9, residual 6. These authored prior-cycle records provide the presentation baseline, not live institutional history."
+    },
+    {
+      "id": "history-q3",
+      "title": "Q3 2026 assessment record",
+      "reference": "Prior-cycle RCSA Q3 · Payments Operations",
+      "date": "Q3 2026",
+      "scope": "Prepared prior-cycle wire-transfer assessment; same five-point method and process boundary",
+      "excerpt": "Recorded scores: Unauthorized wire transfer inherent 16, residual 8; Incorrect payment details inherent 9, residual 6; Delayed execution inherent 9, residual 6. These authored prior-cycle records provide the presentation baseline, not live institutional history."
+    },
+    {
+      "id": "external-bec-2025",
+      "title": "FBI IC3 · 2025 BEC data",
+      "reference": "2025 IC3 Annual Report · crime-type tables, pp. 7–8",
+      "date": "Reporting year 2025",
+      "scope": "Business email compromise complaints and reported losses submitted to IC3; not a bank-level incident rate",
+      "excerpt": "The 2025 report lists 24,768 business email compromise complaints and $3,046,598,558 in reported losses. Complaint categories and losses are point-in-time reporting data; duplicates and reporting changes limit interpretation.",
+      "url": "https://www.ic3.gov/AnnualReport/Reports/2025_IC3Report.pdf"
+    },
+    {
+      "id": "external-bec-2024",
+      "title": "FBI IC3 · 2024 BEC data",
+      "reference": "2024 IC3 Annual Report · crime-type tables, pp. 9–10",
+      "date": "Reporting year 2024",
+      "scope": "Same BEC category; reported complaints/losses, not total cybercrime or this bank’s experience",
+      "excerpt": "The 2024 report lists 21,442 business email compromise complaints and $2,770,151,146 in reported losses. Comparing the published annual BEC totals gives approximately 15.5% more complaints and 10.0% higher reported losses in 2025. This is not a measured change in fraud prevalence.",
+      "url": "https://www.ic3.gov/AnnualReport/Reports/2024_IC3Report.pdf"
+    },
+    {
+      "id": "external-bec-advisory",
+      "title": "FinCEN · payment-instruction compromise",
+      "reference": "FIN-2019-A005 · July 16, 2019 · p. 8",
+      "date": "July 16, 2019",
+      "scope": "Dated business-email-compromise advisory; relevance to vulnerable payment and change-verification processes",
+      "excerpt": "The advisory discusses stronger authentication and authorization practices around vulnerable business processes, including checking suspicious emailed instructions through additional communication methods or other authorized people. This is background guidance from 2019, not a new 2026 incident alert.",
+      "url": "https://www.fincen.gov/system/files/advisory/2019-07-16/Updated%20BEC%20Advisory%20FINAL%20508.pdf"
+    }
+  ],
+  "external": {
+    "periods": [
+      {
+        "year": 2024,
+        "complaints": 21442,
+        "losses": 2770151146
+      },
+      {
+        "year": 2025,
+        "complaints": 24768,
+        "losses": 3046598558
+      }
+    ]
+  }
+}

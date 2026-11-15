@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {seedScene,completeReview,respond,acceptanceStatus,draftHandoff} from '../src/scripts/demo/model.js';
+import {assessmentView} from '../src/scripts/demo/assessment.js';
+const data=JSON.parse(await readFile(new URL('../assets/data/workflow-demo.json',import.meta.url),'utf8'));
+const state=seedScene(data,'response');
+const returnReason='Explain why likelihood 3 is supportable and specify interim restrictions.';
+state.reviewerRationale=returnReason;state.responseSufficient='return';
+assert(completeReview(state));
+state.role='first';
+const returned=assessmentView(data,state,'review');
+assert(returned.includes('Returned for clarification'));assert(returned.includes(returnReason));
+assert(state.history.some(h=>h.text==='Returned the response for clarification.'&&h.detail===returnReason));
+assert(returned.includes('Suggested response coverage'));assert(!returned.includes('Mentioned in draft'));assert(returned.includes('Latest clarification · awaiting owner response'));assert(!returned.includes('Addressed'));assert(!returned.includes('Draft a complete response'));
+state.response=data.responses.revised;assert(respond(state));state.role='second';state.responseSufficient='yes';state.reviewerRationale='The revised scope is sufficient for this review; evidence remains due.';assert(completeReview(state));
+assert(state.history.some(h=>h.detail===returnReason),'Return rationale must survive final review');
+assert(assessmentView(data,state,'review').includes(returnReason),'The retained history remains inspectable');
+const acceptance=seedScene(data,'submitted');acceptance.submitted=false;acceptance.role='first';acceptance.risks.unauthorized.riskResponse.strategy='accept';
+assert.equal(acceptanceStatus(acceptance),'Draft acceptance request');
+for(const stage of ['residual','review']){const html=assessmentView(data,acceptance,stage);assert(html.includes('Draft acceptance request'));assert(!/acceptance decision pending|acceptance request · decision pending/i.test(html));}
+assert(draftHandoff(acceptance).includes('Draft acceptance request'));
+acceptance.submitted=true;assert.equal(acceptanceStatus(acceptance),'Acceptance decision pending');assert(draftHandoff(acceptance).includes('Acceptance decision pending'));
+console.log('PASS: returned clarification is visible and retained after later conclusions; AI coverage describes topic cues rather than question sufficiency.');

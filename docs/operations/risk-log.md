@@ -8,4 +8,17 @@
 | R-04 | Accessibility regressions without automated checks. | Stakeholder rejection, rework. | Medium | QA Lead (TBD) | Introduce manual axe/core run during WS-07; capture results in QA report. | Open | Tooling decision (CLI vs. browser extension) pending. |
 | R-05 | Documentation drift (README, runbook) as site evolves. | Onboarding friction, inconsistent instructions. | Low | RCSA Demo PM | Schedule doc review each milestone; tie updates to WS-08 acceptance. | Mitigated | README + DoD refreshed 2025-11-02; Tuesday/milestone cadence captured in delivery plan notes. |
 
+## Current demo planning risks as of November 14 2026
+
+| ID | Risk | Mitigation | Status |
+| --- | --- | --- | --- |
+| R-06 | Simplification omits inherent or residual assessment or hides material qualifications. | Require distinct likelihood/impact/rationale stages and visible current-risk limitations; use the [current plan](workflow-demo-plan.md) acceptance criteria. | Mitigated locally: full assessment and visible qualifications verified. |
+| R-07 | AI findings imply control failure, independent protection, a rating decision, or risk reduction unsupported by evidence. | Show scope and sources; validate dependencies with the owner; keep design/operation separate and planned actions outside current risk credit. | Mitigated locally: expert review, source chronology and human guards verified. |
+| R-08 | Scripted screens, review outcomes, and charts tell inconsistent stories. | Use linked local fixtures, stable IDs, a single scene model, reconciled scores/counts, and replay/reset verification. | Mitigated locally: fixture/model checks and complete browser replay pass. |
+| R-09 | Historical marketing and visual requirements drive new work instead of the agreed operational experience. | Current plan and delivery banner supersede conflicting legacy guidance; establish visual concepts before implementation. | Mitigated locally: operational workspace and evidence-first system implemented. |
+
 Update this log alongside major plan changes and reference decisions influencing risk responses in `docs/operations/decision-register.md`.
+
+## Local implementation verification, November 14 2026
+
+R-02/R-03: the active shared design system and linked fixture contract replace legacy page prescriptions; visual comparison and ID/rating checks are recorded in the QA report. R-04: keyboard, dialog focus/Escape, labels, contrast, reduced motion and responsive behavior received targeted checks. A full assistive-technology audit remains outside this presentation-demo verification; do not represent this as certification. R-05: README, runbook and current delivery status describe the running app. See [QA evidence](../ux/qa-report.md).
