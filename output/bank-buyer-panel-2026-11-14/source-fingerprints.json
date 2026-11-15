@@ -1,0 +1,138 @@
+[
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\analysis-workspace.js",
+    "sha256": "856A2A656B5FCB6627349AB30615C4024F7BCB11507246732444F4F9AA06075A"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\app.js",
+    "sha256": "F0B19140942065805CA2CABC86CD7F9E657C965803B3C30346625AAA9884EECD"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\assessment-content.js",
+    "sha256": "ADF87E5EA91D254860BA3BBD3AE67C31ED9AF772419AEC8898C78E6D10C7B00D"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\assessment-context.js",
+    "sha256": "DDF0FD81396867A7294E44121A43016797970882F87FCFE4C0E9DA0701AF6DA0"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\assessment.js",
+    "sha256": "9AD7ABA40F5DBB4258588736326E7DE0FCC83BCDEF4719A5491C7F473C20299F"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\control-assistance-actions.js",
+    "sha256": "FB1C3D1EA1E83C37A5DD100653BD89E1D5A62ABC356C9321EC33B61C74CA44E3"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\control-assistance-view.js",
+    "sha256": "5D456512591AA06CFD09327F025234A3398610EEF8BF9A2A4D72C29E80CA00F1"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\control-assistance.js",
+    "sha256": "387A798FB43BAA70158C37549164AEC8502C494448EA442D713424B5E9D8C174"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\control-library.js",
+    "sha256": "222E1378DDBC91854E2F41D95059380D1A7AB89E533CE56CB61A05AAD13E872F"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\controls.js",
+    "sha256": "16B173DCF46257B3E4B0C9BF113348DF811BF0C000696BC7DE10EEC18E3D9901"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\dashboard.js",
+    "sha256": "8618CEAABECCB6686D1131544BF6B208E8B370807BDC7D6AA489768F96973358"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\decision-brief.js",
+    "sha256": "C10F2993BE3B5F100FCAB75B4691E361FB28521941B7CE5EE08C03ABB83D7FD9"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\mappings.js",
+    "sha256": "E501F5F0D1C177BE735EA4122A93B870DFCD5D02649AAD788B4137EC282A0979"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\model.js",
+    "sha256": "1CEFCA15F97AF8D59D349248AD666001E75EEDB649728D8789B0534B38500B99"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\premium.js",
+    "sha256": "B5D422EA65CD406CC036C70906D13809506CA22D88743FCF63D376CDEEE310C0"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\reply-assistance.js",
+    "sha256": "34C336DD118755912C379B53D1D483FA376F68D920A6C8549B14558C0DE66CB6"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\reports.js",
+    "sha256": "A0B5239FFC2E754A25A6FC291B8D5BEC2738FAF074F1470E925D46CFC174AE5C"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\research.js",
+    "sha256": "C2971AED6C3CDD180519D6F4EA2586EB8934BF5AB407E455C915ACEFCFCD3183"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\response-view.js",
+    "sha256": "9EE576DEAD4E3EC0D8F8553659AB893AD530CF044532B8698C3C364ABB6A2064"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\responses.js",
+    "sha256": "DA186536E9C0B5A1894DB59AA96F7A650B1697229350E53713060FA82037291E"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\risk-intelligence.js",
+    "sha256": "A999699A18593FD00BB2A9429C41F9E224040528A601D112264037755F693661"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\ui.js",
+    "sha256": "935AC88086002E558FA98FCFA49C24718D93B7F08611EE3AA2CD05BCBEA72568"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\versions.js",
+    "sha256": "84EAA29E03A0E9D3A928DED6B273A0571DBA770BE30AE8C6B249EF7D9B7CC20B"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\visuals.js",
+    "sha256": "CBA91609D0C78B281F88CC916B9F94A4DFB5A59F18EE3D43B5EBF8C879856F64"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\scripts\\demo\\work.js",
+    "sha256": "5487D94FC713D840A6D0424B3BAA67CAE08DE4465CEB1B9A6E7CD923ED8DD0E1"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\src\\index.html",
+    "sha256": "815054601BD01D42CA0681CE823B548E6D93599E5CD85054ADFDAD069D254C39"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\assets\\data\\assessment-context.json",
+    "sha256": "EA964A622FA60878BA1DEBAF041E8C8C3009B6E79119B6A15433821280B7C4A0"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\assets\\data\\control-assistance.json",
+    "sha256": "F7FF5E6F9E394657EEB37DC49613F5BB2EAA3729A1C3AD694456D01B8B6FA25C"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\assets\\data\\dashboard-metrics.mock.json",
+    "sha256": "EFB77DE1254F4965FDD79F6657C69D3E425D336F478998B88BDCB0C458C21FB4"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\assets\\data\\research-demo.json",
+    "sha256": "78405966A8219BD8CBC66FADA244DE84D5063DA4D94A7AF4EC9D55BEE9AB715F"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\assets\\data\\risk-intelligence.json",
+    "sha256": "07FE579F8DBB39D4C064CA4D18693842601F8F763E4404F0C61D5F5AC3F40924"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\assets\\data\\roi-calculator.mock.json",
+    "sha256": "4EC173F2D6BB49AAF18A28B43E3610E7F118E14152281B769D4CA42E7CF3D92A"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\assets\\data\\wizard-insights.mock.json",
+    "sha256": "CD45A39B5B2B9910B82548B81922BA8DBBD5889F3666A231397B180D300F7342"
+  },
+  {
+    "path": "C:\\Repos\\RCSA_Accelerator\\assets\\data\\workflow-demo.json",
+    "sha256": "99211B6773073B61E53B1C3E25504E8F5DB54F3B16B633E2D05FB4B755F4F39D"
+  }
+]

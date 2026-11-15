@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {seedScene,startOwnerRevision,currentRating,score,sendAssessment} from '../src/scripts/demo/model.js';
+import {saveMapping} from '../src/scripts/demo/mappings.js';
+import {controlsWorkspace} from '../src/scripts/demo/controls.js';
+import {controlLibraryDialog} from '../src/scripts/demo/control-library.js';
+const data=JSON.parse(await readFile(new URL('../assets/data/workflow-demo.json',import.meta.url),'utf8'));
+const s=seedScene(data,'complete');s.selectedRisk='details';
+const unchanged=JSON.stringify(s);assert(!startOwnerRevision(s,data));assert.equal(JSON.stringify(s),unchanged,'Reviewer cannot open an owner draft');
+s.role='first';const snapshots=JSON.stringify(s.snapshots),rationale=s.reviewerRationale,previousVersion=s.versionNumber;
+const library=controlLibraryDialog(data,s);assert(library.includes('Customer payment confirmation'));assert(library.includes('Map in owner revision'));
+assert(!/Browse control library[^>]*disabled/.test(controlsWorkspace(data,s)));assert(controlsWorkspace(data,s).includes('Start owner revision'));
+assert(startOwnerRevision(s,data));assert(!s.submitted&&!s.reviewed);assert.equal(s.selectedRisk,'details');assert.equal(s.revisionOf,previousVersion);assert.equal(s.versionNumber,previousVersion);assert.equal(s.reviewConclusions[0].rationale,rationale);assert.equal(JSON.stringify(s.snapshots),snapshots);assert.equal(score(currentRating(s,'unauthorized')),12);assert.equal(score(currentRating(s,'details')),6);
+assert(saveMapping(data,s,{controlId:'customer-confirmation',rationale:'Adds customer confirmation of beneficiary and amount to the operator check. Standard-route scope only.',applicability:'limited'}));assert(!s.risks.details.controlsConfirmed&&!s.risks.details.residualConfirmed);assert(!sendAssessment(s));assert.equal(JSON.stringify(s.snapshots),snapshots);
+s.risks.details.controlsConfirmed=true;s.risks.details.residualConfirmed=true;assert(sendAssessment(s));assert.equal(s.versionNumber,previousVersion+1);assert.equal(JSON.stringify(s.snapshots.slice(0,-1)),snapshots);assert(s.snapshots.at(-1).risks.details.controls.includes('customer-confirmation'));assert(!s.snapshots.at(-2).risks.details.controls.includes('customer-confirmation'));
+console.log('PASS: library browsing, owner-only revision, preserved snapshots/reviewer conclusion/current ratings, sample mapping, renewed confirmations and next-version submission.');

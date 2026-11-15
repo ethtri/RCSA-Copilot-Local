@@ -1,0 +1,601 @@
+{
+  "version": 1,
+  "asOf": "November 14, 2026",
+  "disclosure": "Prepared control suggestions and checks for selected claims in this sample assessment. No live generation or testing is performed.",
+  "cases": {
+    "unauthorized": {
+      "title": "Establish independent verification",
+      "exposure": "After contact details change, both checks on an urgent request may use that same changed record.",
+      "designGap": "The mapped procedures do not show a separate verification source for urgent requests after contact changes.",
+      "operatingGap": "The September test covered standard wires before urgent requests were allowed. No later test shows how urgent requests are checked.",
+      "baselineControlIds": [
+        "callback",
+        "approval"
+      ],
+      "knownControlIds": [
+        "callback",
+        "approval",
+        "customer-confirmation",
+        "details-check"
+      ],
+      "sourceIds": [
+        "procedure",
+        "callback",
+        "approval",
+        "test",
+        "incident",
+        "ri-wire-issue"
+      ],
+      "qualifiedConclusion": "The documented checks cover standard wires. Current testing does not show whether they work for urgent requests. If both checks use the same contact record, consider whether they could miss the same error.",
+      "overbroadClaim": "Both checks independently verify every urgent request.",
+      "unsuitable": {
+        "title": "Confirming payment details does not verify the sender’s identity",
+        "controlId": "customer-confirmation",
+        "reason": "Confirming the recipient and amount helps avoid payment errors. The standard-payment sample does not show how staff verify identity for urgent requests after contact details change.",
+        "sourceIds": [
+          "customer-confirmation-test",
+          "incident"
+        ]
+      },
+      "candidates": [
+        {
+          "id": "wire-existing",
+          "kind": "existing",
+          "title": "Use customer payment confirmation for detail accuracy",
+          "summary": "Use the existing confirmation check for payment details. It does not verify the identity of someone sending an urgent request.",
+          "gap": "The owner must assess payment accuracy and the sender’s authority separately.",
+          "addresses": "Customer confirmation adds a check on payment details for the standard payments it covers.",
+          "limits": "It does not verify the sender’s identity through a separate source. Urgent requests were not tested.",
+          "sourceIds": [
+            "customer-confirmation-test",
+            "incident"
+          ],
+          "conclusion": "Customer confirmation helps check standard-payment details. It does not show that urgent requests use a separate verification source after contact changes.",
+          "plan": {
+            "protection": "Retain customer confirmation for standard-wire detail accuracy; do not rely on it alone for urgent identity verification.",
+            "title": "Review confirmation applicability and urgent-route identity evidence",
+            "owner": "Payments Operations",
+            "due": "2026-11-28",
+            "evidence": "List urgent wires received since the change, including cases with changed contact details. Save the separate verification source used, release records, test results and any problems found.",
+            "implementationTasks": [
+              {
+                "title": "Agree which payments customer confirmation covers. Keep its limitation to standard payments.",
+                "owner": "Payments Operations",
+                "due": "2026-11-21"
+              },
+              {
+                "title": "Request the separate verification source and urgent-request records before claiming wider coverage.",
+                "owner": "Payments Operations",
+                "due": "2026-11-25"
+              }
+            ],
+            "validationTasks": [
+              {
+                "title": "Repeat the checks on urgent amended-contact requests separately from the standard confirmation sample.",
+                "owner": "Payments Control Assurance",
+                "due": "2026-11-28",
+                "evidence": "List urgent wires received since the change, including cases with changed contact details. Save the separate verification source used, release records, test results and any problems found."
+              }
+            ]
+          },
+          "existingControlId": "customer-confirmation",
+          "riskId": "unauthorized"
+        },
+        {
+          "id": "wire-enhance",
+          "kind": "enhance",
+          "title": "Strengthen callback verification",
+          "summary": "Require a separate verified contact source. Hold the payment and contact a supervisor if it is unavailable.",
+          "gap": "The current callback can consult recently changed contact details.",
+          "addresses": "Use a separate verified contact source. Hold the payment if staff cannot verify the request.",
+          "limits": "This change is proposed. The current procedure and September test do not prove it is in place or works.",
+          "sourceIds": [
+            "callback",
+            "procedure",
+            "incident",
+            "test"
+          ],
+          "conclusion": "This callback change is proposed for urgent requests after contact changes. We still need evidence that it is in place, uses a separate source and works.",
+          "plan": {
+            "protection": "Amend the callback procedure so that recently changed contact details cannot be used as the sole verification source for an urgent request. Record the independent source and require supervisory escalation when it is unavailable.",
+            "title": "Update the callback procedure and test the separate source",
+            "owner": "Payments Operations",
+            "due": "2026-11-28",
+            "evidence": "List urgent wires received since the change, including cases with changed contact details. Save the separate verification source used, release records, test results and any problems found.",
+            "implementationTasks": [
+              {
+                "title": "Approve the callback procedure for changed contact details, its separate source and the rules for holding payments and contacting a supervisor.",
+                "owner": "Payments Operations",
+                "due": "2026-11-21"
+              },
+              {
+                "title": "Train verifiers and release supervisors; retain the source and hold decision in the urgent request record.",
+                "owner": "Payments Operations",
+                "due": "2026-11-25"
+              }
+            ],
+            "validationTasks": [
+              {
+                "title": "Test source independence, callback completion and hold/escalation on the urgent requests received since the change.",
+                "owner": "Payments Control Assurance",
+                "due": "2026-11-28",
+                "evidence": "List urgent wires received since the change, including cases with changed contact details. Save the separate verification source used, release records, test results and any problems found."
+              }
+            ]
+          },
+          "existingControlId": "callback",
+          "designDraft": {
+            "name": "Callback verification — amended-contact enhancement",
+            "owner": "Payments Operations",
+            "purpose": "Add a source-independence and hold requirement to callback verification",
+            "design": "Amend the callback procedure so that recently changed contact details cannot be used as the sole verification source for an urgent request. Record the independent source and require supervisory escalation when it is unavailable.",
+            "frequency": "Every urgent callback after a recent contact amendment",
+            "population": "Urgent route following contact changes",
+            "informationSource": "Independently established contact directory or authenticated channel, not merely the amended record",
+            "exceptions": "Hold the payment until staff can verify it using a separate source.",
+            "evidenceRetained": "Original and amended contact versions, source checked, callback result and release/hold decision",
+            "validation": "Test post-change urgent callbacks, including hold/escalation cases and differences from standard-wire coverage."
+          },
+          "riskId": "unauthorized"
+        },
+        {
+          "id": "wire-new",
+          "kind": "new",
+          "title": "Draft independent contact verification",
+          "summary": "Create a separate proposed verification control for urgent requests after contact changes.",
+          "gap": "Two checks may consult one amended contact record.",
+          "addresses": "Using a separate verified source helps prevent both checks from relying on the same incorrect contact details.",
+          "limits": "The proposed control is not in place yet. Test that it uses a separate source, can handle the workload and works for urgent requests.",
+          "sourceIds": [
+            "callback",
+            "approval",
+            "incident",
+            "ri-wire-issue"
+          ],
+          "conclusion": "Independent contact verification is proposed for urgent requests after contact changes. The owner must review the design. We still need evidence that it works and uses a separate source.",
+          "plan": {
+            "protection": "Before releasing an urgent request after a contact amendment, obtain verification through a source established independently of the amended customer-contact record. A release supervisor checks and records that source.",
+            "title": "Introduce independent verification and test urgent requests",
+            "owner": "Payments Operations",
+            "due": "2026-11-28",
+            "evidence": "List urgent wires received since the change, including cases with changed contact details. Save the separate verification source used, release records, test results and any problems found.",
+            "implementationTasks": [
+              {
+                "title": "Approve a separate verification source and rules for holding a payment and contacting a supervisor.",
+                "owner": "Payments Operations",
+                "due": "2026-11-21"
+              },
+              {
+                "title": "Assign verifiers and release supervisors; enable source/version and release-decision retention.",
+                "owner": "Payments Operations",
+                "due": "2026-11-25"
+              }
+            ],
+            "validationTasks": [
+              {
+                "title": "Test amended-contact urgent requests, failed verification and hold cases before reassessing residual risk.",
+                "owner": "Payments Control Assurance",
+                "due": "2026-11-28",
+                "evidence": "List urgent wires received since the change, including cases with changed contact details. Save the separate verification source used, release records, test results and any problems found."
+              }
+            ]
+          },
+          "designDraft": {
+            "name": "Independent contact verification",
+            "owner": "Payments Operations",
+            "purpose": "Verify urgent instructions after a contact change using a separately established source",
+            "design": "Before releasing an urgent request after a contact amendment, obtain verification through a source established independently of the amended customer-contact record. A release supervisor checks and records that source.",
+            "frequency": "Every urgent request involving recently amended customer-contact details",
+            "population": "Urgent wire requests after contact changes, including declined and escalated cases",
+            "informationSource": "A previously established callback directory or independently authenticated channel; independence must be evidenced",
+            "exceptions": "Hold release and escalate to the duty supervisor when no independent source is available.",
+            "evidenceRetained": "Source identity/version, verifier, timestamps, authorization and escalation outcome",
+            "validation": "Repeat the checks on amended-contact urgent requests and inspect whether source independence was demonstrated before release."
+          },
+          "riskId": "unauthorized"
+        }
+      ],
+      "objectives": [
+        {
+          "id": "core",
+          "label": "Address the risk"
+        },
+        {
+          "id": "evidence",
+          "label": "Establish the evidence needed"
+        }
+      ]
+    },
+    "details": {
+      "title": "Preserve the checked instruction version",
+      "exposure": "The recipient or amount may change after a check. Staff could release the payment without checking the new details.",
+      "designGap": "The checked instruction version is not consistently linked to release after an amendment.",
+      "operatingGap": "The clean standard detail sample does not establish the record of which instruction version was checked before release highlighted by PI-12.",
+      "baselineControlIds": [
+        "details-check"
+      ],
+      "knownControlIds": [
+        "details-check",
+        "customer-confirmation"
+      ],
+      "sourceIds": [
+        "details-test",
+        "customer-confirmation-test",
+        "ri-details-nearmiss",
+        "ri-details-issue"
+      ],
+      "qualifiedConclusion": "The standard-payment test found no problems in the sample. PI-12 still needs to show whether the latest instructions were checked before release. Keep this gap in the assessment until the review is complete.",
+      "overbroadClaim": "Every amended instruction is checked against the latest version before release.",
+      "unsuitable": {
+        "title": "Verifying identity does not show that the latest payment details were checked",
+        "controlId": "callback",
+        "reason": "Confirming who gave an instruction does not establish which beneficiary/amount version was checked and released. PI-12 requires a transfer of the latest instructions response.",
+        "sourceIds": [
+          "callback",
+          "ri-details-issue"
+        ]
+      },
+      "candidates": [
+        {
+          "id": "details-existing",
+          "kind": "existing",
+          "title": "Add customer payment confirmation",
+          "summary": "Add customer confirmation through the verified payment channel to the operator’s detail check.",
+          "gap": "Compare the operator’s entry with the recipient and amount confirmed by the customer.",
+          "addresses": "Adds customer confirmation of the details for standard payments.",
+          "limits": "The test excludes urgent requests and does not prove that post-check amendments are rechecked.",
+          "sourceIds": [
+            "customer-confirmation-test",
+            "ri-details-issue"
+          ],
+          "conclusion": "Customer confirmation adds a check for the standard payments tested. We still need records showing which instruction version was checked after a change.",
+          "plan": {
+            "protection": "Obtain customer confirmation of beneficiary and amount through the documented authenticated channel; retain version limitations.",
+            "title": "Map confirmation and review amendment coverage",
+            "owner": "Payments Operations",
+            "due": "2026-11-28",
+            "evidence": "List payments with changed instructions since the procedure change. Save the versions checked and released, change times, repeated-check records and problems found.",
+            "implementationTasks": [
+              {
+                "title": "Agree the confirmation population and link the confirmed instruction version to the request.",
+                "owner": "Payments Operations",
+                "due": "2026-11-21"
+              },
+              {
+                "title": "Document the amendment handoff question and identify whether repeated confirmations are needed.",
+                "owner": "Payments Operations",
+                "due": "2026-11-25"
+              }
+            ],
+            "validationTasks": [
+              {
+                "title": "Inspect post-check amendments and compare customer-confirmed, checked and released versions.",
+                "owner": "Payments Control Assurance",
+                "due": "2026-11-28",
+                "evidence": "List payments with changed instructions since the procedure change. Save the versions checked and released, change times, repeated-check records and problems found."
+              }
+            ]
+          },
+          "existingControlId": "customer-confirmation",
+          "riskId": "details"
+        },
+        {
+          "id": "details-enhance",
+          "kind": "enhance",
+          "title": "Add an amendment recheck to the detail check",
+          "summary": "Record which instruction version the second operator checked. Repeat the check after any change.",
+          "gap": "PI-12 says the records do not clearly show which instructions staff checked before release.",
+          "addresses": "The change would record which version staff checked and whether they repeated the check.",
+          "limits": "The revised procedure is proposed. Standard-payment results do not prove that the revised checks work for changed instructions.",
+          "sourceIds": [
+            "details-test",
+            "ri-details-nearmiss",
+            "ri-details-issue"
+          ],
+          "conclusion": "The proposed change would record instruction versions and repeat checks after changes. Evidence is still needed to show it is in place and works.",
+          "plan": {
+            "protection": "Extend the payment-detail procedure to record the checked instruction version and require a new second-operator check after a beneficiary or amount amendment. The release operator compares the latest version with that record.",
+            "title": "Implement and test amendment rechecking",
+            "owner": "Payments Operations",
+            "due": "2026-11-28",
+            "evidence": "List payments with changed instructions since the procedure change. Save the versions checked and released, change times, repeated-check records and problems found.",
+            "implementationTasks": [
+              {
+                "title": "Approve the version-reference and repeated-check procedure with the release owner.",
+                "owner": "Payments Operations",
+                "due": "2026-11-21"
+              },
+              {
+                "title": "Add the version and repeat-check evidence to the handoff record and train operators.",
+                "owner": "Payments Operations",
+                "due": "2026-11-25"
+              }
+            ],
+            "validationTasks": [
+              {
+                "title": "Trace post-check amendments through rechecking and release, including missing-reference exceptions.",
+                "owner": "Payments Control Assurance",
+                "due": "2026-11-28",
+                "evidence": "List payments with changed instructions since the procedure change. Save the versions checked and released, change times, repeated-check records and problems found."
+              }
+            ]
+          },
+          "existingControlId": "details-check",
+          "designDraft": {
+            "name": "Payment detail check — amendment recheck",
+            "owner": "Payments Operations",
+            "purpose": "Recheck beneficiary and amount after late amendments",
+            "design": "Extend the payment-detail procedure to record the checked instruction version and require a new second-operator check after a beneficiary or amount amendment. The release operator compares the latest version with that record.",
+            "frequency": "At each detail check and each subsequent amendment",
+            "population": "Wire instructions changed between checking and release",
+            "informationSource": "Verified instruction version and amendment handoff log",
+            "exceptions": "Pause release for missing version references or amendments without a repeated check.",
+            "evidenceRetained": "Checked version, latest version, repeat-check timestamp and release operator sign-off",
+            "validation": "Sample amended instructions across standard and urgent routes; trace each latest version through the repeated check and release."
+          },
+          "riskId": "details"
+        },
+        {
+          "id": "details-new",
+          "kind": "new",
+          "title": "Draft a final instruction-version check",
+          "summary": "Require staff to check the latest instruction version before releasing the payment.",
+          "gap": "An amended instruction can differ from the one previously checked.",
+          "addresses": "Would prevent release based on old instructions by requiring a check of the latest version.",
+          "limits": "This is a proposed design; implementation and tests of actual amendment/release behavior are not established.",
+          "sourceIds": [
+            "ri-details-nearmiss",
+            "ri-details-issue",
+            "details-test"
+          ],
+          "conclusion": "This proposed check would confirm the instruction version before release. It cannot reduce the current risk until evidence shows it is in place and works.",
+          "plan": {
+            "protection": "Bind the second-operator check to an immutable instruction version. Block release after any beneficiary or amount amendment until that exact new version has been checked again.",
+            "title": "Implement the version release gate and validate amendment cases",
+            "owner": "Payments Operations",
+            "due": "2026-11-28",
+            "evidence": "List payments with changed instructions since the procedure change. Save the versions checked and released, change times, repeated-check records and problems found.",
+            "implementationTasks": [
+              {
+                "title": "Define immutable version IDs and approve the release/recheck gate.",
+                "owner": "Payments Operations",
+                "due": "2026-11-21"
+              },
+              {
+                "title": "Implement version comparison and exception handling; preserve original and amended instructions.",
+                "owner": "Payments Operations",
+                "due": "2026-11-25"
+              }
+            ],
+            "validationTasks": [
+              {
+                "title": "Attempt release after late amendments and demonstrate block, recheck and correct-version release.",
+                "owner": "Payments Control Assurance",
+                "due": "2026-11-28",
+                "evidence": "List payments with changed instructions since the procedure change. Save the versions checked and released, change times, repeated-check records and problems found."
+              }
+            ]
+          },
+          "designDraft": {
+            "name": "Instruction-version release gate",
+            "owner": "Payments Operations",
+            "purpose": "Prevent release against an instruction version that has changed since checking",
+            "design": "Bind the second-operator check to an immutable instruction version. Block release after any beneficiary or amount amendment until that exact new version has been checked again.",
+            "frequency": "Every release and every beneficiary/amount amendment after a check",
+            "population": "Standard and urgent wire instructions, including late amendments",
+            "informationSource": "Immutable instruction version and its linked check record",
+            "exceptions": "Hold release when the current instruction version differs from the checked version; escalate unresolved discrepancies.",
+            "evidenceRetained": "Instruction/check/release version identifiers, amendment time, repeat-check operator and exceptions",
+            "validation": "Repeat the checks on post-check amendments and demonstrate that stale-version release is blocked and the current version is rechecked."
+          },
+          "riskId": "details"
+        }
+      ],
+      "objectives": [
+        {
+          "id": "core",
+          "label": "Address the risk"
+        },
+        {
+          "id": "evidence",
+          "label": "Establish the evidence needed"
+        }
+      ]
+    },
+    "cutoff": {
+      "title": "Protect the verification window near cutoff",
+      "exposure": "A longer verification outage or several urgent requests at once could leave too little time to release payments safely.",
+      "designGap": "Validated verification backup processing capacity for a prolonged interruption is not established.",
+      "operatingGap": "October queue monitoring and the seventeen-minute recovery do not establish longer-outage capacity.",
+      "baselineControlIds": [
+        "queue"
+      ],
+      "knownControlIds": [
+        "queue"
+      ],
+      "sourceIds": [
+        "queue-review",
+        "ri-cutoff-nearmiss",
+        "ri-cutoff-issue"
+      ],
+      "qualifiedConclusion": "The queue review shows that staff monitored and escalated delays on the days sampled. QI-04 still needs to show whether payments can be completed during a longer outage. Keep this gap in the assessment.",
+      "overbroadClaim": "The fallback is tested and effective for every prolonged verification outage.",
+      "unsuitable": {
+        "title": "An extra approval does not create verification capacity",
+        "controlId": "approval",
+        "reason": "Supervisory approval can authorize a decision but does not restore an unavailable verification service or establish fallback throughput.",
+        "sourceIds": [
+          "approval",
+          "ri-cutoff-issue"
+        ]
+      },
+      "candidates": [
+        {
+          "id": "cutoff-existing",
+          "kind": "existing",
+          "title": "Keep cutoff monitoring and test a longer outage",
+          "summary": "Keep the current monitoring check. First test whether staff can complete payments during a longer outage.",
+          "gap": "The records show escalation on sampled days. They do not show whether backup processing can continue through a longer outage.",
+          "addresses": "Monitoring and early escalation are already documented. Testing may show they are sufficient without another monitoring control.",
+          "limits": "The October review and short recovery do not establish prolonged-outage capacity.",
+          "sourceIds": [
+            "queue-review",
+            "ri-cutoff-nearmiss",
+            "ri-cutoff-issue"
+          ],
+          "conclusion": "Keep the current monitoring conclusion for the days sampled. Test a longer outage before deciding whether another control is needed.",
+          "plan": {
+            "protection": "Retain cutoff monitoring and timely escalation; do not assume an unvalidated fallback is available.",
+            "title": "Validate current monitoring under a prolonged outage",
+            "owner": "Payments Operations",
+            "due": "2026-11-28",
+            "evidence": "Retain arrival times, number of payments completed, fallback authorization, escalation timestamps and customer/cutoff outcomes under a longer outage and simultaneous demand.",
+            "implementationTasks": [
+              {
+                "title": "Agree the longer-outage and concurrent-demand test assumptions with Operations.",
+                "owner": "Payments Operations",
+                "due": "2026-11-21"
+              },
+              {
+                "title": "Identify the approved escalation and hold decisions in the current procedure; request capacity evidence.",
+                "owner": "Payments Operations",
+                "due": "2026-11-25"
+              }
+            ],
+            "validationTasks": [
+              {
+                "title": "Replay the outage with actual arrival timing; establish whether existing capacity and escalation suffice.",
+                "owner": "Payments Control Assurance",
+                "due": "2026-11-28",
+                "evidence": "Retain arrival times, number of payments completed, fallback authorization, escalation timestamps and customer/cutoff outcomes under a longer outage and simultaneous demand."
+              }
+            ]
+          },
+          "existingControlId": "queue",
+          "riskId": "cutoff"
+        },
+        {
+          "id": "cutoff-enhance",
+          "kind": "enhance",
+          "title": "Add an early outage escalation trigger",
+          "summary": "Add rules based on waiting payments, available staff and time left before cutoff.",
+          "gap": "Waiting until close to cutoff may leave too little time to verify payments safely.",
+          "addresses": "An earlier alert would help staff decide which payments they can complete and which to hold.",
+          "limits": "The alert is proposed and its timing needs testing. It does not add backup processing capacity.",
+          "sourceIds": [
+            "queue-review",
+            "ri-cutoff-nearmiss",
+            "ri-cutoff-issue"
+          ],
+          "conclusion": "An earlier outage trigger is proposed to support timely release/hold decisions. We still need to test whether staff can complete payments during a longer outage.",
+          "plan": {
+            "protection": "Add an outage-duration and remaining-window trigger to cutoff monitoring. The duty supervisor compares queue demand with verified capacity and records an early hold or approved fallback decision.",
+            "title": "Implement and exercise early outage escalation",
+            "owner": "Payments Operations",
+            "due": "2026-11-28",
+            "evidence": "Retain arrival times, number of payments completed, fallback authorization, escalation timestamps and customer/cutoff outcomes under a longer outage and simultaneous demand.",
+            "implementationTasks": [
+              {
+                "title": "Approve the duration/capacity escalation trigger and safe hold authority.",
+                "owner": "Payments Operations",
+                "due": "2026-11-21"
+              },
+              {
+                "title": "Update monitoring records and train the duty supervisor on remaining-window decisions.",
+                "owner": "Payments Operations",
+                "due": "2026-11-25"
+              }
+            ],
+            "validationTasks": [
+              {
+                "title": "Exercise the trigger under prolonged interruption and concurrent demand; inspect timing and holds.",
+                "owner": "Payments Control Assurance",
+                "due": "2026-11-28",
+                "evidence": "Retain arrival times, number of payments completed, fallback authorization, escalation timestamps and customer/cutoff outcomes under a longer outage and simultaneous demand."
+              }
+            ]
+          },
+          "existingControlId": "queue",
+          "designDraft": {
+            "name": "Cutoff monitoring — outage escalation trigger",
+            "owner": "Payments Operations",
+            "purpose": "Escalate verification interruptions early enough for a safe release decision",
+            "design": "Add an outage-duration and remaining-window trigger to cutoff monitoring. The duty supervisor compares queue demand with verified capacity and records an early hold or approved fallback decision.",
+            "frequency": "At outage detection and each material change in queue/capacity",
+            "population": "Payments awaiting verification near cutoff, including urgent arrivals",
+            "informationSource": "Timestamped arrival queue, service availability record and approved capacity limits",
+            "exceptions": "Escalate before the remaining window is exhausted; do not bypass verification to meet cutoff.",
+            "evidenceRetained": "Outage start, queue/capacity check, escalation, hold/fallback decision and customer impact",
+            "validation": "Replay a prolonged outage and demand peak to check trigger timing and whether capacity assumptions hold."
+          },
+          "riskId": "cutoff"
+        },
+        {
+          "id": "cutoff-new",
+          "kind": "new",
+          "title": "Draft a backup verification process",
+          "summary": "Design a backup verification process for outages near cutoff, subject to approval.",
+          "gap": "QI-04 leaves longer-outage and backup processing capacity unresolved.",
+          "addresses": "An approved backup process could keep verification running if it can handle the waiting payments.",
+          "limits": "This draft and the short outage do not prove that a backup process is in place, available or able to handle the workload.",
+          "sourceIds": [
+            "ri-cutoff-nearmiss",
+            "ri-cutoff-issue",
+            "queue-review"
+          ],
+          "conclusion": "A backup verification process is proposed. It needs approval, implementation and tests of its workload and performance during a longer outage.",
+          "plan": {
+            "protection": "Establish an approved alternative verification route with named capacity and authorization limits. At the outage trigger, the duty supervisor activates it, records its availability and holds requests that cannot be safely verified before cutoff.",
+            "title": "Establish and validate the verification fallback",
+            "owner": "Payments Operations",
+            "due": "2026-11-28",
+            "evidence": "Retain arrival times, number of payments completed, fallback authorization, escalation timestamps and customer/cutoff outcomes under a longer outage and simultaneous demand.",
+            "implementationTasks": [
+              {
+                "title": "Approve the backup process, authority, verifier roster and capacity limits.",
+                "owner": "Payments Operations",
+                "due": "2026-11-21"
+              },
+              {
+                "title": "Document activation/hold decisions and enable queue, verification and customer-impact records.",
+                "owner": "Payments Operations",
+                "due": "2026-11-25"
+              }
+            ],
+            "validationTasks": [
+              {
+                "title": "Exercise the fallback under longer interruption and peak demand; validate authorization, throughput and safe holds.",
+                "owner": "Payments Control Assurance",
+                "due": "2026-11-28",
+                "evidence": "Retain arrival times, number of payments completed, fallback authorization, escalation timestamps and customer/cutoff outcomes under a longer outage and simultaneous demand."
+              }
+            ]
+          },
+          "designDraft": {
+            "name": "Approved verification fallback",
+            "owner": "Payments Operations",
+            "purpose": "Maintain authorized verification capacity during an outage near cutoff",
+            "design": "Establish an approved alternative verification route with named capacity and authorization limits. At the outage trigger, the duty supervisor activates it, records its availability and holds requests that cannot be safely verified before cutoff.",
+            "frequency": "On verification outage near cutoff; capacity checked before activation",
+            "population": "Late-day urgent queue during verification-service disruption",
+            "informationSource": "Approved fallback procedure, available verifier roster and timestamped queue",
+            "exceptions": "Escalate insufficient capacity; hold unsafe requests and communicate changed settlement expectations.",
+            "evidenceRetained": "Activation decision, verifier capacity, arrival/release timestamps, holds and customer communication",
+            "validation": "Exercise a longer outage with realistic arrivals and concurrent demand; measure capacity, escalation and customer obligations."
+          },
+          "riskId": "cutoff"
+        }
+      ],
+      "objectives": [
+        {
+          "id": "core",
+          "label": "Address the risk"
+        },
+        {
+          "id": "evidence",
+          "label": "Establish the evidence needed"
+        }
+      ]
+    }
+  }
+}

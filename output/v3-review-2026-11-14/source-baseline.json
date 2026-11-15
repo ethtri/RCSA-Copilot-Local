@@ -1,0 +1,178 @@
+{
+  "review_date": "2026-11-14",
+  "timezone": "America/Los_Angeles",
+  "saved_at": "2026-11-14T16:33:10.1826233-08:00",
+  "old_repository": "https://github.com/ethtri/RCSA-Copilot-Demo-Rebuild-V3",
+  "old_commit": "47e662e212655baca08332907d4a109f733a7a8d",
+  "current_repository": "https://github.com/ethtri/RCSA-Copilot-Local",
+  "current_head": "7de17c8329d4b65856310a2cd778513f190c6df9",
+  "current_baseline": "Working files including uncommitted demo modules and late assessment-context additions",
+  "browser": "In-app browser; current pre-existing localhost 8000; task-owned archived source localhost 8013",
+  "application_edits_by_review": false,
+  "screenshots": [
+    "01-current-dashboard.jpg",
+    "02-legacy-risk-discovery.jpg",
+    "03-current-evidence-reconstruction.jpg",
+    "04-legacy-ai-reasoning.jpg",
+    "05-legacy-risk-disposition.jpg",
+    "06-current-proposed-control.jpg",
+    "07-legacy-dashboard.jpg",
+    "08-legacy-scoring-progression.jpg",
+    "09-current-report.jpg",
+    "10-current-second-line-review.jpg",
+    "11-current-history-addition.jpg",
+    "12-current-external-context.jpg"
+  ],
+  "files": [
+    {
+      "path": "src\\scripts\\demo\\analysis-workspace.js",
+      "sha256": "52F5846511878B03E08BD412A36C0478565B9825D3D090270D5A470CDAAEF8B3",
+      "last_write_time": "2026-11-14T16:11:09.4931408-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\app.js",
+      "sha256": "EAC56B02830BFAE7AAB0421689125CCD6BED29677C3E3CDA36E1CE1828C25F09",
+      "last_write_time": "2026-11-14T16:25:54.4849973-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\assessment-content.js",
+      "sha256": "ADF87E5EA91D254860BA3BBD3AE67C31ED9AF772419AEC8898C78E6D10C7B00D",
+      "last_write_time": "2026-11-14T16:11:09.4931408-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\assessment-context.js",
+      "sha256": "C9C1F80FCAB95105E22AF49BED41D430BEEA501BE30E7087CC5EE61E124A6D94",
+      "last_write_time": "2026-11-14T16:32:30.5922502-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\assessment.js",
+      "sha256": "DAD4044C6D2D4F8B668FA8EDC16788FEFDDBF7B47282C95F920C6BBF7C743305",
+      "last_write_time": "2026-11-14T16:25:54.4869955-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\control-library.js",
+      "sha256": "1FD333F683FFC41B7096056A38C61C1424B7B9C8196C64D1DBBA573ECBE5A26A",
+      "last_write_time": "2026-11-14T16:11:09.4931408-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\controls.js",
+      "sha256": "63CA037CE9A64A953A6F4F6C5C4BEF132787C260A3A5BD9956E1E8653167C714",
+      "last_write_time": "2026-11-14T16:11:09.4958935-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\dashboard.js",
+      "sha256": "ED6DF4F2897E27397F7ED4DCB9F0DCEC600FB0A185262554E624231C2623E93E",
+      "last_write_time": "2026-11-14T16:11:09.4958935-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\decision-brief.js",
+      "sha256": "1EBE2DA0AF820F813006B117E4F9DB6318B8CF079E6980B58FA9A98F5713CD89",
+      "last_write_time": "2026-11-14T16:11:09.4958935-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\mappings.js",
+      "sha256": "6FA3CB39DC3D59C1CFCB7B1E931B450126E68D55CE63402C8A3831589A78D503",
+      "last_write_time": "2026-11-14T16:11:09.4978115-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\model.js",
+      "sha256": "59367665759404762F61A5EB5A5928C02ACED8E35E889C93A10E8F319D28550F",
+      "last_write_time": "2026-11-14T16:11:09.4978115-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\premium.js",
+      "sha256": "EE08BD3DDFC06A86C39BF851DDA905F1B18B279A249F89C2982095DBD0BD19E2",
+      "last_write_time": "2026-11-14T16:11:09.5088017-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\reports.js",
+      "sha256": "7709E1187B464B2C14B9EF29890887BA3EE402C3A412EC925762701CA9B1630A",
+      "last_write_time": "2026-11-14T16:11:09.5184251-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\research.js",
+      "sha256": "F1EFDF3F5CF9908458C02AE7F1F532C0E780F2F7A69AA4744CCE597328E2A11E",
+      "last_write_time": "2026-11-14T16:11:09.5217003-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\response-view.js",
+      "sha256": "CA0A61849A5D8302C6F01D63AE3B7256D5387181DF4AE9B7AB491D05249C6ADB",
+      "last_write_time": "2026-11-14T16:25:54.4879967-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\responses.js",
+      "sha256": "1A4CC25CD2E5909B8D4DEE70A4CE6E2E89266E74B1EDC6464CAB0D737C8C8786",
+      "last_write_time": "2026-11-14T16:11:09.5330037-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\risk-intelligence.js",
+      "sha256": "897A3E770F019A6AED77B4895230F2824735BA9A110DD1B180EE1C67C71FF1E5",
+      "last_write_time": "2026-11-14T16:11:09.5340027-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\ui.js",
+      "sha256": "9FC5483D4858D80652A4C0360A0B4C1109528BCC75E733929DEACD83CA664366",
+      "last_write_time": "2026-11-14T16:11:09.5340027-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\versions.js",
+      "sha256": "6E7C0F07FD8F4054997C5380FC0CBC8D641B119773B929E3F00EA11E43571D38",
+      "last_write_time": "2026-11-14T16:11:09.5350073-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\visuals.js",
+      "sha256": "F72308266D5DEF3F20BEC58D448C4C5EFB449369F16AA8C794B978CA067C048E",
+      "last_write_time": "2026-11-14T16:11:09.5353616-08:00"
+    },
+    {
+      "path": "src\\scripts\\demo\\work.js",
+      "sha256": "3D1E01DA41359086BF50C70ECB89DEA6830597E01812EFD2E8316995908E984E",
+      "last_write_time": "2026-11-14T16:11:09.5353616-08:00"
+    },
+    {
+      "path": "assets\\data\\assessment-context.json",
+      "sha256": "D537FD0D2ABA30AC03C5DC622110EA7528E38373B0489AB068C465969125F006",
+      "last_write_time": "2026-11-14T16:25:12.0117891-08:00"
+    },
+    {
+      "path": "assets\\data\\dashboard-metrics.mock.json",
+      "sha256": "EFB77DE1254F4965FDD79F6657C69D3E425D336F478998B88BDCB0C458C21FB4",
+      "last_write_time": "2026-11-14T08:38:28.1247780-08:00"
+    },
+    {
+      "path": "assets\\data\\research-demo.json",
+      "sha256": "78405966A8219BD8CBC66FADA244DE84D5063DA4D94A7AF4EC9D55BEE9AB715F",
+      "last_write_time": "2026-11-14T14:22:56.8216504-08:00"
+    },
+    {
+      "path": "assets\\data\\risk-intelligence.json",
+      "sha256": "07FE579F8DBB39D4C064CA4D18693842601F8F763E4404F0C61D5F5AC3F40924",
+      "last_write_time": "2026-11-14T14:24:26.3592806-08:00"
+    },
+    {
+      "path": "assets\\data\\roi-calculator.mock.json",
+      "sha256": "4EC173F2D6BB49AAF18A28B43E3610E7F118E14152281B769D4CA42E7CF3D92A",
+      "last_write_time": "2026-11-14T08:38:28.1247780-08:00"
+    },
+    {
+      "path": "assets\\data\\wizard-insights.mock.json",
+      "sha256": "CD45A39B5B2B9910B82548B81922BA8DBBD5889F3666A231397B180D300F7342",
+      "last_write_time": "2026-11-14T08:38:28.1259306-08:00"
+    },
+    {
+      "path": "assets\\data\\workflow-demo.json",
+      "sha256": "99211B6773073B61E53B1C3E25504E8F5DB54F3B16B633E2D05FB4B755F4F39D",
+      "last_write_time": "2026-11-14T13:12:07.2012007-08:00"
+    },
+    {
+      "path": "docs\\operations\\workflow-demo-plan.md",
+      "sha256": "361D875E5C87637B32B926044251E0205B37AF4E4885B2A5408F1966F333BDDB",
+      "last_write_time": "2026-11-14T14:34:55.3870448-08:00"
+    },
+    {
+      "path": "docs\\operations\\demo-runbook.md",
+      "sha256": "EE8D5A08928701774D854205702E415AC753E0292C1B5D3F797F0F95A963F4DF",
+      "last_write_time": "2026-11-14T16:11:09.5364107-08:00"
+    }
+  ]
+}

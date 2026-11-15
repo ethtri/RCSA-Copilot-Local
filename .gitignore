@@ -1,0 +1,15 @@
+# Local preview/browser caches
+.playwright-cli/
+output/playwright/
+node_modules/
+__pycache__/
+*.py[cod]
+
+# Credentials and machine-specific configuration
+.env
+.env.*
+!.env.example
+
+# One-off local editing helpers; retain linked review evidence and source snapshots
+/output/*.py
+/output/*.js

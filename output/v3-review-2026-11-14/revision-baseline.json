@@ -1,0 +1,55 @@
+{
+  "review_date": "2026-11-14",
+  "timezone": "America/Los_Angeles",
+  "purpose": "Re-evaluate broader AI assistance and revise planning priorities",
+  "old_commit": "47e662e212655baca08332907d4a109f733a7a8d",
+  "current_head": "7de17c8329d4b65856310a2cd778513f190c6df9",
+  "evidence_mode": "Supplemental source review; original browser audit/screenshots retained without a new runtime claim",
+  "application_implementation": false,
+  "files": [
+    {
+      "path": "src\\scripts\\demo\\app.js",
+      "sha256": "7DCE0CFE4C883F292D389807E48F29F696A1DC4630E6CC1C3BE3F19C4A63B1B2"
+    },
+    {
+      "path": "src\\scripts\\demo\\controls.js",
+      "sha256": "D379E047171F92838541B0F0841E63B9FBDBE46B6F1FE3712DFDC7E55CD11AFA"
+    },
+    {
+      "path": "src\\scripts\\demo\\control-library.js",
+      "sha256": "EB108D3BA40792009A90CF4A28D734CFA81EA5A8C8A02BFEF56440265CC4B4DF"
+    },
+    {
+      "path": "src\\scripts\\demo\\mappings.js",
+      "sha256": "1702B282DE11F77F1CD2611DA25CD35BE722DB55BF8420692538F244E51967FB"
+    },
+    {
+      "path": "src\\scripts\\demo\\model.js",
+      "sha256": "4ACFB30E284331D909310BE345F221B0D9086367DB1249ABB0AD507BE05D0D13"
+    },
+    {
+      "path": "src\\scripts\\demo\\assessment.js",
+      "sha256": "24BF62C0B4F0B5C4B5B94A027AF48D24A67777F836FED0565F6118E7DEE32CA3"
+    },
+    {
+      "path": "src\\scripts\\demo\\assessment-context.js",
+      "sha256": "AE6DE1906636D422AE4D6CCF18BB7C09F990F19621E614623A4D152EBFC3324F"
+    },
+    {
+      "path": "src\\scripts\\demo\\research.js",
+      "sha256": "2AA88DB7910E9D2BB0F29B094EF1C9CF0F210AC0B5509FEDA8BC06E538EA9F34"
+    },
+    {
+      "path": "src\\scripts\\demo\\response-view.js",
+      "sha256": "5AA01EEFF93DF8475783B94676DD7143903385F139BB796A4E91878AF0F40032"
+    },
+    {
+      "path": "src\\scripts\\demo\\responses.js",
+      "sha256": "318C00E6AD236F26BFECF8571F88EE8722BD4EA55D219C924CC26F38326D66F6"
+    },
+    {
+      "path": "src\\scripts\\demo\\reports.js",
+      "sha256": "0F653EC8EABD7AE63B69E9D877548A08AB2CF5F157C19C09EE5FDF36CC2471D5"
+    }
+  ]
+}

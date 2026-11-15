@@ -1,0 +1,27 @@
+{
+  "reviewDate": "2026-11-14",
+  "review": "Independent bank-leader persona QA",
+  "checkedFiles": 19,
+  "applicationChanges": [],
+  "sha256": {
+    "assets/data/workflow-demo.json": "e6ab4d49759100e649b66b79323939ea23689a6ec87c3369f96cc6cd788b378d",
+    "src/index.html": "5fb4fe551eaddd8dc1167815114af603839979f3b90706249bdefa2531462e19",
+    "src/scripts/demo/app.js": "23b227717b4601899356f7379b5422eec5130d3375ad9b37fe65e7f6aba60c91",
+    "src/scripts/demo/assessment.js": "db4a4ab9ba94c29a8e4af201a1fc539e1093e12368c631f4b59e2172f5bcb593",
+    "src/scripts/demo/controls.js": "a5f834a4dd49cb033194ff86eacc60907a8de851e8070a9f39fab456b812d2e4",
+    "src/scripts/demo/dashboard.js": "82624da5970b66c1975e1d2bc1e330bd003c57b3b5c0a0595507c86c47d771c3",
+    "src/scripts/demo/mappings.js": "969f016f305d10063ba919a2736623ce6179c09e17716f64df3404ab61815606",
+    "src/scripts/demo/model.js": "a2660e15184ec3f69cd4792af3c5e407d7a9bac3e9f9ea1de044a662fd579398",
+    "src/scripts/demo/reports.js": "ff626241e324c8796d9958fd46b7bc12f1367d7c1d6f20b1b1681b882c152890",
+    "src/scripts/demo/response-view.js": "8b42c9bdd45c9128659572f2861f351bc29e67efa67dc0769fe2f310fe4a7f22",
+    "src/scripts/demo/responses.js": "7a37cfa81336bf2a2a136c9402753968880bc9cfb418e643e9cf26524e331f75",
+    "src/scripts/demo/ui.js": "42fd70261543f710b4a7f2104f626c8365e1d388a6026fbced0d73f03f2624f5",
+    "src/scripts/demo/visuals.js": "c5e41b48229e3c0ef4dd3fe85aa738e9ee8a2aadbac7154d6b9910a56cbfc1b0",
+    "src/scripts/demo/work.js": "25368e0fb30ef7965deb0a9f2b24c24b0e19a4154537d687dc5bc285ba164e8b",
+    "src/styles/controls.css": "a8b52e62752b7bec63f6aa2f0b888a307f6f142a8c7c712516682b1395418049",
+    "src/styles/dashboard.css": "6a5976417cdf13473ea93afb3fdc5f54827d1902384a572d9c8124455615a552",
+    "src/styles/demo.css": "e8b945bdfaad66025daea0db67711dc5c3e5d116d48658ed9e8eeddf0c5f277e",
+    "src/styles/overrides.css": "93c00d4a62a265559c396e7831a7feb4bc7161735943eb0097a402dc4753c286",
+    "src/styles/product-refresh.css": "8c0d6902f83de6c978a602c7eea59209b7b7e79a40afcec6f543e0eb1aac82da"
+  }
+}

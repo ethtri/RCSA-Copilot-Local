@@ -1,0 +1,36 @@
+{
+  "sources": [
+    {
+      "id": "event-contact",
+      "title": "Contact amendment record",
+      "reference": "CRM CH-482",
+      "date": "October 20, 2026",
+      "scope": "Contact C-104, 09:02; channel history",
+      "excerpt": "The registered telephone number for customer C-104 was amended at 09:02. The record identifies the change but does not establish who initiated it."
+    },
+    {
+      "id": "event-payment",
+      "title": "Urgent payment exception",
+      "reference": "Payments EX-731",
+      "date": "October 20, 2026",
+      "scope": "Request W-204, customer C-104, 09:18",
+      "excerpt": "W-204 used the urgent route. Callback verification and supervisor approval referenced contact record C-104 revision 8. A secondary check paused release at 09:26. No payment was released."
+    },
+    {
+      "id": "event-review",
+      "title": "Supervisor review note",
+      "reference": "Operations RV-88",
+      "date": "October 20, 2026",
+      "scope": "Review at 09:23; matching remains provisional",
+      "excerpt": "The supervisor checked C-104 revision 8. The note references an urgent request but omits W-204. Customer, date and timing align with EX-731; the missing request identifier makes this join provisional."
+    },
+    {
+      "id": "service-clarification",
+      "title": "Verification service clarification",
+      "reference": "Service owner SO-19",
+      "date": "November 14, 2026",
+      "scope": "Received after submission; standard and urgent routes",
+      "excerpt": "Both checks consult the registered customer-contact record. A separately maintained callback directory applies to standard payments only. No independent urgent-route source or post-change operating test is established by this clarification."
+    }
+  ]
+}

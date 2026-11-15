@@ -1,0 +1,53 @@
+{
+  "date": "2026-11-14",
+  "scope": "Phase 1 AI-01 through AI-04",
+  "module_version": "20261114.9",
+  "model_render_checks": {
+    "verify-demo.mjs": "passed",
+    "verify-product-refinements.mjs": "passed",
+    "verify-owner-revision.mjs": "passed",
+    "verify-mapping-applicability.mjs": "passed",
+    "verify-risk-intelligence.mjs": "passed",
+    "verify-risk-matrix.mjs": "passed",
+    "verify-persona-fixes.mjs": "passed",
+    "verify-report-refinement.mjs": "passed",
+    "verify-control-assistance.mjs": "passed",
+    "verify-control-assistance-workflow.mjs": "passed"
+  },
+  "browser": "In-app browser; end-to-end owner and reviewer workflow; second risk design/dismissal/reload; native task editing; keyboard close/focus; no observed console errors",
+  "viewports": [
+    "default desktop",
+    "1487x1058 concept reference",
+    "390x844 mobile"
+  ],
+  "temporary_viewport_reset": true,
+  "independent_source_review": "Three consistency issues fixed; re-audit passed",
+  "files": {
+    "src\\scripts\\demo\\analysis-workspace.js": "0277e7b2b8d61b02fceb667ff12ba9cb6421ce331f20697cbc9efce34420a575",
+    "src\\scripts\\demo\\app.js": "a427047950be69f7f592b63a4ec508b5f42a3f1f8a6730ed9f6f80ae6ed3dadf",
+    "src\\scripts\\demo\\assessment-content.js": "adf87e5ea91d254860ba3bbd3ae67c31ed9af772419aec8898c78e6d10c7b00d",
+    "src\\scripts\\demo\\assessment-context.js": "030000b34cdc04011c697514aa6999f1e2f9538a92175737b076a64b2f1c7c80",
+    "src\\scripts\\demo\\assessment.js": "f2972ceb6163bc14762d741ed6136d65720b7fed558edb825b6b49f0b978b45c",
+    "src\\scripts\\demo\\control-assistance-actions.js": "0e34db2ec32064548eec0f686ba4ea21f106b12fe463021f4f0552d1670fc3fa",
+    "src\\scripts\\demo\\control-assistance-view.js": "8fb1cd4f69c6d41d092bb2688bae16005a079e558dd17c32582e8adcebad8657",
+    "src\\scripts\\demo\\control-assistance.js": "886a75ba5d105110518a7ca5fcd3afde0b698df3145bac7383af3c6f789a014e",
+    "src\\scripts\\demo\\control-library.js": "83507b870b48144be6ade14055bc04a906d43a478c7d4e5cc9839d7f51e14d93",
+    "src\\scripts\\demo\\controls.js": "bb163e1b1d25aaf1e76f44fc16e43bc9d33ca8ef2917b5da2a54e2ddd95e70a0",
+    "src\\scripts\\demo\\dashboard.js": "9991294740b9b4ac1db9b6bc20cafde074f07c46ea2328fac045000a9ef65858",
+    "src\\scripts\\demo\\decision-brief.js": "1cb1957400536f69f0156a8e3aac0def224619b97ec05a2b44551ec371b2e360",
+    "src\\scripts\\demo\\mappings.js": "8c766eb0480bbf4608bb9c544f264243516b2874ff090b152f0586d4e8483281",
+    "src\\scripts\\demo\\model.js": "5ecedf963482f2b087ba2cd0b8dea944d3c34caa6d761879758c2817fdff3bd6",
+    "src\\scripts\\demo\\premium.js": "53f7deec80667eb9c9a705d952c53062e57572dc46ac6ae81d4ce83cf9e54c18",
+    "src\\scripts\\demo\\reports.js": "d85bca7ed2ab1426e95bebe530d00c060fc5d6f507a89528ff3adfc601a3b2ae",
+    "src\\scripts\\demo\\research.js": "e6091d3513ca1da74bf94e0e4da2d64515dc67ede40cfe3a4a455f54c6b97fe5",
+    "src\\scripts\\demo\\response-view.js": "a7022a7b20ecfb51ebbdc2bd6ab22782b35bf6cabda7f891779532bde4a36497",
+    "src\\scripts\\demo\\responses.js": "9b41cd6063a7fffa402955c8affa5bfdaae32b1a58e179d2256f9a6d99894467",
+    "src\\scripts\\demo\\risk-intelligence.js": "730b1ad8dfeec4ca93b0a6efd624b9d3efa45cd5685133193ee41e8ef20d08c2",
+    "src\\scripts\\demo\\ui.js": "ff94e29858432cd06ef3ade0519e01987f5e282d7dfb226de652655205bcb829",
+    "src\\scripts\\demo\\versions.js": "592a138536c55e55948a7f68c1664b9bc29570e57bea6aeade8bcc20c6ca7d45",
+    "src\\scripts\\demo\\visuals.js": "e1d5a59fc423f8a86bb2a7e38660c7c2b4e82d7f50400f83349d209690774fc6",
+    "src\\scripts\\demo\\work.js": "9f14646666be5e1fea45fa8545348ae166bcc552a58640224ed5206b531cb471",
+    "assets\\data\\control-assistance.json": "f7ff5e6f9e394657eeb37dc49613f5bb2eaa3729a1c3ad694456d01b8b6fa25c",
+    "src\\styles\\control-assistance.css": "71bda3fc86dab110560481a05a9d23f45e08e23a900037c7ea660abdb2ae4b2c"
+  }
+}

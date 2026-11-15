@@ -1,0 +1,47 @@
+{
+  "changeAIEntry": {
+    "x": 48,
+    "y": 964.671875,
+    "width": 1344,
+    "height": 150
+  },
+  "confirmScope": {
+    "x": 1142.78125,
+    "y": 1169.671875,
+    "width": 249.21875,
+    "height": 44
+  },
+  "modalUse": {
+    "x": 456,
+    "y": 830.71875,
+    "width": 124.984375,
+    "height": 44
+  },
+  "modalScroll": {
+    "client": 763,
+    "scroll": 851,
+    "scrollTop": 0
+  },
+  "responseSave": {
+    "x": 79,
+    "y": 1250.859375,
+    "width": 167.8125,
+    "height": 44
+  },
+  "ownerConclusion": {
+    "x": 49,
+    "y": 1457.546875,
+    "width": 854.828125,
+    "height": 386.5625
+  },
+  "mappingHeading": {
+    "x": 49,
+    "y": 426.171875,
+    "width": 854.828125,
+    "height": 82.796875
+  },
+  "styles": {
+    "size": "10px",
+    "color": "rgb(101, 113, 107)"
+  }
+}

@@ -1,0 +1,60 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {createInitial,currentRating,score} from '../src/scripts/demo/model.js';
+import {controlsWorkspace,mappingDialog} from '../src/scripts/demo/controls.js';
+import {saveMapping,removeMapping,mappingApplicability,mappingNeedsReview} from '../src/scripts/demo/mappings.js';
+
+const data=JSON.parse(await readFile(new URL('../assets/data/workflow-demo.json',import.meta.url),'utf8'));
+const original=structuredClone(data),s=createInitial(data),risk=s.risks.unauthorized;
+const current=structuredClone(currentRating(s,risk.id));
+const row=id=>controlsWorkspace(data,s).split('<tr role="row"').find(part=>part.includes(`data-control="${id}"`))?.split('</tr>')[0]||'';
+
+assert.equal(mappingNeedsReview(data,s),false,'Original prepared relationships retain their conclusions without migration');
+assert.equal(mappingApplicability(data,s,'details','details-check').conclusion,'prepared');
+assert.match(mappingDialog(data,s),/value="unassessed" selected/,'New mapping does not preselect an affirmative judgment');
+assert(saveMapping(data,s,{controlId:'details-check',rationale:'Checks accuracy, not requester authority.'}));
+assert.equal(mappingApplicability(data,s,risk.id,'details-check').conclusion,'unassessed');
+assert.equal(mappingNeedsReview(data,s),true);
+assert.match(row('details-check'),/Coverage\/applicability requires owner assessment/);
+assert.doesNotMatch(row('details-check'),/The documented design addresses this risk/);
+assert.match(row('details-check'),/Library result/);
+assert.match(row('details-check'),/25 standard payment-detail checks · October 30, 2026/,'Library result carries its actual population and date');
+assert(saveMapping(data,s,{mode:'edit',controlId:'details-check',rationale:'No verification of an urgent requester.'}));
+assert.equal(mappingNeedsReview(data,s),true,'Rationale edits do not silently assess applicability');
+assert(saveMapping(data,s,{mode:'edit',controlId:'details-check',rationale:'Limited to detail accuracy.',applicability:'limited'}));
+assert.equal(mappingNeedsReview(data,s),false);
+assert.match(row('details-check'),/Owner assessed limited coverage/);
+assert(removeMapping(s,'details-check'));
+assert(saveMapping(data,s,{controlId:'details-check',rationale:'Reconsider the relationship.'}));
+assert.equal(mappingNeedsReview(data,s),true,'Re-adding does not restore the earlier owner conclusion');
+
+const beforeRejected=structuredClone(s);
+assert.equal(saveMapping(data,s,{mode:'replace',oldId:'missing',rationale:'Invalid replacement',control:{name:'New',owner:'Owner',purpose:'Purpose',design:'Design'}}),false);
+assert.deepEqual(s,beforeRejected,'Rejected replacement is atomic');
+assert.equal(saveMapping(data,s,{mode:'edit',controlId:'details-check',rationale:'Cannot claim a fixture conclusion.',applicability:'prepared'}),false);
+assert.deepEqual(s,beforeRejected,'New relationships cannot choose a prepared assessment');
+assert(saveMapping(data,s,{mode:'replace',oldId:'details-check',rationale:'Proposed independent verification.',control:{name:'Independent verification',owner:'Owner',purpose:'Verify the requester',design:'Use an independently established source.'}}));
+const proposal=s.customControls[0];
+assert.equal(mappingApplicability(data,s,risk.id,proposal.id).conclusion,'unassessed');
+assert(!risk.controls.includes('details-check'));
+assert(saveMapping(data,s,{mode:'edit',controlId:proposal.id,rationale:'Expected to address identity when implemented.',applicability:'covers'}));
+assert.match(row(proposal.id),/Owner expects the proposed design to address this risk/);
+assert.match(row(proposal.id),/Not implemented or tested\. No current protection established/);
+assert.equal(proposal.status,'Proposed');assert.equal(proposal.test,null);
+assert.equal(proposal.operation,'Not implemented or tested');
+assert.equal(mappingNeedsReview(data,s),false,'Explicit coverage assessment resolves the review requirement only');
+
+const sameInteraction=createInitial(data);
+assert(saveMapping(data,sameInteraction,{controlId:'details-check',rationale:'Detail accuracy only.',applicability:'limited'}));
+assert.equal(mappingNeedsReview(data,sameInteraction),false,'An owner may explicitly assess coverage during mapping');
+assert(removeMapping(sameInteraction,'callback'));
+assert(saveMapping(data,sameInteraction,{controlId:'callback',rationale:'Review this relationship again.'}));
+assert.equal(mappingApplicability(data,sameInteraction,'unauthorized','callback').conclusion,'unassessed','A remapped fixture relationship cannot inherit its prepared conclusion');
+sameInteraction.role='second';const readonly=structuredClone(sameInteraction);
+assert.equal(saveMapping(data,sameInteraction,{mode:'edit',controlId:'callback',rationale:'Change',applicability:'covers'}),false);
+assert.deepEqual(sameInteraction,readonly);
+
+assert.deepEqual(currentRating(s,risk.id),current,'Mapping and applicability do not change the last confirmed risk');
+assert.equal(score(currentRating(s,risk.id)),8);
+assert.deepEqual(data,original,'Control library and original risk fixtures remain unchanged');
+console.log('PASS: risk-specific applicability, explicit owner assessment, scoped library evidence, remapping reset, atomic replacement, proposed-control boundaries and preserved current risk.');

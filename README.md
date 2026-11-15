@@ -1,59 +1,56 @@
-# RCSA Demo – Local Static Package
+# RCSA workflow demo
 
-## Mission
-Deliver a polished, fully offline recreation of the RCSA Copilot experience that mirrors the banking stakeholder demo without relying on Power Pages. Everything in this repository serves the static track: design tokens, UX guidance, mock data, and governance artifacts that keep agents aligned.
+An interactive, self-contained demonstration for banking leaders: a quarterly wire-transfer refresh across first and second line. The experience uses synthetic data and scripted AI assistance. People own every assessment, challenge and sign-off.
 
-## Quick Start
-1. **Prerequisite:** Python 3.10+ available on your path.
-2. From the repo root, start the static preview server:
+## Run locally
 
-   ```bash
-   python -m http.server 8000 --bind 127.0.0.1
-   ```
+From the repository root:
 
-   _PowerShell users can run `tools/local-preview.ps1`; macOS/Linux can use `tools/local-preview.sh`._
+```powershell
+python -m http.server 8000 --bind 127.0.0.1
+```
 
-3. Navigate to `http://127.0.0.1:8000/src/pages/home/` for the home page shell, or switch to the other page folders under `src/pages/`.
-4. Stop the server with `Ctrl+C` when finished.
+Open **http://127.0.0.1:8000/src/**. Python 3 is the only runtime prerequisite. No package installation, model credentials or backend is required. The root URL and legacy page entry points redirect to the current workspace. Stop the server with Ctrl+C.
 
-## Page Shell Integration
-- Start new pages from [`src/layouts/base.html`](src/layouts/base.html); copy the scaffold and replace the sample cards with your feature markup.
-- Keep `rcsa-styles.css` first in the `<head>` via the shared partial and leave `<body class="rcsa-shell ...">` intact so the responsive grid, skip link, and landmarks remain wired.
-- Slot primary content inside `<main id="page-content" class="rcsa-shell__main">` and use the optional `<aside class="rcsa-shell__aside">` for progress summaries or supporting insights, removing it entirely if unused.
-- Navigation is auto-managed by [`assets/js/shell.js`](assets/js/shell.js); ensure each page includes `<div data-partial-src="../../partials/global-scripts.html"></div>` (or equivalent path) so the toggle and focus logic load.
-- Demonstrate design-token usage by applying classes backed by `rcsa-styles.css` or the overrides in [`src/styles/overrides.css`](src/styles/overrides.css) instead of inline styles.
+## Explore the experience
 
-### Run & Verify Checklist
-- Record the exact preview command and URL in your worklog or PR.
-- Before handing off, confirm page markup imports [`design-system/rcsa-styles.css`](design-system/rcsa-styles.css) and any needed tokens under [`design-system/tokens/`](design-system/tokens/).
-- Use mock data from [`assets/data/`](assets/data) instead of hard-coded values; update `docs/data-contracts/` if schemas change.
-- Perform a quick accessibility sanity pass (keyboard focus, heading structure, reduced-motion behaviour).
+- Role-specific operational dashboards with a risk heatmap, prominent AI briefing, filtered work queue, evidence needs, management decisions and assessment register.
+- Full inherent, control and residual assessment for three synthetic risks, with separate likelihood, impact and rationale.
+- Risk-specific AI control recommendations, editable enhancements/new designs, mapping-dependent gap analysis, bounded evidence checks and generated implementation/validation task plans.
+- Always-available control library, owner revisions of submitted assessments, editable coverage rationale, replacement/removal and proposed-control creation. Earlier versions expose their submitted mappings and evidence.
+- Connected investigation with event reconstruction, supporting/counter-evidence, curated research, response comparisons and version-aware new evidence.
+- Explicit owner control conclusions, separate protective measures/testing and independent second-line assessment judgments.
+- Connected AI risk analysis with near misses, operational events, open issues, source limits and distinct inherent/residual lenses; targeted response and reviewer-question drafts.
+- Explicit risk responses with a selected approach, rationale, owner and linked action/evidence. Acceptance requests remain pending decisions.
+- Shared-control-dependency discovery: compare source excerpts, then confirm, qualify or dismiss the proposed relationship.
+- Owner attestation, second-line challenge, revised response, reviewer conclusion and inspectable submission versions.
+- Leadership reporting with prior/current comparison, evidence links and human narrative confirmation.
+- Presenter perspective, scene shortcuts and confirmed reset. Reload preserves the current tab's session when storage is available.
 
-## Repository Layout
-- `assets/` – Static media and JSON content used across pages.
-- `design-system/` – Canonical CSS, tokens, and component guidance; start with [`design-system/DESIGN_SYSTEM_INDEX.md`](design-system/DESIGN_SYSTEM_INDEX.md) and [`rcsa-styles.css`](design-system/rcsa-styles.css).
-- `docs/` - Governance, UX, AI prompt guides, and (labelled) legacy references; key files include:
-  - [`docs/operations/delivery-plan.md`](docs/operations/delivery-plan.md) - Workstreams, cadence, and notes.
-  - [`docs/operations/definition-of-done.md`](docs/operations/definition-of-done.md) - Acceptance checklist for static contributions.
-  - [`docs/ai/ai-agent-guide.md`](docs/ai/ai-agent-guide.md) - Prompt template and environment bundle for numbered agents.
-  - [`docs/ux/cx-director-audit.md`](docs/ux/cx-director-audit.md) - Experience pillars that replace portal-native cues.
-  - [`docs/legacy/README.md`](docs/legacy/README.md) - Catalog of archived Power Pages materials kept for historical context only.
-- `src/` – Page shells, partials, and client-side scripts adopted for the offline build.
-- `tools/` – Helper scripts for local previewing and future automation.
+Start on the first-line **Dashboard**, then choose **Refresh wire-transfer RCSA** beside the heading. **Continue wire-transfer refresh** resumes an assessment already underway. The collapsed **Presentation controls** disclosure contains perspective, scene and reset tools. The complete presentation takes approximately 8–10 minutes; follow the [demo runbook](docs/operations/demo-runbook.md).
 
-## Design System & Experience Standards
-- Use the tokens and utilities defined in [`design-system/rcsa-styles.css`](design-system/rcsa-styles.css) and the supporting documentation in [`design-system/tokens/README.md`](design-system/tokens/README.md) before introducing overrides.
-- Align copy, spacing, and motion with the CX director guidance in [`docs/ux/cx-director-audit.md`](docs/ux/cx-director-audit.md) and supporting UX docs.
-- For wizard flows, refer to [`docs/ux/ASSESSMENT_WIZARD_UX_STANDARDIZATION_ANALYSIS.md`](docs/ux/ASSESSMENT_WIZARD_UX_STANDARDIZATION_ANALYSIS.md) and the data contract notes in `docs/data-contracts/`.
+The demo deliberately keeps current risk, review completion, open actions and pending management decisions separate. AI suggestions are illustrative; there are no live model calls, institutional records, real approval actions, emails or external services.
 
-## Governance & Handoffs
-- The canonical governance set lives in:
-  - [`docs/operations/delivery-plan.md`](docs/operations/delivery-plan.md)
-  - [`docs/operations/risk-log.md`](docs/operations/risk-log.md)
-  - [`docs/operations/decision-register.md`](docs/operations/decision-register.md)
-- All substantive documentation changes should be reflected in these artifacts and summarised in the Definition of Done checklist.
-- Coordinate preview command updates with Agent A02 and UX acceptance with Agent A01 to keep this README accurate.
+## Buyer implementation walkthrough
 
-## Need Help?
-- Start with the prompt scaffolding in [`docs/ai/ai-agent-guide.md`](docs/ai/ai-agent-guide.md).
-- Legacy Power Pages materials are being catalogued under `docs/legacy/` for reference-only context; flag gaps in the delivery plan notes if you need additional archives.
+The GRC connection is already configured. Complete the assessment and independent review: the reviewed version syncs automatically, with a quiet status on the assessment and report. Drafts and returned assessments stay local. There is no separate import, export or transfer approval. All records and updates remain simulated locally.
+
+**Settings → Integrations** holds connection details, sync history and an implementation checklist. Failed updates offer retry; a source conflict shows a comparison for the assessment owner. Incompatible rating methods or missing control IDs pause sync. Presenter controls can set the next GRC update to a connection interruption or source change before completing review. [Automatic-sync plan](docs/operations/automatic-grc-sync-plan.md) and [adapter contract](docs/data-contracts/grc-reference-exchange.md).
+
+## Implementation and verification
+
+The running app is native HTML/CSS/ES modules, served directly from `src/index.html`. Its shared design system is documented in [Implementation design](docs/ux/IMPLEMENTATION_DESIGN.md); older page shells and design-system files remain historical references.
+
+- Scenario fixtures: `assets/data/workflow-demo.json` and `assets/data/risk-intelligence.json`; [data contract](docs/data-contracts/workflow-demo.md).
+- UI/state modules: `src/scripts/demo/`; shared styles: `src/styles/demo.css`.
+- Control-assistance checks: `node tools/verify-control-assistance.mjs` and `node tools/verify-control-assistance-workflow.mjs`; [browser and visual QA](docs/ux/ai-control-assistance-qa.md).
+- Mapping/response checks: `node tools/verify-product-refinements.mjs`.
+- Buyer-readiness checks: `node tools/verify-buyer-readiness.mjs`; covers exchange, role/method guards, snapshot/ownership preservation and returned clarification.
+- Automatic-sync checks: `node tools/verify-automatic-grc-sync.mjs`; covers the review trigger, draft/return guards, configured worker, source comparison, retry and immutable bank records.
+- Workflow checks: `node tools/verify-demo.mjs` (Node 18+).
+- Follow-up checks: `node tools/verify-owner-revision.mjs`, `node tools/verify-risk-matrix.mjs`, `node tools/verify-risk-intelligence.mjs`.
+- Focused browser checks: `node tools/verify-mapping-experience.cjs` and `node tools/verify-intelligence-experience.cjs`.
+- Optional browser regression: `node tools/verify-browser.cjs` with Playwright and Chrome installed; see the runbook for configuration.
+- [QA report](docs/ux/qa-report.md): full-flow checks, responsive screenshots and visual comparison ledger.
+
+The [workflow plan](docs/operations/workflow-demo-plan.md) governs scope. The current release includes automatic GRC synchronization, the plain-language refresh, regression scripts and linked browser evidence. See the [latest verification](output/automatic-grc-sync-2026-11-14/verification.md). The [GitHub tracker #1](https://github.com/ethtri/RCSA-Copilot-Local/issues/1) and its implementation issues remain the historical backlog; issue reconciliation is separate from publishing this version.
