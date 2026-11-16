@@ -1,0 +1,51 @@
+/* Permanent product states. Risk/status badges use ui.js BADGE_CSS in app and export. */
+.stage-completion{display:inline-flex;align-items:center;vertical-align:middle;margin-left:6px;color:var(--forest,#064d36)}
+.stage-completion>.product-icon{width:14px;height:14px}
+.startup-state{max-width:800px;margin:clamp(32px,10vh,112px) auto;padding:32px}
+.product-state{display:grid;grid-template-columns:48px minmax(0,1fr);align-items:start;gap:20px;padding:28px;border:1px solid var(--line,#d9e2dc);border-radius:8px;background:var(--paper,#fff);color:var(--ink,#15221e);text-align:left}
+.product-state-icon{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border:1px solid var(--line,#d9e2dc);border-radius:10px;background:#f1f4f2;color:var(--muted,#53645b)}
+.product-state-content{min-width:0}
+.product-state-content :is(h1,h2,h3){font-family:var(--ui,system-ui,sans-serif);font-size:22px;font-weight:600;line-height:1.4;letter-spacing:-.02em;margin:0}
+.product-state-content h1{font-family:var(--display,Georgia,serif);font-size:30px;font-weight:500;line-height:1.25}
+.product-state-content h3{font-size:18px}
+.product-state-content>p{max-width:65ch;font-size:14px;line-height:1.7;color:var(--muted,#53645b);margin:10px 0 0;text-wrap:pretty;overflow-wrap:anywhere}
+.product-state-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:20px}
+.product-state-actions>.button,.product-state-actions>a{min-height:44px}
+.product-state-details{margin-top:16px;border-top:1px solid var(--line,#d9e2dc);padding-top:8px}
+.product-state-details>summary{display:list-item;min-height:40px;padding:8px 0;color:var(--forest,#064d36);font-size:14px;font-weight:600;cursor:pointer}
+.product-state-details>pre{margin:8px 0 0;padding:14px;border-radius:6px;background:#f4f6f5;color:#3e4e46;font:13px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.product-state--warning .product-state-icon{color:var(--status-warning-ink,#78500c);background:var(--status-warning-fill,#fff4d9);border-color:var(--status-warning-border,#e5cd8e)}
+.product-state--error .product-state-icon{color:var(--status-danger-ink,#8d3027);background:var(--status-danger-fill,#fff0ed);border-color:var(--status-danger-border,#e4b4ac)}
+.product-state--success .product-state-icon{color:var(--status-success-ink,#155239);background:var(--status-success-fill,#eef5ef);border-color:var(--status-success-border,#c4d9cb)}
+.product-state--loading .product-state-icon{color:var(--forest,#064d36);background:#eef5ef}
+.product-state--loading .product-state-icon>.product-icon{animation:product-state-wait 1.6s linear infinite}
+.product-state-skeleton,.product-skeleton{display:grid;gap:10px;max-width:440px;margin-top:24px}
+.product-state-skeleton>span,.product-skeleton>span{display:block;height:10px;border-radius:3px;background:#e9eeeb}
+.product-state-skeleton>span:nth-child(2),.product-skeleton>span:nth-child(2){width:84%}
+.product-state-skeleton>span:nth-child(3),.product-skeleton>span:nth-child(3){width:62%}
+.product-state--compact{grid-template-columns:32px minmax(0,1fr);gap:14px;padding:20px}
+.product-state--compact .product-state-icon{width:32px;height:32px;border-radius:7px}
+.product-state--compact .product-state-icon>.product-icon{width:18px;height:18px}
+.product-state--compact .product-state-content :is(h2,h3){font-size:18px}
+.product-state--compact .product-state-content>p{margin-top:6px}
+.product-state--compact .product-state-actions{margin-top:14px}
+.product-state--compact .product-state-skeleton{margin-top:16px}
+@keyframes product-state-wait{to{transform:rotate(360deg)}}
+@media(max-width:600px){
+ .startup-state{margin:24px auto;padding:16px}
+ .product-state{grid-template-columns:40px minmax(0,1fr);gap:14px;padding:20px}
+ .product-state-icon{width:40px;height:40px;border-radius:8px}
+ .product-state-content :is(h1,h2){font-size:22px}
+ .product-state-content>p{font-size:14px}
+ .product-state-actions{align-items:stretch}
+ .product-state-actions>.button{width:100%;justify-content:center}
+ .product-state--compact{grid-template-columns:32px minmax(0,1fr);padding:16px}
+ .product-state--compact .product-state-icon{width:32px;height:32px;border-radius:7px}
+ .pv-status{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){.product-state--loading .product-state-icon>.product-icon{animation:none}}
+@media print{.startup-state{margin:0;padding:0}.product-state{box-shadow:none;break-inside:avoid}.product-state--loading .product-state-icon>.product-icon{animation:none}.product-state-actions{display:none}}
+
+/* Record pages have their own metadata row; sync status must not float over it. */
+.record-workspace>.grc-sync-line{float:none;justify-content:flex-end;margin:0 0 12px;min-height:28px}
+@media(max-width:600px){.record-workspace>.grc-sync-line{justify-content:flex-start}}

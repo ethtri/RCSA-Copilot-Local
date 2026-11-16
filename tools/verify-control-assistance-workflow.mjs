@@ -1,3 +1,4 @@
+import {carryForwardNeedsReview,confirmCarryForward} from '../src/scripts/demo/carry-forward.js';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createInitial,currentRating,sendAssessment,startOwnerRevision,reportSignature,requirements} from '../src/scripts/demo/model.js';
@@ -61,6 +62,7 @@ const stalePlan=normalizePlan(s,preparePlan(data,s));s.risks.unauthorized.contro
 assert.notEqual(stalePlan.controlSetSignature,controlSetSignature(data,s));assert.equal(applyAssistancePlan(data,s,stalePlan).ok,false);
 const plan=normalizePlan(s,preparePlan(data,s));assert(applyAssistancePlan(data,s,plan).ok);assert(saveRiskResponse(s));
 s.scope=true;s.dependency='confirmed';Object.values(s.risks).forEach(r=>{r.inherentConfirmed=true;r.controlsConfirmed=true;r.residualConfirmed=true;});
+for(const id of ['details','cutoff']){assert(carryForwardNeedsReview(s,s.risks[id]));assert(confirmCarryForward(data,s,id).ok);}
 assert(sendAssessment(s));const submitted=structuredClone(s.snapshots[0]);
 assert(submitted.controlAssistance.decisions.length);assert(submitted.controlAssistance.plans.unauthorized);
 assert(versionDialog(data,s,1).includes(plan.title),'Submitted versions expose generated plan provenance');
@@ -77,6 +79,7 @@ const stale=createInitial(data),staleCandidate=recommendationSet(data,stale).fin
 assert(useControlRecommendation(data,stale,draftFor(stale,staleCandidate)).ok);const staleControlId=stale.selectedControl;
 assert(applyAssistancePlan(data,stale,normalizePlan(stale,preparePlan(data,stale))).ok);assert(saveRiskResponse(stale));
 assert(removeMapping(stale,staleControlId));assert(saveRiskResponse(stale));stale.scope=true;stale.dependency='confirmed';Object.values(stale.risks).forEach(r=>{r.inherentConfirmed=true;r.controlsConfirmed=true;r.residualConfirmed=true;});
+for(const id of ['details','cutoff']){assert(carryForwardNeedsReview(stale,stale.risks[id]));assert(confirmCarryForward(data,stale,id).ok);}
 assert.equal(requirements(stale).every(r=>r.done),false,'Re-saving a response cannot clear a changed control-plan basis');assert.equal(sendAssessment(stale),false);
 assert(assistanceRecord(data,stale,{readOnly:true}).includes('plan needs review'));
 assert(detachAssistancePlan(stale));assert.equal(stale.controlAssistance.plans.unauthorized,undefined);assert(stale.controlAssistance.archivedPlans[0].detached);assert(requirements(stale).every(r=>r.done));assert(sendAssessment(stale));

@@ -1,0 +1,599 @@
+{
+  "version": 1,
+  "asOf": "November 14, 2026",
+  "disclosure": "Fictional sample bank records prepared for this demo. Trends are calculated from the complete sample periods; they are not live bank or industry data.",
+  "sources": [
+    {
+      "id": "signals-unauthorized",
+      "version": 1,
+      "title": "Wire-fraud attempt register and payment volumes",
+      "reference": "Payments Risk MIS FR-10",
+      "date": "November 7, 2026",
+      "scope": "Fictional sample bank · complete August, September and October 2026 · all completed wire payments; one process and consistent event definitions",
+      "excerpt": "August 2026: 6 events across 9,500 completed payments; September 2026: 8 events across 10,000 completed payments; October 2026: 12 events across 10,500 completed payments. Attempt counts include intercepted requests and exclude duplicate reports. Attempts are divided by completed wire volume as an exposure indicator, not a probability that a payment is fraudulent. Requested amounts are amounts sought, not losses. October includes WT-014; all twelve attempts were intercepted. One relevant issue remains open: WI-07.",
+      "metrics": {
+        "schemaVersion": 1,
+        "riskId": "unauthorized",
+        "currency": "USD",
+        "periods": [
+          {
+            "period": "2026-08",
+            "label": "August 2026",
+            "start": "2026-08-01",
+            "end": "2026-08-31",
+            "payments": 9500,
+            "events": [
+              {
+                "id": "UN-202608-01",
+                "date": "2026-08-03",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 20000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202608-02",
+                "date": "2026-08-05",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 35000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202608-03",
+                "date": "2026-08-07",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 50000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202608-04",
+                "date": "2026-08-09",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 65000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202608-05",
+                "date": "2026-08-11",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 80000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202608-06",
+                "date": "2026-08-13",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 95000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              }
+            ]
+          },
+          {
+            "period": "2026-09",
+            "label": "September 2026",
+            "start": "2026-09-01",
+            "end": "2026-09-30",
+            "payments": 10000,
+            "events": [
+              {
+                "id": "UN-202609-01",
+                "date": "2026-09-03",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 25000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202609-02",
+                "date": "2026-09-05",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 40000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202609-03",
+                "date": "2026-09-07",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 55000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202609-04",
+                "date": "2026-09-09",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 70000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202609-05",
+                "date": "2026-09-11",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 85000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202609-06",
+                "date": "2026-09-13",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 100000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202609-07",
+                "date": "2026-09-15",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 115000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202609-08",
+                "date": "2026-09-17",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 130000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              }
+            ]
+          },
+          {
+            "period": "2026-10",
+            "label": "October 2026",
+            "start": "2026-10-01",
+            "end": "2026-10-31",
+            "payments": 10500,
+            "events": [
+              {
+                "id": "WT-014",
+                "date": "2026-10-20",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 30000,
+                "changedContactDetails": true,
+                "urgentRoute": true
+              },
+              {
+                "id": "UN-202610-02",
+                "date": "2026-10-05",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 375000,
+                "changedContactDetails": true,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202610-03",
+                "date": "2026-10-07",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 60000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202610-04",
+                "date": "2026-10-09",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 75000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202610-05",
+                "date": "2026-10-11",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 90000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202610-06",
+                "date": "2026-10-13",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 105000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202610-07",
+                "date": "2026-10-15",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 120000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202610-08",
+                "date": "2026-10-17",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 135000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202610-09",
+                "date": "2026-10-19",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 150000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202610-10",
+                "date": "2026-10-21",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 165000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202610-11",
+                "date": "2026-10-23",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 180000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              },
+              {
+                "id": "UN-202610-12",
+                "date": "2026-10-25",
+                "directPaymentLoss": 0,
+                "outcome": "Intercepted before release",
+                "requestedAmount": 195000,
+                "changedContactDetails": false,
+                "urgentRoute": false
+              }
+            ]
+          }
+        ],
+        "eventLabel": "Recorded fraud attempts",
+        "definitions": "Attempt counts include intercepted requests and exclude duplicate reports. Attempts are divided by completed wire volume as an exposure indicator, not a probability that a payment is fraudulent. Requested amounts are amounts sought, not losses. October includes WT-014; all twelve attempts were intercepted.",
+        "issues": [
+          {
+            "id": "WI-07",
+            "owner": "Payments Operations",
+            "status": "Open",
+            "reviewDate": "2026-11-28",
+            "summary": "Urgent-route source independence and targeted testing"
+          }
+        ],
+        "asOf": "2026-11-07"
+      }
+    },
+    {
+      "id": "signals-details",
+      "version": 1,
+      "title": "Payment-detail exception register and payment volumes",
+      "reference": "Payments Operations MIS PD-10",
+      "date": "November 7, 2026",
+      "scope": "Fictional sample bank · complete August, September and October 2026 · all completed wire payments; one process and consistent event definitions",
+      "excerpt": "August 2026: 3 events across 9,500 completed payments; September 2026: 4 events across 10,000 completed payments; October 2026: 7 events across 10,500 completed payments. An exception is one instruction requiring correction or recovery; repeated handling of the same instruction counts once. September includes PD-019, whose $84,000 principal was recovered with a two-day customer delay. October includes the intercepted late-amendment event PD-027. No direct payment loss is recorded. One relevant issue remains open: PI-12.",
+      "metrics": {
+        "schemaVersion": 1,
+        "riskId": "details",
+        "currency": "USD",
+        "periods": [
+          {
+            "period": "2026-08",
+            "label": "August 2026",
+            "start": "2026-08-01",
+            "end": "2026-08-31",
+            "payments": 9500,
+            "events": [
+              {
+                "id": "DE-202608-01",
+                "date": "2026-08-03",
+                "directPaymentLoss": 0,
+                "outcome": "Corrected before release",
+                "amount": 15000,
+                "customerDelayBusinessDays": 0,
+                "lateAmendment": false
+              },
+              {
+                "id": "DE-202608-02",
+                "date": "2026-08-05",
+                "directPaymentLoss": 0,
+                "outcome": "Corrected before release",
+                "amount": 17000,
+                "customerDelayBusinessDays": 0,
+                "lateAmendment": false
+              },
+              {
+                "id": "DE-202608-03",
+                "date": "2026-08-07",
+                "directPaymentLoss": 0,
+                "outcome": "Corrected before release",
+                "amount": 19000,
+                "customerDelayBusinessDays": 0,
+                "lateAmendment": false
+              }
+            ]
+          },
+          {
+            "period": "2026-09",
+            "label": "September 2026",
+            "start": "2026-09-01",
+            "end": "2026-09-30",
+            "payments": 10000,
+            "events": [
+              {
+                "id": "PD-019",
+                "date": "2026-09-23",
+                "directPaymentLoss": 0,
+                "outcome": "Recalled and re-executed",
+                "amount": 84000,
+                "customerDelayBusinessDays": 2,
+                "lateAmendment": false
+              },
+              {
+                "id": "DE-202609-02",
+                "date": "2026-09-05",
+                "directPaymentLoss": 0,
+                "outcome": "Corrected before release",
+                "amount": 17000,
+                "customerDelayBusinessDays": 0,
+                "lateAmendment": false
+              },
+              {
+                "id": "DE-202609-03",
+                "date": "2026-09-07",
+                "directPaymentLoss": 0,
+                "outcome": "Corrected before release",
+                "amount": 19000,
+                "customerDelayBusinessDays": 0,
+                "lateAmendment": false
+              },
+              {
+                "id": "DE-202609-04",
+                "date": "2026-09-09",
+                "directPaymentLoss": 0,
+                "outcome": "Corrected before release",
+                "amount": 21000,
+                "customerDelayBusinessDays": 0,
+                "lateAmendment": false
+              }
+            ]
+          },
+          {
+            "period": "2026-10",
+            "label": "October 2026",
+            "start": "2026-10-01",
+            "end": "2026-10-31",
+            "payments": 10500,
+            "events": [
+              {
+                "id": "PD-027",
+                "date": "2026-10-24",
+                "directPaymentLoss": 0,
+                "outcome": "Corrected before release",
+                "amount": 15000,
+                "customerDelayBusinessDays": 0,
+                "lateAmendment": true
+              },
+              {
+                "id": "DE-202610-02",
+                "date": "2026-10-05",
+                "directPaymentLoss": 0,
+                "outcome": "Corrected before release",
+                "amount": 17000,
+                "customerDelayBusinessDays": 0,
+                "lateAmendment": false
+              },
+              {
+                "id": "DE-202610-03",
+                "date": "2026-10-07",
+                "directPaymentLoss": 0,
+                "outcome": "Corrected before release",
+                "amount": 19000,
+                "customerDelayBusinessDays": 0,
+                "lateAmendment": true
+              },
+              {
+                "id": "DE-202610-04",
+                "date": "2026-10-09",
+                "directPaymentLoss": 0,
+                "outcome": "Corrected before release",
+                "amount": 21000,
+                "customerDelayBusinessDays": 0,
+                "lateAmendment": false
+              },
+              {
+                "id": "DE-202610-05",
+                "date": "2026-10-11",
+                "directPaymentLoss": 0,
+                "outcome": "Corrected before release",
+                "amount": 23000,
+                "customerDelayBusinessDays": 0,
+                "lateAmendment": true
+              },
+              {
+                "id": "DE-202610-06",
+                "date": "2026-10-13",
+                "directPaymentLoss": 0,
+                "outcome": "Corrected before release",
+                "amount": 25000,
+                "customerDelayBusinessDays": 0,
+                "lateAmendment": false
+              },
+              {
+                "id": "DE-202610-07",
+                "date": "2026-10-15",
+                "directPaymentLoss": 0,
+                "outcome": "Corrected before release",
+                "amount": 27000,
+                "customerDelayBusinessDays": 0,
+                "lateAmendment": false
+              }
+            ]
+          }
+        ],
+        "eventLabel": "Payment-detail exceptions",
+        "definitions": "An exception is one instruction requiring correction or recovery; repeated handling of the same instruction counts once. September includes PD-019, whose $84,000 principal was recovered with a two-day customer delay. October includes the intercepted late-amendment event PD-027. No direct payment loss is recorded.",
+        "issues": [
+          {
+            "id": "PI-12",
+            "owner": "Payments Operations",
+            "status": "Open",
+            "reviewDate": "2026-11-28",
+            "summary": "Checked instruction version at release and repeat testing"
+          }
+        ],
+        "asOf": "2026-11-07"
+      }
+    },
+    {
+      "id": "signals-cutoff",
+      "version": 1,
+      "title": "Late-settlement register and payment volumes",
+      "reference": "Payments Operations MIS QT-10",
+      "date": "November 7, 2026",
+      "scope": "Fictional sample bank · complete August, September and October 2026 · all completed wire payments; one process and consistent event definitions",
+      "excerpt": "August 2026: 1 events across 9,500 completed payments; September 2026: 1 events across 10,000 completed payments; October 2026: 3 events across 10,500 completed payments. A late settlement is one payment missing its required settlement day. October includes QT-011 and its $180 service credit. Service credits are observed costs, not principal losses. The November 4 QT-016 recovery is outside these complete-month totals. One relevant issue remains open: QI-04.",
+      "metrics": {
+        "schemaVersion": 1,
+        "riskId": "cutoff",
+        "currency": "USD",
+        "periods": [
+          {
+            "period": "2026-08",
+            "label": "August 2026",
+            "start": "2026-08-01",
+            "end": "2026-08-31",
+            "payments": 9500,
+            "events": [
+              {
+                "id": "CU-202608-01",
+                "date": "2026-08-03",
+                "directPaymentLoss": 0,
+                "outcome": "Settled next business day",
+                "customerDelayBusinessDays": 1,
+                "serviceCredit": 60
+              }
+            ]
+          },
+          {
+            "period": "2026-09",
+            "label": "September 2026",
+            "start": "2026-09-01",
+            "end": "2026-09-30",
+            "payments": 10000,
+            "events": [
+              {
+                "id": "CU-202609-01",
+                "date": "2026-09-03",
+                "directPaymentLoss": 0,
+                "outcome": "Settled next business day",
+                "customerDelayBusinessDays": 1,
+                "serviceCredit": 90
+              }
+            ]
+          },
+          {
+            "period": "2026-10",
+            "label": "October 2026",
+            "start": "2026-10-01",
+            "end": "2026-10-31",
+            "payments": 10500,
+            "events": [
+              {
+                "id": "QT-011",
+                "date": "2026-10-09",
+                "directPaymentLoss": 0,
+                "outcome": "Settled next business day",
+                "customerDelayBusinessDays": 1,
+                "serviceCredit": 180
+              },
+              {
+                "id": "CU-202610-02",
+                "date": "2026-10-05",
+                "directPaymentLoss": 0,
+                "outcome": "Settled next business day",
+                "customerDelayBusinessDays": 1,
+                "serviceCredit": 120
+              },
+              {
+                "id": "CU-202610-03",
+                "date": "2026-10-07",
+                "directPaymentLoss": 0,
+                "outcome": "Settled next business day",
+                "customerDelayBusinessDays": 1,
+                "serviceCredit": 120
+              }
+            ]
+          }
+        ],
+        "eventLabel": "Payments settled after the required day",
+        "definitions": "A late settlement is one payment missing its required settlement day. October includes QT-011 and its $180 service credit. Service credits are observed costs, not principal losses. The November 4 QT-016 recovery is outside these complete-month totals.",
+        "issues": [
+          {
+            "id": "QI-04",
+            "owner": "Payments Operations",
+            "status": "Open",
+            "reviewDate": "2026-11-28",
+            "summary": "Verification outage and peak-volume fallback capacity"
+          }
+        ],
+        "asOf": "2026-11-07"
+      }
+    },
+    {
+      "id": "signals-urgent-test",
+      "version": 1,
+      "title": "Early urgent-payment evidence review",
+      "reference": "Control Assurance UT-12 · received November 14",
+      "date": "November 12, 2026",
+      "scope": "Five completed urgent payments dated October 5–November 5, 2026; exploratory sample from the seven-request route log; intercepted requests excluded",
+      "excerpt": "Control Assurance reviewed five completed urgent payments. Two files did not retain a trace showing which contact information was used for verification. All five had a recorded approval and release; no unauthorized payment or loss was found in this sample. The review did not establish that verification used an independent contact source. UT-12 is an early evidence review and does not replace the broader targeted test planned for November 28. WI-07 remains open. Received on November 14 after the initial evidence pack was prepared.",
+      "metrics": {
+        "schemaVersion": 1,
+        "riskId": "unauthorized",
+        "reviewType": "Early evidence review",
+        "periodStart": "2026-10-05",
+        "periodEnd": "2026-11-05",
+        "sampleSize": 5,
+        "missingVerificationTrace": 2,
+        "recordedApproval": 5,
+        "unauthorizedReleases": 0,
+        "directPaymentLoss": 0,
+        "independentSourceEstablished": false,
+        "issueStatus": "Open",
+        "issueId": "WI-07",
+        "fullTestDue": "2026-11-28",
+        "received": "2026-11-14"
+      },
+      "availability": "signalTestReceived"
+    }
+  ]
+}

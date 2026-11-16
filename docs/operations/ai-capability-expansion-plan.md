@@ -7,6 +7,8 @@
 
 ## Product outcome
 
+The [November 15 demo experience implementation plan](demo-experience-upgrade-plan.md) provides the integrated execution sequence for the next revision. It includes AI-05 through AI-08 alongside review realism, operational records, language, accessibility and visual polish. The completed AI-01 through AI-04 foundation remains in place; exposing and refining it is part of the new plan.
+
 Make AI an active assessment assistant that discovers risks, recommends and designs controls, analyzes remaining gaps, drafts assessments and develops response plans. Preserve the current app's evidence traceability, owner decisions, independent second-line review and submission history.
 
 The first priority is a connected control-design workflow: **recommend existing controls → propose an enhancement or new design → explain remaining gaps → generate implementation and validation work**. The current mapping forms and single prepared control are useful recording infrastructure, but do not yet demonstrate this breadth of assistance.
@@ -166,9 +168,9 @@ Capture rendered results and check keyboard/focus, responsive layouts and source
 | AI-02 | Risk-specific existing-control recommendations and candidate comparison | AI-01 | Implemented locally |
 | AI-03 | Editable enhancement/new-control drafting and set-aware gap/effectiveness analysis | AI-02 | Implemented locally |
 | AI-04 | Linked implementation and validation plan from the selected control approach | AI-03 | Implemented locally |
-| AI-05 | Risk discovery dispositions, added-risk lifecycle and downstream generalization | AI-01; AI-02–04 for recommendations/plans on the added risk | Planned |
-| AI-06 | Provisional rating assistance and deeper owner-claim checking | AI-03; AI-05 for added-risk coverage | Planned |
-| AI-07 | Response alternatives and strategy/design-specific action plans | AI-04; AI-05 for cross-risk coverage | Planned |
-| AI-08 | Updated review synthesis, version-specific download and full capability rehearsal | AI-05–07 | Planned |
+| AI-05 | Risk discovery dispositions, added-risk lifecycle and downstream generalization | AI-01; AI-02–04 for recommendations/plans on the added risk | Implemented and verified locally |
+| AI-06 | Provisional rating assistance and deeper owner-claim checking | AI-03; AI-05 for added-risk coverage | Implemented and verified locally |
+| AI-07 | Response alternatives and strategy/design-specific action plans | AI-04; AI-05 for cross-risk coverage | Implemented and verified locally |
+| AI-08 | Updated review synthesis, version-specific download and full capability rehearsal | AI-05–07 | Implemented and verified locally |
 
-The [implementation backlog](implementation-backlog.md) tracks these local work items. They are not GitHub issue numbers. Phase 1 completion is supported by the linked QA record; later phases remain planned. No remote issue updates are claimed.
+The [implementation backlog](implementation-backlog.md) tracks these local work items. They are not GitHub issue numbers. Phase 1 completion is supported by the linked QA record; the remaining capabilities are implemented in the November 15 upgrade and covered by its verification ledger. No remote issue updates are claimed.

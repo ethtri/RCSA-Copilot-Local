@@ -1,5 +1,5 @@
 {
-  "asOf": "November 14, 2026",
+  "asOf": "November 15, 2026",
   "internalHistory": "Synthetic prior-cycle records prepared for the walkthrough",
   "history": {
     "unauthorized": [
@@ -149,7 +149,10 @@
       "date": "Reporting year 2025",
       "scope": "Business email compromise complaints and reported losses submitted to IC3; not a bank-level incident rate",
       "excerpt": "The 2025 report lists 24,768 business email compromise complaints and $3,046,598,558 in reported losses. Complaint categories and losses are point-in-time reporting data; duplicates and reporting changes limit interpretation.",
-      "url": "https://www.ic3.gov/AnnualReport/Reports/2025_IC3Report.pdf"
+      "url": "https://www.ic3.gov/AnnualReport/Reports/2025_IC3Report.pdf",
+      "riskIds": [
+        "unauthorized"
+      ]
     },
     {
       "id": "external-bec-2024",
@@ -158,7 +161,10 @@
       "date": "Reporting year 2024",
       "scope": "Same BEC category; reported complaints/losses, not total cybercrime or this bank’s experience",
       "excerpt": "The 2024 report lists 21,442 business email compromise complaints and $2,770,151,146 in reported losses. Comparing the published annual BEC totals gives approximately 15.5% more complaints and 10.0% higher reported losses in 2025. This is not a measured change in fraud prevalence.",
-      "url": "https://www.ic3.gov/AnnualReport/Reports/2024_IC3Report.pdf"
+      "url": "https://www.ic3.gov/AnnualReport/Reports/2024_IC3Report.pdf",
+      "riskIds": [
+        "unauthorized"
+      ]
     },
     {
       "id": "external-bec-advisory",
@@ -167,7 +173,35 @@
       "date": "July 16, 2019",
       "scope": "Dated business-email-compromise advisory; relevance to vulnerable payment and change-verification processes",
       "excerpt": "The advisory discusses stronger authentication and authorization practices around vulnerable business processes, including checking suspicious emailed instructions through additional communication methods or other authorized people. This is background guidance from 2019, not a new 2026 incident alert.",
-      "url": "https://www.fincen.gov/system/files/advisory/2019-07-16/Updated%20BEC%20Advisory%20FINAL%20508.pdf"
+      "url": "https://www.fincen.gov/system/files/advisory/2019-07-16/Updated%20BEC%20Advisory%20FINAL%20508.pdf",
+      "riskIds": [
+        "unauthorized",
+        "details"
+      ]
+    },
+    {
+      "id": "external-fedwire-continuity",
+      "title": "Federal Reserve Financial Services · Fedwire continuity planning",
+      "reference": "Fedwire Funds Service Business Continuity Guide · reference checked November 15, 2026",
+      "date": "Reference checked November 15, 2026",
+      "scope": "External background. Apply only to the bank’s relevant payment services and its own continuity plan.",
+      "excerpt": "The guide covers preparation for Fedwire Funds Service contingency events, including continuity planning and testing. Compare the bank’s documented cutoff and recovery arrangements with the services it actually uses.",
+      "url": "https://www.frbservices.org/financial-services/fedwire-funds-service/fedwire-funds-service-business-continuity-guide/",
+      "riskIds": [
+        "cutoff"
+      ]
+    },
+    {
+      "id": "external-fedwire-contingency",
+      "title": "Federal Reserve Financial Services · contingency service limits",
+      "reference": "FedPayments Manager—Funds Contingency Service FAQ · reference checked November 15, 2026",
+      "date": "Reference checked November 15, 2026",
+      "scope": "Service background, not a new requirement or proof that this bank is eligible for or uses the service.",
+      "excerpt": "The FAQ describes a last-resort contingency service with limited availability and capacity. A bank should confirm access and operating limits before relying on this option in its own continuity plan.",
+      "url": "https://www.frbservices.org/resources/financial-services/wires/fedwire-services-frequently-asked-questions/fedpayments-manager-funds-contingency-service-faq/",
+      "riskIds": [
+        "cutoff"
+      ]
     }
   ],
   "external": {

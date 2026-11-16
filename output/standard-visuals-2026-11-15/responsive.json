@@ -1,0 +1,26 @@
+[
+  {
+    "client": 625,
+    "route": "#/assessment/controls",
+    "scroll": 625,
+    "width": 640
+  },
+  {
+    "client": 753,
+    "route": "#/assessment/controls",
+    "scroll": 753,
+    "width": 768
+  },
+  {
+    "client": 1009,
+    "route": "#/assessment/controls",
+    "scroll": 1009,
+    "width": 1024
+  },
+  {
+    "client": 1425,
+    "route": "#/assessment/controls",
+    "scroll": 1425,
+    "width": 1440
+  }
+]

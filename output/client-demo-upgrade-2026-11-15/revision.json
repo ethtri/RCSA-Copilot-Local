@@ -1,0 +1,445 @@
+{
+  "servingRevision": "20261115.13",
+  "fingerprint": "6a1821ba9ac4a4264708610dcaa9aeceeaf027a831cfccf8a34c70bdad8d836d",
+  "fingerprintScope": [
+    "src",
+    "tools",
+    "assets/data"
+  ],
+  "generatedAt": "2026-11-15T23:58:50.899865+00:00",
+  "checks": {
+    "pattern": "tools/verify-*.mjs",
+    "passed": 23,
+    "sourceModuleSyntax": 34
+  },
+  "files": [
+    {
+      "path": "assets/data/assessment-context.json",
+      "sha256": "a29fed682e0bfe32f4dd25407c08145c5c1128c759cd1827c4606e0f9d4ef2c1"
+    },
+    {
+      "path": "assets/data/control-assistance.json",
+      "sha256": "cced9fdc3eb9720ca2e16f4e0853dd3f462d8ba477ce287306ac295829926029"
+    },
+    {
+      "path": "assets/data/dashboard-metrics.mock.json",
+      "sha256": "efb77de1254f4965fdd79f6657c69d3e425d336f478998b88bdcb0c458c21fb4"
+    },
+    {
+      "path": "assets/data/research-demo.json",
+      "sha256": "22cc51643f9131aeab1d6e1bf7030aa8d7d4ef411373d2ab70363fb0b9e7ddb7"
+    },
+    {
+      "path": "assets/data/risk-intelligence.json",
+      "sha256": "84d3b7ca02f805486e5d7041a3ec24fa6eb2a8e4e5f73c2702958444a9ecc340"
+    },
+    {
+      "path": "assets/data/roi-calculator.mock.json",
+      "sha256": "4ec173f2d6bb49aaf18a28b43e3610e7f118e14152281b769d4ca42e7cf3d92a"
+    },
+    {
+      "path": "assets/data/wizard-insights.mock.json",
+      "sha256": "cd45a39b5b2b9910b82548b81922ba8dbbd5889f3666a231397b180d300f7342"
+    },
+    {
+      "path": "assets/data/workflow-demo.json",
+      "sha256": "9b641bf652ab8b9d06d62f5eba21356aa05e92b321f1aab71e6131ffa7d4a1fd"
+    },
+    {
+      "path": "src/index.html",
+      "sha256": "12054902711db79724877a659afee69e378576e5e42fdf34c867527ff962df1c"
+    },
+    {
+      "path": "src/layouts/base.html",
+      "sha256": "54f274c1cef7ecaf9b77ee88c9aa18ae0c90fc4c0f730faa3a4997a18736f33c"
+    },
+    {
+      "path": "src/pages/dashboard/index.html",
+      "sha256": "b1518ff62c2013934ca5a10330815e1fee649b5ab7062a2232b584e5a8165627"
+    },
+    {
+      "path": "src/pages/home/index.html",
+      "sha256": "b1518ff62c2013934ca5a10330815e1fee649b5ab7062a2232b584e5a8165627"
+    },
+    {
+      "path": "src/pages/wiz-assessment/index.html",
+      "sha256": "f58c093e5dac0b7cc52a9ea2beed160483206d78577cab922a421064c8ea08d0"
+    },
+    {
+      "path": "src/partials/footer.html",
+      "sha256": "8f77b36b20de2ffbba88a9fa891b1b52196658cba913e38d8a45e8ba25c5abf1"
+    },
+    {
+      "path": "src/partials/global-scripts.html",
+      "sha256": "d6e51158e09667496d07ed6ec94c615bd2e5df73772dec48906209e8105cda72"
+    },
+    {
+      "path": "src/partials/head.html",
+      "sha256": "d470c8219363c47f5620ebd3c43c9030fe67bcf0b46641f897935666d13b7e98"
+    },
+    {
+      "path": "src/partials/header.html",
+      "sha256": "99cc2164009b63576e67422109ebac0f3c34e8330c5d6707f9d896e5548a31b7"
+    },
+    {
+      "path": "src/scripts/data/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "src/scripts/data/home-data.js",
+      "sha256": "bd89a1da753c11c33e1be5856dcf5854d3211f8c73d7c563f945884dd0535b6f"
+    },
+    {
+      "path": "src/scripts/demo/analysis-workspace.js",
+      "sha256": "e5112720fea9174d93cd52c7b88d222e70393339518bcd45b9a931dcb9826f8e"
+    },
+    {
+      "path": "src/scripts/demo/app.js",
+      "sha256": "4c8ad9e89666d619a9aafd8deefe7ebcd363247a299af803102b1a1db4408bc5"
+    },
+    {
+      "path": "src/scripts/demo/assessment-content.js",
+      "sha256": "9c3935e3cf992684e3554018b74ce41ce810a13dcd831f693e69169fe82499e4"
+    },
+    {
+      "path": "src/scripts/demo/assessment-context.js",
+      "sha256": "4c2ca21a60e659ed13fec5d71651b88d870ab7e1a5dfb1fdbebb4c124fdfce32"
+    },
+    {
+      "path": "src/scripts/demo/assessment.js",
+      "sha256": "f502c96cc8dabb0db29235709021e05be80a64d739102a05ac45ec0fe7f0aeb6"
+    },
+    {
+      "path": "src/scripts/demo/bank-policy.js",
+      "sha256": "60bb9c0486d2979e7fee68ecdbc5c8bdc7c28882965a03036e9fdce4b1c9f26a"
+    },
+    {
+      "path": "src/scripts/demo/bank-setup.js",
+      "sha256": "9c161991d19a16eca9d937908bfb0b50178043d75fe12552caa6d1da94870fb0"
+    },
+    {
+      "path": "src/scripts/demo/control-assistance-actions.js",
+      "sha256": "bac9dd6dc658132a1220ba342783352f08958669bb34e92a44f7205f17fde23a"
+    },
+    {
+      "path": "src/scripts/demo/control-assistance-view.js",
+      "sha256": "639ce7923a89b357a9edd4e095e11ff2b904728b9b506394d80251964ca4a953"
+    },
+    {
+      "path": "src/scripts/demo/control-assistance.js",
+      "sha256": "95b367509550bac6331669fbb080c99c3d36a7f27bb9c682d8405276a310af1e"
+    },
+    {
+      "path": "src/scripts/demo/control-library.js",
+      "sha256": "d796c39075f649fd9251e19fd0a1ef6f6d16f6343ad12c690440d2afeb4f5e5a"
+    },
+    {
+      "path": "src/scripts/demo/controls.js",
+      "sha256": "5e7b64ad31f7fb9e6af8425e49da19746deb9c4d2fd019aabbe4cdf36e6c2e9c"
+    },
+    {
+      "path": "src/scripts/demo/dashboard.js",
+      "sha256": "ea4011f67af3715425ffd0b5b90d4e5ce8ac15e6ed27cf42f3122ff459724263"
+    },
+    {
+      "path": "src/scripts/demo/decision-brief.js",
+      "sha256": "b8986ea30656a35f40015e9f78a99d519fae53af0a62bb2a1af39470d4b93edb"
+    },
+    {
+      "path": "src/scripts/demo/grc-exchange.js",
+      "sha256": "bd6c26c6b66051be1b08db13a0c4b78d923f117f46594743276fc436635c4fe3"
+    },
+    {
+      "path": "src/scripts/demo/grc-sync.js",
+      "sha256": "0228e5311d76fbd6aa60e4ea2d525e34f1355a9300c2e65777c26eab5fc54948"
+    },
+    {
+      "path": "src/scripts/demo/grc-view.js",
+      "sha256": "920a6934e9b2ae9cc957ef7667c2aa40f207d6021cf64b3786a295026c35958f"
+    },
+    {
+      "path": "src/scripts/demo/interactions.js",
+      "sha256": "1d709ec0542a3d8ad0e90a72ee315ee645e59eb2d290eca280a21e6db69a32d0"
+    },
+    {
+      "path": "src/scripts/demo/mappings.js",
+      "sha256": "0f0992650324e2ae98cbee23703cba4a68d6034d6e72256a4b028bb7c50d0a2f"
+    },
+    {
+      "path": "src/scripts/demo/model.js",
+      "sha256": "eefa4f151f7b9541226eb0e2e4d1da89cd580706568a498d67adbe6f2d284a79"
+    },
+    {
+      "path": "src/scripts/demo/operations.js",
+      "sha256": "d38dd1939e9a2b5494a9e310a67b8e507fc71d5ed3f1f74ac68a7944f8a778c8"
+    },
+    {
+      "path": "src/scripts/demo/premium.js",
+      "sha256": "284df1f8ffb725deccc5fb0e28ed0eadaa8108e343ea997d98f08eb1ec63e7d7"
+    },
+    {
+      "path": "src/scripts/demo/reply-assistance.js",
+      "sha256": "5321e345211c554aedb23b069de6ee427a55b8b314302b120cf8c7d8d78d7e3b"
+    },
+    {
+      "path": "src/scripts/demo/reports.js",
+      "sha256": "d80c38359396a6d6db3ac37ba550e95b7b800c4d739718d3f188951626fa15d0"
+    },
+    {
+      "path": "src/scripts/demo/research.js",
+      "sha256": "4c8f4f8762c82e19718f0cac55148d4c3b7b39aceb41bc82cf95ac26c74e331f"
+    },
+    {
+      "path": "src/scripts/demo/response-view.js",
+      "sha256": "6f69c13940fcb6fb89cd1be9d1e71c7f2e679edf9d95f67b041764ceb2547e3f"
+    },
+    {
+      "path": "src/scripts/demo/responses.js",
+      "sha256": "92a2113b29ee9fe0be7047f6082f5be779c62759307f380e07fc8b31bfed052f"
+    },
+    {
+      "path": "src/scripts/demo/risk-intelligence.js",
+      "sha256": "43a5c15be8852e6a6cf315a5130093f2a529d67fdeaa98b2b1316cf4c5e0b0d0"
+    },
+    {
+      "path": "src/scripts/demo/ui.js",
+      "sha256": "b6362fc004924d268a8886648af21d0fc11f8155f44e2bcd326ad73811894633"
+    },
+    {
+      "path": "src/scripts/demo/upgrade-model.js",
+      "sha256": "217f91bc2805d72b57c0c2b8c5469c9d1d8b383a89ebd674a355a242dadf6e3e"
+    },
+    {
+      "path": "src/scripts/demo/upgrade-view.js",
+      "sha256": "c0d702ac749f5a92bf0aee8a778545016ae3f1e019f67ce8f010d536d305a34c"
+    },
+    {
+      "path": "src/scripts/demo/versions.js",
+      "sha256": "83618c5182e77c0606387cc50e5ad15ffede18c9159a9fbf0c71445bb9a55416"
+    },
+    {
+      "path": "src/scripts/demo/visuals.js",
+      "sha256": "15c5631c8cdb4da071a626060284179dea7b6cd81f3aaadb02a0bb4fcda9dc40"
+    },
+    {
+      "path": "src/scripts/demo/work.js",
+      "sha256": "6bca34c1e307a206dca51e47829edfc1ed58a06909188396d4fbc0008a12d51c"
+    },
+    {
+      "path": "src/scripts/home.js",
+      "sha256": "ecaaf79fa6d66080ba8a290b764fb87c025698e4d14977871125c9e8a10ee05c"
+    },
+    {
+      "path": "src/scripts/partial-loader.js",
+      "sha256": "18e34f6afae453ee7fc4f51fa79feb48f72be32753735e6021548520f2beea1a"
+    },
+    {
+      "path": "src/styles/assessment-context.css",
+      "sha256": "cd2866453d77e3ee59a6660a865b7a544d8f07294fa5153056da34d1be36b856"
+    },
+    {
+      "path": "src/styles/bank-setup.css",
+      "sha256": "98f456ae1aba561fe06a325d2a7b992bec79eedaa11b4a1793309eb6e372be4a"
+    },
+    {
+      "path": "src/styles/buyer-readiness.css",
+      "sha256": "416441773fb995f3abf2c7b2e2404fc26940f962cd37c021ece3ba4153f47d7e"
+    },
+    {
+      "path": "src/styles/control-assistance.css",
+      "sha256": "71bda3fc86dab110560481a05a9d23f45e08e23a900037c7ea660abdb2ae4b2c"
+    },
+    {
+      "path": "src/styles/control-library.css",
+      "sha256": "d6f35405abba6f6f4801637e1d4ce2fdceb8e3953e935fd1a776896905fd8b67"
+    },
+    {
+      "path": "src/styles/controls.css",
+      "sha256": "2dbcf615a645e903bc9c3a8efdfd67f96f68c48a66e7a105ca5a3fa27529d3c0"
+    },
+    {
+      "path": "src/styles/dashboard.css",
+      "sha256": "2928c3fd74405ae9936e881cae16a87677f6e4e700ef6a4bd5760f320bc138a9"
+    },
+    {
+      "path": "src/styles/demo.css",
+      "sha256": "e8b945bdfaad66025daea0db67711dc5c3e5d116d48658ed9e8eeddf0c5f277e"
+    },
+    {
+      "path": "src/styles/grc-sync.css",
+      "sha256": "dcfc145230aedc9bddf57e5d1975a167ceb1bf0139007162e55e8f61b3535eb4"
+    },
+    {
+      "path": "src/styles/overrides.css",
+      "sha256": "93c00d4a62a265559c396e7831a7feb4bc7161735943eb0097a402dc4753c286"
+    },
+    {
+      "path": "src/styles/premium.css",
+      "sha256": "564a978b9f23e70b9c6ee8583698b77ca41ef66aae534e2b434a5369f0547f16"
+    },
+    {
+      "path": "src/styles/product-refresh.css",
+      "sha256": "cce8dbc51edbc4e3ab5bf88d39ab85b8c0339940507a64a9f610dcf3dc981da0"
+    },
+    {
+      "path": "src/styles/product-visuals.css",
+      "sha256": "06c683671ba2a03016e2397db44495479c83df7e1ecf2ba756309c5f0a7aea88"
+    },
+    {
+      "path": "src/styles/record-visuals.css",
+      "sha256": "7eeaf1f005b132054b5b095bbdeacd7989ecd46f172e743bab723d9a5c5a5767"
+    },
+    {
+      "path": "src/styles/report-refinement.css",
+      "sha256": "98742394b5efc22e10d239934e71ff93b0e8db3eff062870b97c00234dfb17e3"
+    },
+    {
+      "path": "src/styles/report-visuals.css",
+      "sha256": "76abd5d141cccfaff1e220c91c87afa9d280a12c5b3fa216fc495c04b253c076"
+    },
+    {
+      "path": "src/styles/research.css",
+      "sha256": "bf54d5fe1f17d076005064aefb7c5ec96fca5f3faed0933da196b408c167d911"
+    },
+    {
+      "path": "src/styles/risk-intelligence.css",
+      "sha256": "a1b43bee00e9847fd8dd59e12b957f33fd2ae9da27aea6102ad4455d1875eae4"
+    },
+    {
+      "path": "src/styles/risk-matrix.css",
+      "sha256": "91c48f35cc9a05ed7a6e04e97ed9dce4761d2b9cc95db62c0c1e1dffde903938"
+    },
+    {
+      "path": "src/styles/upgrade.css",
+      "sha256": "271117ede16d98c4eea2dd6adff0e82f0e66e49b09a2da563d1ff4bd20e964b5"
+    },
+    {
+      "path": "src/styles/ux-polish.css",
+      "sha256": "afac60dabcefc74642a772fa5ba36d8a0840b38ef4bcd011f1548254e54e58a2"
+    },
+    {
+      "path": "tools/local-preview.ps1",
+      "sha256": "a9d0410c69c8fd249435a7f54485d554ce4f7e26c4a51ad23ecc04d8c598b027"
+    },
+    {
+      "path": "tools/local-preview.sh",
+      "sha256": "5e9b5f540132e12b9b1800adbfaf500e9090d890a3fac1c4a277b9e7ceafe30a"
+    },
+    {
+      "path": "tools/verify-ai-consent.mjs",
+      "sha256": "979d21e66998bcda824412202caee725d8b77c5ee6d8d835a56e5461c42887c8"
+    },
+    {
+      "path": "tools/verify-assessment-feedback.cjs",
+      "sha256": "9dc65396c679fdc301f7d9b4dc41aded818a275032d1ab41832f7b5908a21529"
+    },
+    {
+      "path": "tools/verify-assessment-visuals.mjs",
+      "sha256": "2d5cd5a0071b288f17de2fe44bc7eee2a1bb9e145adfa70089cd8097157e250f"
+    },
+    {
+      "path": "tools/verify-automatic-grc-sync.mjs",
+      "sha256": "fa70d61394e10129b4f03048036fdbb366f54d828fb1d5b3307e749c0c6fb2e8"
+    },
+    {
+      "path": "tools/verify-bank-policy.mjs",
+      "sha256": "9bba35bb13c8066dbca769978dc4e775c0af6e66aa83221b273e9f2465c0a118"
+    },
+    {
+      "path": "tools/verify-bank-setup-integration.mjs",
+      "sha256": "ebf41f3427ea1d7becc5cb06e3727dc52f130ca99220c740e85d1e9fcf2b6269"
+    },
+    {
+      "path": "tools/verify-browser.cjs",
+      "sha256": "04dfa7a238ed9c3acf98a28d9395007a31342d7e4ca9d6630c010a1a19e178c0"
+    },
+    {
+      "path": "tools/verify-buyer-readiness.mjs",
+      "sha256": "347082fe4869f4c415081fdcfa20d4cf1b1cf3dc66a9f4816b486737714531ac"
+    },
+    {
+      "path": "tools/verify-control-assistance-workflow.mjs",
+      "sha256": "c3face6aa45defb21d58b7541e872e6c3b7bb731c5045c1467bc02f674fdcdef"
+    },
+    {
+      "path": "tools/verify-control-assistance.mjs",
+      "sha256": "182cbf079abfba42645073b9cc9397e0d44817bcb10b44b882d401d13031f168"
+    },
+    {
+      "path": "tools/verify-copy-authenticity.mjs",
+      "sha256": "e13611290ae4e7d2f240a92dc25c73b83a8ddbdac36120dd3e932e2f287a3c08"
+    },
+    {
+      "path": "tools/verify-demo.mjs",
+      "sha256": "aa7a179dde3b934966ed10259ec52edbff88b70007691b40216098a2571e93f7"
+    },
+    {
+      "path": "tools/verify-experience-model.mjs",
+      "sha256": "8170abe855ef85e7f2aacc08eba7dd18e9d5fe5953f0a3c2609fcae46f543658"
+    },
+    {
+      "path": "tools/verify-intelligence-experience.cjs",
+      "sha256": "c4013bfec89073e3f04892b45f4b4e34bc73dcbb11b842d54679f0aa0759a806"
+    },
+    {
+      "path": "tools/verify-mapping-applicability.mjs",
+      "sha256": "c84dada1de5c3bed8fa08088ac1ab0709842835afc50bfb58bffb8b4268d041b"
+    },
+    {
+      "path": "tools/verify-mapping-experience.cjs",
+      "sha256": "18cc04a0e6e9f52df7b3827bedc304ef521ecb6fef45926d44ca67219fab8641"
+    },
+    {
+      "path": "tools/verify-next-iteration.cjs",
+      "sha256": "abca9b7082eb43c0abdca5328e9123e3cec428fa435d4103623d0e27313f897b"
+    },
+    {
+      "path": "tools/verify-operations.mjs",
+      "sha256": "d3b459b64e206f47305d415171ea1e061757ec648d2eeef3f5a87a331d6caf71"
+    },
+    {
+      "path": "tools/verify-owner-revision.mjs",
+      "sha256": "3f361c312d3dcb6c49419f47f48b864fc782b82e2a12778e7f4ce1cf9eaba7f3"
+    },
+    {
+      "path": "tools/verify-persona-fixes.mjs",
+      "sha256": "3e276be16fe77c3fcaede6c9527ac92e651da7d895bcb846a5c3a1c5b2a41577"
+    },
+    {
+      "path": "tools/verify-premium.cjs",
+      "sha256": "d90386a5ac17c8f50eb5e98d2ab19e1a5dac748d52cb14721bcb63301c80151f"
+    },
+    {
+      "path": "tools/verify-product-refinements.mjs",
+      "sha256": "d3d88d7908592f1b6255cc5763c813c1a92c101c412ffa9fdb53f95499b18dc6"
+    },
+    {
+      "path": "tools/verify-product-visuals.mjs",
+      "sha256": "4867d7661684479504bb5cea6af7bc90fb384ae310653300b86e47bbb8b2eb74"
+    },
+    {
+      "path": "tools/verify-record-visuals.mjs",
+      "sha256": "ae50112356b558dc6382b0de73fc5ba5df15452166c8119932c1546d43ed166b"
+    },
+    {
+      "path": "tools/verify-report-refinement.mjs",
+      "sha256": "215fc0c4dcae6022df26b2e1d65c23e5a560ab864a3fca774401f5b8757a7dcd"
+    },
+    {
+      "path": "tools/verify-risk-intelligence.mjs",
+      "sha256": "eb128f19611acc614109032df9de3f1c813c5b04b860773915f0ac58a5e32e73"
+    },
+    {
+      "path": "tools/verify-risk-matrix.mjs",
+      "sha256": "85d1e0c54c5a403d6aabcf36dffa97875463219059cdd2a90f28bbef458ead0e"
+    },
+    {
+      "path": "tools/verify-standard-integration.mjs",
+      "sha256": "10cafe8e2c9cff44648a4a49c22ea7963f73bc31f4df594d55a8c161f07ba44d"
+    },
+    {
+      "path": "tools/verify-ux-navigation.mjs",
+      "sha256": "b074ed3a41d8c8d6d2a9ab8dbaa6a814ccfad947a08ef80dead04709acf1f0e7"
+    }
+  ]
+}

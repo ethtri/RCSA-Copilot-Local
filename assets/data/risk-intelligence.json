@@ -17,7 +17,7 @@
       "reference": "Issue WI-07 · Open · Payments Operations",
       "date": "November 6, 2026",
       "scope": "Issue opened October 23; November 6 status update; urgent requests involving recently changed contact details",
-      "excerpt": "WI-07 remains open. The October 20 near miss prompted a review of contact-change verification and urgent-route evidence. A targeted test is planned for November 28, with Payments Operations accountable. Results and an independently validated verification source have not been supplied. The issue records an gap in test evidence; it does not conclude that every urgent request or every control failed."
+      "excerpt": "WI-07 remains open. The October 20 near miss prompted a review of contact-change verification and urgent-route evidence. A targeted test is planned for November 28, with Payments Operations accountable. Results and an independently validated verification source have not been supplied. The issue records a gap in test evidence; it does not conclude that every urgent request or every control failed."
     },
     {
       "id": "ri-details-event",
@@ -33,7 +33,7 @@
       "reference": "Event PD-027 · Near miss · Intercepted",
       "date": "October 24, 2026",
       "scope": "One urgent payment amended after the second-operator detail check; intercepted before release",
-      "excerpt": "An amended beneficiary instruction arrived after the recorded detail check. The release operator paused the urgent payment after noticing that the checked instruction and the latest amendment differed. The payment was corrected before release and no loss occurred. The event indicates a transfer of the latest instructions question; it does not establish failure of all detail checks or successful operation across the urgent-route population."
+      "excerpt": "An amended beneficiary instruction arrived after the recorded detail check. The release operator paused the urgent payment after noticing that the checked instruction and the latest amendment differed. The payment was corrected before release and no loss occurred. The event indicates a question about which instruction version was checked; it does not establish failure of all detail checks or successful operation across the urgent-route population."
     },
     {
       "id": "ri-details-issue",
@@ -41,7 +41,7 @@
       "reference": "Issue PI-12 · Open · Payments Operations",
       "date": "November 3, 2026",
       "scope": "Version evidence at the amendment-to-release handoff; issue opened after PD-027",
-      "excerpt": "PI-12 is open. The instruction version checked before release is not consistently identifiable in the amendment handoff record reviewed for PD-027. A proposed version-reference field and targeted repeat the checks onance remain under assessment; neither implementation nor test results are evidenced. Payments Operations owns the next review on November 28. The issue has not established the prevalence of the gap in the broader population."
+      "excerpt": "PI-12 is open. The instruction version checked before release is not consistently identifiable in the amendment handoff record reviewed for PD-027. A proposed version-reference field and targeted repeat testing remain under assessment. Neither implementation evidence nor test results have been supplied. Payments Operations owns the next review on November 28. The issue has not established the prevalence of the gap in the broader population."
     },
     {
       "id": "ri-cutoff-event",
@@ -65,7 +65,7 @@
       "reference": "Issue QI-04 · Open · Payments Operations",
       "date": "November 7, 2026",
       "scope": "Outage and peak-volume coverage of cutoff monitoring; proposed scenario review due November 28",
-      "excerpt": "QI-04 remains open following QT-016. The October queue service review supports monitoring and escalation on sampled days, but does not test a prolonged verification outage or simultaneous peak demand. A capacity and fallback scenario review is proposed for November 28. No validated backup process in place or scenario-test result is recorded. Payments Operations owns the review."
+      "excerpt": "QI-04 remains open following QT-016. The October queue service review supports monitoring and escalation on sampled days, but does not test a prolonged verification outage or simultaneous peak demand. A capacity and fallback scenario review is proposed for November 28. No validated backup process or scenario-test result is recorded. Payments Operations owns the review."
     }
   ],
   "cases": {
@@ -116,9 +116,9 @@
         ]
       },
       "residual": {
-        "title": "Urgent requests have not been tested.",
+        "title": "The available test does not cover urgent requests.",
         "takeaway": "The standard-wire test found no problems, and a separate check stopped one fraud attempt. Neither shows that urgent requests are consistently verified using a separate source.",
-        "changed": "The latest standard-wire test was completed on September 15, before the October 5 change. The October 20 near miss led to an testing issue that remains open.",
+        "changed": "The latest standard-wire test was completed on September 15, before the October 5 change. The October 20 near miss led to a testing issue that remains open.",
         "changedSourceIds": [
           "test",
           "procedure",
@@ -294,15 +294,15 @@
         ]
       },
       "responseDraft": {
-        "rationale": "Targeted testing is needed because the standard-route test predates the urgent-route change. Include recently changed contact records and validate independent verification before reassessing residual risk. WI-07 remains open; the planned test does not establish current protection.",
+        "rationale": "Test urgent payments, including requests made after a contact change. The September test does not cover this route. Check that verification uses a separate, trusted contact source. Keep WI-07 open until the results are reviewed.",
         "title": "Test the urgent route and independent contact verification",
-        "evidence": "Provide the list of urgent wires received since the change, samples with changed contact details, exceptions, results and evidence of an independently established verification source. Reconcile the findings to WI-07 before proposing closure.",
+        "evidence": "Include urgent payments since the procedure changed, samples after a contact change, any exceptions, the results and proof of the contact source used. Link the results to WI-07 before asking to close the work.",
         "sourceIds": [
           "test",
           "incident",
           "ri-wire-issue"
         ],
-        "protection": "Require independently established contact verification before releasing urgent requests after contact changes. Document the interim restriction and obtain management direction while implementation remains proposed."
+        "protection": "For urgent requests after a contact change, verify the sender using a separate, trusted contact source before release. Agree a temporary restriction with management while the change is put in place."
       }
     },
     "details": {
@@ -438,7 +438,7 @@
           "status": "Open · Next review Nov 28",
           "date": "November 3, 2026",
           "title": "Records do not clearly show which version was checked",
-          "observation": "PI-12 records incomplete records of which version was checked in the reviewed handoff. A field and repeat the checks onance are proposed, with no implementation or test results supplied.",
+          "observation": "PI-12 says the reviewed handoff does not consistently identify which instruction version was checked. A version-reference field and repeat testing are proposed, but no implementation evidence or test results have been supplied.",
           "relevance": {
             "inherent": "Consider changes to instructions when assessing the risk. Missing records alone do not determine how likely an error is before controls.",
             "residual": "Check whether staff repeat the detail check after instructions change. Ask for evidence before treating a proposed change as effective."
@@ -496,7 +496,7 @@
         "response": [
           {
             "title": "Verify the transfer of the latest instructions",
-            "question": "Should the response include repeat the checks onance of amended instructions through release and evidence of the checked version, timing and exceptions before PI-12 closes?",
+            "question": "Should the response include repeat testing of amended instructions through release and evidence of the checked version, timing and exceptions before PI-12 closes?",
             "sourceIds": [
               "ri-details-issue",
               "ri-details-nearmiss"
@@ -571,7 +571,7 @@
         ]
       },
       "residual": {
-        "title": "Staff cleared one outage. A longer outage is untested.",
+        "title": "Staff cleared one outage. Evidence for a longer outage is missing.",
         "takeaway": "October records show monitoring and escalation on sampled days. Staff also cleared the November backlog. These records do not show whether the backup process can handle a longer outage or a busy day.",
         "changed": "The November near miss adds a service-availability scenario to the October review. QI-04 remains open for capacity and fallback assessment.",
         "changedSourceIds": [
@@ -663,7 +663,7 @@
           "status": "Open · Next review Nov 28",
           "date": "November 7, 2026",
           "title": "Backup processing needs testing on busy days",
-          "observation": "QI-04 proposes a scenario review; there is no supplied validated backup process in place or scenario-test result.",
+          "observation": "QI-04 proposes a scenario review. No validated backup process or scenario-test results have been supplied.",
           "relevance": {
             "inherent": "Consider busy periods and verification delays before assessing controls.",
             "residual": "Do not treat a planned review as a reduction in today’s risk."
@@ -742,7 +742,7 @@
       "responseDraft": {
         "rationale": "The sampled queue review and recovery during one short interruption do not establish capacity through a sustained outage. If a response is warranted, define evidence for peak arrivals, escalation timing and available backup processing capacity; no current risk reduction follows from this plan.",
         "title": "Review cutoff resilience under peak load and outage",
-        "evidence": "Provide peak-volume and sustained-verification-outage scenarios, escalation timestamps, number of payments staff can complete, backup process in place evidence, test outcomes and exceptions. Reconcile the results to QI-04 before proposing closure.",
+        "evidence": "Provide peak-volume and sustained-verification-outage scenarios, escalation timestamps, number of payments staff can complete, evidence that the backup process is in place, test outcomes and exceptions. Reconcile the results to QI-04 before proposing closure.",
         "sourceIds": [
           "queue-review",
           "ri-cutoff-nearmiss",

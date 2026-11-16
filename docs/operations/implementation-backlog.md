@@ -5,6 +5,21 @@
 
 The [delivery tracker](https://github.com/ethtri/RCSA-Copilot-Local/issues/1) contains the finalized plan and the implementation checklist. Each implementation issue defines scope, acceptance criteria, prerequisites, and verification. The local [workflow demo plan](workflow-demo-plan.md) remains the experience specification.
 
+The [November 15 demo experience implementation plan](demo-experience-upgrade-plan.md) consolidates the new audit recommendations into DX-01 through DX-19. DX-01 through DX-19 are implemented and verified locally, with platform-check limits recorded in the verification ledger. This includes the AI-05 through AI-08 scope below. Local implementation does not close remote issues or certify production readiness. See the [current verification ledger](demo-experience-upgrade-verification.md).
+
+## November 15 current local status
+
+| Work | Implemented behavior | Status |
+| --- | --- | --- |
+| DX-01–04 | Coordinated visual references, schema migration, frozen version projections, shared validation/focus/drawer/editor and saved-state behavior | Implemented and verified locally |
+| DX-05–08 | Prepared refresh, field-level ratings, risk discovery with full new-risk path, default-visible control improvements and edited-design plans | Implemented and verified locally |
+| DX-09–11 | Four distinct response approaches, bounded flexible replies, direct independent agreement/return and conversation-only version handling | Implemented and verified locally |
+| DX-12–15 | Action/assurance lifecycle, management decisions and expiry, editable all-risk report with real output, named all-risk GRC readiness/recovery | Implemented and verified locally |
+| DX-16–18 | Plain-English disclosure hierarchy, responsive controls, focus/error recovery and reduced-motion transitions | Implemented and verified locally |
+| DX-19 | Consolidated checks, actual browser evidence, visual comparison, independent revision review, measured rehearsal and handoff | Completed locally; see evidence and verification limits |
+
+The issue tables below retain the original delivery structure and history. They are not a current read-back of GitHub issue states. The new source of truth for November 15 acceptance is the DX ledger above and its linked evidence.
+
 ## Design and scenario foundations
 
 | Issue | Deliverable | Prerequisites |
@@ -60,7 +75,7 @@ The [premium polish plan](premium-polish-plan.md) is implemented locally: visibl
 
 ## Broader AI capabilities
 
-The owner requested a revised V3 comparison that gives greater weight to broader recommendation, design and generation capabilities. The [AI capability expansion plan](ai-capability-expansion-plan.md) defines the next work. AI-01–04 are implemented and independently reviewed locally; see the [QA record](../ux/ai-control-assistance-qa.md). AI-05–08 remain planned. Existing base-demo QA alone does not certify expansion work. AI-01 through AI-08 are local identifiers, not GitHub issue numbers. No remote tracker changes are claimed.
+The owner requested a revised V3 comparison that gives greater weight to broader recommendation, design and generation capabilities. The [AI capability expansion plan](ai-capability-expansion-plan.md) defines the next work. AI-01–04 are implemented and independently reviewed locally; see the [QA record](../ux/ai-control-assistance-qa.md). AI-05–08 are implemented in the November 15 local integration; verification and the assisted rehearsal are recorded in the ledger. Existing base-demo QA alone does not certify expansion work. AI-01 through AI-08 are local identifiers, not GitHub issue numbers. No remote tracker changes are claimed.
 
 | Item | Deliverable | Prerequisites | Status |
 | --- | --- | --- | --- |
@@ -68,9 +83,9 @@ The owner requested a revised V3 comparison that gives greater weight to broader
 | AI-02 | Relevant control candidate sets for at least two risks, with explanations and meaningful alternatives | AI-01 | Implemented locally |
 | AI-03 | AI-drafted control enhancements/new designs and set-aware gap/effectiveness findings | AI-02 | Implemented locally |
 | AI-04 | Editable implementation and validation plan generated from the selected control approach | AI-03 | Implemented locally |
-| AI-05 | Emerging-risk/scenario dispositions, a distinct new-risk lifecycle and downstream assessment/report generalization | AI-01; AI-02–04 for added-risk recommendations/plans | Planned |
-| AI-06 | Provisional L/I/rationale suggestions and deeper source-backed checking of owner claims | AI-03; AI-05 for added-risk coverage | Planned |
-| AI-07 | Feasible response alternatives and plans that reflect the selected strategy/control approach | AI-04; AI-05 for cross-risk coverage | Planned |
-| AI-08 | Updated review synthesis, selected-version download and broader capability rehearsal | AI-05–07 | Planned |
+| AI-05 | Emerging-risk/scenario dispositions, a distinct new-risk lifecycle and downstream assessment/report generalization | AI-01; AI-02–04 for added-risk recommendations/plans | Implemented and verified locally |
+| AI-06 | Provisional L/I/rationale suggestions and deeper source-backed checking of owner claims | AI-03; AI-05 for added-risk coverage | Implemented and verified locally |
+| AI-07 | Feasible response alternatives and plans that reflect the selected strategy/control approach | AI-04; AI-05 for cross-risk coverage | Implemented and verified locally |
+| AI-08 | Updated review synthesis, selected-version download and broader capability rehearsal | AI-05–07 | Implemented and verified locally |
 
 AI-01–04 deliver the first connected control-assistance increment: recommend → edit/use design → assess remaining gaps → generate implementation/testing work → owner/reviewer follow-through. Existing confirmations, authority, source access and versions are preserved. Later phases expand discovery and assessment assistance without treating proposed protection as current effectiveness. All work remains within the local scripted-demo architecture; live AI and external services require a separate scope.

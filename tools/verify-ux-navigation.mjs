@@ -16,15 +16,17 @@ main.inherentConfirmed=true;assert.equal(assessmentLaunch(state).stage,'controls
 main.controlsConfirmed=true;assert.equal(assessmentLaunch(state).stage,'discovery');
 state.dependency='qualified';assert.equal(assessmentLaunch(state).stage,'residual');
 main.residualConfirmed=true;state.risks.details.controlsConfirmed=false;
-assert.deepEqual(assessmentLaunch(state),{label:'Continue wire-transfer refresh',risk:'details',stage:'controls'},'Resume must carry the next risk as well as the stage');
-const blocker=requirements(state).find(item=>item.risk==='details'&&!item.done);
+assert.deepEqual(assessmentLaunch(state),{label:'Continue assessment refresh',risk:'details',stage:'controls'},'Resume must carry the next risk as well as the stage');
+const blocker=requirements(state).find(item=>item.risk==='details'&&item.key!=='carry-forward'&&!item.done);
 assert.equal(blocker.stage,'controls');
 state.risks.details.mappingApplicability={sample:{conclusion:'unassessed'}};
 state.risks.details.controlsConfirmed=true;
-assert.equal(requirements(state).find(item=>item.risk==='details'&&!item.done).stage,'controls','Unassessed mappings must link to coverage assessment');
+assert.equal(requirements(state).find(item=>item.risk==='details'&&item.key!=='carry-forward'&&!item.done).stage,'controls','Unassessed mappings must link to coverage assessment');
 const review=assessmentView(data,state,'review');
-assert(review.includes('aria-label="Review: Incorrect payment details confirmed"'));
+const detailBlocker=requirements(state).find(item=>item.risk==='details'&&item.key!=='carry-forward'&&!item.done);
+assert(review.includes(`aria-label="Review: ${detailBlocker.label}"`),'Owner review exposes the current requirement as an accessible repair action');
 assert(review.includes('data-risk="details" data-stage="controls"'));
+const carryForward=requirements(state).find(item=>item.risk==='details'&&item.key==='carry-forward');assert(carryForward&&!carryForward.done,'Unreviewed starting judgments remain an explicit owner requirement.');assert.match(review,/<button[^>]*data-action="carry-forward-review"[^>]*data-risk="details"/,'Starting-assessment requirements open the owner review dialog.');
 for(const scene of ['submitted','challenge','response','complete']){
  const s=seedScene(data,scene);assert.equal(assessmentLaunch(s).stage,'review');
  s.role='second';assert.equal(assessmentLaunch(s).stage,'review');

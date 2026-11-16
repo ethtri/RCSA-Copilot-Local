@@ -33,11 +33,11 @@ assert.equal(reviewed.role,'second');assert.equal(JSON.stringify(reviewed.snapsh
 assert.equal(reviewed.history.length,historyLength,'Sync history is separate from assessment decisions.');
 for(let i=0;i<4;i++){assert.equal(refreshAutomaticSync(reviewed),false);assert.equal(finishAutomaticSync(reviewed),false);}
 assert.equal(g.reference.version,8);assert.equal(g.sequence,1);
-assert.match(syncStatusLine(reviewed),/Synced to GRC · Version 2/);
-assert(!/Import reference|Authorize reference|Deliver pending/.test(integrationSettingsView(data,reviewed)));
+assert.match(syncStatusLine(reviewed),/Synced to GRC · Version 1/,'A conversation-only reply retains the submitted assessment version.');
+assert(!/Import reference|Authorize reference|Deliver pending/.test(integrationSettingsView({...data,presenterEnabled:true},reviewed)));
 
 reviewed.role='first';assert(startOwnerRevision(reviewed,data));assert.equal(refreshAutomaticSync(reviewed),false);
-assert.equal(g.lastAck.submissionVersion,2);assert.equal(g.reference.version,8);assert.match(automaticSyncStatus(reviewed).detail,/Version 2 is synced/);
+assert.equal(g.lastAck.submissionVersion,1);assert.equal(g.reference.version,8);assert.match(automaticSyncStatus(reviewed).detail,/Version 1 is synced/);
 
 const fail=seedScene(data,'complete');refreshAutomaticSync(fail);const failId=fail.grc.pending.id;fail.grc.fault='transport';
 assert.equal(finishAutomaticSync(fail),false);assert.equal(fail.grc.status,'failed');
@@ -45,14 +45,14 @@ const failureEvents=fail.grc.events.length;
 for(let i=0;i<4;i++)assert.equal(refreshAutomaticSync(fail),false);
 assert.equal(fail.grc.events.length,failureEvents,'Rendering must not loop retries.');
 assert.equal(fail.grc.pending.id,failId);assert.equal(fail.grc.reference.version,7);
-assert.equal(automaticSyncStatus(fail).kind,'attention');assert.match(integrationSettingsView(data,fail),/Retry sync/);
+assert.equal(automaticSyncStatus(fail).kind,'attention');assert.match(integrationSettingsView({...data,presenterEnabled:true},fail),/Retry sync/);
 assert(retryAutomaticSync(fail));assert(finishAutomaticSync(fail));assert.equal(fail.grc.lastAck.id,failId);assert.equal(fail.grc.reference.version,8);
 
 const conflict=seedScene(data,'complete');refreshAutomaticSync(conflict);conflict.grc.fault='stale';
 assert.equal(finishAutomaticSync(conflict),false);assert.equal(conflict.grc.status,'conflict');
 assert.equal(conflict.grc.reference.record.residual,8);assert.equal(refreshAutomaticSync(conflict),false);
 assert.equal(resolveSyncConflict(conflict,8),false,'Reviewer cannot choose owner changes.');
-assert(!integrationSettingsView(data,conflict).includes('data-action="sync-keep-reviewed"'));
+assert(!integrationSettingsView({...data,presenterEnabled:true},conflict).includes('data-action="sync-keep-reviewed"'));
 conflict.role='first';assert.equal(resolveSyncConflict(conflict,7),false,'Reject a stale comparison.');
 assert(resolveSyncConflict(conflict,8));assert(finishAutomaticSync(conflict));assert.equal(conflict.grc.reference.version,9);
 assert.equal(conflict.grc.sequence,2);assert.equal(conflict.grc.reference.record.residual,12);
@@ -66,3 +66,9 @@ const mapping=seedScene(data,'complete');mapping.snapshots.at(-1).risks.unauthor
 assert.equal(refreshAutomaticSync(mapping),false);assert.equal(mapping.grc.issue.kind,'mapping');assert.equal(mapping.grc.pending,null);
 
 console.log('PASS: automatic reviewed-version sync, draft/return guards, owner permissions, immutable submissions, bank-owned fields, idempotency, bounded retry, source comparison, revision invalidation and method/control mapping pauses.');
+
+const clientConfiguration=integrationSettingsView(data,fail);
+assert(clientConfiguration.includes('Configurable connection'));
+assert(clientConfiguration.includes('Map new records before enabling delivery'));
+assert(!clientConfiguration.includes('data-action="sync-retry"'));
+assert(!clientConfiguration.includes('aria-label="GRC delivery status"'));

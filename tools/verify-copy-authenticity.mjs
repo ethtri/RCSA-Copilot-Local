@@ -1,3 +1,5 @@
+import {applyResponseDraft} from '../src/scripts/demo/response-view.js';
+import {saveRiskResponse} from '../src/scripts/demo/responses.js';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createInitial,seedScene,sendChallenge,responseCoverage} from '../src/scripts/demo/model.js';
@@ -8,13 +10,13 @@ const fixture=async name=>JSON.parse(await readFile(new URL(`../assets/data/${na
 const data=await fixture('workflow-demo');data.assistance=await fixture('control-assistance');
 const s=createInitial(data);
 assert.equal(s.response,'','Fresh editor must not contain the poor example reply');
-assert.equal(replySuggestion(data,s).text,data.responses.revised);
-s.question='Who owns the November 28 testing action?';s.action.owner='Test assurance team';
+const scoped=replySuggestion(data,s);assert(scoped.intents.includes('scope'));assert(scoped.intents.includes('source'));assert(scoped.text.includes('Test conclusions apply only to the recorded scope'));assert(scoped.sourceIds.includes('test'));
+assert(applyResponseDraft(data,s));assert(saveRiskResponse(s));s.question='Who owns the November 28 testing action?';s.action.owner='Test assurance team';
 assert(replySuggestion(data,s).text.includes('Test assurance team'));
 s.response='Test assurance team owns this action.';
-assert.deepEqual(replyCoverage(data,s,responseCoverage),[{label:'Recorded action owner',done:true}]);
+assert(replyCoverage(data,s,responseCoverage).some(c=>c.label==='Recorded action owner'&&c.done));
 s.question='Who approved the exception?';
-assert.equal(replySuggestion(data,s),null);assert.deepEqual(replyCoverage(data,s,responseCoverage),[]);
+assert.equal(replySuggestion(data,s).kind,'unsupported');assert(!replySuggestion(data,s).text.includes('approved by'),'Unknown approval facts must not be inferred from an action owner');assert.deepEqual(replyCoverage(data,s,responseCoverage),[]);
 const review=seedScene(data,'submitted');review.question=s.question;assert(sendChallenge(review));
 assert.equal(review.history.at(-1).text,'Sent a review question.');assert.equal(review.history.at(-1).detail,s.question);
 assert(!investigationBody(data,s,'research').includes('service-owner clarification SO-19'));

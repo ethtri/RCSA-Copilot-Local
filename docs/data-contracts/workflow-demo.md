@@ -1,63 +1,92 @@
 # Workflow demo data contract
 
-The active application reads `assets/data/workflow-demo.json`, `assets/data/risk-intelligence.json`, `assets/data/research-demo.json` and `assets/data/assessment-context.json`. Older dashboard, wizard and ROI mock files are legacy references, not the running application's source of truth.
+**Current session schema:** 3  
+**Implementation:** native local ES modules and synthetic JSON fixtures  
+**QA status:** implemented locally; final integrated acceptance is tracked in [the verification record](../operations/demo-experience-upgrade-verification.md).
 
-The fixture has a version, period, fixed assessment date, named owner/reviewer, risk register, control library, source evidence, action and prepared question/response alternatives. Internal bank records are synthetic; dated public references retain their original source links. Source IDs and control IDs are stable and validated by `node tools/verify-demo.mjs`.
+## Fixtures and source identity
 
-Each risk has an ID, name, event description, inherent likelihood/impact and separate rationales, prior residual rating, current residual likelihood/impact and separate rationales, control IDs and source IDs. The main risk defaults to inherent High 16, prior residual Moderate 8 and refreshed residual Elevated 12. Supporting records default to Moderate 6. The fictional scoring scale and tolerance are inspectable in the UI.
+The active app reads `workflow-demo.json`, `risk-intelligence.json`, `research-demo.json`, `assessment-context.json` and `control-assistance.json` from `assets/data/`. Earlier dashboard/wizard/ROI files are historical references. The runtime view derives its risk selector from active session records rather than assuming the original three-risk fixture is exhaustive.
 
-Each control has a purpose, owner, documented design, explicit design conclusion, operating conclusion, evidence summary, source ID and test-source ID. Test scope and date remain separate from the effective date of the new procedure. Source records contain title, reference, date, scope and exact excerpt; selected source phrases are highlighted only for the proposed shared-source interpretation.
+Each source has a stable ID, title, record reference, date, scope and excerpt; an explicit source version is retained where available. Internal bank records and prepared receipt events are synthetic. Public references keep their own dated URLs and limitations. Local source inspection does not fetch new research. The authored service clarification SO-19 is unavailable until its explicit receipt event.
 
-Session state contains draft ratings and rationale, confirmation flags for every risk, the dependency decision and qualification, action details, exact review question/response, reviewer rationale, workflow status and immutable submission/revision snapshots. Report confirmation is tied to a fingerprint of the underlying assessment. Perspective changes do not confer authority to change a submitted rating. The application stores this state in optional sessionStorage; reset restores fresh fixtures.
+An added risk can contribute sources through `additionalSources`. The retry/recovery candidate has three matching records: an uncertain-release event, retry procedure and recovery test scope. An ordinary-release sample does not establish that retry controls work.
 
-Submission requires confirmed scope, the main inherent/control/residual assessments, every supporting assessment, a considered dependency suggestion and a complete action. Revisions require complete action/closure evidence and owner attestation. Human review can return a response or complete the review. Neither path changes ratings, closes testing or accepts risk. The last confirmed rating appears in dashboards until an edited residual assessment is explicitly confirmed.
+## Session and migration
 
-UI values are escaped before HTML insertion. There are no network calls beyond local application assets, no real customer records, no authentication service and no model endpoint.
+`createInitial` creates `version: 3` / `schemaVersion: 3`. The app uses the existing sessionStorage key `rcsa-workflow-demo-v1`; the key name is not the schema version. Session data includes active risks, proposals, mapping judgments, responses, submitted snapshots, review conclusions, conversations, operational records and report workspace state.
 
-## Product refinement contract
+`migrateSession` supports schema 2 and schema 3. It clones the input before migration, retains typed drafts and historical snapshots, and adds missing current fields. A historical snapshot that lacks its source/control/method context remains explicitly incomplete; current fixtures are not used to invent historical evidence. Unsupported or unreadable sessions produce a recoverable error. The app preserves the raw data for download before using a fresh local workspace. If storage is unavailable, the app says that reload will lose in-memory changes.
 
-Session schema version 2 adds per-risk mapping rationale, last-confirmed residual rating and risk response (strategy, rationale, owner, review date and created/review-needed flags), plus a proposed-control library. The three risk rows belong to one wire-transfer process/assessment. Dashboard metrics and work queues use that grain.
+`asOf` is an explicit demo date, initially `2026-11-14`. Presenter controls can change it after exact calendar validation. Expiry uses this date, never the machine’s clock. Changing it does not alter a rating.
 
-Relationships support add, edit rationale, atomic replace and removal. Definitions remain in the library. New controls are Proposed with no test evidence. Manual controls have no invented source; the prepared AI proposal cites the near miss as its suggestion basis. Mapping changes invalidate control/residual confirmations and response applicability, preserve the last confirmed current rating, and supersede the shared-source finding when the mapped pair changes. An empty mapping needs owner confirmation.
+## Risk and control records
 
-An above-tolerance risk needs an intentionally created response; prefilled action data alone is insufficient. Strengthen/change/transfer responses require a linked action and closure evidence. Acceptance is a pending request with a review date, never an approval. Risk responses are separate from review-question replies. Mapping changes, response creation and completed review do not change a confirmed rating automatically.
+Risks have stable IDs, name, description, optional cause/event/harm/scope/owner fields, source IDs, mapped control IDs, inherent and residual likelihood/impact with separate rationales, confirmation flags and a risk response. A prior rating and the last confirmed residual rating are nullable. Missing values render as Not assessed or No previous assessment; they are not converted to zero or a fabricated prior cycle.
 
-Sample context is inside collapsed Presentation controls. All assistance remains prepared locally. A version-1 session starts fresh under version 2 so its prefilled action cannot silently count as a created response.
+`riskEntries` selects active records, excluding a risk marked removed in the current draft. A newly discovered risk starts unconfirmed with blank ratings, no prior rating, no mapped controls and no recorded response. Removing a draft risk does not remove it from an earlier immutable submission.
 
-## Persona-finding remediation
+The illustrative rating method uses 1–5 likelihood × 1–5 impact: Low 1–4, Moderate 5–9, Elevated 10–15 and High 16–25; the bank threshold is Moderate, up to 9. The method has a stable ID and version. The original unauthorized-transfer fixture has inherent 16, prior residual 8 and an unconfirmed refreshed residual 12. Supporting fixture risks start with prepared confirmed positions of 6.
 
-Each changed mapping records a risk-specific applicability conclusion (unassessed, expected design coverage, limited coverage or no current coverage). Prepared fixture relationships retain their existing conclusions. Free-text rationale and a library result cannot infer a new applicability conclusion. An unassessed new relationship blocks control confirmation. Proposed controls still have no current operating evidence.
+Control definitions remain separate from risk-to-control relationships. A mapping records rationale and an explicit owner applicability judgment: unassessed, expected design coverage, limited coverage or no current coverage. New unassessed mappings block confirmation. Replacing a mapping is atomic; removing a mapping retains the library definition. An empty mapping requires an explicit owner conclusion and confirmation that no controls are mapped.
 
-A returned review records the exact rationale both as current owner feedback and as immutable history detail. Later reviewer conclusions leave that return event intact. Reply drafting updates only the response text, preserving independently authored closure evidence. Response-topic checks are explicitly mention cues and never a sufficiency decision.
+New control designs remain Proposed and unimplemented. Current/proposed counts distinguish them. A design judgment is not an operating-effectiveness conclusion. Evidence scope and dates remain tied to the source that actually supports them.
 
-The read-only decisionBrief helper supplies a synthetic strategy-specific decision request, owner/forum and November 19 target, separately from action due dates and acceptance review dates. Draft, submitted/pending and not-required states are distinct. These values are presentation content, not an institutional approval policy or outcome.
+## AI proposals and discovery
 
-## Library revisions and connected analysis
+Rating proposals carry source IDs, an input signature, proposed fields, evidence limits, status, applied fields and disposition history. The owner can apply selected fields, edit them or keep the current assessment with a note. Application changes only the draft and invalidates relevant confirmations. Changed inputs make a proposal stale; it must be refreshed before use. An unsupported or owner-defined case shows its unavailable state instead of borrowing another risk’s explanation.
 
-The library includes an unmapped customer payment confirmation control with a recorded standard-route sample, owner and coverage limitation. Adding it requires the same explicit applicability judgment as any new mapping. The library remains browsable after submission and in second line. Only first line can start an owner revision. `revisionOf` identifies the preserved base version, while `reviewConclusions` archives that version's review status, exact reviewer rationale, question, response and any current returned clarification. Existing snapshots and decision history are retained. New submission increments the version after the normal human confirmations.
+Discovery records Add, Extend, Defer or Dismiss with provenance. Defer requires a follow-up owner and valid date. Extend records the scope change on the existing risk and invalidates affected assessments rather than adding a duplicate risk. The prepared control/rating content is used only within its authored scope.
 
-The intelligence fixture has an as-of date, eight additional source records with unique `ri-` IDs and a case for each risk. Cases contain inherent/residual lenses, four connected signals, source IDs, context-specific questions and an authored response draft. Signals distinguish observation, relevance, status, chronology, evidence limit and related records; a related record is not counted as another occurrence. The app merges the additional source records into its local source register.
+Control assistance uses relevant existing/enhancement/new candidates, editable design details, reasoned dismissal, set-aware evidence gaps and separate implementation/testing tasks. Mapping, conclusion or evidence changes mark the linked plan for review. The plan uses the selected edited design and cannot silently establish current protection.
 
-Analysis navigation stores its lens, return destination, selected tab and optional source/signal focus. Rendering or exploring analysis does not change risk judgments or workflow decisions. Response drafts and reviewer-question drafts enter editors only after an explicit Use action. Response creation and challenge submission remain separate actions. No AI judgment, automatic issue closure, event-rate calculation or live retrieval is implemented.
+## Responses and linked work
 
-## Connected investigation iteration
+Each risk response records its approach, rationale, owner, created/review-needed state and approach-specific content:
 
-The research fixture adds three authored event records (contact history, payment exception and supervisor review) and a post-submission service clarification. The supervisor match is explicitly provisional; related records never increment the event count. `eventMatch` records an explicit owner judgment in history. Research/options/claims views are read-only and distinguish observations, assumptions and source limitations.
+| Approach | Required contract |
+| --- | --- |
+| Strengthen controls | Change to make, implementation/testing work, owners, dates and completion evidence |
+| Ask management to accept risk | Reason, conditions/limits, monitoring, decision owner and expiry/review date |
+| Change or stop activity | Affected activity, customer/process impact, transition work and linked evidence |
+| Transfer part of the risk | Arrangement, retained exposure, dependencies/counterparty evidence and follow-up work |
 
-Each risk can store `controlConclusion.text`. Editing it invalidates control/residual confirmations and applicability of an existing response. Confirming controls records the exact owner text; snapshots retain it. Prepared supporting conclusions acknowledge PI-12/QI-04 without embedding a fixed residual band. Empty owner text remains empty across navigation and cannot be confirmed.
+A recorded response is distinct from prefilled draft fields. Above-threshold risks require a recorded response. An explicitly selected acceptance approach creates a request; only management can approve it. Using an AI response draft does not silently switch the selected approach or overwrite owner work. A strategy switch retains earlier responses and operational records in history and removes contradictory active work.
 
-Risk responses store `protection`, `protectionOwner`, `protectionDue`, and `protectionStatus` separately from assurance action/evidence. Non-acceptance response creation requires those protective-measure details. Implementation status is owner-recorded, with no automatic effectiveness conclusion or rating change.
+## Submission, review and frozen projections
 
-`assessmentView` records the second-line independent assessment view. Both that view and reply sufficiency are evaluated at completion: either Return keeps the question/review open. Agreement requires reviewer rationale and UI attestation. Archived review conclusions retain the independent view.
+Submission requires confirmed scope, valid inherent/control/residual assessments for every active risk, considered shared-source judgment where relevant, recorded required responses and up-to-date linked plans. UI owner attestation precedes the `sendAssessment` transition.
 
-Receiving SO-19 stores `newEvidenceReceived` and `evidenceBaseVersion`, leaving risks and submitted snapshots unchanged. Explicit owner use stores `evidenceApplied`, creates an owner revision and invalidates affected confirmations. The comparison continues to use the original received-against snapshot after later submissions, displays pending/draft/incorporated states, and shows actual owner-edited wording. A second Use of the same received source cannot reopen another revision. Existing sessions retain earlier records without inventing a separately recorded control conclusion.
+Each submission increments `versionNumber` and freezes risks, action plans, custom control definitions, assistance plans, operational context, source excerpts/metadata and rating-method version. `assessmentProjection(state, version, data)` returns a clone of the selected assessment and its pinned review conclusion. `reviewedProjection` returns a projection only after that version has a completed independent review. Reporting and GRC share these projections.
 
-## Assessment history and external intelligence
+Independent review supports direct agreement, direct return for changes or an optional question. An unanswered question prevents agreement. A conversation-only reply appends a conversation event without incrementing the assessment version or rewriting the submitted snapshot. If assessment content changed, an owner revision and renewed confirmations/submission are required. Returned reviews and their exact reasons remain in history.
 
-`assessment-context.json` holds three authored prior-cycle records per risk and a curated external comparison as of November 14, 2026. Historical Q1–Q3 values are fixed sample records using the same five-point method. Q4 values and confirmation flags come from current session state. Both inherent and residual series remain visible; current draft markers are hollow and only unconfirmed extensions are dashed. A separately annotated marker records the last confirmed residual position. Scope change is noted at Q4; changes of method or perimeter must be considered before reading a trend.
+Reply suggestions use the linked risk/action/version, recognize bounded ordinary and compound intents, and require a risk selection when ambiguous. Missing facts stay missing. Preview/replace/append/undo preserve owner text until an explicit insertion. Topic cues mean Mentioned in draft; they are not an answer-quality or sufficiency judgment.
 
-FBI 2024/2025 BEC figures are verified public reporting data, not synthetic internal measurements. Their reporting periods, definitions, source URLs and limitations remain attached. The FinCEN reference is a dated 2019 advisory. Comparison arithmetic is deterministic. No live feed, bank event rate, probability estimate or rating adjustment is inferred. Internal history remains sample data disclosed in Presentation controls.
+Neither review completion nor a conversation reply changes ratings, closes work or approves risk acceptance.
 
-The optional history-rationale action previews an addition and requires explicit owner Use; it preserves the existing text and rating choices, invalidates the relevant confirmation and existing response review as appropriate, and is unavailable for submitted records or second-line mutation. Merely reading charts or sources changes no judgments.
+## Operational records
 
-The first-line Review surface is the full assessment report across all three risks. Submission remains guarded by the existing readiness and attestation checks. Submitted/reviewed states show the submission record and report/revision routes instead of resubmission. Response labels distinguish missing, review-needed and recorded responses; recording a response leaves linked actions open.
+`operations.actions[riskId]` stores actual execution records: stable ID, assessment link, independent version, plan, accountable owner, executor, due date, status, progress, required evidence, received evidence, closure conclusion and events. States are planned, in progress, evidence submitted, returned and closed. Implementation and testing tasks stay separate. Prepared evidence selection records a local synthetic receipt; it is not an upload or automated evidence validation.
+
+Only the owner/executor perspective updates open work or submits evidence. Only Control assurance can close or return submitted evidence, with a reason. The executor/evidence submitter cannot close their own work. Read-only perspectives see recorded values rather than another role’s unsaved operational edits.
+
+`operations.decisions[riskId]` stores owner-prepared requests with owner, forum, target date, reason, conditions, expiry/review date, status and history. States include draft, submitted, returned, approved, declined and expired. Only the Management perspective records approval/decline/return. Expiry is derived from the explicit demo as-of date. A request to continue activity remains distinct from time-limited risk acceptance.
+
+Evidence requests have their own stable IDs, risk/source link, provider, target date, scope, receipt and events. Receiving a prepared pack adds a bounded source record for owner assessment; receipt does not confirm effectiveness or change a rating. No message is sent externally.
+
+Operational updates append their own versions without altering the original submitted assessment. The [GRC contract](grc-reference-exchange.md) defines separate operational delivery and preserved bank-owned fields.
+
+## Reports and output
+
+`reportWorkspace` stores the selected assessment version, edited summaries and confirmed report editions. The report covers every active risk in that version, including no-prior-data states, current/proposed controls, evidence limits, review conclusions and explicit linked work-record versions as of the displayed date.
+
+Confirmation binds actual summary text, assessment projection and included operational record versions. A meaningful change requires fresh confirmation. A confirmed edition retains a clone of those records and its generated HTML; subsequent edits cannot rewrite it.
+
+Download creates a real self-contained HTML document with escaped editable text, embedded source excerpts and print styles. Print opens that generated report with details available; blocked popups have an honest download alternative. No native PDF-export dependency or external document service is implied.
+
+## Local authority and safety boundaries
+
+The five presenter perspectives are assessment owner, independent reviewer, control assurance, management decision owner and GRC administrator. Transitions enforce their local authority separately from visibility. This is a demonstrable contract for a future authenticated product, not production authentication.
+
+All HTML text is escaped. No live model, real customer record, bank connector, external message, real file ingestion or production service is involved. Planned protection, work completion, review and management approval do not automatically reduce a confirmed rating.

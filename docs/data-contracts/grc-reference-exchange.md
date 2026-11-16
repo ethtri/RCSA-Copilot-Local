@@ -12,11 +12,23 @@ The static app calls `refreshAutomaticSync` before rendering and schedules one q
 
 ## Data and write boundaries
 
-External assessment `RCSA-PAY-2026-Q4-0142`, risk `RISK-WT-014`, controls `CTRL-PAY-041` / `CTRL-PAY-042`, and action `ACT-PAY-028` identify the reference records. The source starts at version 7. An acknowledgment increments it once and records the request ID, reviewed submission version, payload key and timestamp.
+External assessment `RCSA-PAY-2026-Q4-0142` contains the original risks `RISK-WT-014` / `RISK-WT-015` / `RISK-WT-016`. Original library controls map to `CTRL-PAY-041` through `CTRL-PAY-045`; the original unauthorized-transfer action keeps `ACT-PAY-028`. Added risks and controls require an explicit identifier assignment by the local GRC administrator. The source starts at version 7. An acknowledgment increments it once and records the request ID, reviewed submission version, payload key and timestamp.
 
-Writes share the existing allowlisted patch: confirmed residual score, control conclusion, review state/rationale, evidence references, control relationships and action title/owner/due/evidence. Bank-owned owner, risk identity, unknown metadata and existing action status/metadata are retained. Stable action identity prevents duplicate actions. Sync does not approve management decisions, close testing or assert control effectiveness.
+The all-risk payload comes from the same `reviewedProjection` used by reporting. `risks[]` names each local and external risk, confirmed rating, prior and inherent positions, control relationships, evidence IDs, response and linked action plan. The payload also pins its rating-method version, review conclusion, evidence versions and submitted operational records. Primary-risk compatibility fields remain available to the local reference adapter. Bank-owned owner, unknown metadata and existing bank action status/metadata are retained. Stable action identity prevents duplicate actions. Sync itself does not approve management decisions, close testing or assert control effectiveness.
 
-Four-point methodology and controls without external mappings pause the queue. Ratings are never converted silently. A changed or reopened review invalidates any queued update. A new owner revision retains the acknowledged source record and last-synced version while the new draft remains local.
+Four-point methodology, an incompatible method version, and risks or controls without external mappings pause the queue. Readiness checks run before submission and again before sync. They identify each affected record, the GRC administrator and the required next step. No added record is silently excluded. Ratings are never converted silently. A changed or reopened review invalidates any queued update. A new owner revision retains the acknowledged source record and last-synced version while the new draft remains local.
+
+## Operational update contract
+
+Action execution, evidence requests and management decisions have independent record versions and event histories in `state.operations`. A submitted assessment freezes the operational context available at submission; subsequent execution and management decisions do not edit that snapshot.
+
+After the reviewed assessment is acknowledged, changes to operational records queue a separate `OPERATIONS-N` request. Its key binds the assessment version and exact operational records. Acknowledgment writes `reference.record.operationalRecords`, leaving the original `reference.record.linkedRecords`, reviewed risk payload and bank-owned action status intact. The local operational record can show a valid assurance closure or management approval; the sync worker cannot create those decisions. Unchanged operational records do not produce repeated updates.
+
+Operational requests use the same bounded connection failure and source-version conflict behavior. A failed retry keeps its request ID. A source conflict preserves both records for owner comparison. Work performed during an unreviewed owner revision waits for the next eligible reviewed update; it does not publish a draft assessment.
+
+## Local administrator recovery
+
+The presenter’s GRC administrator perspective can assign unique bank risk/control identifiers to the named missing records. The handler rejects other perspectives and duplicate identifiers. The administrator can select the agreed five-point method for the prepared mismatch scenario; it does not convert scores. An unknown assessment method still needs an explicit agreed method contract. Saving configuration preserves owner work, review conclusions and frozen evidence, and the configured worker resumes only when all readiness checks pass.
 
 ## Exceptions
 

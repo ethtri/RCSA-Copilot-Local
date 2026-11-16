@@ -1,0 +1,50 @@
+.scope-record .section-head{margin-bottom:20px;align-items:center}
+.scope-record h2,.scope-brief h2,.scope-risk-list h2{font:600 20px/1.4 var(--ui);letter-spacing:-.02em;margin:0}
+.scope-record .section-head .button{min-height:44px;gap:8px}
+.scope-coverage-details{margin:18px 0 14px;padding-top:8px;border-top:1px solid var(--line)}
+.scope-coverage-details>summary{cursor:pointer;color:var(--forest);min-height:44px;padding:10px 0;font-size:14px;line-height:1.6}
+.scope-overview .scope-coverage-details dl{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 28px;padding:12px 0}
+.scope-overview .scope-coverage-details dd{font-weight:400;line-height:1.7}
+.scope-brief{padding:24px;background:#f2f6f2;border:1px solid #dce6dd;border-radius:8px;margin:24px 0}
+.scope-brief .section-head{align-items:center;gap:16px;margin-bottom:12px}
+.scope-brief-intro{font-size:14px;line-height:1.7;margin:12px 0 6px}
+.scope-priorities,.scope-risk-list>ul{list-style:none;padding:0;margin:0}
+.scope-priorities li,.scope-risk-list>ul>li{display:flex;justify-content:space-between;align-items:start;gap:28px;padding:20px 0;border-bottom:1px solid var(--line)}
+.scope-priorities li>div:first-child,.scope-risk-list>ul>li>div:first-child{min-width:0;max-width:78ch}
+.scope-priorities h3,.scope-risk-list h3{font:600 15px/1.6 var(--ui);margin:0}
+.scope-priorities p,.scope-risk-list li p,.scope-risk-suggestion p{font-size:14px;line-height:1.7;margin:6px 0 0}
+.scope-priorities p.small{font-size:13px;margin-top:4px}
+.scope-row-actions{display:flex;flex:none;gap:0 20px;align-items:start;flex-wrap:wrap;justify-content:flex-end}
+.scope-row-actions .text-link{min-height:44px;font-size:13px;white-space:nowrap;justify-content:flex-start;text-align:left}
+.scope-process-change{padding-top:20px}
+.scope-process-change .label{font-size:12px}
+.scope-process-change h3{font:600 15px/1.6 var(--ui);margin:8px 0 0}
+.scope-process-change p{font-size:14px;line-height:1.7;margin:5px 0 12px}
+.scope-process-change .button-group{gap:10px 24px}
+.scope-process-change .source-link{font-size:13px;min-height:44px;text-align:left}
+.scope-boundary{font-size:12px;line-height:1.6;margin:18px 0 0;padding-top:14px;border-top:1px solid #dce6dd}
+.scope-risk-list{padding:24px;margin-top:24px}
+.scope-risk-list .section-head{margin-bottom:2px}
+.scope-risk-list .section-head p{font-size:13px;margin:7px 0 0}
+.scope-risk-list li .small{display:block;margin-top:8px;font-size:12px}
+.scope-risk-suggestion{display:flex;justify-content:space-between;gap:28px;align-items:start;background:#f7f9f6;border-left:3px solid #94b3a0;padding:20px;margin-top:24px}
+.scope-risk-suggestion>div{min-width:0}
+.scope-risk-suggestion>.button{flex:none;margin-top:32px;min-height:44px}
+.scope-risk-suggestion h3{margin-top:10px}
+.scope-risk-suggestion>div>.label{font-size:12px}
+.scope-risk-suggestion details{margin-top:8px}
+.scope-risk-suggestion details>summary{font-size:13px;color:var(--forest);cursor:pointer;min-height:44px;padding:10px 0;line-height:1.6}
+.scope-risk-suggestion details>p{max-width:85ch}
+.scope-risk-suggestion .source-link{font-size:13px;min-height:44px}
+.scope-excluded{margin-top:18px}
+.scope-excluded>summary{cursor:pointer;min-height:44px;padding:10px 0;color:var(--forest);font-size:14px}
+.scope-excluded article{padding:18px 0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.7}
+.scope-excluded article p{margin:6px 0}
+.scope-excluded article>.button{display:block;margin-top:12px;min-height:44px}
+.scope-editor>p,.scope-exclusion-editor>p{font-size:14px;line-height:1.7;margin:14px 0 22px}
+.scope-editor textarea{min-height:82px}
+.scope-editor .field{margin-bottom:18px}
+.scope-editor .two-columns{gap:0 24px}
+.scope-editor .premium-modal-footer,.scope-exclusion-editor .premium-modal-footer{margin-top:20px}
+@media(max-width:1100px){.scope-row-actions{display:block;min-width:112px}.scope-row-actions .text-link{display:block}.scope-risk-suggestion{gap:20px}}
+@media(max-width:600px){.scope-brief,.scope-risk-list{padding:18px}.scope-record .section-head{align-items:start}.scope-record .section-head .button{flex:none}.scope-priorities li,.scope-risk-list>ul>li{display:block;padding:18px 0}.scope-row-actions{display:flex;justify-content:flex-start;gap:4px 24px;margin-top:8px}.scope-risk-suggestion{display:block;padding:16px}.scope-risk-suggestion>.button{margin-top:16px;white-space:normal}.scope-overview .scope-coverage-details dl{grid-template-columns:1fr;gap:16px}.scope-editor .two-columns{grid-template-columns:1fr}.scope-editor textarea{min-height:100px}}

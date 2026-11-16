@@ -78,7 +78,7 @@ for(const risk of data.risks) {
     for(const id of prompts[0].sourceIds)assert(html.includes(`data-source="${id}"`));
   }
   assert.equal(JSON.stringify(state),before,'Analysis must never mutate a human judgment.');
-  for(const [origin,label] of [['controls','control mapping'],['response','risk response'],['review','assessment review']]) {
+  for(const [origin,label] of [['controls','controls'],['response','risk response'],['review','assessment review']]) {
     const html=intelligenceView(data,{...state,analysisReturn:origin},'residual');
     assert(html.includes('Back to '+label));
     assert(html.includes('Return to '+label));

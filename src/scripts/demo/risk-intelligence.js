@@ -1,9 +1,9 @@
-import {esc,icon,button,sourceLink} from './ui.js?v=20261114.24';
+import {esc,icon,button,sourceLink} from './ui.js?v=20261115.20';
 
 const MODES = [['overview','Overview'],['signals','Records'],['sources','Sources']];
 const KIND_LABELS = {'change':'Process change','near-miss':'Near miss','event':'Operational event','issue':'Open issue','test':'Control test','review':'Service review'};
 const safeStage = stage => stage === 'inherent' ? 'inherent' : 'residual';
-const returnLabel = (s,stage) => ({controls:'control mapping',response:'risk response',review:'assessment review'}[s.analysisReturn]||`${stage} risk`);
+const returnLabel = (s,stage) => ({controls:'controls',response:'risk response',review:'assessment review'}[s.analysisReturn]||(stage==='inherent'?'risk before controls':'risk after controls'));
 const unique = values => [...new Set(values)];
 const selectedId = (s, fallback='unauthorized') => typeof s === 'string' ? s : s?.selectedRisk || fallback;
 const sourceFor = (data,id) => data.sources?.find(source => source.id === id);
@@ -21,7 +21,7 @@ export function caseFor(data,riskOrState='unauthorized') {
 /** A plain-data entry point for cards elsewhere in the assessment workflow. */
 export function intelligenceSummary(data,s,stage='inherent') {
   const analysis=caseFor(data,s), lens=analysis?.[safeStage(stage)];
-  if(!lens)return null;
+  if(!lens){const risk=s.risks?.[selectedId(s)]||data.risks?.find(r=>r.id===selectedId(s));return risk?{title:'Review the records for this risk',summary:'No prepared analysis is available for this scope. Review the linked records and enter your assessment.',signalCount:0,openIssueCount:0,sourceCount:(risk.sources||[]).length,unsupported:true}:null;}
   return {title:lens.title,summary:lens.takeaway,signalCount:analysis.signals.length,
     openIssueCount:analysis.signals.filter(signal=>signal.kind==='issue'&&signal.status.startsWith('Open')).length,
     sourceCount:caseSourceIds(analysis).length};
@@ -31,7 +31,7 @@ export function intelligenceSummary(data,s,stage='inherent') {
 export function analysisPrompts(data,s,context='response') {
   const analysis=caseFor(data,s);
   if(!analysis)return [];
-  if(context==='review'&&s.newEvidenceReceived)return [{title:'Account for the service clarification',question:'How does the assessment account for SO-19 confirming the shared record while limiting the separate directory to standard payments? What current urgent-route protection can be evidenced?',sourceIds:['service-clarification','test','incident']}];
+  if(context==='review'&&s.newEvidenceReceived&&selectedId(s)==='unauthorized')return [{title:'Account for the service clarification',question:'How does the assessment account for SO-19 confirming the shared record while limiting the separate directory to standard payments? What evidence shows how urgent requests are checked?',sourceIds:['service-clarification','test','incident']}];
   if(context==='inherent'||context==='residual') {
     const lens=analysis[context];
     return [{title:context==='inherent'?'Review what could go wrong':'Review the controls in place',question:lens.question,sourceIds:lens.followupSourceIds.slice()}];
@@ -76,7 +76,7 @@ function contextForSource(data,s,analysis,stage) {
 
 function evidenceBoundary(data,analysis,stage) {
   const lens=analysis[stage];
-  return `<aside class="ri-boundary"><span class="label">${stage==='inherent'?'How to assess this risk':'What the evidence shows'}</span><h2>${stage==='inherent'?'Assess the risk before considering controls.':'Check which payments and dates were tested.'}</h2><p>${stage==='inherent'?'Use events and process changes to assess what could go wrong and the harm it could cause. Consider controls and improvements when assessing the risk after controls.':'A test with no problems, a stopped fraud attempt and a recovered payment each show different things. Planned work does not prove that controls work today.'}</p><div class="ri-boundary-rule"></div><h3>What is still unknown</h3><ul>${lens.unknowns.map(text=>`<li>${esc(text)}</li>`).join('')}</ul><span class="ri-boundary-caption">Explain these unanswered questions in your rationale.</span></aside>`;
+  return `<aside class="ri-boundary"><span class="label">${stage==='inherent'?'How to assess this risk':'What the evidence shows'}</span><h2>${stage==='inherent'?'Assess the risk before considering controls.':'Check which payments and dates were tested.'}</h2><p>${stage==='inherent'?'Use events and process changes to assess what could go wrong and the harm it could cause. Consider controls and improvements when assessing the risk after controls.':'A test with no problems, a stopped fraud attempt and a recovered payment each show different things. Planned work does not prove that controls work today.'}</p><div class="ri-boundary-rule"></div><h3>What is still unknown</h3><ul>${lens.unknowns.map(text=>`<li>${esc(text)}</li>`).join('')}</ul><span class="ri-boundary-caption">Explain how these unanswered questions affect your rating.</span></aside>`;
 }
 
 function overview(data,s,analysis,stage) {
@@ -115,7 +115,7 @@ export function intelligenceView(data,s,stage='inherent') {
   const lens=analysis[stage], mode=MODES.some(([id])=>id===s.intelligenceTab)?s.intelligenceTab:'overview';
   const summary=intelligenceSummary(data,s,stage);
   const destination=returnLabel(s,stage);
-  return `<div class="ri-workspace"><div class="ri-topline">${button(`${icon('back',15)} Back to ${esc(destination)}`,'intelligence-return',`class="text-link" data-stage="${stage}"`)}<span>AI-assisted analysis <span aria-hidden="true">·</span> Payments Operations</span></div>${riskSwitch(data,s)}<header class="ri-heading"><div><span class="label">${esc(analysis.eyebrow)}</span><h1>${esc(lens.title)}</h1><p>${esc(lens.takeaway)}</p></div><aside class="ri-lens"><span class="ri-lens-mark" aria-hidden="true">AI</span><span class="label">${stage==='inherent'?'Inherent risk':'Residual risk'}</span><strong>${stage==='inherent'?'Before considering controls':'Controls supported by evidence'}</strong><span>Prepared for ${esc(data.intelligence.asOf)}</span></aside></header><div class="ri-toolbar"><nav class="ri-mode-switch" aria-label="Analysis views">${MODES.map(([id,label])=>button(`${label}${id==='signals'?` <span>${summary.signalCount}</span>`:id==='sources'?` <span>${summary.sourceCount}</span>`:''}`,'intelligence-tab',`class="ri-mode ${mode===id?'selected':''}" data-tab="${id}" aria-pressed="${mode===id}"`)).join('')}</nav><span class="ri-case-status"><i aria-hidden="true"></i>${summary.openIssueCount} open issue${summary.openIssueCount===1?'':'s'} to consider</span></div>${contextForSource(data,s,analysis,stage)}<div class="ri-mode-content" id="ri-analysis-content">${mode==='signals'?signals(data,s,analysis,stage):mode==='sources'?sources(data,s,analysis,stage):overview(data,s,analysis,stage)}</div><footer class="ri-analysis-footer"><p>Review the source scope before relying on a conclusion.</p><span>Ratings and control judgments remain with the assessor.</span></footer><div class="ri-return-row">${button(`Return to ${esc(destination)} ${icon('arrow',16)}`,'intelligence-return',`class="button primary" data-stage="${stage}"`)}<span>You confirm the assessment.</span></div></div>`;
+  return `<div class="ri-workspace"><div class="ri-topline">${button(`${icon('back',15)} Back to ${esc(destination)}`,'intelligence-return',`class="text-link" data-stage="${stage}"`)}<span>AI-assisted analysis <span aria-hidden="true">·</span> Payments Operations</span></div>${riskSwitch(data,s)}<header class="ri-heading"><div><span class="label">${esc(analysis.eyebrow)}</span><h1>${esc(lens.title)}</h1><p>${esc(lens.takeaway)}</p></div><aside class="ri-lens"><span class="ri-lens-mark" aria-hidden="true">AI</span><span class="label">${stage==='inherent'?'Inherent risk':'Residual risk'}</span><strong>${stage==='inherent'?'Before considering controls':'Controls supported by evidence'}</strong><span>Prepared for ${esc(data.intelligence.asOf)}</span></aside></header><div class="ri-toolbar"><nav class="ri-mode-switch" aria-label="Analysis views">${MODES.map(([id,label])=>button(`${label}${id==='signals'?` <span>${summary.signalCount}</span>`:id==='sources'?` <span>${summary.sourceCount}</span>`:''}`,'intelligence-tab',`class="ri-mode ${mode===id?'selected':''}" data-tab="${id}" aria-pressed="${mode===id}"`)).join('')}</nav><span class="ri-case-status"><i aria-hidden="true"></i>${summary.openIssueCount} open issue${summary.openIssueCount===1?'':'s'} to consider</span></div>${contextForSource(data,s,analysis,stage)}<div class="ri-mode-content" id="ri-analysis-content">${mode==='signals'?signals(data,s,analysis,stage):mode==='sources'?sources(data,s,analysis,stage):overview(data,s,analysis,stage)}</div><footer class="ri-analysis-footer"><p>Review the source scope before relying on a conclusion.</p><span>You decide which findings to use and confirm the assessment.</span></footer><div class="ri-return-row">${button(`Return to ${esc(destination)} ${icon('arrow',16)}`,'intelligence-return',`class="button primary" data-stage="${stage}"`)}<span>You confirm the assessment.</span></div></div>`;
 }
 
 /** A small, source-linked reading for controls, response planning or review. */
@@ -128,6 +128,6 @@ export function relatedSignals(data,s,stage='residual',{compact=false}={}) {
 }
 
 export function riskAnalysisBody(data,s,stage='inherent',mode='overview'){
- const analysis=caseFor(data,s);if(!analysis)return '<p>No analysis is available for this risk.</p>';
+ const analysis=caseFor(data,s);if(!analysis){const risk=s.risks?.[selectedId(s)]||data.risks?.find(r=>r.id===selectedId(s)),records=(risk?.sources||[]).map(id=>sourceFor(data,id)).filter(Boolean);return `<section class="sheet ri-unavailable"><span class="label">Owner analysis needed</span><h2>No prepared analysis covers this scope.</h2><p>Use the records below to assess ${esc(risk?.name||'this risk')}. Enter your own conclusion or request more evidence.</p>${records.map(source=>`<article><h3>${esc(source.title)}</h3><p>${esc(source.scope||'Scope not recorded')} · ${esc(source.date||'Date not recorded')}</p>${sourceLink('Read source',source.id)}${mode==='sources'?`<blockquote>${esc(source.excerpt||'No excerpt recorded.')}</blockquote>`:''}</article>`).join('')||'<p>No sources are linked yet. Request the records needed for this assessment.</p>'}</section>`;}
  return contextForSource(data,s,analysis,stage)+(mode==='signals'?signals(data,s,analysis,stage):mode==='sources'?sources(data,s,analysis,stage):overview(data,s,analysis,stage));
 }

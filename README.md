@@ -1,6 +1,12 @@
 # RCSA workflow demo
 
-An interactive, self-contained demonstration for banking leaders: a quarterly wire-transfer refresh across first and second line. The experience uses synthetic data and scripted AI assistance. People own every assessment, challenge and sign-off.
+An interactive banking risk and control assessment demo. AI prepares changes, suggests risks, explains ratings, improves control designs and drafts follow-up work. People inspect sources, edit the result and make every assessment, review, closure and management decision.
+
+The [inline insight update](docs/ux/inline-insights-implementation-2026-11-15.md) keeps concise AI findings, sources and research beside the assessment, using drawers instead of a separate narrative analysis page.
+
+The [client demo update](docs/operations/client-demo-upgrade-2026-11-15.md) adds evidence-first AI previews, explicit approval boundaries and working bank setup. A fresh draft starts from the last confirmed rating; opening a suggestion changes no assessment records.
+
+The app uses local synthetic records and prepared AI output. It needs no model credentials, database, build step or paid infrastructure.
 
 ## Run locally
 
@@ -10,47 +16,54 @@ From the repository root:
 python -m http.server 8000 --bind 127.0.0.1
 ```
 
-Open **http://127.0.0.1:8000/src/**. Python 3 is the only runtime prerequisite. No package installation, model credentials or backend is required. The root URL and legacy page entry points redirect to the current workspace. Stop the server with Ctrl+C.
+Open **http://127.0.0.1:8000/src/**. Python 3 is the runtime prerequisite. Stop the server with Ctrl+C. The root URL and legacy entry points redirect to the current workspace.
 
-## Explore the experience
+## Current experience
 
-- Role-specific operational dashboards with a risk heatmap, prominent AI briefing, filtered work queue, evidence needs, management decisions and assessment register.
-- Full inherent, control and residual assessment for three synthetic risks, with separate likelihood, impact and rationale.
-- Risk-specific AI control recommendations, editable enhancements/new designs, mapping-dependent gap analysis, bounded evidence checks and generated implementation/validation task plans.
-- Always-available control library, owner revisions of submitted assessments, editable coverage rationale, replacement/removal and proposed-control creation. Earlier versions expose their submitted mappings and evidence.
-- Connected investigation with event reconstruction, supporting/counter-evidence, curated research, response comparisons and version-aware new evidence.
-- Explicit owner control conclusions, separate protective measures/testing and independent second-line assessment judgments.
-- Connected AI risk analysis with near misses, operational events, open issues, source limits and distinct inherent/residual lenses; targeted response and reviewer-question drafts.
-- Explicit risk responses with a selected approach, rationale, owner and linked action/evidence. Acceptance requests remain pending decisions.
-- Shared-control-dependency discovery: compare source excerpts, then confirm, qualify or dismiss the proposed relationship.
-- Owner attestation, second-line challenge, revised response, reviewer conclusion and inspectable submission versions.
-- Leadership reporting with prior/current comparison, evidence links and human narrative confirmation.
-- Presenter perspective, scene shortcuts and confirmed reset. Reload preserves the current tab's session when storage is available.
+- An AI-prepared quarterly refresh with editable, field-level rating and rationale proposals. The last confirmed result stays separate from the owner’s draft.
+- Risk discovery with Add, Extend, Defer and Dismiss. The prepared retry/recovery risk can complete assessment, review, reporting and GRC mapping without an invented prior rating.
+- Visible control recommendations, editable enhancements and new designs, risk-specific mapping judgments, evidence gaps and implementation/testing plans.
+- Four distinct response approaches: strengthen controls, request risk acceptance, change or stop activity, or transfer part of the risk. Applying a draft preserves owner work unless replacement is explicit.
+- Independent review with direct agreement, direct return or an optional question. Reply assistance reads the linked record and handles ordinary wording, multiple topics, ambiguous risks and missing information.
+- Real local action records with progress, received evidence and separate assurance closure. Management requests have owner submission, management decisions, conditions and expiry.
+- An editable all-risk report, immutable confirmed editions, a real self-contained HTML download and a printable output with frozen source excerpts.
+- Secondary GRC connection settings describe configurable delivery. Optional presenter scenarios retain simulated mapping and delivery diagnostics.
+- Plain task language, inspectable evidence, source drawers, larger editors, persistent validation, saved-state feedback and reduced-motion support.
 
-Start on the first-line **Dashboard**, then choose **Refresh wire-transfer RCSA** beside the heading. **Continue wire-transfer refresh** resumes an assessment already underway. The collapsed **Presentation controls** disclosure contains perspective, scene and reset tools. The complete presentation takes approximately 8–10 minutes; follow the [demo runbook](docs/operations/demo-runbook.md).
+Start on **Dashboard** and choose **Refresh wire-transfer RCSA**. Follow the [current runbook](docs/operations/demo-runbook.md). Rehearsal-only **Presentation controls**, enabled with `?presenter=1`, contains role perspectives, prepared scenes, an explicit demo as-of date, sync fault examples and confirmed reset.
 
-The demo deliberately keeps current risk, review completion, open actions and pending management decisions separate. AI suggestions are illustrative; there are no live model calls, institutional records, real approval actions, emails or external services.
-
-## Buyer implementation walkthrough
-
-The GRC connection is already configured. Complete the assessment and independent review: the reviewed version syncs automatically, with a quiet status on the assessment and report. Drafts and returned assessments stay local. There is no separate import, export or transfer approval. All records and updates remain simulated locally.
-
-**Settings → Integrations** holds connection details, sync history and an implementation checklist. Failed updates offer retry; a source conflict shows a comparison for the assessment owner. Incompatible rating methods or missing control IDs pause sync. Presenter controls can set the next GRC update to a connection interruption or source change before completing review. [Automatic-sync plan](docs/operations/automatic-grc-sync-plan.md) and [adapter contract](docs/data-contracts/grc-reference-exchange.md).
+Current ratings, proposed protection, completed work, completed assessment review and accepted risk remain separate. None automatically lowers the risk rating. There are no real approvals, messages, uploads, live research, live AI calls or external GRC requests.
 
 ## Implementation and verification
 
-The running app is native HTML/CSS/ES modules, served directly from `src/index.html`. Its shared design system is documented in [Implementation design](docs/ux/IMPLEMENTATION_DESIGN.md); older page shells and design-system files remain historical references.
+The app uses native HTML, CSS and ES modules served from `src/index.html`. State uses this tab’s optional sessionStorage. Schema 3 migrates supported older sessions while retaining their drafts and historical submissions. Unknown sessions offer a preserved-data download; storage failure is visible.
 
-- Scenario fixtures: `assets/data/workflow-demo.json` and `assets/data/risk-intelligence.json`; [data contract](docs/data-contracts/workflow-demo.md).
-- UI/state modules: `src/scripts/demo/`; shared styles: `src/styles/demo.css`.
-- Control-assistance checks: `node tools/verify-control-assistance.mjs` and `node tools/verify-control-assistance-workflow.mjs`; [browser and visual QA](docs/ux/ai-control-assistance-qa.md).
-- Mapping/response checks: `node tools/verify-product-refinements.mjs`.
-- Buyer-readiness checks: `node tools/verify-buyer-readiness.mjs`; covers exchange, role/method guards, snapshot/ownership preservation and returned clarification.
-- Automatic-sync checks: `node tools/verify-automatic-grc-sync.mjs`; covers the review trigger, draft/return guards, configured worker, source comparison, retry and immutable bank records.
-- Workflow checks: `node tools/verify-demo.mjs` (Node 18+).
-- Follow-up checks: `node tools/verify-owner-revision.mjs`, `node tools/verify-risk-matrix.mjs`, `node tools/verify-risk-intelligence.mjs`.
-- Focused browser checks: `node tools/verify-mapping-experience.cjs` and `node tools/verify-intelligence-experience.cjs`.
-- Optional browser regression: `node tools/verify-browser.cjs` with Playwright and Chrome installed; see the runbook for configuration.
-- [QA report](docs/ux/qa-report.md): full-flow checks, responsive screenshots and visual comparison ledger.
+Primary modules are in `src/scripts/demo/`. Fixtures are in `assets/data/`. The active design update is in `src/styles/upgrade.css`, documented in [the design contract](docs/ux/DEMO_EXPERIENCE_DESIGN.md). Data boundaries are in the [workflow contract](docs/data-contracts/workflow-demo.md) and [GRC adapter contract](docs/data-contracts/grc-reference-exchange.md).
 
-The [workflow plan](docs/operations/workflow-demo-plan.md) governs scope. The current release includes automatic GRC synchronization, the plain-language refresh, regression scripts and linked browser evidence. See the [latest verification](output/automatic-grc-sync-2026-11-14/verification.md). The [GitHub tracker #1](https://github.com/ethtri/RCSA-Copilot-Local/issues/1) and its implementation issues remain the historical backlog; issue reconciliation is separate from publishing this version.
+Run the focused checks with Node 18+:
+
+```powershell
+node tools/verify-experience-model.mjs
+node tools/verify-operations.mjs
+node tools/verify-report-refinement.mjs
+node tools/verify-automatic-grc-sync.mjs
+```
+
+Existing control-assistance, owner-revision, mapping, risk-intelligence, copy and navigation checks remain part of regression coverage. Browser verification must inspect the actual rendered app; model checks alone do not establish layout, focus or accessibility quality.
+
+The November 15 features are implemented locally. **Local integration and verification are complete.** See the [DX-01–19 verification ledger](docs/operations/demo-experience-upgrade-verification.md) for evidence and explicit platform-check limits. The [implementation plan](docs/operations/demo-experience-upgrade-plan.md) and [local backlog](docs/operations/implementation-backlog.md) describe scope. Historical QA documents certify their own revisions; no remote GitHub issue closure or published release is implied by these local changes.
+
+The [standard product visual implementation](docs/ux/standard-visuals-implementation-2026-11-15.md) records the subsequent heatmap, icon/status, report, comparison/history, relationship-map, progress and screen-state improvements, with 20 passing verification scripts and browser evidence.
+
+
+November 15 follow-up: the first step is now **Scope & changes**, which confirms process coverage and missing risks before scoring. **Risk details** and **Inspect [control]** disclose fuller records. AI insights sit below assessment fields, share a standard icon, and use specific source-backed observations for all three risks. See [implementation and verification](docs/ux/assessment-information-2026-11-15.md).
+
+
+AI analysis follow-up: three-month sample event/volume trends now drive explicit recommendations and editable assessment proposals. In Controls, expand **Bank context** to compare options against workflow and staffing. In Risk after controls, use **Review new test results** to demonstrate refreshed analysis with user-approved evidence and selected-field changes. All 31 verification scripts pass. See [implementation and verification](docs/ux/ai-analysis-upgrade-2026-11-15.md).
+
+
+Scope follow-up: **Scope & changes** now includes editable assessment coverage, source-backed AI review priorities and a working included/excluded risk list. Adding a suggested risk stays on Scope until the user confirms the updated inventory. Coverage changes preserve scores but require fresh confirmations; submitted scope is preserved. All 32 verification scripts pass. See [implementation and verification](docs/ux/scope-workspace-2026-11-15.md).
+
+## Latest banking-leader review
+
+The November 15 follow-up (`20261115.20`) was reviewed through the owner/reviewer journey, with supporting-risk, new-risk, configuration, report and phone branches. Fixes strengthen source-backed AI, require explicit review of carried-forward assessments, clarify full-version reviewer decisions, improve summaries and hide rehearsal role switches from normal pages. See the [walkthrough and final verification](docs/ux/bank-leader-followup-2026-11-15.md). All 35 verification scripts pass. The user's existing draft is preserved.

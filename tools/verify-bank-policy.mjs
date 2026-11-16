@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import {defaultPolicy,policyFor,thresholdFor,reviewerFor,evidenceRequired,independentReviewRequired,beginPolicyDraft,mutateBankSetupField,reviewPolicyDraft,applyPolicyDraft} from '../src/scripts/demo/bank-policy.js';
+import {bankSetupView} from '../src/scripts/demo/bank-setup.js';
+
+const original=defaultPolicy(),state={role:'admin',submitted:false,asOf:'2026-11-14',evidenceContext:{ratingMethod:structuredClone(original)},risks:{wire:{inherentConfirmed:true,controlsConfirmed:true,residualConfirmed:true,riskResponse:{created:true}}},snapshots:[{version:1,ratingMethod:structuredClone(original)}],history:[]};
+const before=JSON.stringify(state.evidenceContext),frozen=JSON.stringify(state.snapshots),ratings=JSON.stringify(state.risks);
+assert(beginPolicyDraft(state).ok);assert.equal(JSON.stringify(state.evidenceContext),before,'Opening settings does not change the active method.');
+mutateBankSetupField(state,'bankSetup.tolerance','12');mutateBankSetupField(state,'bankSetup.reviewerName','Avery Shah');
+assert.equal(thresholdFor(state),9,'Typing changes only a draft.');assert.equal(reviewerFor(state),'Jordan Lee');assert.equal(JSON.stringify(state.risks),ratings);
+assert.equal(applyPolicyDraft(state).ok,false,'Applying without a review is blocked.');assert(reviewPolicyDraft(state).ok);assert.equal(thresholdFor(state),9,'Review alone is not approval.');
+assert(applyPolicyDraft(state).ok);assert.equal(thresholdFor(state),12);assert.equal(reviewerFor(state),'Avery Shah');assert.equal(policyFor(state).policyVersion,2);assert.equal(JSON.stringify(state.snapshots),frozen,'Saving setup does not rewrite a submission.');assert.equal(state.risks.wire.inherentConfirmed,true);assert.equal(state.risks.wire.residualConfirmed,false);assert.equal(state.history.length,1);
+assert.equal(thresholdFor(state.snapshots[0]),9,'Historical projections retain the earlier threshold.');
+assert(beginPolicyDraft(state).ok);mutateBankSetupField(state,'bankSetup.tolerance','25');assert.equal(reviewPolicyDraft(state).ok,false);assert.equal(thresholdFor(state),12);
+mutateBankSetupField(state,'bankSetup.tolerance','8');assert(reviewPolicyDraft(state).ok);mutateBankSetupField(state,'bankSetup.tolerance','7');assert.equal(applyPolicyDraft(state).ok,false,'Editing after review requires a fresh review.');
+assert(reviewPolicyDraft(state).ok);state.role='first';assert.equal(applyPolicyDraft(state).ok,false,'Owner cannot apply administrator settings.');state.role='admin';state.submitted=true;assert.equal(applyPolicyDraft(state).ok,false,'A submitted assessment cannot be reconfigured in place.');assert.equal(beginPolicyDraft(state).ok,false);
+state.submitted=false;assert(beginPolicyDraft(state).ok);mutateBankSetupField(state,'bankSetup.requireEvidence','false');mutateBankSetupField(state,'bankSetup.likelihood.2','Plausible');assert(reviewPolicyDraft(state).ok);assert(applyPolicyDraft(state).ok);assert.equal(evidenceRequired(state),false);assert.equal(independentReviewRequired(state),true);assert.equal(policyFor(state).likelihood[2],'Plausible');assert.equal(state.risks.wire.inherentConfirmed,false,'Changed rating definitions require fresh judgment.');assert.equal(JSON.stringify(state.snapshots),frozen);
+assert(beginPolicyDraft(state).ok);state.bankSetup.draft.requireIndependentReview=false;assert.equal(reviewPolicyDraft(state).ok,false,'Independent review cannot be disabled.');
+state.bankSetup.draft.requireIndependentReview=true;mutateBankSetupField(state,'bankSetup.reviewerName','Alex Morgan');assert.equal(reviewPolicyDraft(state).ok,false,'The owner cannot be the independent reviewer.');
+assert.equal(defaultPolicy().likelihood[2],'Possible','Each policy is an independent value.');assert(bankSetupView({},state).includes('Bank setup'));assert(!bankSetupView({}, {...state,role:'first'}).includes('data-action="bank-setup-edit"'));
+console.log('Bank policy verification passed: explicit reviewed approval, draft isolation, role checks, version preservation and meaningful rule changes.');

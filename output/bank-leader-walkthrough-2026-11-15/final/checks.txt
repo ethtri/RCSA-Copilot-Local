@@ -1,0 +1,155 @@
+Source graph 20261115.20 — November 15, 2026
+
+> node tools\verify-accepted-test-controls.mjs
+
+PASS: accepted urgent evidence updates AI coverage and plans, preserves owner conclusions and scores, binds evidence signatures, and respects submitted source versions.
+
+> node tools\verify-ai-analysis-upgrade.mjs
+
+PASS: derived recommendations across six contexts, calculations behind details, explicit evidence approval, stale proposal protection, selected-field application, custom policy and preserved source versions.
+
+> node tools\verify-ai-consent.mjs
+
+PASS: AI finding and editor previews leave assessment, evidence and work records unchanged; selected-field, proposed control and draft risk approvals are bounded; only owner response recording prepares an unapproved management request; confirmed high-risk views and other roles cannot create one; owner edits and confirmed ratings are preserved.
+
+> node tools\verify-assessment-information.mjs
+
+PASS: risk details precede scoring; consistent AI icon and insights below assessment; scope-first purpose without a premature residual-rating proposal; views preserve decisions.
+
+> node tools\verify-assessment-visuals.mjs
+
+PASS: grouped coincident heatmap markers, square positions, canonical rating states/active risks, missing-history gaps, draft segments, complete interactive control names, full-width relationships and frozen submitted control/source definitions.
+
+> node tools\verify-automatic-grc-sync.mjs
+
+PASS: automatic reviewed-version sync, draft/return guards, owner permissions, immutable submissions, bank-owned fields, idempotency, bounded retry, source comparison, revision invalidation and method/control mapping pauses.
+
+> node tools\verify-bank-leader-regressions.mjs
+
+PASS: banking-leader regressions, including atomic acceptance and retained analysis sources across migration and owner revision.
+
+> node tools\verify-bank-policy.mjs
+
+Bank policy verification passed: explicit reviewed approval, draft isolation, role checks, version preservation and meaningful rule changes.
+
+> node tools\verify-bank-setup-integration.mjs
+
+Bank setup integration passed: response threshold, forms, frozen reports, reviewer identity, guarded AI ratings and evidence requirements.
+
+> node tools\verify-buyer-readiness.mjs
+
+PASS: import preservation, reviewed snapshots, attestation, role/method/mapping guards, pending/ack separation, failure retry, idempotency, conflict/rebase, revision invalidation and latest clarification.
+
+> node tools\verify-control-assistance-workflow.mjs
+
+Control-assistance workflow checks passed: editable proposals/plans, evidence boundaries, authority, invalidation, immutable submissions and review/report provenance.
+
+> node tools\verify-control-assistance.mjs
+
+PASS: three risk-specific recommendation sets, operational design drafts, mapping-dependent gaps, no operating credit, edited-design planning, stale-basis signatures, non-overwriting previews, durable owner decisions, bounded claim checks and role/version authority.
+
+> node tools\verify-control-fit.mjs
+
+PASS: bank context changes recommendation order and prerequisites, respects read-only roles, rejects unknown values, escapes text and changes no ratings, controls, history or work records.
+
+> node tools\verify-copy-authenticity.mjs
+
+PASS: arbitrary questions, recorded ownership, relevant coverage, history accuracy, evidence availability and bounded-check fallback.
+
+> node tools\verify-decision-insights.mjs
+
+PASS: six source-backed decision lenses, quantified facts and limits, missing/changed evidence guards, scope and mapping awareness, immutable results and approval boundary.
+
+> node tools\verify-demo.mjs
+
+PASS: fixture integrity, rating bands, human/role guards, challenge return/resolution, rating preservation, frozen reviewed-report consistency, all scene/stage rendering, and reset isolation.
+
+> node tools\verify-experience-model.mjs
+
+PASS: schema migration, frozen evidence/control/method/review context, direct and returned review, conversation versions, partial and stale proposals, complete added-risk lifecycle, no fabricated history, four response contracts, owner edit preservation, bounded flexible and ambiguous replies.
+
+> node tools\verify-inline-insights.mjs
+
+PASS: concise inline insights, stage-specific reasoning, linked records and research, frozen source context, unsupported scopes and view-only approval boundaries.
+
+> node tools\verify-mapping-applicability.mjs
+
+PASS: risk-specific applicability, explicit owner assessment, scoped library evidence, remapping reset, atomic replacement, proposed-control boundaries and preserved current risk.
+
+> node tools\verify-operations.mjs
+
+PASS: action/assurance authority, evidence return/closure, decision return/approval/expiry, local evidence receipts, strategy archives, added-risk mapping recovery, exact all-risk review projection and separate idempotent operational updates.
+
+> node tools\verify-owner-revision.mjs
+
+PASS: library browsing, owner-only revision, preserved snapshots/reviewer conclusion/current ratings, sample mapping, renewed confirmations and next-version submission.
+
+> node tools\verify-persona-fixes.mjs
+
+PASS: returned clarification is visible and retained after later conclusions; AI coverage describes topic cues rather than question sufficiency.
+
+> node tools\verify-product-refinements.mjs
+
+PASS: atomic control mappings, proposal evidence, confirmation invalidation, preserved current risk, explicit response creation, pending acceptance, role guards and dashboard grain.
+
+> node tools\verify-product-visuals.mjs
+
+PASS: shared risk/status tokens, readable contrast, band boundaries, approved icons and safe fallback, truthful workflow aliases, escaped state content, heading/announcement contracts and reduced-motion support.
+
+> node tools\verify-record-details.mjs
+
+PASS: accessible risk/control details, unknown fields and custom scopes, proposed-control limits, frozen submitted definitions/sources and view-only behavior.
+
+> node tools\verify-record-visuals.mjs
+
+PASS: event-based action/decision progress, return/resubmit and expiry, next-role ownership, separate delivery acknowledgements, canonical screen/export/print styles, deterministic immutable HTML and shared missing-record states.
+
+> node tools\verify-report-refinement.mjs
+
+PASS: all-risk report, named drill-downs, frozen version/source projection, editable text confirmation, operational invalidation, immutable editions, safe standalone HTML, added-risk/missing-prior states and role guards.
+
+> node tools\verify-review-context.mjs
+
+PASS: current/frozen scope labels, conservative history, threshold response wording, versioned conversation, presenter gating, risk-specific primary research and source availability, evidence-led report summary.
+
+> node tools\verify-review-integrity.mjs
+
+PASS: explicit carry-forward review, retained judgments and evidence, role/submission guards, frozen all-risk review scope, separate priority finding and explicit reply-sufficiency choice.
+
+> node tools\verify-risk-intelligence.mjs
+
+PASS: 18 risk/stage/view combinations; unique and complete sources; cross-source links; event chronology; scoped assurance; contextual questions; read-only judgments.
+
+> node tools\verify-risk-matrix.mjs
+
+Risk matrix: all 25 selections preserve equal square cells, axis direction, semantic bands, marker and accessible summary.
+
+> node tools\verify-scope-workspace.mjs
+
+PASS: editable scope approval, cancel/validation, scope-sensitive assistance, preserved judgments, assigned owner versus actor, frozen and legacy submissions, and inventory reconfirmation.
+
+> node tools\verify-signal-analysis.mjs
+
+PASS: coherent three-month registers, computed volume-adjusted trends, separated losses/recoveries/credits, six useful recommendation contexts, gated early test, invalid/missing evidence, frozen records and read-only approval boundary.
+
+> node tools\verify-standard-integration.mjs
+
+PASS: truthful role labels/read-only assessment destinations, confirmation-driven stage markers and neutral actionable empty filters.
+
+> node tools\verify-ux-navigation.mjs
+
+PASS: assessment resume across risks and roles, actionable blockers, analysis return steps, supporting-risk destinations and selected-control planning.
+
+> git diff --check
+
+warning: in the working copy of 'assets/data/control-assistance.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'assets/data/risk-intelligence.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/data-contracts/grc-reference-exchange.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/data-contracts/workflow-demo.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tools/verify-control-assistance.mjs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tools/verify-mapping-applicability.mjs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tools/verify-report-refinement.mjs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tools/verify-risk-intelligence.mjs', LF will be replaced by CRLF the next time Git touches it
+
+
+35 verification scripts; 47 JavaScript syntax checks; failures: []

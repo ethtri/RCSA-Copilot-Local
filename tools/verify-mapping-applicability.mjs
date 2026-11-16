@@ -15,7 +15,8 @@ assert.match(mappingDialog(data,s),/value="unassessed" selected/,'New mapping do
 assert(saveMapping(data,s,{controlId:'details-check',rationale:'Checks accuracy, not requester authority.'}));
 assert.equal(mappingApplicability(data,s,risk.id,'details-check').conclusion,'unassessed');
 assert.equal(mappingNeedsReview(data,s),true);
-assert.match(row('details-check'),/Coverage\/applicability requires owner assessment/);
+assert.match(row('details-check'),/The owner needs to assess whether this control addresses the risk/);
+assert.match(row('details-check'),/cm-coverage-pending/,'Unassessed relationships remain visibly pending');
 assert.doesNotMatch(row('details-check'),/The documented design addresses this risk/);
 assert.match(row('details-check'),/Library result/);
 assert.match(row('details-check'),/25 standard payment-detail checks · October 30, 2026/,'Library result carries its actual population and date');

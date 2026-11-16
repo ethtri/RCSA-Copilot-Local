@@ -1,0 +1,37 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {createInitial,assessmentContentKey,seedScene} from '../src/scripts/demo/model.js';
+import {bankFitContext,mutateControlFit,explainControlFit,rankControlOptions,controlFitView,controlFitDetails} from '../src/scripts/demo/control-fit.js';
+import {controlAssistanceView,recommendationDialog} from '../src/scripts/demo/control-assistance-view.js';
+import {controlsWorkspace} from '../src/scripts/demo/controls.js';
+import {recommendationSet} from '../src/scripts/demo/control-assistance.js';
+const json=async name=>JSON.parse(await readFile(new URL('../assets/data/'+name,import.meta.url),'utf8'));
+const [workflow,assistance,intelligence]=await Promise.all(['workflow-demo.json','control-assistance.json','risk-intelligence.json'].map(json));
+const data={...workflow,assistance,intelligence,sources:[...workflow.sources,...intelligence.sources]};
+const s=createInitial(data),before=assessmentContentKey(s);
+const options=recommendationSet(data,s);
+assert.equal(rankControlOptions(data,s,options)[0].id,'wire-enhance');
+assert.equal(explainControlFit(data,s,options.find(x=>x.id==='wire-existing')).label,'Limited fit for this gap');
+assert(controlFitView(data,s).includes('data-field="controlFit.workflow"'));
+assert(mutateControlFit(s,'controlFit.contactSource','separate-source'));
+assert(mutateControlFit(s,'controlFit.workflow','case-system'));
+assert(mutateControlFit(s,'controlFit.staffing','separate-checker'));
+assert.equal(bankFitContext(s).workflow,'case-system');
+assert.equal(rankControlOptions(data,s,options)[0].id,'wire-new');
+const bankFit=explainControlFit(data,s,options.find(x=>x.id==='wire-new'));
+assert(bankFit.reason.includes('separate verification role'));assert(bankFit.requirements.some(x=>x.includes('case workflow')));
+assert.equal(assessmentContentKey(s),before);
+assert.equal(s.history.length,0);assert.equal(s.customControls.length,0);
+const html=controlAssistanceView(data,s);assert(html.indexOf('data-candidate="wire-new"')<html.indexOf('data-candidate="wire-enhance"'));assert(html.includes('What this needs'));
+assert(recommendationDialog(data,s,'wire-new').includes('Fit for the bank'));
+for(const risk of ['details','cutoff']){
+ s.selectedRisk=risk;const items=recommendationSet(data,s),ranked=rankControlOptions(data,s,items);assert.equal(ranked.length,items.length);assert(explainControlFit(data,s,ranked[0]).recommended);
+ assert(controlAssistanceView(data,s).includes('Bank context'));
+}
+const frozen=seedScene(data,'submitted');frozen.snapshots[0].controlAssistance.bankContext={contactSource:'separate-source',workflow:'case-system',staffing:'separate-checker'};frozen.controlAssistance.bankContext={contactSource:'same-record',workflow:'manual',staffing:'shared-team'};assert(controlsWorkspace(data,frozen).includes('value="case-system" selected'));
+assert.equal(mutateControlFit(s,'controlFit.staffing','invented'),false);assert.equal(bankFitContext(s).staffing,'separate-checker');
+s.role='second';assert.equal(mutateControlFit(s,'controlFit.workflow','manual'),false);assert(controlFitView(data,s).includes('disabled'));
+s.role='first';s.submitted=true;assert.equal(mutateControlFit(s,'controlFit.workflow','manual'),false);
+s.submitted=false;s.selectedRisk='unauthorized';s.risks.unauthorized.scenarioId='owner-defined';assert.equal(explainControlFit(data,s,options[0]).recommended,false);
+assert(!controlFitDetails(data,s,{...options[0],designDraft:{owner:'<unsafe>'}}).includes('<unsafe>'));
+console.log('PASS: bank context changes recommendation order and prerequisites, respects read-only roles, rejects unknown values, escapes text and changes no ratings, controls, history or work records.');

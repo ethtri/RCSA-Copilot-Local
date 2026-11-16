@@ -1,0 +1,27 @@
+.review-version-scope{margin:20px 0;padding:22px 24px}
+.review-version-scope .section-head{align-items:center;gap:18px;flex-wrap:wrap}
+.review-version-scope h2{font:600 19px/1.5 var(--ui);margin:0}
+.review-version-scope p{font-size:14px;line-height:1.7;margin:10px 0}
+.review-version-scope .button{min-height:44px}
+.review-risk-overview{width:100%;border-collapse:collapse;margin-top:18px;font-size:13px;line-height:1.7}
+.review-risk-overview th,.review-risk-overview td{padding:12px;text-align:left;border-top:1px solid var(--line);vertical-align:top}
+.review-risk-overview th{font-weight:600}
+.review-risk-overview th:first-child{padding-left:0}
+.review-risk-overview td:last-child{padding-right:0}
+.review-risk-overview .risk-label{font-size:13px}
+.review-priority-label{font-size:13px;color:var(--muted);padding:0 0 12px;border-bottom:1px solid var(--line);margin:0 0 18px}
+.carry-forward-review>p{font-size:14px;line-height:1.7;margin:14px 0}
+.carry-forward-ratings{display:flex;gap:32px;margin:22px 0}
+.carry-forward-ratings .label{display:block;margin-bottom:7px;font-size:12px}
+.carry-forward-review h3{font:600 16px/1.5 var(--ui);margin:24px 0 12px}
+.carry-forward-reasons{margin:0;display:grid;gap:16px}
+.carry-forward-reasons dt{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px}
+.carry-forward-reasons dd{font-size:14px;line-height:1.7;margin:0}
+.carry-forward-findings{list-style:none;padding:0;margin:0}
+.carry-forward-findings li{padding:14px 0;border-top:1px solid var(--line);font-size:14px;line-height:1.7}
+.carry-forward-findings p{margin:6px 0 0}
+.carry-forward-sources{margin:18px 0}
+.carry-forward-sources summary{min-height:44px;padding:10px 0;cursor:pointer;color:var(--forest);font-size:14px}
+.carry-forward-sources .source-link{min-height:44px;text-align:left}
+.carry-forward-notice{padding:14px 16px;background:#fff6e4;border:1px solid #ead5a5;border-radius:6px}
+@media(max-width:600px){.review-version-scope{padding:18px}.review-risk-overview thead{display:none}.review-risk-overview tbody,.review-risk-overview tr,.review-risk-overview th,.review-risk-overview td{display:block}.review-risk-overview tr{padding:12px 0;border-top:1px solid var(--line)}.review-risk-overview th,.review-risk-overview td{padding:5px 0;border:0}.review-risk-overview td::before{content:attr(data-label);display:block;font-size:12px;color:var(--muted);margin-bottom:4px}.carry-forward-ratings{gap:20px;flex-wrap:wrap}}
