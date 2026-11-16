@@ -1,4 +1,4 @@
-import {assessmentProjection,reviewedProjection,score} from './model.js?v=20261115.20';
+import {assessmentProjection,reviewedProjection,score} from './model.js?v=20261116.1';
 // Local reference adapter. No network, credentials or production authorization.
 const copy=value=>structuredClone(value);
 export const EXTERNAL_IDS={assessment:'RCSA-PAY-2026-Q4-0142',risk:'RISK-WT-014',action:'ACT-PAY-028',risks:{unauthorized:'RISK-WT-014',details:'RISK-WT-015',cutoff:'RISK-WT-016'},controls:{callback:'CTRL-PAY-041',approval:'CTRL-PAY-042','details-check':'CTRL-PAY-043',queue:'CTRL-PAY-044','customer-confirmation':'CTRL-PAY-045'}};

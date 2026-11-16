@@ -1,8 +1,8 @@
-import {preparedScopeMatches,scopeRecord} from './scope-model.js?v=20261115.20';
-import {signalTrend,signalFindings} from './signal-analysis.js?v=20261115.20';
-import {policyFor,defaultPolicy} from './bank-policy.js?v=20261115.20';
+import {preparedScopeMatches,scopeRecord} from './scope-model.js?v=20261116.1';
+import {signalTrend,signalFindings} from './signal-analysis.js?v=20261116.1';
+import {policyFor,defaultPolicy} from './bank-policy.js?v=20261116.1';
 // Prepared local proposal contracts. These are inspectable scenario suggestions, never live model output.
-import {blankRating,emptyResponse,score,validRating,sourceRecords,record,invalidateRisk} from './model.js?v=20261115.20';
+import {blankRating,emptyResponse,score,validRating,sourceRecords,record,invalidateRisk} from './model.js?v=20261116.1';
 const copy=v=>structuredClone(v),editable=s=>s.role==='first'&&!s.submitted;
 const id='duplicate-release';
 const RETRY_SOURCES=[

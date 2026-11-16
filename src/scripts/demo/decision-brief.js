@@ -1,6 +1,6 @@
-import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261115.20';
-import {currentRating,score} from './model.js?v=20261115.20';
-import {ensureOperations,decisionStatus} from './operations.js?v=20261115.20';
+import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261116.1';
+import {currentRating,score} from './model.js?v=20261116.1';
+import {ensureOperations,decisionStatus} from './operations.js?v=20261116.1';
 
 // Synthetic proposal for the leadership demonstration, not an approval record.
 const proposal={owner:'Head of Payments Operations',forum:'Payments Risk Committee',targetDate:'2026-11-19'};

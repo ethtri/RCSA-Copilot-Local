@@ -690,3 +690,21 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 .response-review-reminder{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:20px 0;padding:20px 24px;border:1px solid var(--line);border-radius:8px;background:#f5f7f8}
 .response-review-reminder strong{font-size:14px;line-height:1.6}.response-review-reminder p{font-size:14px;line-height:1.65;margin:6px 0 0;max-width:75ch}.response-review-reminder .button{flex:none;min-height:44px}
 @media(max-width:600px){.response-review-reminder{display:block;padding:18px}.response-review-reminder .button{margin-top:14px}}
+
+/* Put the selected risk's recorded controls ahead of optional AI designs. */
+.mapped-controls-overview{margin:20px 0 24px;padding:22px 24px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.mapped-controls-heading{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.mapped-controls-heading h2{font-family:var(--ui);font-size:20px;line-height:1.4;margin:0;letter-spacing:-.02em}
+.mapped-controls-heading p{font-size:14px;color:var(--muted);margin:0}
+.mapped-controls-group h3{font-family:var(--ui);font-size:14px;line-height:1.5;margin:0 0 6px;color:var(--forest)}
+.mapped-controls-group h3 span{font-weight:400}.mapped-controls-group+.mapped-controls-group{border-top:1px solid var(--line);margin-top:18px;padding-top:18px}
+.mapped-controls-group ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.mapped-controls-group li{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:12px 0;min-width:0}
+.mapped-controls-group li+li{border-left:1px solid var(--line);padding-left:24px}
+.mapped-controls-group h4{font-family:var(--ui);font-size:16px;line-height:1.5;margin:0 0 6px}
+.mapped-controls-group li p{font-size:14px;line-height:1.65;margin:0 0 8px;overflow-wrap:anywhere}
+.mapped-controls-group small,.mapped-controls-note{font-size:13px;line-height:1.6;color:var(--muted)}
+.mapped-controls-group .button{flex-shrink:0;font-size:13px;min-height:40px;padding:8px 12px}
+.mapped-controls-note{margin:12px 0 0}.mapped-controls-group>.mapped-controls-note{margin:0 0 6px}
+@media(max-width:900px){.mapped-controls-group ul{grid-template-columns:1fr;gap:0}.mapped-controls-group li+li{border-left:0;border-top:1px solid var(--line);padding-left:0}}
+@media(max-width:540px){.mapped-controls-overview{padding:18px 16px}.mapped-controls-heading{gap:6px}.mapped-controls-group li{flex-direction:column;gap:8px}.mapped-controls-group .button{min-height:44px}}

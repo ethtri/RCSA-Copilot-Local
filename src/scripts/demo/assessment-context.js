@@ -1,13 +1,13 @@
-import {carryForwardNeedsReview} from './carry-forward.js?v=20261115.20';
-import {scopeRecord,preparedScopeMatches} from './scope-model.js?v=20261115.20';
-import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261115.20';
-import {readinessIssues} from './grc-exchange.js?v=20261115.20';
-import {assistanceRecord} from './control-assistance-view.js?v=20261115.20';
-import {decisionBrief} from './decision-brief.js?v=20261115.20';
-import {esc,button,sourceLink,field,ratingBadge,formatDate} from './ui.js?v=20261115.20';
-import {score,band,currentRating,requirements,draftHandoff,riskEntries,assessmentProjection} from './model.js?v=20261115.20';
-import {responseComplete,RESPONSE_OPTIONS} from './responses.js?v=20261115.20';
-import {ratingComparison} from './visuals.js?v=20261115.20';
+import {carryForwardNeedsReview} from './carry-forward.js?v=20261116.1';
+import {scopeRecord,preparedScopeMatches} from './scope-model.js?v=20261116.1';
+import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261116.1';
+import {readinessIssues} from './grc-exchange.js?v=20261116.1';
+import {assistanceRecord} from './control-assistance-view.js?v=20261116.1';
+import {decisionBrief} from './decision-brief.js?v=20261116.1';
+import {esc,button,sourceLink,field,ratingBadge,formatDate} from './ui.js?v=20261116.1';
+import {score,band,currentRating,requirements,draftHandoff,riskEntries,assessmentProjection} from './model.js?v=20261116.1';
+import {responseComplete,RESPONSE_OPTIONS} from './responses.js?v=20261116.1';
+import {ratingComparison} from './visuals.js?v=20261116.1';
 const colors={inherent:'#305f79',residual:'#12654b'};
 const recordedRisk=(data,s,id)=>s.submitted?assessmentProjection(s,'current',data)?.risks?.[id]:s.risks[id];
 export function historySeries(data,s,id){const r=recordedRisk(data,s,id),scope=scopeRecord(s);return [...(preparedScopeMatches(s)?data.context?.history?.[id]||[]:[]),{period:scope?.period||'Period not preserved',inherent:r?.inherent||null,residual:r?.residual||null,current:true}];}

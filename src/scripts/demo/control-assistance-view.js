@@ -1,6 +1,6 @@
-import {controlFitView,controlFitDetails,explainControlFit,rankControlOptions} from './control-fit.js?v=20261115.20';
-import {esc,button,icon,sourceLink} from './ui.js?v=20261115.20';
-import {recommendationSet,coverageAnalysis,assistanceCase,controlSetSignature} from './control-assistance.js?v=20261115.20';
+import {controlFitView,controlFitDetails,explainControlFit,rankControlOptions} from './control-fit.js?v=20261116.1';
+import {esc,button,icon,sourceLink} from './ui.js?v=20261116.1';
+import {recommendationSet,coverageAnalysis,assistanceCase,controlSetSignature} from './control-assistance.js?v=20261116.1';
 
 const kindLabels={existing:'Existing control',enhance:'Improve a control',new:'New control'};
 const editable=s=>s.role==='first'&&!s.submitted;

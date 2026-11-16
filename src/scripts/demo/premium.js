@@ -1,6 +1,6 @@
-import {insightContext} from './inline-insights.js?v=20261115.20';
-import {esc,button,sourceLink,ratingBadge,aiLabel} from './ui.js?v=20261115.20';
-import {currentRating} from './model.js?v=20261115.20';
+import {insightContext} from './inline-insights.js?v=20261116.1';
+import {esc,button,sourceLink,ratingBadge,aiLabel} from './ui.js?v=20261116.1';
+import {currentRating} from './model.js?v=20261116.1';
 export function finding(s,origin='changes'){
  const pair=['callback','approval'].every(id=>s.risks.unauthorized.controls.includes(id));
  const title=!pair?'The control pair changed. Revisit the evidence.':s.dependency==='dismissed'?'The owner dismissed the shared-source finding.':s.dependency==='qualified'?'The owner added a caveat about the shared record.':s.dependency==='confirmed'?'Two checks share one contact record.':'Two checks may rely on one contact record.';

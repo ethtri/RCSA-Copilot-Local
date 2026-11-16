@@ -1,5 +1,5 @@
-import {score,band,currentRating,riskEntries,validRating} from './model.js?v=20261115.20';
-import {esc,button,icon,ratingBadge,statusBadge} from './ui.js?v=20261115.20';
+import {score,band,currentRating,riskEntries,validRating} from './model.js?v=20261116.1';
+import {esc,button,icon,ratingBadge,statusBadge} from './ui.js?v=20261116.1';
 const short={unauthorized:'Unauthorized wire',details:'Payment details',cutoff:'Delayed execution'};
 const bands=['Low','Moderate','Elevated','High'];
 const marksFor=risks=>r=>({unauthorized:'W',details:'P',cutoff:'D'})[r.id]||'R'+String(risks.indexOf(r)+1);

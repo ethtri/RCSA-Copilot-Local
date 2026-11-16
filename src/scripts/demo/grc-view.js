@@ -1,6 +1,6 @@
-import {esc,button,icon,statusBadge,emptyState} from './ui.js?v=20261115.20';
-import {exchangeState,reviewedPayload,EXTERNAL_IDS,METHOD_PROFILES,payloadKey,readinessIssues,configureMapping} from './grc-exchange.js?v=20261115.20';
-import {automaticSyncStatus,refreshAutomaticSync,operationalPayload} from './grc-sync.js?v=20261115.20';
+import {esc,button,icon,statusBadge,emptyState} from './ui.js?v=20261116.1';
+import {exchangeState,reviewedPayload,EXTERNAL_IDS,METHOD_PROFILES,payloadKey,readinessIssues,configureMapping} from './grc-exchange.js?v=20261116.1';
+import {automaticSyncStatus,refreshAutomaticSync,operationalPayload} from './grc-sync.js?v=20261116.1';
 
 export function syncStatusLine(s){
  const status=automaticSyncStatus(s);

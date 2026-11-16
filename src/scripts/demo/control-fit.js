@@ -1,5 +1,5 @@
-import {preparedScopeMatches} from './scope-model.js?v=20261115.20';
-import {esc,icon} from './ui.js?v=20261115.20';
+import {preparedScopeMatches} from './scope-model.js?v=20261116.1';
+import {esc,icon} from './ui.js?v=20261116.1';
 
 const OPTIONS=Object.freeze({
  contactSource:[['same-record','Current customer-contact record'],['separate-source','Separate verified contact source']],

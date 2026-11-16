@@ -7,7 +7,7 @@ import {saveMapping,removeMapping,mappingApplicability,mappingNeedsReview} from 
 const data=JSON.parse(await readFile(new URL('../assets/data/workflow-demo.json',import.meta.url),'utf8'));
 const original=structuredClone(data),s=createInitial(data),risk=s.risks.unauthorized;
 const current=structuredClone(currentRating(s,risk.id));
-const row=id=>controlsWorkspace(data,s).split('<tr role="row"').find(part=>part.includes(`data-control="${id}"`))?.split('</tr>')[0]||'';
+const row=id=>controlsWorkspace(data,s).split('<tr role="row"').slice(1).find(part=>part.includes(`data-control="${id}"`))?.split('</tr>')[0]||'';
 
 assert.equal(mappingNeedsReview(data,s),false,'Original prepared relationships retain their conclusions without migration');
 assert.equal(mappingApplicability(data,s,'details','details-check').conclusion,'prepared');

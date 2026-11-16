@@ -38,3 +38,13 @@ for(const key of ['cause','event','harm','scope','owner'])frozen.risks[candidate
 const frozenHtml=riskDetails(data,frozen,frozen.risks[candidate.id]);assert(!frozenHtml.includes('Later edit'));
 for(const value of ['An owner-entered cause.','An owner-entered event.','Owner-entered customer harm.','Owner-entered process scope.','Owner-entered risk owner'])assert(frozenHtml.includes(value));
 console.log('PASS: accessible risk/control details, unknown fields and custom scopes, proposed-control limits, frozen submitted definitions/sources and view-only behavior.');
+
+// The default view must expose the actual selected-risk links before AI options.
+const visibleMapped=(data,state)=>{const html=controlsWorkspace(data,state);return html.slice(html.indexOf('<section class="mapped-controls-overview"'),html.indexOf('<details class="record-details risk-record-details"'));};
+const overviewState=createInitial(data),overview=visibleMapped(data,overviewState);
+assert(overview.includes('Callback verification'));assert(overview.includes('Supervisory approval'));assert(!overview.includes('Customer payment confirmation'));
+assert(overview.includes('data-control="callback"'));assert(overview.includes('Current controls'));
+overviewState.selectedRisk='details';const detailOverview=visibleMapped(data,overviewState);assert(detailOverview.includes(data.controls.find(c=>c.id==='details-check').name));assert(!detailOverview.includes('Callback verification'));
+overviewState.selectedRisk='unauthorized';overviewState.customControls.push(custom);overviewState.risks.unauthorized.controls.push(custom.id);const proposedOverview=visibleMapped(data,overviewState);assert(proposedOverview.includes('Proposed controls'));assert(proposedOverview.includes('These provide no current protection.'));
+overviewState.risks.unauthorized.controls=[];assert(visibleMapped(data,overviewState).includes('No controls are mapped'));
+const frozenOverview=visibleMapped(changed,submitted);assert(!frozenOverview.includes('Later replacement'));

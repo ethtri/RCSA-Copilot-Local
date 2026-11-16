@@ -1,4 +1,4 @@
-import {scopeRecord} from './scope-model.js?v=20261115.20';
+import {scopeRecord} from './scope-model.js?v=20261116.1';
 // Bounded, authored recommendations for the local assessment. No model call is implied.
 const clone=value=>structuredClone(value);
 const proposed=control=>control?.proposed===true||String(control?.status||'').toLowerCase()==='proposed';

@@ -1,6 +1,6 @@
-import {prepareManagementRequest} from './operations.js?v=20261115.20';
-import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261115.20';
-import {score,validRating,actionComplete,record} from './model.js?v=20261115.20';
+import {prepareManagementRequest} from './operations.js?v=20261116.1';
+import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261116.1';
+import {score,validRating,actionComplete,record} from './model.js?v=20261116.1';
 export const RESPONSE_OPTIONS=[['mitigate','Strengthen controls','Improve protection and close the evidence gap.'],['accept','Ask management to accept the risk','Request a time-limited decision with monitoring.'],['avoid','Change or stop activity','Remove exposure through a process change.'],['transfer','Transfer part of the risk','Assess the arrangement and the risk retained.']];
 export const actionFor=(s,id)=>id==='unauthorized'?s.action:s.risks[id]?.responseAction;
 const dateValid=(value,s)=>/^\d{4}-\d{2}-\d{2}$/.test(value||'')&&!Number.isNaN(Date.parse(value+'T12:00:00Z'))&&new Date(value+'T12:00:00Z').toISOString().slice(0,10)===value&&value>=(s.asOf||'2026-11-14');

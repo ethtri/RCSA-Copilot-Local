@@ -1,9 +1,9 @@
-import {carryForwardNeedsReview} from './carry-forward.js?v=20261115.20';
-import {defaultScope,scopeContent} from './scope-model.js?v=20261115.20';
-import {prepareManagementRequest} from './operations.js?v=20261115.20';
-import {evidenceRequired,reviewerFor,defaultPolicy,thresholdFor} from './bank-policy.js?v=20261115.20';
-import {controlDefaults} from './assessment-content.js?v=20261115.20';
-import {responseComplete,RESPONSE_OPTIONS} from './responses.js?v=20261115.20';
+import {carryForwardNeedsReview} from './carry-forward.js?v=20261116.1';
+import {defaultScope,scopeContent} from './scope-model.js?v=20261116.1';
+import {prepareManagementRequest} from './operations.js?v=20261116.1';
+import {evidenceRequired,reviewerFor,defaultPolicy,thresholdFor} from './bank-policy.js?v=20261116.1';
+import {controlDefaults} from './assessment-content.js?v=20261116.1';
+import {responseComplete,RESPONSE_OPTIONS} from './responses.js?v=20261116.1';
 export const SCHEMA_VERSION=3;
 export const STAGES=['changes','inherent','controls','residual','review'];
 export const LABELS=['What changed','Inherent risk','Controls','Residual risk & response','Review'];

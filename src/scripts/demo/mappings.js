@@ -1,4 +1,4 @@
-import {record} from './model.js?v=20261115.20';
+import {record} from './model.js?v=20261116.1';
 
 export const controlsLibrary=(data,s)=>[...data.controls,...(s.customControls||[])];
 export const sharedPair=s=>['callback','approval'].every(id=>s.risks.unauthorized.controls.includes(id));

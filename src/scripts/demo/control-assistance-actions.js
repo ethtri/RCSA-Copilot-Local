@@ -1,8 +1,8 @@
-import {ensureAssistance,recommendationSet,coverageAnalysis,preparePlan,controlSetSignature,recordAssistanceDecision,checkControlClaim} from './control-assistance.js?v=20261115.20';
-import {recommendationDialog,dismissalDialog,planDialog,claimCheckDialog} from './control-assistance-view.js?v=20261115.20';
-import {controlsLibrary,saveMapping,invalidateMapping} from './mappings.js?v=20261115.20';
-import {record} from './model.js?v=20261115.20';
-import {actionFor} from './responses.js?v=20261115.20';
+import {ensureAssistance,recommendationSet,coverageAnalysis,preparePlan,controlSetSignature,recordAssistanceDecision,checkControlClaim} from './control-assistance.js?v=20261116.1';
+import {recommendationDialog,dismissalDialog,planDialog,claimCheckDialog} from './control-assistance-view.js?v=20261116.1';
+import {controlsLibrary,saveMapping,invalidateMapping} from './mappings.js?v=20261116.1';
+import {record} from './model.js?v=20261116.1';
+import {actionFor} from './responses.js?v=20261116.1';
 
 const editable=s=>s.role==='first'&&!s.submitted;
 const designFields=['name','owner','purpose','design','frequency','population','informationSource','exceptions','evidenceRetained','validation'];

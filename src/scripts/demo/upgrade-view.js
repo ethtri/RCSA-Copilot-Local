@@ -1,8 +1,8 @@
-import {policyFor} from './bank-policy.js?v=20261115.20';
-import {esc,button,sourceLink,field,aiLabel} from './ui.js?v=20261115.20';
-import {sourceRecords,score,band,riskEntries,assessmentProjection} from './model.js?v=20261115.20';
-import {ensureUpgrade,refreshProposals,ratingProposal,applyProposal,refreshProposal,dismissProposal,discoverRisks,suggestionSources,addDiscoveredRisk,disposeDiscoveredRisk,checkAssessmentClaims} from './upgrade-model.js?v=20261115.20';
-import {responseOptionsDialog} from './response-view.js?v=20261115.20';
+import {policyFor} from './bank-policy.js?v=20261116.1';
+import {esc,button,sourceLink,field,aiLabel} from './ui.js?v=20261116.1';
+import {sourceRecords,score,band,riskEntries,assessmentProjection} from './model.js?v=20261116.1';
+import {ensureUpgrade,refreshProposals,ratingProposal,applyProposal,refreshProposal,dismissProposal,discoverRisks,suggestionSources,addDiscoveredRisk,disposeDiscoveredRisk,checkAssessmentClaims} from './upgrade-model.js?v=20261116.1';
+import {responseOptionsDialog} from './response-view.js?v=20261116.1';
 const locked=s=>s.role!=='first'||s.submitted;
 const disabled=s=>locked(s)?'disabled':'';
 const refs=(data,s,ids)=>{const sources=[...sourceRecords(data,s),...suggestionSources()];return `<div class="button-group upgrade-sources">${ids.map(id=>sourceLink(sources.find(x=>x.id===id)?.title||'Source record',id)).join('')}</div>`;};

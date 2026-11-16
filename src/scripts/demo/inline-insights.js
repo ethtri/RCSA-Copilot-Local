@@ -1,12 +1,12 @@
-import {relatedResearch} from './research-context.js?v=20261115.20';
-import {preparedScopeMatches} from './scope-model.js?v=20261115.20';
-import {policyFor,defaultPolicy} from './bank-policy.js?v=20261115.20';
-import {signalTrend,signalFindings} from './signal-analysis.js?v=20261115.20';
-import {evidenceUpdateView} from './evidence-update.js?v=20261115.20';
-import {decisionInsights} from './decision-insights.js?v=20261115.20';
-import {esc,button,sourceLink,aiLabel,ratingBadge} from './ui.js?v=20261115.20';
-import {assessmentProjection,sourceRecords} from './model.js?v=20261115.20';
-import {ratingProposal} from './upgrade-model.js?v=20261115.20';
+import {relatedResearch} from './research-context.js?v=20261116.1';
+import {preparedScopeMatches} from './scope-model.js?v=20261116.1';
+import {policyFor,defaultPolicy} from './bank-policy.js?v=20261116.1';
+import {signalTrend,signalFindings} from './signal-analysis.js?v=20261116.1';
+import {evidenceUpdateView} from './evidence-update.js?v=20261116.1';
+import {decisionInsights} from './decision-insights.js?v=20261116.1';
+import {esc,button,sourceLink,aiLabel,ratingBadge} from './ui.js?v=20261116.1';
+import {assessmentProjection,sourceRecords} from './model.js?v=20261116.1';
+import {ratingProposal} from './upgrade-model.js?v=20261116.1';
 
 export function insightContext(data,s,kind='inherent'){
  const stage=kind==='inherent'?'inherent':'residual',projection=s.submitted?assessmentProjection(s,'current',data):null,risk=projection?.risks?.[s.selectedRisk]||s.risks[s.selectedRisk];

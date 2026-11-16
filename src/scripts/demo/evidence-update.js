@@ -1,5 +1,5 @@
-import {esc,button,sourceLink} from './ui.js?v=20261115.20';
-import {record,invalidateRisk} from './model.js?v=20261115.20';
+import {esc,button,sourceLink} from './ui.js?v=20261116.1';
+import {record,invalidateRisk} from './model.js?v=20261116.1';
 
 export const incomingTest=data=>(data.signals?.sources||[]).find(source=>source.id==='signals-urgent-test');
 export function evidenceUpdateView(data,s,risk,stage,projection=null){

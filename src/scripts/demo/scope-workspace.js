@@ -1,9 +1,9 @@
-import {scopeRecord,preparedScopeMatches} from './scope-model.js?v=20261115.20';
-import {assessmentProjection,sourceRecords,riskEntries} from './model.js?v=20261115.20';
-import {signalTrend} from './signal-analysis.js?v=20261115.20';
-import {discoverRisks} from './upgrade-model.js?v=20261115.20';
-import {policyFor,thresholdFor} from './bank-policy.js?v=20261115.20';
-import {esc,icon,button,sourceLink,field,aiLabel,formatDate} from './ui.js?v=20261115.20';
+import {scopeRecord,preparedScopeMatches} from './scope-model.js?v=20261116.1';
+import {assessmentProjection,sourceRecords,riskEntries} from './model.js?v=20261116.1';
+import {signalTrend} from './signal-analysis.js?v=20261116.1';
+import {discoverRisks} from './upgrade-model.js?v=20261116.1';
+import {policyFor,thresholdFor} from './bank-policy.js?v=20261116.1';
+import {esc,icon,button,sourceLink,field,aiLabel,formatDate} from './ui.js?v=20261116.1';
 
 const locked=s=>s.role!=='first'||s.submitted;
 const labels={process:'Process',owner:'Assigned owner',period:'Assessment period',channels:'Payment channels',systems:'Systems and information',inScope:'Included activities',outOfScope:'Outside this assessment'};

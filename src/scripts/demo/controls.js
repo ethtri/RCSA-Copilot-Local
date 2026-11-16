@@ -1,10 +1,10 @@
-import {controlDetails,riskDetails} from './record-details.js?v=20261115.20';
-import {riskEntries,assessmentProjection} from './model.js?v=20261115.20';
-import {controlAssistanceView} from './control-assistance-view.js?v=20261115.20';
-import {controlConclusion} from './research.js?v=20261115.20';
-import {contextualPrompt} from './risk-intelligence.js?v=20261115.20';
-import {esc,icon,button,link,sourceLink} from './ui.js?v=20261115.20';
-import {controlsLibrary,mappingApplicability,mappingNeedsReview} from './mappings.js?v=20261115.20';
+import {controlDetails,riskDetails} from './record-details.js?v=20261116.1';
+import {riskEntries,assessmentProjection} from './model.js?v=20261116.1';
+import {controlAssistanceView} from './control-assistance-view.js?v=20261116.1';
+import {controlConclusion} from './research.js?v=20261116.1';
+import {contextualPrompt} from './risk-intelligence.js?v=20261116.1';
+import {esc,icon,button,link,sourceLink} from './ui.js?v=20261116.1';
+import {controlsLibrary,mappingApplicability,mappingNeedsReview} from './mappings.js?v=20261116.1';
 
 const locked=s=>s.role!=='first'||s.submitted;
 const disabled=s=>locked(s)?'disabled':'';
@@ -26,6 +26,10 @@ function testScope(data,c){
   const test=data.sources.find(source=>source.id===c.test);
   return `<small class="cm-test-scope">${esc(test?`${test.scope} · ${test.date}`:'No test population or period recorded.')}</small>`;
 }
+function mappedControlsOverview(s,r,controls){
+ const groups=[{label:'Current controls',items:controls.filter(c=>!proposed(c))},{label:'Proposed controls',items:controls.filter(proposed)}];
+ return `<section class="mapped-controls-overview" aria-label="Controls mapped to ${esc(r.name)}"><div class="mapped-controls-heading"><h2>Controls mapped to this risk</h2><p>${esc(r.name)}</p></div>${groups.map(group=>group.items.length?`<div class="mapped-controls-group"><h3>${group.label} <span>(${group.items.length})</span></h3>${group.label==='Proposed controls'?'<p class="mapped-controls-note">Not implemented or tested. These provide no current protection.</p>':''}<ul>${group.items.map(c=>`<li><div><h4>${esc(c.name)}</h4><p>${esc(c.design||c.purpose||'Open the control record to review its design.')}</p><small>Owner: ${esc(c.owner||'Not recorded')}</small></div>${button('View details','control',`class="button quiet" data-control="${esc(c.id)}" aria-label="View details: ${esc(c.name)}"`)}</li>`).join('')}</ul></div>`:'').join('')}${!controls.length?'<p class="mapped-controls-note">No controls are mapped to this risk. Use <strong>Add a control</strong> to link an existing control or propose a new one.</p>':'<p class="mapped-controls-note">A risk link shows which controls to assess. It does not prove that they work.</p>'}</section>`;
+}
 export function controlsWorkspace(data,s){
   // Recorded control records resolve from the submitted context; incoming evidence is handled elsewhere.
   const recorded=s.submitted?assessmentProjection(s,'current',data):null;
@@ -42,6 +46,7 @@ export function controlsWorkspace(data,s){
   const html=`<section class="cm-workspace"><header class="cm-heading"><div><h1>Review and design controls</h1><p>${position} · Review the gap, improve the design and record your conclusion.</p></div>${readonly?button(s.role==='first'?'Start new draft':'Browse controls',s.role==='first'?'owner-revision':'control-library','class="button primary"'):action(`${icon('source',17)} Add a control`,'mapping-add',s)}</header>
   ${s.submitted?`<div class="cm-version-note"><span>Version ${s.versionNumber} · ${s.reviewed?'Reviewed':'In review'}. ${s.role==='first'?'Start a new assessment draft to change control links.':`Control changes belong to ${esc(data.owner)}.`}</span>${button('Inspect submitted version','version',`class="text-link" data-version="${s.versionNumber}"`)}</div>`:s.revisionOf?`<div class="cm-version-note"><span>New draft · based on version ${s.revisionOf}</span>${button('Inspect prior version','version',`class="text-link" data-version="${s.revisionOf}"`)}</div>`:''}
   <nav class="cm-risks" aria-label="Risk under assessment"><label class="risk-select-mobile"><span>Risk</span><select data-risk-select aria-label="Risk under assessment">${riskEntries(s).map(x=>`<option value="${esc(x.id)}" ${r.id===x.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select></label>${riskEntries(s).map(x=>button(esc(x.name),'risk',`class="cm-risk-tab ${r.id===x.id?'selected':''}" data-risk="${esc(x.id)}" aria-pressed="${r.id===x.id}"`)).join('')}</nav>
+  ${mappedControlsOverview(s,r,controls)}
   ${riskDetails(data,s,r)}
   <div class="controls-working-grid">${controlAssistanceView(data,s)}
   <details class="ca-current-controls" data-edit="currentControls-${r.id}" ${(s.editPanels?.['currentControls-'+r.id]??!r.controlsConfirmed)||mappingNeedsReview(data,s,r.id)?'open':''}><summary>Your control conclusion · ${position}</summary><div class="cm-layout"><section class="sheet cm-main"><div class="cm-section-heading"><div><span class="label">${esc(r.name)}</span><h2>Mapped controls</h2></div><span class="cm-count">${position}</span></div>

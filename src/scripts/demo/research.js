@@ -1,7 +1,7 @@
-import {esc,button,sourceLink,field} from './ui.js?v=20261115.20';
-import {record,startOwnerRevision} from './model.js?v=20261115.20';
+import {esc,button,sourceLink,field} from './ui.js?v=20261116.1';
+import {record,startOwnerRevision} from './model.js?v=20261116.1';
 const tabs=[['event','The full event'],['claims','The assessment'],['research','Research'],['options','Response options'],['evidence','New evidence']];
-import {controlDefaults} from './assessment-content.js?v=20261115.20';
+import {controlDefaults} from './assessment-content.js?v=20261116.1';
 export {controlDefaults};
 export function controlConclusion(data,s){const r=s.risks[s.selectedRisk];return `<section class="research-conclusion"><span class="label">Owner judgment</span><h3>What do the controls and evidence support?</h3>${field('Control conclusion','risk.controlConclusion.text',r.controlConclusion?.text??(s.submitted?'No separate control conclusion was recorded in this version.':controlDefaults[r.id]),{area:true,readOnly:s.role!=='first'||s.submitted})}<p class="small muted">Consider what each check is meant to do, whether testing shows it works, and any gaps between checks. Confirming controls saves your conclusion.</p><details><summary>Design, operation and combined coverage</summary><p><strong>Design:</strong> Does the documented check address this risk?</p><p><strong>Operation:</strong> Which payments and dates were tested?</p><p><strong>Combined coverage:</strong> Do the checks use the same information? Could errors pass from one step to the next?</p></details>${r.id==='unauthorized'?launch('Review the evidence','claims','controls'):button('Review the evidence for this risk','open-intelligence',`class="button" data-stage="residual" data-return="controls" data-risk="${r.id}"`)}</section>`;}
 function launch(label,tab,origin='changes'){return button(label,'research-open',`class="button" data-tab="${tab}" data-origin="${origin}"`);}
