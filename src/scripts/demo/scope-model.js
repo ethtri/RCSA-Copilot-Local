@@ -1,4 +1,4 @@
-import {invalidateRisk,record} from './model.js?v=20261116.1';
+import {invalidateRisk,record} from './model.js?v=20261116.3';
 
 export const DEFAULT_SCOPE=Object.freeze({process:'Wire transfers',owner:'Alex Morgan',period:'Q4 2026',channels:'Standard and urgent wire payments',systems:'Wire processing platform; customer-contact directory; verification service',inScope:'Payment instructions, contact changes, verification, approval and release before cutoff.',outOfScope:'Settlement-service infrastructure and non-wire payment services.'});
 const coverageKeys=['process','period','channels','systems','inScope','outOfScope'];

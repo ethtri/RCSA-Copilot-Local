@@ -1,11 +1,11 @@
-import {scopeRecord,preparedScopeMatches} from './scope-model.js?v=20261116.1';
-import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261116.1';
-import {operationsSummary,demoAsOf} from './operations.js?v=20261116.1';
-import {reviewBrief} from './premium.js?v=20261116.1';
-import {decisionBrief} from './decision-brief.js?v=20261116.1';
-import {score,band,currentRating,riskEntries,assessmentProjection} from './model.js?v=20261116.1';
-import {esc,icon,button,badge,ratingBadge,sourceLink,formatDate,statusBadge,emptyState} from './ui.js?v=20261116.1';
-import {portfolioHeatmap} from './visuals.js?v=20261116.1';
+import {scopeRecord,preparedScopeMatches} from './scope-model.js?v=20261116.3';
+import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261116.3';
+import {operationsSummary,demoAsOf} from './operations.js?v=20261116.3';
+import {reviewBrief} from './premium.js?v=20261116.3';
+import {decisionBrief} from './decision-brief.js?v=20261116.3';
+import {score,band,currentRating,riskEntries,assessmentProjection} from './model.js?v=20261116.3';
+import {esc,icon,button,badge,ratingBadge,sourceLink,formatDate,statusBadge,emptyState} from './ui.js?v=20261116.3';
+import {portfolioHeatmap} from './visuals.js?v=20261116.3';
 
 const FILTERS=[['all','All'],['assessments','Assessments'],['actions','Responses & actions'],['review','Review'],['evidence','Evidence']];
 const openRisk=(label,id,stage,options='')=>button(`${esc(label)} ${icon('arrow',16)}`,stage==='action'?'ops-open-action':stage==='decision'?'ops-open-decision':'open-risk',`data-risk="${esc(id)}" data-stage="${esc(stage)}" ${options}`);

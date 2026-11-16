@@ -1,5 +1,5 @@
-import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261116.1';
-import {esc,button,field,formatDate,statusBadge,emptyState,icon} from './ui.js?v=20261116.1';
+import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261116.3';
+import {esc,button,field,formatDate,statusBadge,emptyState,icon} from './ui.js?v=20261116.3';
 
 export const OPERATION_ROLES={first:'Alex Morgan',second:'Jordan Lee',assurance:'Avery Patel',management:'Casey Bennett',admin:'Morgan Chen'};
 export const demoAsOf=s=>/^\d{4}-\d{2}-\d{2}$/.test(s.demoAsOf||s.asOf||'')?(s.demoAsOf||s.asOf):'2026-11-14';

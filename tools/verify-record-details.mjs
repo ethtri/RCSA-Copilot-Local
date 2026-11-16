@@ -48,3 +48,10 @@ overviewState.selectedRisk='details';const detailOverview=visibleMapped(data,ove
 overviewState.selectedRisk='unauthorized';overviewState.customControls.push(custom);overviewState.risks.unauthorized.controls.push(custom.id);const proposedOverview=visibleMapped(data,overviewState);assert(proposedOverview.includes('Proposed controls'));assert(proposedOverview.includes('These provide no current protection.'));
 overviewState.risks.unauthorized.controls=[];assert(visibleMapped(data,overviewState).includes('No controls are mapped'));
 const frozenOverview=visibleMapped(changed,submitted);assert(!frozenOverview.includes('Later replacement'));
+
+const streamlined=controlsWorkspace(data,createInitial(data));
+assert(streamlined.includes('Your assessment'));assert(streamlined.includes('AI findings'));
+assert(streamlined.includes('Manage Callback verification'));assert(streamlined.includes('data-action="mapping-remove-review"'));
+assert(!streamlined.includes('class="ca-tabs"'));assert(!streamlined.includes('ca-inspector'));assert(!streamlined.includes('What this needs'));
+assert(!streamlined.includes('class="cm-table"'));assert(!streamlined.includes('Current position'));
+const submittedStreamlined=controlsWorkspace(data,seedScene(data,'submitted'));assert(!submittedStreamlined.includes('data-action="mapping-remove-review"'));

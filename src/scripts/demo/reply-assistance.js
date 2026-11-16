@@ -1,5 +1,5 @@
-import {formatDate} from './ui.js?v=20261116.1';
-import {assessmentProjection,sourceRecords,score,band} from './model.js?v=20261116.1';
+import {formatDate} from './ui.js?v=20261116.3';
+import {assessmentProjection,sourceRecords,score,band} from './model.js?v=20261116.3';
 const normalize=v=>String(v||'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
 const unique=items=>[...new Set(items)];
 export function replyIntents(question){

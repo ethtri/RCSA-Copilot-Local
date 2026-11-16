@@ -1,8 +1,8 @@
-import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261116.1';
-import {assistanceRecord} from './control-assistance-view.js?v=20261116.1';
-import {score,band,acceptanceStatus,validRating,record,sourceRecords} from './model.js?v=20261116.1';
-import {RESPONSE_OPTIONS,actionFor,setResponseStrategy} from './responses.js?v=20261116.1';
-import {esc,icon,button,field,sourceLink,formatDate} from './ui.js?v=20261116.1';
+import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261116.3';
+import {assistanceRecord} from './control-assistance-view.js?v=20261116.3';
+import {score,band,acceptanceStatus,validRating,record,sourceRecords} from './model.js?v=20261116.3';
+import {RESPONSE_OPTIONS,actionFor,setResponseStrategy} from './responses.js?v=20261116.3';
+import {esc,icon,button,field,sourceLink,formatDate} from './ui.js?v=20261116.3';
 const labelFor=id=>RESPONSE_OPTIONS.find(o=>o[0]===id)?.[1]||'Choose an approach';
 const dateAfter=(s,days)=>{const value=new Date((s.asOf||'2026-11-14')+'T12:00:00Z');value.setUTCDate(value.getUTCDate()+days);return value.toISOString().slice(0,10);};
 export function responseSummary(s,r){

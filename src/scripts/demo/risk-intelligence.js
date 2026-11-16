@@ -1,4 +1,4 @@
-import {esc,icon,button,sourceLink} from './ui.js?v=20261116.1';
+import {esc,icon,button,sourceLink} from './ui.js?v=20261116.3';
 
 const MODES = [['overview','Overview'],['signals','Records'],['sources','Sources']];
 const KIND_LABELS = {'change':'Process change','near-miss':'Near miss','event':'Operational event','issue':'Open issue','test':'Control test','review':'Service review'};

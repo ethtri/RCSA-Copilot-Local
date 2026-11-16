@@ -1,4 +1,4 @@
-import {esc,button,field,icon} from './ui.js?v=20261116.1';
+import {esc,button,field,icon} from './ui.js?v=20261116.3';
 import {policyFor,policyChanges,beginPolicyDraft,reviewPolicyDraft,applyPolicyDraft} from './bank-policy.js';
 
 const yesNo=(label,key,value,help='')=>`<label class="field"><span>${esc(label)}</span><select aria-label="${esc(label)}" data-field="bankSetup.${key}"><option value="true" ${value===true?'selected':''}>Yes</option><option value="false" ${value===false?'selected':''}>No</option></select>${help?`<small>${esc(help)}</small>`:''}</label>`;

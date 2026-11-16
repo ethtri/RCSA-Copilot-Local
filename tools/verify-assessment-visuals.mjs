@@ -34,8 +34,8 @@ const newRisk={...risk,id:'new',name:'New risk'};fresh.risks.new=newRisk;const n
 const controls=[...data.controls.filter(c=>risk.controls.includes(c.id)),{id:'proposed-test',name:'A complete proposed control name that is intentionally longer than three short lines and must never be silently cut off',owner:'Operations',status:'Proposed'}];
 const map=controlRelationshipMap(risk,controls,true,'confirmed','callback');assert(map.includes(controls.at(-1).name));assert(map.includes('data-action="control"'));assert(map.includes('data-source="callback"'));assert(map.includes('data-source="approval"'));assert(map.includes('Proposed · not implemented'));assert(map.includes('Confirmed shared source'));assert(!map.includes('<svg viewBox="0 0 970'));
 assert(controlRelationshipMap(risk,controls,true,'dismissed').includes('No shared-source conclusion is recorded'));
-const workspace=controlsWorkspace(data,fresh);assert(workspace.includes('class="sheet record-control-map"'));assert(!workspace.includes('class="cm-network-fold"'));
-fresh.risks.unauthorized.controls=[];assert(controlsWorkspace(data,fresh).includes('Map the first control'));assert(!controlsWorkspace(data,fresh).includes('class="sheet record-control-map"'));
+const workspace=controlsWorkspace(data,fresh);assert(workspace.includes('<summary>Control relationships</summary>'));assert(!workspace.includes('class="cm-network-fold"'));
+fresh.risks.unauthorized.controls=[];assert(controlsWorkspace(data,fresh).includes('No controls are mapped'));assert(!controlsWorkspace(data,fresh).includes('<summary>Control relationships</summary>'));
 const recorded=seedScene(data,'submitted'),snapshot=recorded.snapshots[0];
 const frozenCustom={id:'saved-custom',name:'Saved custom definition',owner:'Saved owner',design:'Saved design',status:'Proposed',source:'callback'};
 snapshot.controls.push(structuredClone(frozenCustom));snapshot.customControls.push(structuredClone(frozenCustom));snapshot.risks.unauthorized.controls.push(frozenCustom.id);snapshot.risks.unauthorized.mappingApplicability[frozenCustom.id]={conclusion:'covers'};

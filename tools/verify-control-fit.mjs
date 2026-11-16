@@ -22,7 +22,7 @@ const bankFit=explainControlFit(data,s,options.find(x=>x.id==='wire-new'));
 assert(bankFit.reason.includes('separate verification role'));assert(bankFit.requirements.some(x=>x.includes('case workflow')));
 assert.equal(assessmentContentKey(s),before);
 assert.equal(s.history.length,0);assert.equal(s.customControls.length,0);
-const html=controlAssistanceView(data,s);assert(html.indexOf('data-candidate="wire-new"')<html.indexOf('data-candidate="wire-enhance"'));assert(html.includes('What this needs'));
+const html=controlAssistanceView(data,s);assert(html.indexOf('data-candidate="wire-new"')<html.indexOf('data-candidate="wire-enhance"'));assert(!html.includes('What this needs'));assert(recommendationDialog(data,s,'wire-new').includes('Before using this option'));
 assert(recommendationDialog(data,s,'wire-new').includes('Fit for the bank'));
 for(const risk of ['details','cutoff']){
  s.selectedRisk=risk;const items=recommendationSet(data,s),ranked=rankControlOptions(data,s,items);assert.equal(ranked.length,items.length);assert(explainControlFit(data,s,ranked[0]).recommended);

@@ -1,5 +1,5 @@
-import {controlsLibrary} from './mappings.js?v=20261116.1';
-import {esc,icon,button} from './ui.js?v=20261116.1';
+import {controlsLibrary} from './mappings.js?v=20261116.3';
+import {esc,icon,button} from './ui.js?v=20261116.3';
 
 export function controlLibraryDialog(data,s){
   const r=s.risks[s.selectedRisk],editable=s.role==='first'&&!s.submitted,owner=s.role==='first';

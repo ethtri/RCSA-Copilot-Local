@@ -1,6 +1,6 @@
 # RCSA demo presentation runbook
 
-**Current experience:** November 15 client demo update, implemented locally (`20261115.20`). See [implementation and verification](client-demo-upgrade-2026-11-15.md).  
+**Current experience:** November 15 client demo update, implemented locally (`20261116.3`). See [implementation and verification](client-demo-upgrade-2026-11-15.md).  
 **Acceptance status:** local implementation and scoped verification are complete; see [the verification ledger](demo-experience-upgrade-verification.md). Historical runbooks and screenshots do not certify this revision.
 
 ## Start and preserve the workspace
@@ -59,9 +59,9 @@ The demo keeps five likelihood and impact levels. Labels and definitions are edi
 
 In Controls, compare an existing control, an enhancement and a new design. Review why a familiar control may not solve the specific cause. Edit the proposed objective, operating method, information source, exceptions and retained evidence. Record expected coverage without calling it implemented protection.
 
-Use **Coverage & gaps** to inspect the remaining evidence needs. An evidence request creates a linked local work item with provider, scope and target date; it sends no message. A prepared receipt can be recorded later, but receipt alone does not establish effectiveness.
+Use **Review evidence and gaps** under **AI findings** to inspect remaining evidence needs. An evidence request creates a linked local work item with provider, scope and target date; it sends no message. A prepared receipt can be recorded later, but receipt alone does not establish effectiveness.
 
-Generate an implementation plan from the selected edited design. Review separate implementation and testing tasks, owners, dates and evidence. Add it to the response draft, then record the response separately. Mapping, source or conclusion changes mark linked plans for review. An old plan remains inspectable; stale work cannot silently count as the current reviewed plan.
+After adding a proposed improvement, open **Review proposed improvement** and choose **Prepare implementation plan**. Review separate implementation and testing tasks, owners, dates and evidence. Add it to the response draft, then record the response separately. Mapping, source or conclusion changes mark linked plans for review. An old plan remains inspectable; stale work cannot silently count as the current reviewed plan.
 
 The supporting payment-details and delayed-execution risks have different prepared controls. The added retry risk also has a relevant proposed gate. An unrelated owner-defined scope must not receive the unauthorized-transfer or cutoff template.
 
@@ -149,3 +149,9 @@ AI analysis follow-up: three-month sample event/volume trends now drive explicit
 
 
 Scope follow-up: **Scope & changes** now includes editable assessment coverage, source-backed AI review priorities and a working included/excluded risk list. Adding a suggested risk stays on Scope until the user confirms the updated inventory. Coverage changes preserve scores but require fresh confirmations; submitted scope is preserved. All 32 verification scripts pass. See [implementation and verification](../ux/scope-workspace-2026-11-15.md).
+
+## Streamlined Controls page
+
+The default page has three main sections: mapped controls, AI findings and your assessment. Use **Add a control** beside the mapped list; each control’s **Manage** menu contains **Edit risk link**, **Replace** and **Remove**. Removal still requires confirmation and retains the shared control definition. Pending risk coverage is identified beside the relevant control.
+
+One AI finding and recommended improvement are visible. **Compare alternatives** contains other designs and bank context. **Review evidence and gaps** contains the detailed findings, source links, evidence requests, suggested conclusion and relationship map. Implementation prerequisites and testing requirements are in the recommendation review. A chosen design can prepare a plan; any existing draft/linked plan remains inspectable in its collapsed section. No AI action confirms controls or gives planned work current protection.
