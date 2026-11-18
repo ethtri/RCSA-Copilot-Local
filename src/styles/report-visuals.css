@@ -1,0 +1,24 @@
+/* Permanent record progress and connection components. Report document styles
+   are shared by screen, HTML download and print in reports.js: REPORT_CSS. */
+.record-progress{background:#fff;border:1px solid var(--line,#d9e2dc);border-radius:8px;padding:20px 24px;margin:20px 0 24px}
+.record-progress-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.record-progress-heading h2{font-family:var(--ui,system-ui,sans-serif);font-size:18px;font-weight:600;line-height:1.4;letter-spacing:-.015em;margin:0}
+.record-progress-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;list-style:none;padding:0;margin:18px 0 0}
+.record-progress-step{display:flex;align-items:flex-start;gap:10px;min-width:0;border-top:2px solid var(--line,#d9e2dc);padding-top:12px}
+.record-progress-mark{display:flex;align-items:center;justify-content:center;flex:none;width:28px;height:28px;border:1px solid var(--status-neutral-border,#ccd7d0);border-radius:50%;background:var(--status-neutral-fill,#f1f4f2);color:var(--status-neutral-ink,#465950);font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.record-progress-step>div{min-width:0}.record-progress-step strong{display:block;font-size:13px;font-weight:600;line-height:1.5}.record-progress-step>div>span,.record-progress-step small{display:block;margin-top:4px;font-size:12px;line-height:1.5;color:var(--muted,#53645b);overflow-wrap:anywhere}
+.record-progress-step.is-done{border-top-color:var(--status-success-border,#c4d9cb)}.record-progress-step.is-done .record-progress-mark{color:var(--status-success-ink,#155239);background:var(--status-success-fill,#eef5ef);border-color:var(--status-success-border,#c4d9cb)}
+.record-progress-step.is-current{border-top-color:var(--status-progress-border,#bfd0dc)}.record-progress-step.is-current .record-progress-mark{color:var(--status-progress-ink,#26536b);background:var(--status-progress-fill,#eef4f8);border-color:var(--status-progress-border,#bfd0dc)}
+.record-progress-step.is-returned,.record-progress-step.is-expired{border-top-color:var(--status-warning-border,#e5cd8e)}.record-progress-step.is-returned .record-progress-mark,.record-progress-step.is-expired .record-progress-mark{color:var(--status-warning-ink,#78500c);background:var(--status-warning-fill,#fff4d9);border-color:var(--status-warning-border,#e5cd8e)}
+.record-next-step{display:grid;grid-template-columns:170px minmax(0,1fr);gap:4px 20px;border-top:1px solid var(--line,#d9e2dc);padding-top:16px;margin-top:18px}
+.record-next-step>.label{grid-row:1/3;margin:0;padding-top:2px;font-size:11px;line-height:1.6;letter-spacing:.04em}.record-next-step>p{grid-column:2;margin:0;font-size:13px;line-height:1.6}.record-next-step>p+p{color:var(--muted,#53645b)}
+.integration-delivery{margin:22px 0 0;border-top:1px solid var(--line,#d9e2dc)}
+.integration-delivery-row{display:grid;grid-template-columns:190px minmax(0,1fr);gap:24px;padding:18px 0;border-bottom:1px solid var(--line,#d9e2dc)}
+.integration-delivery-row dt{display:flex;align-items:flex-start;gap:10px;font-size:14px;line-height:1.6;font-weight:600;color:var(--ink,#15221e)}
+.integration-delivery-row dt>.product-icon{margin-top:2px;color:var(--muted,#53645b)}.integration-delivery-row dd{margin:0;min-width:0}.integration-delivery-row dd>p{margin:8px 0 0;font-size:13px;line-height:1.6;max-width:68ch;color:var(--muted,#53645b)}
+.integration-connection>.integration-heading{align-items:flex-start}.integration-connection>.integration-policy{max-width:70ch}.integration-details .integration-facts{margin-top:16px}
+.integration-readiness>h2{font-family:var(--ui,system-ui,sans-serif);font-size:20px;line-height:1.4;margin:0 0 12px}
+.integration-settings .integration-history{margin-top:14px}.integration-settings .integration-history li{padding:14px 0}.integration-settings .integration-history strong{font-size:14px}.integration-settings .integration-history span{font-size:13px;line-height:1.6}.integration-settings .integration-history small{font-size:12px}
+@media(max-width:900px){.record-progress-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px}}
+@media(max-width:600px){.record-progress{padding:18px;margin:18px 0}.record-progress-heading{align-items:flex-start;flex-wrap:wrap}.record-progress-steps{grid-template-columns:1fr;gap:14px}.record-progress-step{padding-top:10px}.record-progress-step strong{font-size:14px}.record-next-step{grid-template-columns:1fr;gap:6px}.record-next-step>.label{grid-row:auto}.record-next-step>p{grid-column:1}.integration-delivery-row{grid-template-columns:1fr;gap:10px;padding:16px 0}.integration-delivery-row dt{font-size:14px}}
+@media print{.record-progress{box-shadow:none;break-inside:avoid}.record-progress-steps{grid-template-columns:repeat(4,minmax(0,1fr))}.record-progress-mark{-webkit-print-color-adjust:exact;print-color-adjust:exact}}

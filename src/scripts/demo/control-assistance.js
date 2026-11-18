@@ -1,3 +1,4 @@
+import {scopeRecord} from './scope-model.js?v=20261116.3';
 // Bounded, authored recommendations for the local assessment. No model call is implied.
 const clone=value=>structuredClone(value);
 const proposed=control=>control?.proposed===true||String(control?.status||'').toLowerCase()==='proposed';
@@ -41,17 +42,28 @@ function knownProposal(context,control){
   return context.candidates.find(candidate=>candidate.id===candidateId&&candidate.kind!=='existing')||null;
 }
 
+// A received review is usable only when this risk links the source supplied by the
+// current view. Submitted controls pass preserved sources and risk links here.
+function urgentReview(data,risk){
+ if(risk?.id!=='unauthorized'||!(risk.sources||[]).includes('signals-urgent-test'))return null;
+ const source=(data.sources||[]).find(row=>row.id==='signals-urgent-test'),m=source?.metrics;
+ if(m?.schemaVersion!==1||m.riskId!=='unauthorized'||!Number.isInteger(m.sampleSize)||m.sampleSize<1||!Number.isInteger(m.missingVerificationTrace)||m.missingVerificationTrace<0||m.missingVerificationTrace>m.sampleSize||!Number.isInteger(m.recordedApproval)||m.recordedApproval<0||m.recordedApproval>m.sampleSize||typeof m.independentSourceEstablished!=='boolean'||!/^\d{4}-\d{2}-\d{2}$/.test(m.fullTestDue||''))return null;
+ const date=new Date(m.fullTestDue+'T12:00:00Z');if(Number.isNaN(date.getTime())||date.toISOString().slice(0,10)!==m.fullTestDue)return null;
+ const due=date.toLocaleDateString('en-US',{month:'long',day:'numeric',timeZone:'UTC'});
+ return {source,metrics:m,due,detail:`The early urgent-payment review found ${m.missingVerificationTrace} of ${m.sampleSize} files without a retained verification-source trace. ${m.recordedApproval} files had recorded approval. ${m.independentSourceEstablished?'The review records source independence for its sample; broader coverage still needs testing.':'The review did not establish an independent contact source.'} The broader targeted test remains due ${due}; ${m.issueId||'the evidence issue'} remains open.`,evidence:`Resolve the ${m.missingVerificationTrace} missing verification-source traces from UT-12. Record the independently established source, approval and release evidence for the broader targeted test due ${due}. Keep unresolved exceptions and the issue status visible.`};
+}
+
 export function controlSetSignature(data,s,riskId=s.selectedRisk){
   const risk=s.risks?.[riskId];if(!risk)return '';
   const controls=library(data,s);
-  return JSON.stringify({riskId,controls:[...(risk.controls||[])].sort().map(id=>{
+  return JSON.stringify({riskId,assessmentScope:scopeRecord(s),controls:[...(risk.controls||[])].sort().map(id=>{
     const c=controls.find(item=>item.id===id);
     return {id,name:c?.name,owner:c?.owner,design:c?.design,purpose:c?.purpose,status:c?.status||'Existing',operation:c?.operation,evidence:c?.evidence,
       frequency:c?.frequency,population:c?.population,informationSource:c?.informationSource,
       exceptions:c?.exceptions,evidenceRetained:c?.evidenceRetained,validation:c?.validation,
       source:c?.source,test:c?.test,assistance:c?.assistance||c?.assistanceCandidateId||null,
       rationale:risk.mappingRationale?.[id]||'',applicability:risk.mappingApplicability?.[id]?.conclusion||'prepared'};
-  }),conclusion:risk.controlConclusion?.text||'',newEvidenceReceived:!!s.newEvidenceReceived});
+  }),conclusion:risk.controlConclusion?.text||'',newEvidenceReceived:!!s.newEvidenceReceived,...(urgentReview(data,risk)?{urgentReview:urgentReview(data,risk).source}:{})});
 }
 
 function finding(id,title,detail,kind,sourceIds,nextAction){return {id,title,detail,kind,sourceIds:[...sourceIds],nextAction};}
@@ -59,6 +71,7 @@ function finding(id,title,detail,kind,sourceIds,nextAction){return {id,title,det
 export function coverageAnalysis(data,s,riskId=s.selectedRisk){
   const context=assistanceCase(data,riskId),risk=s.risks?.[riskId];
   if(!context||!risk)return {supported:false,findings:[finding('unsupported','Analysis unavailable for this risk','Inspect the risk records and record a control conclusion. Automated assistance is unavailable for this risk.','boundary',[],'Inspect the risk evidence')],conclusion:'No suggested control conclusion is available for this risk.',designCandidateIds:[],proposedControlIds:[]};
+  const review=urgentReview(data,risk),operatingGap=review?review.detail:context.operatingGap;
   const controls=library(data,s),mapped=(risk.controls||[]).map(id=>controls.find(c=>c.id===id)||{id,name:id});
   const designControls=mapped.filter(c=>knownProposal(context,c)),proposedControls=designControls.filter(proposed);
   const designCandidateIds=[...new Set(designControls.map(c=>knownProposal(context,c).id))];
@@ -78,14 +91,14 @@ export function coverageAnalysis(data,s,riskId=s.selectedRisk){
     if(proposedControls.length)findings.push(finding('implementation-open','The proposed control is not in place yet',`The proposed ${proposedControls.map(c=>c.name).join('; ')} has no implementation or operating result in the available records. Keep the current caveat in the assessment. Plan how to put the control in place and test it.`,'implementation',context.sourceIds,'Generate an implementation and validation plan'));
     if(designControls.some(c=>!proposed(c)))findings.push(finding('operation-unverified','Marking a control implemented does not prove it works','A status update or revised design is not a test. Review evidence that the control is in place and works for these payments before changing the conclusion.','evidence',context.sourceIds,'Inspect implementation and operating evidence'));
   }else findings.push(finding('design-gap','A design question remains open',context.designGap,'design',context.sourceIds,'Compare an enhancement or new design'));
-  findings.push(finding('operating-scope','Urgent-route testing is outstanding',context.operatingGap,'evidence',context.sourceIds,'Prepare a targeted test brief'));
+  findings.push(finding('operating-scope',review?'Early urgent review found missing verification traces':riskId==='unauthorized'?'Urgent payments still need testing':'Testing does not cover this scenario',operatingGap,'evidence',review?[...new Set([...context.sourceIds,review.source.id])]:context.sourceIds,review?'Resolve the missing traces and complete the broader test':'Prepare a targeted test brief'));
   const pending=mapped.filter(c=>risk.mappingApplicability?.[c.id]?.conclusion==='unassessed');
   if(pending.length)findings.push(finding('applicability-pending','New relationships need an owner assessment',`${pending.map(c=>c.name).join('; ')} still needs an owner assessment. Mapping a control does not prove that it addresses this risk.`,'judgment',context.sourceIds,'Assess mapped control coverage'));
   const noExtraNeeded=riskId==='cutoff'&&!designControls.length&&risk.controls.includes('queue');
   if(noExtraNeeded)findings.push(finding('test-first','First establish whether a new design is needed','Keep the monitoring conclusion supported by the records and test a longer outage. Add a backup process or earlier alert only if the owner decides it is needed.','option',['queue-review','ri-cutoff-issue'],'Validate the existing approach'));
-  let conclusion=context.qualifiedConclusion;
-  if(mapped.length&&!context.baselineControlIds.some(id=>risk.controls.includes(id)))conclusion=`The original control relationships are not mapped in the current set. ${context.operatingGap} Review the mapped controls and record how they address this risk.`;
-  if(!mapped.length)conclusion=`No controls are mapped in this assessment. ${context.designGap} The owner must assess the controls in place and review the evidence that they work.`;
+  let conclusion=review?`Standard-wire evidence remains limited to its tested population. ${review.detail} Source independence and the missing traces remain unresolved; this early review does not validate a proposed control.`:context.qualifiedConclusion;
+  if(mapped.length&&context.baselineControlIds.length&&!context.baselineControlIds.some(id=>risk.controls.includes(id)))conclusion=`The original control relationships are not mapped in the current set. ${operatingGap} Review the mapped controls and record how they address this risk.`;
+  if(!mapped.length)conclusion=`No controls are mapped in this assessment. ${context.designGap} ${review?review.detail+' ':''}The owner must assess the controls in place and review the evidence that they work.`;
   if(designControls.length)conclusion+=` ${designControls.map(c=>c.name).join('; ')} is recorded as ${proposedControls.length?'a proposed design':'an owner-recorded design'}. The records do not yet show that the control is in place and works for these payments. The owner must review the revised design.`;
   if(unknown.length)conclusion+=' Additional mapped controls are outside the available analysis and require separate owner review.';
   return {supported:unknown.length===0,findings,conclusion,designCandidateIds,proposedControlIds:proposedControls.map(c=>c.id),noAdditionalControlRequired:noExtraNeeded};
@@ -112,6 +125,14 @@ export function preparePlan(data,s,riskId=s.selectedRisk,candidateId){
   result.controlSetSignature=controlSetSignature(data,s,riskId);result.needsReview=false;
   result.rationale=candidate.summary+' '+candidate.limits;
   result.basis=context.exposure;result.proposed=true;
+  const review=urgentReview(data,risk);
+  if(review){
+    result.sourceIds=[...new Set([...result.sourceIds,review.source.id])];
+    result.rationale=candidate.summary+' '+(candidate.kind==='existing'?'Customer confirmation does not establish independent verification of the sender.':candidate.limits)+' '+review.detail;
+    result.basis+=' '+review.detail;
+    result.evidence=review.evidence+' '+result.evidence;
+    result.validationTasks=[{title:'Resolve the missing UT-12 verification-source traces and retain the follow-up evidence.',owner:'Payments Control Assurance',due:review.metrics.fullTestDue,evidence:review.evidence},...result.validationTasks];
+  }
   result.dependencies=[candidate.kind==='existing'?'Owner decision on which payments the control covers':'Owner design approval and operational implementation', 'Saved evidence for the payments selected for testing'];
   if(usedControl?.name)result.selectedControlName=usedControl.name;
   if(usedControl)result.designDetails=Object.fromEntries(['frequency','population','informationSource','exceptions','evidenceRetained','validation'].map(key=>[key,usedControl[key]||'Owner to confirm']));
@@ -130,7 +151,7 @@ export function recordAssistanceDecision(s,decision){
 export function checkControlClaim(data,s,text,riskId=s.selectedRisk){
   const context=assistanceCase(data,riskId),value=normalize(text);
   const boundary='Only selected claims about test scope are checked. The full conclusion has not been evaluated. Review the linked evidence.';
-  const result={status:'unknown',title:'Review the evidence coverage',detail:'This wording cannot be checked automatically. Compare it with the linked records: which payments and dates were tested, and which verification sources were used?',sourceIds:context?[...context.sourceIds]:[],suggestedText:context?.qualifiedConclusion||'',scope:boundary};
+  const result={status:'unknown',title:'Review the evidence coverage',detail:'This wording cannot be checked automatically. Compare it with the linked records: which payments and dates were tested, and which verification sources were used?',sourceIds:context?[...context.sourceIds]:[],suggestedText:context?coverageAnalysis(data,s,riskId).conclusion:'',scope:boundary};
   if(!context||!value)return {...result,title:value?result.title:'Add a conclusion to examine'};
   const knownQualified=[context.qualifiedConclusion,coverageAnalysis(data,s,riskId).conclusion,...context.candidates.map(c=>c.conclusion)].map(normalize);
   if(knownQualified.includes(value))return {...result,status:'supported',title:'Review the payments, dates and sources tested',detail:'This suggested conclusion distinguishes tested payments from checks that still need evidence. Verify it against the linked sources. The full text has not been evaluated, and control effectiveness has not been approved.'};

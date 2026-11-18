@@ -1,8 +1,8 @@
-import {ensureAssistance,recommendationSet,coverageAnalysis,preparePlan,controlSetSignature,recordAssistanceDecision,checkControlClaim} from './control-assistance.js?v=20261114.24';
-import {recommendationDialog,dismissalDialog,planDialog,claimCheckDialog} from './control-assistance-view.js?v=20261114.24';
-import {controlsLibrary,saveMapping,invalidateMapping} from './mappings.js?v=20261114.24';
-import {record} from './model.js?v=20261114.24';
-import {actionFor} from './responses.js?v=20261114.24';
+import {ensureAssistance,recommendationSet,coverageAnalysis,preparePlan,controlSetSignature,recordAssistanceDecision,checkControlClaim} from './control-assistance.js?v=20261116.3';
+import {recommendationDialog,dismissalDialog,planDialog,claimCheckDialog} from './control-assistance-view.js?v=20261116.3';
+import {controlsLibrary,saveMapping,invalidateMapping} from './mappings.js?v=20261116.3';
+import {record} from './model.js?v=20261116.3';
+import {actionFor} from './responses.js?v=20261116.3';
 
 const editable=s=>s.role==='first'&&!s.submitted;
 const designFields=['name','owner','purpose','design','frequency','population','informationSource','exceptions','evidenceRetained','validation'];
@@ -160,7 +160,7 @@ export function handleControlAssistanceAction(ctx){
     const text=el.dataset.conclusion==='claim'?ca.claimResult?.suggestedText:coverageAnalysis(data,s,id).conclusion;
     if(!text){notify('No conclusion draft is available. Review the sources and write your conclusion.');return true;}
     const r=s.risks[id];r.controlConclusion={text};r.controlsConfirmed=false;r.residualConfirmed=false;if(r.riskResponse.created)r.riskResponse.needsReview=true;
-    markAssistancePlanForReview(s,id);s.reportConfirmed='';s.handoff='';record(s,'Alex Morgan',`Used a supported by source records control conclusion draft for ${r.name}.`,text);save();if(document.getElementById('detail-dialog')?.open)closeDialog();render();notify('Conclusion draft added. Review it before confirming controls.');return true;
+    markAssistancePlanForReview(s,id);s.reportConfirmed='';s.handoff='';record(s,'Alex Morgan',`Used a source-backed control conclusion draft for ${r.name}.`,text);save();if(document.getElementById('detail-dialog')?.open)closeDialog();render();notify('Conclusion draft added. Review it before confirming controls.');return true;
   }
   if(action==='ca-check-claim'){
     ca.claimResult=checkControlClaim(data,s,s.risks[id].controlConclusion?.text||'',id);save();showDialog(claimCheckDialog(data,s,ca.claimResult));return true;

@@ -1,0 +1,344 @@
+{
+  "review_date": "2026-11-15",
+  "current_commit": "29540e61e516e799db0a50cf816a00ec427006ee",
+  "older_repo": "https://github.com/ethtri/RCSA-Copilot-Demo-Rebuild-V3",
+  "older_commit": "47e662e212655baca08332907d4a109f733a7a8d",
+  "application_edits": false,
+  "browser": "CUA Chrome tab controls; IAB unavailable",
+  "screenshots": [
+    {
+      "file": "screenshots/01-dashboard.jpg",
+      "sha256": "81ae0098074c01a68e0f55da4c52804fd1dc497758178a4ef44f9e4cec26981e",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/02-changes.jpg",
+      "sha256": "9dbcebde1949fed0c7b4cd35d4caf7e6196776e97ee912bd2e97cb04e5f63c45",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/03-inherent.jpg",
+      "sha256": "b38eb0ebb6b1fda0120ed62ff9dc5178120b698f1d5939490add544fdd4ba958",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/04-ai-analysis.jpg",
+      "sha256": "cd08a4234476185671bcd4a0c1b0d1088c8a2f127d1136d08192988afdb7873a",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/05-event-timeline.jpg",
+      "sha256": "3c733ce9ea0b745f70eeed4edaf00ce06c91740401b2ecf4b8422b0292307552",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/06-controls-collapsed.jpg",
+      "sha256": "003a47c5bfc548d7215eda5aee70c41a34b04cd4fc75f2895727d13731dd9838",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/07-ai-controls.jpg",
+      "sha256": "6ac4bc5846b4a9c68d11372471f7fcfb3fd9c4b7186b7258015243fc6d3d0135",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/08-control-validation.jpg",
+      "sha256": "e1f41ff4e93cfad25f9b43b35d3b7b7a5bc11ac21ac4905df55b7cf35c3ed443",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/09-generated-plan.jpg",
+      "sha256": "df1d8f4e184321cc21dfd73c879ec7c65468c1d10c345381c0e77fca1e80446c",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/10-shared-source.jpg",
+      "sha256": "eabe108f5d038fc6e675bb8c560a9b7a2650fccc6512ac3db66daddf34b4f9b2",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/11-residual.jpg",
+      "sha256": "7b69a9ffb490c80e174f32ec8e298d9a8d871961abbf3efe2ae153559b23a7e1",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/12-strategy-mismatch.jpg",
+      "sha256": "77271c104d4e7655d531eca32193c96b1ddd6aaf9bb6ac15b88945d82432fe58",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/13-reviewer.jpg",
+      "sha256": "de58e4035db638090519eb1043438998b1e67fd293c3415126583805acadd10e",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/14-natural-question.jpg",
+      "sha256": "77006dca6c8d4ba1c436d1697d94c9a54521ab06d14b474be210458081d08b61",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/15-grc-blocked.jpg",
+      "sha256": "ee791b9b89934807177a6ed8b754eab39d8b4984df9187e1b06d6b67a4e4314a",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/16-report.jpg",
+      "sha256": "bac43e24e8805cff9a8bbf77a8bc40421175834ef2c816b217eb4bd984520f9f",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/17-dashboard-640.jpg",
+      "sha256": "ddf380bfda3344efe44f159ce839c116c4afb0a1ff7da328c19207d5a76d0659",
+      "status": "excluded_wrong_css_width"
+    },
+    {
+      "file": "screenshots/18-dashboard-actual-640.jpg",
+      "sha256": "491dee91e22ec272f2a03b8db7d78454ba84aa30b15e345e8ae98f538d195106",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/19-review-mobile-390.jpg",
+      "sha256": "ec7bea6dce0f0ea55bc252ab6cd5fc40c450041b42a0d44c4694217a3ca9d7ea",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/20-v3-risk-discovery.jpg",
+      "sha256": "afe9796ec5769b525eff9dfd4dbe94e185c5d26f486b4c7457b103297fa4ef5d",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/21-v3-risk-added.jpg",
+      "sha256": "856c295baa52fb4d0b3438bb297063fef6358af3097d92500c1fa5e23b9feaeb",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/22-v3-rating-proposal.jpg",
+      "sha256": "5f8f26426ab363855fad433b29f5bbd07a958d46ea0ddb685614165e3528aab1",
+      "status": "captured"
+    },
+    {
+      "file": "screenshots/23-v3-why.jpg",
+      "sha256": "677902e1b39d47e0c8737aeca2c7ad6553fbb39077a9917b63394dcc811781e3",
+      "status": "rejected_modal_transition_not_complete"
+    },
+    {
+      "file": "screenshots/24-v3-why-open.jpg",
+      "sha256": "4521de1ed6015cd380a470ce5746b90aa8a36aadeafb48a72323736ebcfd99e5",
+      "status": "captured"
+    }
+  ],
+  "current_source": [
+    {
+      "file": "src/index.html",
+      "sha256": "55b630d62c47fcae51fa43a10f019488732134ed35bea8b97d31658b5c8973b2"
+    },
+    {
+      "file": "src/scripts/demo/analysis-workspace.js",
+      "sha256": "8f7fe6a2bffd503f83248202db0d4aee32b4770119a477b3a5bd00a4c5291160"
+    },
+    {
+      "file": "src/scripts/demo/app.js",
+      "sha256": "76138218aa9ad9a00088e7dfda351050444c458ece30c40af1120b7131002075"
+    },
+    {
+      "file": "src/scripts/demo/assessment-content.js",
+      "sha256": "d9004c62369550d250193717c66a96c4ed155c1ffee4720cc7161868a18e28c9"
+    },
+    {
+      "file": "src/scripts/demo/assessment-context.js",
+      "sha256": "31e6099672127d0d046648eda937ff7594763e583f74e3209db6cefb2b19600d"
+    },
+    {
+      "file": "src/scripts/demo/assessment.js",
+      "sha256": "32ff7d5daf1678328c921e00132ca19016f0d358b22b3b8b72d8cdf5f6a59355"
+    },
+    {
+      "file": "src/scripts/demo/control-assistance-actions.js",
+      "sha256": "fad28e11ba4ca267eb0d22169f0db6619ee7f1c60581781507ca2c51e897272d"
+    },
+    {
+      "file": "src/scripts/demo/control-assistance-view.js",
+      "sha256": "93bfae083afd6eb747897fca54fc6d49cf3afa7f1b2c5056c6320531c2b75280"
+    },
+    {
+      "file": "src/scripts/demo/control-assistance.js",
+      "sha256": "849c2054443c326eb9858a4c3ff0d8cdc15fea03917662e9d3166d046a882031"
+    },
+    {
+      "file": "src/scripts/demo/control-library.js",
+      "sha256": "04448b1996d9cb91ae63de6ff5a4d8c2a29f8f90a201d8ea2e9823d143fbd4e6"
+    },
+    {
+      "file": "src/scripts/demo/controls.js",
+      "sha256": "e7d2c904bf66fcfb2b8fc2f4830f9044e7cb1c2bb39a01d22f13851a21c97ee1"
+    },
+    {
+      "file": "src/scripts/demo/dashboard.js",
+      "sha256": "a8ccc68af72503464f114ec3ffea7e9286497af9d7d128e466f7b3062707f4f9"
+    },
+    {
+      "file": "src/scripts/demo/decision-brief.js",
+      "sha256": "bace1bc79f2b286ddeec20b0898de5020f4ff9ce10b9a5c0c488e6fef61fd4b3"
+    },
+    {
+      "file": "src/scripts/demo/grc-exchange.js",
+      "sha256": "aa84dd4fcf64d78a262e9e427235b693e706f0d4ce82410ed623ba20a6e60ff0"
+    },
+    {
+      "file": "src/scripts/demo/grc-sync.js",
+      "sha256": "cb7f978b76cf5e29b88d1cdfb97bed3c9b7bb3eebfdc5691d3f4fbd96fce6ca7"
+    },
+    {
+      "file": "src/scripts/demo/grc-view.js",
+      "sha256": "3341a33eed3c976e48acf6590476126e66a70b7cc7dd9afb974b749a1c4a5f66"
+    },
+    {
+      "file": "src/scripts/demo/mappings.js",
+      "sha256": "f91c98b07abd6f1d6964d8b4cb4c1f3d16d0efb3694f2eb2385312ce6d29f2af"
+    },
+    {
+      "file": "src/scripts/demo/model.js",
+      "sha256": "ca2856eb6df5ad69dedcd67165b9e3625a497361a49ca08b7770e4db1e18328a"
+    },
+    {
+      "file": "src/scripts/demo/premium.js",
+      "sha256": "ec98d19d3c9069a49c49801504f37d112931dc55bffe28cdbadc02c937ebab75"
+    },
+    {
+      "file": "src/scripts/demo/reply-assistance.js",
+      "sha256": "71ac0b180360a620c000cf6a4f297836584a8066eac879e43d74bd3f638a7a88"
+    },
+    {
+      "file": "src/scripts/demo/reports.js",
+      "sha256": "77fd23a2e4b134a5ccb5f37face4f5210ba7701ec8486a7e4bcc0a3dfc168b18"
+    },
+    {
+      "file": "src/scripts/demo/research.js",
+      "sha256": "6ae4e3f179ba287e1f0dafb6bb2cab3d87c388db7201200e4b76954b86351970"
+    },
+    {
+      "file": "src/scripts/demo/response-view.js",
+      "sha256": "c0b9a6c9c326c565111bc05abb3def51a51800ba7d4b04dd8771cce70f900199"
+    },
+    {
+      "file": "src/scripts/demo/responses.js",
+      "sha256": "a094eaaa5bfaf26681b7798b77c1036a6db47c27883ff69fa4091ea34e66e1ba"
+    },
+    {
+      "file": "src/scripts/demo/risk-intelligence.js",
+      "sha256": "a57c9fa50b11b0b3b31cc17437ea7f66b7657e2fed9bdffda4b7910724f457c7"
+    },
+    {
+      "file": "src/scripts/demo/ui.js",
+      "sha256": "b361efb602d25317e6bd40e989ac37bacc75f83543a1ea298418cba12713f294"
+    },
+    {
+      "file": "src/scripts/demo/versions.js",
+      "sha256": "b8a6c3703fa9c84d116e12628ffeac4e1793b62931f13817d3dc15552957629f"
+    },
+    {
+      "file": "src/scripts/demo/visuals.js",
+      "sha256": "d4fc8cd86e5616fd82054b7faea5b0f807c192e4894161d93ce74c2d1cc3bc8e"
+    },
+    {
+      "file": "src/scripts/demo/work.js",
+      "sha256": "1966811b3f5d409bcdf46f1eb43342a72f9813e2aa9fbd9875d68e09f146e1a4"
+    },
+    {
+      "file": "src/styles/assessment-context.css",
+      "sha256": "cd2866453d77e3ee59a6660a865b7a544d8f07294fa5153056da34d1be36b856"
+    },
+    {
+      "file": "src/styles/buyer-readiness.css",
+      "sha256": "416441773fb995f3abf2c7b2e2404fc26940f962cd37c021ece3ba4153f47d7e"
+    },
+    {
+      "file": "src/styles/control-assistance.css",
+      "sha256": "71bda3fc86dab110560481a05a9d23f45e08e23a900037c7ea660abdb2ae4b2c"
+    },
+    {
+      "file": "src/styles/control-library.css",
+      "sha256": "d6f35405abba6f6f4801637e1d4ce2fdceb8e3953e935fd1a776896905fd8b67"
+    },
+    {
+      "file": "src/styles/controls.css",
+      "sha256": "2dbcf615a645e903bc9c3a8efdfd67f96f68c48a66e7a105ca5a3fa27529d3c0"
+    },
+    {
+      "file": "src/styles/dashboard.css",
+      "sha256": "2928c3fd74405ae9936e881cae16a87677f6e4e700ef6a4bd5760f320bc138a9"
+    },
+    {
+      "file": "src/styles/demo.css",
+      "sha256": "e8b945bdfaad66025daea0db67711dc5c3e5d116d48658ed9e8eeddf0c5f277e"
+    },
+    {
+      "file": "src/styles/grc-sync.css",
+      "sha256": "dcfc145230aedc9bddf57e5d1975a167ceb1bf0139007162e55e8f61b3535eb4"
+    },
+    {
+      "file": "src/styles/overrides.css",
+      "sha256": "93c00d4a62a265559c396e7831a7feb4bc7161735943eb0097a402dc4753c286"
+    },
+    {
+      "file": "src/styles/premium.css",
+      "sha256": "564a978b9f23e70b9c6ee8583698b77ca41ef66aae534e2b434a5369f0547f16"
+    },
+    {
+      "file": "src/styles/product-refresh.css",
+      "sha256": "cce8dbc51edbc4e3ab5bf88d39ab85b8c0339940507a64a9f610dcf3dc981da0"
+    },
+    {
+      "file": "src/styles/report-refinement.css",
+      "sha256": "98742394b5efc22e10d239934e71ff93b0e8db3eff062870b97c00234dfb17e3"
+    },
+    {
+      "file": "src/styles/research.css",
+      "sha256": "bf54d5fe1f17d076005064aefb7c5ec96fca5f3faed0933da196b408c167d911"
+    },
+    {
+      "file": "src/styles/risk-intelligence.css",
+      "sha256": "a1b43bee00e9847fd8dd59e12b957f33fd2ae9da27aea6102ad4455d1875eae4"
+    },
+    {
+      "file": "src/styles/risk-matrix.css",
+      "sha256": "91c48f35cc9a05ed7a6e04e97ed9dce4761d2b9cc95db62c0c1e1dffde903938"
+    },
+    {
+      "file": "src/styles/ux-polish.css",
+      "sha256": "afac60dabcefc74642a772fa5ba36d8a0840b38ef4bcd011f1548254e54e58a2"
+    },
+    {
+      "file": "assets/data/assessment-context.json",
+      "sha256": "a29fed682e0bfe32f4dd25407c08145c5c1128c759cd1827c4606e0f9d4ef2c1"
+    },
+    {
+      "file": "assets/data/control-assistance.json",
+      "sha256": "8d4cf05d5dcf635c82616a24f64e3086ed2a1071a2c23f77aa72e4e1d5ab4cdb"
+    },
+    {
+      "file": "assets/data/dashboard-metrics.mock.json",
+      "sha256": "efb77de1254f4965fdd79f6657c69d3e425d336f478998b88bdcb0c458c21fb4"
+    },
+    {
+      "file": "assets/data/research-demo.json",
+      "sha256": "22cc51643f9131aeab1d6e1bf7030aa8d7d4ef411373d2ab70363fb0b9e7ddb7"
+    },
+    {
+      "file": "assets/data/risk-intelligence.json",
+      "sha256": "f7d8d0135a62193c3ad55bac55a88cb7a938695b082723a084b80269423944b0"
+    },
+    {
+      "file": "assets/data/roi-calculator.mock.json",
+      "sha256": "4ec173f2d6bb49aaf18a28b43e3610e7f118e14152281b769d4ca42e7cf3d92a"
+    },
+    {
+      "file": "assets/data/wizard-insights.mock.json",
+      "sha256": "cd45a39b5b2b9910b82548b81922ba8dbbd5889f3666a231397b180d300f7342"
+    },
+    {
+      "file": "assets/data/workflow-demo.json",
+      "sha256": "e96dd16b5c097ddc12146f660db371d99083a7bb927a3f1b8f4d0748ec6faa3c"
+    }
+  ]
+}

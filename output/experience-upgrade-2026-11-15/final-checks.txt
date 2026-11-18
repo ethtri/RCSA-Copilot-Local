@@ -1,0 +1,49 @@
+PASS: all application JavaScript parses as ES modules.
+
+verify-automatic-grc-sync.mjs
+PASS: automatic reviewed-version sync, draft/return guards, owner permissions, immutable submissions, bank-owned fields, idempotency, bounded retry, source comparison, revision invalidation and method/control mapping pauses.
+
+verify-buyer-readiness.mjs
+PASS: import preservation, reviewed snapshots, attestation, role/method/mapping guards, pending/ack separation, failure retry, idempotency, conflict/rebase, revision invalidation and latest clarification.
+
+verify-control-assistance-workflow.mjs
+Control-assistance workflow checks passed: editable proposals/plans, evidence boundaries, authority, invalidation, immutable submissions and review/report provenance.
+
+verify-control-assistance.mjs
+PASS: three risk-specific recommendation sets, operational design drafts, mapping-dependent gaps, no operating credit, edited-design planning, stale-basis signatures, non-overwriting previews, durable owner decisions, bounded claim checks and role/version authority.
+
+verify-copy-authenticity.mjs
+PASS: arbitrary questions, recorded ownership, relevant coverage, history accuracy, evidence availability and bounded-check fallback.
+
+verify-demo.mjs
+PASS: fixture integrity, rating bands, human/role guards, challenge return/resolution, rating preservation, frozen reviewed-report consistency, all scene/stage rendering, and reset isolation.
+
+verify-experience-model.mjs
+PASS: schema migration, frozen evidence/control/method/review context, direct and returned review, conversation versions, partial and stale proposals, complete added-risk lifecycle, no fabricated history, four response contracts, owner edit preservation, bounded flexible and ambiguous replies.
+
+verify-mapping-applicability.mjs
+PASS: risk-specific applicability, explicit owner assessment, scoped library evidence, remapping reset, atomic replacement, proposed-control boundaries and preserved current risk.
+
+verify-operations.mjs
+PASS: action/assurance authority, evidence return/closure, decision return/approval/expiry, local evidence receipts, strategy archives, added-risk mapping recovery, exact all-risk review projection and separate idempotent operational updates.
+
+verify-owner-revision.mjs
+PASS: library browsing, owner-only revision, preserved snapshots/reviewer conclusion/current ratings, sample mapping, renewed confirmations and next-version submission.
+
+verify-persona-fixes.mjs
+PASS: returned clarification is visible and retained after later conclusions; AI coverage describes topic cues rather than question sufficiency.
+
+verify-product-refinements.mjs
+PASS: atomic control mappings, proposal evidence, confirmation invalidation, preserved current risk, explicit response creation, pending acceptance, role guards and dashboard grain.
+
+verify-report-refinement.mjs
+PASS: all-risk report, named drill-downs, frozen version/source projection, editable text confirmation, operational invalidation, immutable editions, safe standalone HTML, added-risk/missing-prior states and role guards.
+
+verify-risk-intelligence.mjs
+PASS: 18 risk/stage/view combinations; unique and complete sources; cross-source links; event chronology; scoped assurance; contextual questions; read-only judgments.
+
+verify-risk-matrix.mjs
+Risk matrix: all 25 selections preserve equal square cells, axis direction, semantic bands, marker and accessible summary.
+
+verify-ux-navigation.mjs
+PASS: assessment resume across risks and roles, actionable blockers, analysis return steps, supporting-risk destinations and selected-control planning.

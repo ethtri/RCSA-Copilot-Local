@@ -1,0 +1,26 @@
+[
+  {
+    "client": 375,
+    "route": "#/settings/bank",
+    "scroll": 375,
+    "width": 390
+  },
+  {
+    "client": 625,
+    "route": "#/settings/bank",
+    "scroll": 625,
+    "width": 640
+  },
+  {
+    "client": 753,
+    "route": "#/settings/bank",
+    "scroll": 753,
+    "width": 768
+  },
+  {
+    "client": 1009,
+    "route": "#/settings/bank",
+    "scroll": 1009,
+    "width": 1024
+  }
+]

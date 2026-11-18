@@ -1,18 +1,19 @@
 # Demo implementation design
 
-The owner's product feedback is implemented in the [product refinement specification](FEEDBACK_REFRESH.md). Its dashboard, control mapping and response references supersede those initial surface treatments. The active styles are `demo.css` plus `dashboard.css`, `controls.css` and `product-refresh.css`; all UI and charts remain native.
+The November 15 experience upgrade uses the [current design system](DEMO_EXPERIENCE_DESIGN.md), extracted from the coordinated [assessment](concepts/2026-11-15/assessment-reference.png), [controls](concepts/2026-11-15/controls-reference.png) and [report](concepts/2026-11-15/report-reference.png) references. These supersede the earlier surface treatments. All UI and charts remain native HTML, CSS and ES modules.
 
-The owner authorized the full build on November 14, 2026. Implement the recommended evidence-first direction C, using the earlier sets for workflow/content reference. New full-screen references extend C to work, rating, review, report and narrow layouts under `concepts/build-reference/`. The source control-discovery concept is `concepts/2026-11-14/control-discovery-directions/c-evidence-comparison.png`.
+The implementation preserves the earlier evidence-first identity and domain boundaries while making AI proposals visible, work records editable and the default path compact. The [experience plan](../operations/demo-experience-upgrade-plan.md) governs scope; the [verification record](../operations/demo-experience-upgrade-verification.md) distinguishes implemented and checked behavior from remaining work. The earlier [product refinement](FEEDBACK_REFRESH.md) and `concepts/2026-11-14/` material remain historical references.
 
 ## Shared system
 
 - Native static HTML/CSS/JavaScript, local JSON, no runtime dependencies or external fonts.
-- Background #f5f7f8; white sheets/top navigation; ink #15221e; muted #64706a; forest #124d3b; selected evidence #e4efd7; amber for Elevated; terracotta for High.
-- Georgia display and source excerpts; Segoe UI/system sans for controls, body, navigation, data and labels. Display 44px desktop/32px narrow; body 16px; UI 14px; labels 13px. Native source quotes 30px desktop, 23px narrow.
-- Thin top navigation, no permanent sidebar. Centered max-width 1320px; desktop gutters 48px; narrow gutters 20px. Sheets have 1px soft borders and 6px radii; open layouts and ruled rows provide hierarchy.
-- Shared primitives: primary/quiet/text buttons, evidence links, risk labels, source dialog/drawer, numeric matrix, two-column reading surfaces, editable rationale controls, status trail. Controls have hover/focus/disabled states. No decorative imagery is needed; charts and text are native.
-- Main navigation: My work, Assessments, Reports. Assessment stages: What changed, Inherent risk, Controls, Residual risk & response, Review. All exact content and scores come from the scenario fixture.
-- Responsive: stage strip scrolls independently, forms/sources stack, tables remain locally scrollable, evidence dialog becomes a full-width sheet. Presenter controls are separate from banking work.
+- Background `#f5f7f8`; white sheets and navigation; ink `#15221e`; muted `#53645b`; forest `#064d36`; pale green AI surface `#eef4ec`; amber for Elevated; terracotta for High. Ratings also have text labels.
+- Georgia page titles; Segoe UI/system sans for work, controls, source excerpts, navigation, tables and labels. Functional titles 32px desktop/28px narrow; body 14–16px; secondary metadata 12–13px. Rationale fields show at least five lines.
+- A 68px desktop header and compact context/stage strip. Centered max-width 1480px, desktop gutters 32px and narrow gutters 20px. White work panels have thin neutral borders and 6–8px radii. The assessment uses a risk rail, owner draft and AI rail; evidence opens at the right.
+- Shared primitives: primary/quiet/text buttons, source links/drawer, risk labels, matrix, proposal preview, persistent field errors, long editor, action footer and saved/recorded/sync states. Touch controls are normally at least 44px tall. Focus, hover, disabled and invalid states are explicit.
+- Main navigation: Dashboard, Assessments, Reports. Stages: Changes, Risk before controls, Controls, Risk after controls, Review. AI-prepared changes and risk discovery are the default entry; control suggestions are visible without an optional AI disclosure. Exact facts and scores come from synthetic records, never generated image copy.
+- Responsive: the header wraps before the former 640px collision; labeled step and risk selectors replace crowded strips on narrow screens; work items become a labeled list; retained tables have named keyboard-scroll regions. Long editors and the source drawer adapt to the available width. Motion is short and respects reduced motion.
+- `src/styles/upgrade.css` consolidates the current component rules and loads after the active feature styles listed in `src/index.html`. It retains the static framework and external-font-free runtime.
 
 ## Core copy and constraints
 
@@ -20,7 +21,7 @@ Preserve C's control-discovery title “Do these controls share a source?”, bo
 
 Intentional adaptations from image concepts: replace inaccurate generated dashboard column labels with Current risk and Assessment; remove decorative side stripes, invented source claims and repeated metadata; use a consistent forest action color and one native component family; give score charts truthful numeric marks. Typed drafts, clear state feedback, human attestations, progress, responsive navigation and presenter controls are necessary working-demo additions. Do not copy image-generation wording that conflicts with source scope or human authority.
 
-Each stage gets a concise title, one main action, a short explanation and inspectable evidence. Details and rating definitions open on demand rather than permanently competing with the task. The final report preserves elevated current risk, open testing and pending management disposition.
+Each stage gets a concise title, a clear next action and inspectable evidence. Detailed analysis, rating definitions, source excerpts and history open on demand. AI suggestions remain distinct from the editable draft and the last confirmed position. The all-risk report uses the selected assessment version with separately identified action/decision versions; approved requests, action closure and review completion never automatically lower a rating.
 
 ## Plain-language and navigation rules — November 14, 2026
 

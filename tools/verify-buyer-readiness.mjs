@@ -3,7 +3,8 @@ import {readFile} from 'node:fs/promises';
 import {createInitial,seedScene,startOwnerRevision,responseCoverage} from '../src/scripts/demo/model.js';
 import {exchangeState,importReference,prepareUpdate,authorizeUpdate,deliverUpdate,reconcileReference,setMethodProfile,reviewedPayload,EXTERNAL_IDS} from '../src/scripts/demo/grc-exchange.js';
 import {replySuggestion,replyCoverage} from '../src/scripts/demo/reply-assistance.js';
-import {integrationSettingsView,pilotText} from '../src/scripts/demo/grc-view.js';
+import {integrationSettingsView,integrationDeliveryModel,pilotText} from '../src/scripts/demo/grc-view.js';
+import {refreshAutomaticSync,finishAutomaticSync} from '../src/scripts/demo/grc-sync.js';
 const data=JSON.parse(await readFile(new URL('../assets/data/workflow-demo.json',import.meta.url),'utf8'));
 const draft=createInitial(data),draftBefore=JSON.stringify(draft.risks);
 assert(importReference(draft));assert.equal(JSON.stringify(draft.risks),draftBefore);assert.equal(prepareUpdate(draft),false);
@@ -20,7 +21,17 @@ const conflict=seedScene(data,'complete');conflict.role='first';const c=exchange
 const stale=seedScene(data,'complete');stale.role='first';assert(importReference(stale));assert(prepareUpdate(stale));assert(authorizeUpdate(stale,true));assert(startOwnerRevision(stale,data));assert.equal(deliverUpdate(stale),false);assert.equal(stale.grc.pending,null);assert.equal(stale.grc.reference.version,7);
 const second=seedScene(data,'complete');assert.equal(second.role,'second');assert.equal(importReference(second),false);assert.equal(prepareUpdate(second),false);assert.equal(setMethodProfile(second,'four'),false);
 const unmapped=seedScene(data,'complete');unmapped.role='first';unmapped.snapshots.at(-1).risks.unauthorized.controls.push('new-proposed');assert(importReference(unmapped));assert.equal(prepareUpdate(unmapped),false);
-const returned=seedScene(data,'challenge');returned.reviewReturn={rationale:'Name the interim restriction, accountable owner and compliance evidence.',version:1};returned.response=data.responses.revised;assert.equal(replySuggestion(data,returned),null);assert.deepEqual(replyCoverage(data,returned,responseCoverage),[]);
+const returned=seedScene(data,'challenge');returned.reviewReturn={rationale:'Name the interim restriction, accountable owner and compliance evidence.',version:1};returned.response=data.responses.revised;const clarificationDraft=replySuggestion(data,returned);assert(clarificationDraft.intents.includes('owner'));assert(clarificationDraft.intents.includes('evidence'));assert(clarificationDraft.text.includes(returned.action.owner));assert(clarificationDraft.text.includes(returned.action.evidence));assert(replyCoverage(data,returned,responseCoverage).every(c=>typeof c.done==='boolean'),'Topic cues must remain bounded, without claiming sufficiency');
 const owned=seedScene(data,'complete');owned.role='first';const ownedGRC=exchangeState(owned);ownedGRC.reference.record.owner='Bank GRC Owner';ownedGRC.reference.record.bankOnly='Retain this metadata';ownedGRC.reference.record.action={id:EXTERNAL_IDS.action,status:'Closed by bank',bankOnly:'Bank action metadata'};assert(importReference(owned));assert(prepareUpdate(owned));assert.equal(ownedGRC.preview.payload.owner,'Bank GRC Owner');assert(authorizeUpdate(owned,true));assert(deliverUpdate(owned));assert.equal(ownedGRC.reference.record.owner,'Bank GRC Owner');assert.equal(ownedGRC.reference.record.bankOnly,'Retain this metadata');assert.equal(ownedGRC.reference.record.action.status,'Closed by bank');assert.equal(ownedGRC.reference.record.action.bankOnly,'Bank action metadata');
-assert(integrationSettingsView(data,s).includes('Synced to GRC'));assert(pilotText().includes('No live GRC'));assert.equal(reviewedPayload(draft),null);
+// The fixed delivery panel names the exact acknowledged assessment version.
+// A reviewed-assessment receipt alone must not imply a separate operational receipt.
+const assessmentAck=structuredClone(g.lastAck),delivery=integrationDeliveryModel(s),panel=integrationSettingsView({...data,presenterEnabled:true},s);
+assert.equal(delivery[1].status,'synced');assert.equal(delivery[1].label,`Version ${assessmentAck.submissionVersion} synced`);
+assert(delivery[1].detail.includes(assessmentAck.id));assert(delivery[1].detail.includes(`bank record version ${assessmentAck.sourceVersion}`));
+assert(panel.includes(`Version ${assessmentAck.submissionVersion} synced`));assert.equal(delivery[2].status,'pending');assert(!panel.includes('Current records synced'));
+assert(refreshAutomaticSync(s));assert.equal(g.pending.mode,'operational');assert(finishAutomaticSync(s));
+const acknowledged=integrationDeliveryModel(s);assert.equal(acknowledged[1].label,`Version ${assessmentAck.submissionVersion} synced`);assert.deepEqual(g.lastAck,assessmentAck,'Operational delivery retains the assessment acknowledgement.');
+assert.equal(g.operationalAck.assessmentVersion,assessmentAck.submissionVersion);assert.equal(acknowledged[2].status,'synced');assert(acknowledged[2].detail.includes(g.operationalAck.id));
+assert.equal(JSON.stringify(s.snapshots),snapshots,'Delivery presentation and operational acknowledgement do not rewrite submissions.');
+assert(pilotText().includes('No live GRC'));assert.equal(reviewedPayload(draft),null);
 console.log('PASS: import preservation, reviewed snapshots, attestation, role/method/mapping guards, pending/ack separation, failure retry, idempotency, conflict/rebase, revision invalidation and latest clarification.');

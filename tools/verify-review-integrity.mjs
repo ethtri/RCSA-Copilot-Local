@@ -1,0 +1,28 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {createInitial,seedScene,assessmentContentKey,sourceRecords,sendChallenge,respond,completeReview} from '../src/scripts/demo/model.js';
+import {carryForwardNeedsReview,carryForwardDialog,confirmCarryForward} from '../src/scripts/demo/carry-forward.js';
+import {assessmentView} from '../src/scripts/demo/assessment.js';
+const load=async name=>JSON.parse(await readFile(new URL('../assets/data/'+name,import.meta.url),'utf8'));
+const [workflow,intelligence,research,context,signals,assistance]=await Promise.all(['workflow-demo.json','risk-intelligence.json','research-demo.json','assessment-context.json','assessment-signals.json','control-assistance.json'].map(load));
+const data={...workflow,intelligence,research,context,signals,assistance,sources:[...workflow.sources,...intelligence.sources,...research.sources,...context.sources,...signals.sources]};
+const s=createInitial(data),key=assessmentContentKey(s),history=JSON.stringify(s.history),judgments=risk=>JSON.stringify([risk.inherent,risk.residual,risk.controlConclusion,risk.inherentConfirmed,risk.controlsConfirmed,risk.residualConfirmed]);
+assert(!carryForwardNeedsReview(s,s.risks.unauthorized));assert(carryForwardNeedsReview(s,s.risks.details));assert(carryForwardNeedsReview(s,s.risks.cutoff));
+const dialog=carryForwardDialog(data,s,'details');assert(dialog.includes('New evidence to consider'));assert(dialog.includes('Confirm carried-forward assessment'));assert(dialog.includes('Supporting records'));
+assert.equal(assessmentContentKey(s),key);assert.equal(JSON.stringify(s.history),history);
+const original=judgments(s.risks.details);assert(confirmCarryForward(data,s,'details').ok);assert(!carryForwardNeedsReview(s,s.risks.details));assert.equal(judgments(s.risks.details),original);assert(s.risks.details.sources.includes('signals-details'));assert(sourceRecords(null,s).some(source=>source.id==='signals-details'));
+assert(!confirmCarryForward(data,s,'details').ok);
+const edited=createInitial(data);edited.risks.details.inherentConfirmed=false;assert(!confirmCarryForward(data,edited,'details').ok);assert.equal(edited.risks.details.inherentConfirmed,false);assert(carryForwardDialog(data,edited,'details').includes('disabled'));
+const stages=createInitial(data);stages.risks.details.preparedBaseline.reviewedStages=['inherent','controls','residual'];assert(!carryForwardNeedsReview(stages,stages.risks.details));
+const readonly=createInitial(data);readonly.role='second';const readonlyKey=assessmentContentKey(readonly);assert(!confirmCarryForward(data,readonly,'details').ok);assert.equal(assessmentContentKey(readonly),readonlyKey);
+const older=createInitial({...workflow,sources:workflow.sources});assert(confirmCarryForward(data,older,'details').ok);assert(sourceRecords(null,older).some(source=>source.id==='signals-details'),'Acknowledgement must retain current accepted evidence in future snapshots.');
+const submitted=seedScene(data,'submitted');submitted.role='second';const snapshot=JSON.stringify(submitted.snapshots);assert(!confirmCarryForward(data,submitted,'details').ok);assert.equal(JSON.stringify(submitted.snapshots),snapshot);
+const reviewerHtml=assessmentView(data,submitted,'review');assert(reviewerHtml.includes('3 included risks'));assert(reviewerHtml.includes('Your decision applies to all 3 included risks'));assert(reviewerHtml.includes('View complete submitted assessment'));assert(reviewerHtml.includes('No additional response required'));assert(!reviewerHtml.includes('data-action="role-first"'));assert(!reviewerHtml.includes('data-action="role-response"'));
+for(const risk of Object.values(submitted.snapshots[0].risks))assert(reviewerHtml.includes(risk.name));
+submitted.risks.details.name='Later mutable risk name';const frozenHtml=assessmentView(data,submitted,'review');const overview=frozenHtml.slice(frozenHtml.indexOf('aria-label="Assessment covered by your decision"'),frozenHtml.indexOf('</table>')+8);assert(!overview.includes('Later mutable risk name'));assert(overview.includes('Incorrect payment details'));
+const excluded=seedScene(data,'submitted');excluded.role='second';excluded.snapshots[0].risks.unauthorized.removed=true;const withoutPriority=assessmentView(data,excluded,'review');assert(withoutPriority.includes('2 included risks'));assert(!withoutPriority.includes('Priority finding for this review'));
+const replied=seedScene(data,'response');replied.role='second';replied.challengeStatus='responded';replied.responseSufficient='';const replyHtml=assessmentView(data,replied,'review');assert(replyHtml.includes('Choose whether the reply answers your question'));assert(replyHtml.includes('value="" selected'));assert(replyHtml.includes('3 included risks'));
+const explicit=seedScene(data,'submitted');assert(sendChallenge(explicit));explicit.role='first';explicit.response='The recorded action is owned by Payments Operations.';assert(respond(explicit));explicit.role='second';explicit.assessmentView='agree';explicit.reviewerRationale='The reply addresses ownership.';assert.equal(explicit.responseSufficient,'');assert.equal(completeReview(explicit),false);explicit.responseSufficient='yes';assert(completeReview(explicit));
+console.log('PASS: explicit carry-forward review, retained judgments and evidence, role/submission guards, frozen all-risk review scope, separate priority finding and explicit reply-sufficiency choice.');
+
+assert.match(reviewerHtml,/data-route="reports" data-version="1"/,'Reviewer report link must request the exact submitted version.');

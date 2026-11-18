@@ -2,6 +2,8 @@
 
 ## Current delivery status, November 15 2026
 
+The [demo experience implementation plan](demo-experience-upgrade-plan.md) defines the next revision requested after the November 15 review: visible AI proposals, complete risk discovery, realistic review and operational records, plain English and premium interaction polish. That plan is now implemented and verified locally; see its linked verification ledger for the tested source fingerprint, browser evidence and limits. The completed delivery evidence below describes the previous published release.
+
 The [workflow plan](workflow-demo-plan.md) governs the banking-leader demo: a quarterly wire-transfer refresh with complete inherent/control/residual assessment, shared dependency discovery, human challenge/response and reporting. All data and AI interactions are synthetic and scripted. The static architecture has no live service dependencies.
 
 | Phase | Status | Evidence |

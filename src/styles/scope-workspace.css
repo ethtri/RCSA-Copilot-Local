@@ -1,0 +1,88 @@
+/* An assessment inventory shares the portfolio's paper, fine rules and working type. */
+body:has(.scope-workspace) { background:var(--portfolio-paper,#faf9f5); }
+.scope-workspace {
+  --scope-rule:var(--portfolio-rule,#c5cec2);
+  --scope-ink:var(--portfolio-ink,#182c23);
+  --scope-columns:minmax(185px,1.05fr) minmax(190px,1.23fr) minmax(155px,.9fr) 104px;
+  color:var(--scope-ink);
+}
+.scope-heading { margin:20px 0 12px; }
+.scope-heading h1 { margin:0; font:500 clamp(32px,2.8vw,42px)/1.12 var(--display); letter-spacing:-.035em; }
+.scope-heading p { margin:6px 0 0; font:14px/1.5 var(--ui); color:var(--muted); }
+.scope-summary { display:flex; align-items:center; flex-wrap:wrap; gap:4px 16px; border-block:1px solid var(--scope-rule); padding:6px 0; }
+.scope-summary-line { display:flex; align-items:center; gap:16px; flex:1 1 auto; }
+.scope-summary-line .button { min-height:34px;padding:5px 12px; }
+.scope-meta { display:flex;align-items:baseline;flex-wrap:wrap;gap:5px 14px;flex:1;margin:0; }
+.scope-meta>div { display:flex;align-items:baseline;gap:6px; }
+.scope-meta dt { font:13px/1.45 var(--ui);color:var(--muted); }
+.scope-meta dd { margin:0;font:600 14px/1.45 var(--ui);overflow-wrap:anywhere; }
+.scope-meta>div+div { padding-left:14px;border-left:1px solid var(--scope-rule); }
+.scope-coverage-details>summary,.scope-row-detail>summary,.scope-excluded>summary,.scope-risk-suggestion summary {
+  color:var(--forest);font:500 13px/1.5 var(--ui);cursor:pointer;padding:7px 0;
+}
+.scope-coverage-details[open] { flex-basis:100%; }
+.scope-coverage-details>div { padding:0 0 12px; }
+.scope-coverage-details dl { display:grid;grid-template-columns:1fr 1fr;gap:12px 22px;margin:4px 0 12px; }
+.scope-coverage-details dt,.scope-coverage-details a { color:var(--forest);font:600 13px/1.5 var(--ui); }
+.scope-coverage-details dd { margin:3px 0 0;font:14px/1.5 var(--ui);overflow-wrap:anywhere; }
+.scope-change-note { display:flex;justify-content:space-between;align-items:center;gap:12px 24px;margin:16px 0;padding:14px 18px;background:var(--brief-paper,#f4f0e6); }
+.scope-change-note h2 { margin:3px 0 0;font:500 clamp(18px,1.65vw,24px)/1.22 var(--display);letter-spacing:-.02em; }
+.scope-date,.scope-change-links .source-link { font-size:13px; }
+.scope-date { font-weight:600;color:#64542e; }
+.scope-change-links { display:flex;align-items:center;gap:4px 20px;flex-wrap:wrap; }
+.scope-workspace :is(.source-link,.text-link) { font:600 13px/1.5 var(--ui);text-align:left;overflow-wrap:anywhere; }
+.scope-list-head { display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:20px 0 10px; }
+.scope-list-head h2 { margin:0;font:650 clamp(19px,1.6vw,24px)/1.25 var(--ui);letter-spacing:-.03em; }
+.scope-list-head>span,.scope-evidence-cell small,.scope-signal small { color:var(--muted);font:13px/1.5 var(--ui); }
+.scope-inventory-labels,.scope-risk-row { display:grid;grid-template-columns:var(--scope-columns);gap:12px 20px;padding-inline:12px; }
+.scope-inventory-labels { padding-block:6px;background:#e9ede4;color:#425548;font:600 12px/1.4 var(--ui); }
+.scope-risk-list ul { list-style:none;padding:0;margin:0; }
+.scope-risk-row { align-items:center;border-bottom:1px solid var(--scope-rule);padding-block:11px; }
+.scope-risk-row:focus-within,.scope-risk-row.is-inspecting { background:#f0f4ee; }
+.scope-risk-row>* { min-width:0; }
+.scope-risk-row h3,.scope-risk-suggestion h3 { font:650 16px/1.4 var(--ui);letter-spacing:-.014em;margin:2px 0;overflow-wrap:anywhere; }
+.scope-membership { color:var(--forest);font:600 12px/1.45 var(--ui);display:flex;align-items:center;gap:5px; }
+.scope-membership::before { content:'';width:6px;height:6px;border-radius:50%;background:#72947a; }
+.scope-signal strong { display:block;font:600 15px/1.5 var(--ui);font-variant-numeric:tabular-nums; }
+.scope-signal small,.scope-evidence-cell small { display:block;margin-top:1px; }
+.scope-evidence-cell .source-link { min-height:32px;padding:5px 0; }
+.scope-row-detail>summary { display:list-item;font-size:12px;padding:3px 0; }
+.scope-row-detail>div { padding:4px 8px 4px 0; }
+.scope-row-detail p,.scope-risk-suggestion p,.scope-excluded p { margin:4px 0;font:14px/1.55 var(--ui); }
+.scope-row-detail>div .text-link { margin-right:12px;min-height:36px; }
+.scope-risk-action { justify-self:end; }
+.scope-excluded { margin-top:10px; }
+.scope-excluded article { padding:12px 0;border-bottom:1px solid var(--scope-rule); }
+.scope-excluded .button { margin-left:14px; }
+.scope-risk-suggestion { margin:20px 0;display:flex;align-items:center;justify-content:space-between;gap:16px 30px;background:#eef3ec;padding:16px 20px; }
+.scope-risk-suggestion>div { max-width:84ch; }
+.scope-risk-suggestion>.button { flex-shrink:0; }
+.scope-risk-suggestion .label { font:600 12px/1.5 var(--ui); }
+.scope-risk-suggestion .button-group { display:flex;flex-wrap:wrap;gap:16px; }
+.scope-editor>p,.scope-exclusion-editor>p { font-size:14px;line-height:1.7;margin:14px 0 22px; }
+.scope-editor textarea { min-height:82px; }
+.scope-editor .field { margin-bottom:18px; }
+.scope-editor .two-columns { gap:0 24px; }
+.scope-editor .premium-modal-footer,.scope-exclusion-editor .premium-modal-footer { margin-top:20px; }
+@media(max-width:950px) {
+ .scope-workspace { --scope-columns:minmax(155px,1fr) minmax(178px,1.15fr) minmax(132px,.9fr) 85px; }
+ .scope-inventory-labels,.scope-risk-row { column-gap:12px; }
+ .scope-change-links { gap:0 14px; }
+}
+@media(max-width:720px) {
+ .scope-heading { margin:16px 0 12px; }
+ .scope-summary-line,.scope-meta { flex-wrap:wrap; }
+ .scope-meta { gap:4px 10px;flex-basis:100%; }
+ .scope-meta>div+div { padding-left:0;border:0; }
+ .scope-summary-line { display:contents; }
+ .scope-summary { padding-block:10px; }
+ .scope-meta dt { font-size:12px; }
+ .scope-change-note { align-items:start;flex-direction:column;gap:4px; }
+ .scope-inventory-labels { display:none; }
+ .scope-risk-row { grid-template-columns:1fr auto;gap:5px 16px;padding:14px 0; }
+ .scope-risk-list ul { border-top:1px solid var(--scope-rule); }
+ .scope-risk-identity,.scope-signal { grid-column:1/-1; }
+ .scope-evidence-cell small { font-size:12px; }
+ .scope-risk-suggestion { align-items:start;flex-direction:column; }
+ .scope-coverage-details dl,.scope-editor .two-columns { grid-template-columns:1fr; }
+}

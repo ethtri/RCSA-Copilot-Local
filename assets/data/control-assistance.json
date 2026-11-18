@@ -45,7 +45,7 @@
           "summary": "Use the existing confirmation check for payment details. It does not verify the identity of someone sending an urgent request.",
           "gap": "The owner must assess payment accuracy and the sender’s authority separately.",
           "addresses": "Customer confirmation adds a check on payment details for the standard payments it covers.",
-          "limits": "It does not verify the sender’s identity through a separate source. Urgent requests were not tested.",
+          "limits": "It does not verify the sender’s identity through a separate source. The available test does not cover urgent requests.",
           "sourceIds": [
             "customer-confirmation-test",
             "incident"
@@ -210,7 +210,7 @@
       "title": "Preserve the checked instruction version",
       "exposure": "The recipient or amount may change after a check. Staff could release the payment without checking the new details.",
       "designGap": "The checked instruction version is not consistently linked to release after an amendment.",
-      "operatingGap": "The clean standard detail sample does not establish the record of which instruction version was checked before release highlighted by PI-12.",
+      "operatingGap": "The standard-payment test does not resolve PI-12's question about which instruction version was checked before release.",
       "baselineControlIds": [
         "details-check"
       ],
@@ -229,7 +229,7 @@
       "unsuitable": {
         "title": "Verifying identity does not show that the latest payment details were checked",
         "controlId": "callback",
-        "reason": "Confirming who gave an instruction does not establish which beneficiary/amount version was checked and released. PI-12 requires a transfer of the latest instructions response.",
+        "reason": "Confirming who gave an instruction does not establish which beneficiary/amount version was checked and released. PI-12 requires a response that tracks the latest instructions from checking through release.",
         "sourceIds": [
           "callback",
           "ri-details-issue"

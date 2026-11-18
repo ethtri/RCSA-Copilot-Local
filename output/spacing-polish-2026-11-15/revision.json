@@ -1,0 +1,26 @@
+{
+  "checkedAtUTC": "2026-11-15T21:04:47.395697+00:00",
+  "stylesheetVersion": "20261115.8",
+  "files": {
+    "src/styles/upgrade.css": "fe9ab2fae231478688f9309f65373213af94f71cfa08b2a2553477fcf8a7e08b",
+    "src/scripts/demo/upgrade-view.js": "6519b59a96f97f9be40d735b2e404b50ae2679dfdca622252ac478ad660a197d",
+    "src/index.html": "c34c0975518c029b30a6126e34d476dd814d64ad0b5e2d6816304285590a0c0b"
+  },
+  "cardSpacing": {
+    "before": {
+      "headingToBody": 0,
+      "bodyToActions": 0
+    },
+    "after": {
+      "headingToBody": 12,
+      "minimumBodyToActions": 20
+    }
+  },
+  "responsiveWidths": [
+    390,
+    768,
+    1024,
+    1183,
+    1440
+  ]
+}

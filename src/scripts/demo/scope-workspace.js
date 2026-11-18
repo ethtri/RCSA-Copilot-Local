@@ -1,0 +1,59 @@
+import {scopeRecord,preparedScopeMatches} from './scope-model.js?v=20261116.3';
+import {assessmentProjection,sourceRecords,riskEntries} from './model.js?v=20261116.3';
+import {signalTrend} from './signal-analysis.js?v=20261116.3';
+import {discoverRisks} from './upgrade-model.js?v=20261116.3';
+import {policyFor,thresholdFor} from './bank-policy.js?v=20261116.3';
+import {esc,icon,button,sourceLink,field,aiLabel,formatDate} from './ui.js?v=20261116.3';
+
+const locked=s=>s.role!=='first'||s.submitted;
+const labels={process:'Process',owner:'Assigned owner',period:'Assessment period',channels:'Payment channels',systems:'Systems and information',inScope:'Included activities',outOfScope:'Outside this assessment'};
+const source=(label,id,projection)=>projection?sourceLink(label,id).replace('data-action="source"',`data-action="source" data-version="${Number(projection.version)}"`):sourceLink(label,id);
+function scopeSummary(s,scope,projection){
+ const policy=policyFor(projection||s);
+ const meta=scope?`<dl class="scope-meta">${['process','period','owner'].map(key=>`<div><dt>${labels[key]}</dt><dd>${esc(scope[key])}</dd></div>`).join('')}</dl>`:'<p>The scope was not preserved with this submitted version.</p>';
+ return `<section class="scope-summary" aria-label="Assessment scope"><div class="scope-summary-line">${meta}${!locked(s)?button('Edit scope','scope-edit','class="button"'):s.submitted?'<span class="small muted">Submitted scope · read-only</span>':''}</div><details class="scope-coverage-details" data-edit="scope-coverage" ${s.editPanels?.['scope-coverage']?'open':''}><summary>Coverage details</summary><div>${scope?`<dl>${['channels','systems','inScope','outOfScope'].map(key=>`<div><dt>${labels[key]}</dt><dd>${esc(scope[key])}</dd></div>`).join('')}</dl>`:''}<a href="#/settings/bank">${esc(policy.policyName)} · Response required above ${thresholdFor(projection||s)} · View bank setup</a></div></details></section>`;
+}
+function changeBrief(matched,records,projection){
+ if(!matched)return '<aside class="scope-change-note"><p>Check the evidence before reusing earlier recommendations. Confirm which records cover the current scope and assessment period.</p></aside>';
+ const procedure=records.find(record=>record.id==='procedure'&&record.date==='October 5, 2026'&&/urgent/i.test(record.scope||''));
+ if(!procedure||!records.some(record=>record.id==='incident'))return '<aside class="scope-change-note"><p>The procedure change and event records are unavailable for this version. Check process coverage with the owner.</p></aside>';
+ return `<aside class="scope-change-note"><div><span class="scope-date">Process change · October 5</span><h2>Urgent payments now have a separate route.</h2></div><div class="scope-change-links">${source('Read the procedure','procedure',projection)}${source('Read the October near miss','incident',projection)}</div></aside>`;
+}
+const eventLabels={unauthorized:'fraud attempts',details:'payment-detail exceptions',cutoff:'late settlements'};
+function riskRow(s,risk,records,projection,matched,onlyRisk){
+ const scenario=risk.scenarioId||risk.id,trend=matched?signalTrend(risk,records):null;
+ const linked=records.filter(record=>(risk.sources||[]).includes(record.id));
+ const test=matched&&scenario==='unauthorized'&&linked.find(record=>record.id==='test'&&record.date==='September 15, 2026');
+ const latest=matched&&scenario==='unauthorized'&&(projection||s).signalTestReceived&&records.find(record=>record.id==='signals-urgent-test');
+ const evidence=latest||test||trend?.source||linked[0];
+ const trendSummary=trend?`<strong>${trend.previousCount} to ${trend.currentCount} ${esc(eventLabels[scenario]||'events')}</strong><small>${esc(trend.previous.label)} to ${esc(trend.current.label)} · Payment volume ${trend.volumeChange>=0?'up':'down'} ${Math.abs(trend.volumeChange).toLocaleString('en-US',{maximumFractionDigits:1})}%</small>`:`<span>${risk.provenance?'Newly added risk. Review the supporting records.':matched?'Check the available evidence.':'Review evidence against the edited coverage.'}</span>`;
+ const explanation=latest?`<strong>New urgent-route test available</strong><small>${esc(latest.scope)}</small>`:test?`<strong>The September test covered standard wires</strong><small>${esc(test.scope)}</small>`:trendSummary;
+ const status=risk.extensions?.length?'Coverage extended':risk.provenance?'Added by owner':'Included';
+ const details=`<details class="scope-row-detail"><summary>Risk details</summary><div><p>${esc(risk.description)}</p>${trend&&(test||latest)?`<div class="scope-signal">${trendSummary}</div>`:''}${trend?button('Why & sources','insight-details',`class="text-link" data-risk="${esc(risk.id)}" data-stage="inherent" data-insight="0" aria-label="Why and sources: scope review for ${esc(risk.name)}"`):''}${!locked(s)?button('Exclude from scope','scope-exclude-review',`class="text-link" data-risk="${esc(risk.id)}" aria-label="Exclude ${esc(risk.name)} from scope" ${onlyRisk?'disabled title="Keep at least one risk in the assessment"':''}`):''}</div></details>`;
+ return `<li class="scope-risk-row" data-scope-risk="${esc(risk.id)}"><div class="scope-risk-identity"><span class="scope-membership">${esc(status)}</span><h3>${esc(risk.name)}</h3>${details}</div><div class="scope-signal">${explanation}</div><div class="scope-evidence-cell">${evidence?button('View evidence '+icon('source',15),'source',`class="source-link" data-source="${esc(evidence.id)}" ${projection?`data-version="${Number(projection.version)}"`:''} aria-label="View evidence for ${esc(risk.name)}"`):'<span class="small muted">No linked evidence</span>'}${evidence?`<small>${esc(evidence.title)}</small>`:''}</div><div class="scope-risk-action">${button('Review risk '+icon('arrow',15),'open-risk',`class="text-link" data-risk="${esc(risk.id)}" data-stage="inherent"`)}</div></li>`;
+}
+function suggestion(data,s){
+ const candidate=discoverRisks(data,s)[0];if(!candidate)return '';
+ if(s.risks[candidate.id])return '';
+ const disposition=candidate.status;
+ return `<article class="scope-risk-suggestion"><div><span class="label">${aiLabel('AI · Possible missing risk')}</span><h3>${esc(candidate.name)}</h3><p>${esc(disposition==='pending'?candidate.description:disposition==='extend'?'Added to an existing risk’s coverage. Review the extended assessment.':disposition==='defer'?'Deferred for follow-up. It has not been added to the risk list.':'Dismissed. The risk list has not changed.')}</p><details><summary>Why it may be missing</summary><p>The recovery record describes an uncertain release after a timeout. The procedure does not establish a block on repeated release, and the available test excludes retries. This concerns the same instruction being released twice; the existing risks cover who requested a payment, its details and its timing.</p><div class="button-group">${candidate.sourceIds.map(id=>sourceLink(({ 'retry-event':'Recovery event','retry-procedure':'Recovery procedure','retry-test':'Test scope'})[id],id)).join('')}</div></details>${candidate.decision?.reason?`<p class="small muted">Recorded decision: ${esc(candidate.decision.reason)}${candidate.decision.owner?' · '+esc(candidate.decision.owner):''}${candidate.decision.due?' · '+esc(formatDate(candidate.decision.due)):''}</p>`:''}</div>${button(disposition==='pending'?'Review risk suggestion':'Review recorded decision','upgrade-review-risk',`class="button" data-candidate="${esc(candidate.id)}" ${locked(s)?'disabled':''}`)}</article>`;
+}
+export function scopeWorkspace(data,s){
+ const projection=s.submitted?assessmentProjection(s,'current',data):null,scope=scopeRecord(s),view=projection?{...s,risks:projection.risks}:s,risks=riskEntries(view),excluded=Object.values(view.risks||{}).filter(r=>r.removed&&r.scopeExclusion);
+ const confirmed=projection?!!projection.scope:!!s.scope;
+ if(s.submitted&&!projection)return `<header class="page-heading"><h1>Recorded scope unavailable</h1><p>This submission has no preserved assessment context. Its scope and risk list have not been reconstructed from current records.</p></header>`;
+ const records=projection?.sources||sourceRecords(data,s),matched=preparedScopeMatches(s);
+ return `<div class="scope-workspace"><header class="scope-heading"><h1>Scope &amp; changes</h1><p>Check what changed and whether any risks are missing before confirming coverage.</p></header>
+ ${scopeSummary(s,scope,projection)}
+ ${changeBrief(matched,records,projection)}
+ <section class="scope-risk-list" aria-label="Risks in scope"><div class="scope-list-head"><h2>Risks in this assessment</h2><span>${risks.length} included${excluded.length?' · '+excluded.length+' excluded':''}</span></div><div class="scope-inventory-labels" aria-hidden="true"><span>Risk</span><span>Evidence this quarter</span><span>Supporting record</span><span></span></div><ul>${risks.map(risk=>riskRow(s,risk,records,projection,matched,risks.length===1)).join('')}</ul>${excluded.length?`<details class="scope-excluded"><summary>Excluded risks (${excluded.length})</summary>${excluded.map(r=>`<article><strong>${esc(r.name)}</strong><p>${esc(r.scopeExclusion.reason)}</p><span class="small muted">${esc(r.scopeExclusion.actor)} · ${esc(formatDate(r.scopeExclusion.date))}</span>${!locked(s)?button('Include again','scope-restore',`class="button" data-risk="${esc(r.id)}"`):''}</article>`).join('')}</details>`:''}</section>
+ ${!s.submitted?suggestion(data,s):''}
+ ${confirmed?`<p class="confirmation">${icon('check')} Scope confirmed${scope?' · assigned owner '+esc(scope.owner):''}</p>`:''}
+ </div>
+ <div class="step-footer"><span class="muted small">${confirmed?'Your confirmed coverage and risk list will be kept with the assessment.':'Confirm the coverage and included risks before continuing.'}</span>${!locked(s)?button(`${confirmed?'Continue to risk assessment':'Confirm scope and continue'} ${icon('arrow')}`,'confirm-scope','class="button primary"'):s.role==='first'&&s.submitted?button('Start a new draft','owner-revision','class="button"'):'<span class="quiet-status">Owner assessment · read-only</span>'}</div>`;
+}
+export function scopeEditor(s){
+ const draft=s.scopeDraft||{};
+ return `<div class="scope-editor"><h2 id="dialog-title">Edit assessment scope</h2><p>Record the coverage for this assessment. Saving changed coverage keeps the scores and wording, but requires fresh confirmations.</p><div class="two-columns">${['process','owner','period','channels'].map(key=>field(labels[key],'scopeDraft.'+key,draft[key]||'')).join('')}</div>${['systems','inScope','outOfScope'].map(key=>field(labels[key],'scopeDraft.'+key,draft[key]||'',{area:true})).join('')}<p class="small muted">Changing the assigned owner does not change your signed-in role or approval rights.</p><footer class="premium-modal-footer"><div class="button-group">${button('Cancel','scope-cancel','class="button"')}${button('Save scope changes','scope-save','class="button primary"')}</div></footer></div>`;
+}
+export function scopeExclusionDialog(s,id){const risk=s.risks[id];return `<div class="scope-exclusion-editor"><h2 id="dialog-title">Exclude ${esc(risk?.name)}?</h2><p>This keeps the risk record and earlier versions. Explain why it is outside this assessment. Its current action and decision history are retained.</p>${field('Reason for excluding this risk','scopeRiskDraft.reason',s.scopeRiskDraft?.reason||'',{area:true})}<footer class="premium-modal-footer"><div class="button-group">${button('Keep included','scope-cancel','class="button"')}${button('Exclude from this assessment','scope-exclude','class="button primary" data-risk="'+esc(id)+'"')}</div></footer></div>`;}

@@ -70,7 +70,7 @@ assert.equal(ensureAssistance(s),s.controlAssistance);
 const existing=recommendationSet(data,s)[0];
 assert.equal(existing.existingControlId,'customer-confirmation');
 assert.match(existing.limits,/does not verify/);
-assert.match(existing.limits,/Urgent requests were not tested/);
+assert.match(existing.limits,/The available test does not cover urgent requests/);
 assert(recordAssistanceDecision(s,{riskId:'unauthorized',candidateId:existing.id,kind:'existing',disposition:'dismissed',rationale:'Does not establish independent urgent identity verification.'}));
 assert.equal(recommendationSet(data,s)[0].disposition,'dismissed');
 assert.deepEqual(currentRating(s,'unauthorized'),baseRating);

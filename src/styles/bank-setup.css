@@ -1,0 +1,43 @@
+.bank-setup{max-width:1120px;margin:0 auto}
+.bank-setup-top{display:flex;justify-content:space-between;gap:20px;margin:14px 0 0}
+.bank-setup .page-heading{margin:20px 0 24px}
+.bank-setup .page-heading p{max-width:72ch}
+.bank-setup-overview,.bank-setup-editor{padding:28px 32px;margin:0 0 24px}
+.bank-setup-heading{display:flex;justify-content:space-between;gap:24px;align-items:start}
+.bank-setup-heading h2,.bank-setup-editor h2{font-family:var(--ui);font-size:21px;line-height:1.4;margin:0 0 6px}
+.bank-setup-heading p{font-size:14px;color:var(--muted);margin:0}
+.bank-setup-facts{display:grid;grid-template-columns:1fr 1fr;column-gap:40px;margin:24px 0}
+.bank-setup-facts>div{padding:15px 0;border-top:1px solid var(--line);min-width:0}
+.bank-setup-facts dt{font-size:13px;color:var(--muted);margin:0 0 5px}
+.bank-setup-facts dd{font-size:15px;line-height:1.6;margin:0;overflow-wrap:anywhere}
+.bank-setup-definitions{border-top:1px solid var(--line);padding:17px 0;margin:12px 0 20px}
+.bank-setup-definitions summary{font-size:14px;line-height:1.6;min-height:30px;color:var(--forest);font-weight:600;cursor:pointer}
+.bank-setup-definitions>p{font-size:14px;color:var(--muted);max-width:72ch;margin:14px 0 20px}
+.bank-definition-columns{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin:18px 0 0}
+.bank-definition-columns h3,.bank-setup-definitions h3{font-family:var(--ui);font-size:17px;margin:18px 0 14px}
+.bank-definition-columns ol{list-style:none;padding:0;margin:0}
+.bank-definition-columns li{font-size:14px;margin:0 0 18px}
+.bank-definition-columns p{font-size:14px;color:var(--muted);margin:5px 0 0;max-width:58ch}
+.bank-setup-permission{font-size:14px;color:var(--muted);margin:0;max-width:75ch}
+.bank-setup-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 28px;margin:20px 0 0}
+.bank-review-rule{font-size:14px;line-height:1.6;padding:0 0 22px}
+.bank-review-rule p{font-size:13px;margin:7px 0 0;color:var(--muted);max-width:54ch}
+.bank-setup [tabindex="-1"]{scroll-margin-top:24px}
+.bank-setup-editor>p,.bank-setup-review>p{font-size:14px;line-height:1.7;max-width:76ch}
+.bank-setup .field{margin-bottom:22px}
+.bank-setup .field input,.bank-setup .field select,.bank-setup .field textarea{width:100%;box-sizing:border-box}
+.bank-setup .field input[type=number]{font-variant-numeric:tabular-nums}
+.bank-rating-levels{list-style:none;margin:0;padding:0}
+.bank-rating-levels li{display:grid;grid-template-columns:32px minmax(0,1fr);gap:16px;padding:20px 0;border-top:1px solid var(--line)}
+.bank-rating-number{font-size:14px;font-weight:600;padding-top:31px;color:var(--muted)}
+.bank-rating-levels li>div{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(0,1.3fr);gap:24px}
+.bank-rating-levels textarea{min-height:108px}
+.bank-setup .button-group{margin-top:16px;gap:12px;display:flex;flex-wrap:wrap}
+.bank-change-table{overflow-x:auto;margin:20px 0}
+.bank-change-table table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.6;text-align:left}
+.bank-change-table th,.bank-change-table td{padding:14px 16px;vertical-align:top;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.bank-change-table thead th{font-weight:600;background:#f2f5f3}
+.bank-change-table tbody th{font-weight:600;width:34%}
+.bank-change-table td{width:33%}
+.bank-setup-scope{max-width:80ch;margin:26px 0 0}
+@media(max-width:760px){.bank-setup-overview,.bank-setup-editor{padding:22px 20px}.bank-setup-facts,.bank-definition-columns,.bank-setup-form{grid-template-columns:1fr;gap:0}.bank-setup-heading{flex-direction:column;gap:10px}.bank-rating-levels li>div{grid-template-columns:1fr;gap:0}.bank-rating-levels li{gap:10px;grid-template-columns:24px minmax(0,1fr)}.bank-change-table th,.bank-change-table td{padding:12px 10px}.bank-setup .button-group .button{flex:1 1 auto}.bank-setup-top{gap:16px}.bank-setup-top a{font-size:13px}.bank-definition-columns{gap:12px}}

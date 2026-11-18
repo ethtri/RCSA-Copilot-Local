@@ -19,7 +19,7 @@ const path=require('node:path');
  const scene=async value=>{await presentation();await page.getByLabel('Jump to demo scene',{exact:true}).selectOption(value);await page.locator('h1').waitFor();};
  const capture=async name=>{await page.locator('.toast').evaluate(el=>el.classList.remove('visible'));await page.getByRole('heading',{level:1}).click();await page.screenshot({path:path.join(output,name+'.png'),fullPage:true,animations:'disabled'});};
  try{
-  await page.goto(base);await page.getByRole('heading',{name:'Your risk overview',exact:true}).waitFor();
+  await page.goto(base+'#/work');await page.getByRole('heading',{name:'Your risk overview',exact:true}).waitFor();
   const launch=page.getByRole('button',{name:'Refresh wire-transfer RCSA',exact:true});assert(await launch.isVisible());assert((await launch.boundingBox()).y<500);await launch.click();await page.getByRole('heading',{name:'Review what changed.',exact:true}).waitFor();await page.getByRole('link',{name:'Dashboard',exact:true}).click();
   await capture('demo-work-desktop');
   await page.getByRole('button',{name:'Inspect the sources behind the AI briefing',exact:true}).click();assert((await page.getByRole('dialog').innerText()).includes('The process changed after the test'));await click('Close details');

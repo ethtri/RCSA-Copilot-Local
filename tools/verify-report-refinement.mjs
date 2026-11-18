@@ -1,83 +1,45 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {createInitial,seedScene,currentRating,score} from '../src/scripts/demo/model.js';
-import {decisionBrief} from '../src/scripts/demo/decision-brief.js';
-import {reportsView} from '../src/scripts/demo/reports.js';
+import {createInitial,seedScene,startOwnerRevision,sendAssessment,completeReview,blankRating} from '../src/scripts/demo/model.js';
+import {reportsView,reportContext,confirmReport,buildReportHtml,handleReportActions} from '../src/scripts/demo/reports.js';
+import {ensureOperations,handleOperationsField,saveAction} from '../src/scripts/demo/operations.js';
 
 const data=JSON.parse(await readFile(new URL('../assets/data/workflow-demo.json',import.meta.url),'utf8'));
-const completed=seedScene(data,'complete');
-completed.selectedRisk='details';
-const before=structuredClone(completed), html=reportsView(data,completed);
-assert(html.includes('Focus: Unauthorized wire transfer'));
-assert(html.includes('1 of 3 risks in this assessment'));
-assert(html.includes('data-action="open-register"'));
-assert(html.includes('Unauthorized wire transfer: current confirmed residual risk remains elevated (12).'));
-const bars=[...html.matchAll(/<button class="score-bar"[^>]+>/g)].map(x=>x[0]);
-assert.equal(bars.length,3);
-for(const bar of bars) {
-  assert(bar.includes('data-action="open-risk"'));
-  assert(bar.includes('data-risk="unauthorized"'),'Report drill-down must name its risk even after a supporting risk was selected');
-}
-assert(bars[0].includes('data-stage="inherent"'));
-assert(bars[1].includes('data-stage="residual"'));
-assert(bars[2].includes('data-stage="residual"'));
-assert.deepEqual(completed,before,'Rendering must not change the assessment or selected risk');
+const completed=seedScene(data,'complete');completed.role='first';completed.selectedRisk='details';
+const assessed=JSON.stringify(completed.risks),snapshots=JSON.stringify(completed.snapshots),html=reportsView(data,completed);
+for(const risk of data.risks){assert(html.includes(risk.name));assert(html.includes(`data-risk="${risk.id}"`),'Each report drill-down names its own risk.');}
+assert(html.includes('All assessed risks'));assert(html.includes('Work records'));assert(html.includes('View action record'));
+assert.equal(JSON.stringify(completed.risks),assessed);assert.equal(JSON.stringify(completed.snapshots),snapshots);assert.equal(completed.selectedRisk,'details');
+assert.equal(reportContext(data,completed).projection.review.rationale,completed.reviewConclusions.at(-1).rationale);
 
-const brief=decisionBrief(completed);
-assert.equal(brief.pending,true);
-assert.equal(brief.owner,'Head of Payments Operations');
-assert.equal(brief.forum,'Payments Risk Committee');
-assert.equal(brief.targetDate,'2026-11-19');
-assert.equal(brief.question,'May urgent-wire processing continue under the current arrangements while targeted testing and independent verification are completed?');
-assert.equal(completed.action.due,'2026-11-28');
-assert(html.includes('<dt>Target decision date</dt><dd>Nov 19, 2026</dd>'));
-assert(html.includes('<dt>Action due date</dt><dd>Nov 28, 2026</dd>'));
-assert(html.includes('Review completed'));
-assert(html.includes('Testing action open'));
-const changedAction=structuredClone(completed);changedAction.action.due='2026-12-04';
-assert.equal(decisionBrief(changedAction).targetDate,'2026-11-19','Editing action closure must not move the decision target');
-assert(reportsView(data,changedAction).includes('<dt>Action due date</dt><dd>Dec 4, 2026</dd>'));
+// Confirmation pins actual edited text and exact linked-record versions.
+reportsView(data,completed);const w=completed.reportWorkspace;w.summaries['1']={text:'Owner-written summary: urgent payments need testing.'};
+assert(confirmReport(data,completed));assert(reportContext(data,completed).confirmed);
+const saved=JSON.stringify(w.editions[0]),savedHtml=w.editions[0].html;
+assert(savedHtml.includes('Owner-written summary: urgent payments need testing.'));
+assert(savedHtml.startsWith('<!doctype html>'));assert(savedHtml.includes('@media print'));assert(savedHtml.includes('Standard-wire control test'));assert(savedHtml.includes(data.sources.find(s=>s.id==='test').excerpt));
+for(const risk of data.risks)assert(savedHtml.includes(risk.name));
+const unsafe='<script>alert("unsafe")</script><img src=x onerror=alert(1)>';
+w.summaries['1'].text=unsafe;const safe=buildReportHtml(data,completed);assert(!safe.includes(unsafe));assert(safe.includes('&lt;script&gt;'));assert(safe.includes('&lt;img'));
+assert(!reportContext(data,completed).confirmed,'Edited summary requires renewed confirmation.');
+w.summaries['1'].text='Owner-written summary: urgent payments need testing.';assert(reportContext(data,completed).confirmed);
+handleOperationsField(completed,'action.unauthorized.progress','Implementation work has started.');assert(saveAction(completed,'unauthorized',{start:true}).ok);
+assert(!reportContext(data,completed).confirmed,'Operational version changes invalidate latest report confirmation.');assert.equal(JSON.stringify(w.editions[0]),saved,'Archived report edition remains unchanged.');
 
-const draft=seedScene(data,'submitted');draft.submitted=false;draft.reviewed=false;
-assert.equal(decisionBrief(draft).status,'Draft decision request');
-assert.equal(decisionBrief(draft).pending,false);
-assert(!reportsView(data,draft).includes('<span class="report-decision-status">Decision pending</span>'));
+// Selecting an old submission never pulls in a live draft or a later source excerpt.
+assert(startOwnerRevision(completed,data));completed.risks.unauthorized.controlConclusion.text='A later draft conclusion';
+completed.evidenceContext.sources.find(s=>s.id==='test').excerpt='A later source excerpt';w.selectedVersion=1;
+const historical=buildReportHtml(data,completed);assert(!historical.includes('A later draft conclusion'));assert(!historical.includes('A later source excerpt'));assert(historical.includes(data.sources.find(s=>s.id==='test').excerpt));
+assert.equal(JSON.stringify(w.editions[0]),saved);
 
-const fresh=createInitial(data);
-assert.equal(score(currentRating(fresh,'unauthorized')),8);
-assert.equal(decisionBrief(fresh).required,false,'An unconfirmed working score must not create a disposition');
-assert.equal(decisionBrief(fresh).question,'');
-assert(!reportsView(data,fresh).includes('id="report-decision-title"'));
-fresh.submitted=true;
-assert.equal(decisionBrief(fresh).pending,false,'Submission alone cannot create a pending disposition from unconfirmed risk');
+// An added fourth risk has no invented prior score and is covered by the reviewed export.
+const fourth=seedScene(data,'discovery');fourth.role='first';fourth.dependency='confirmed';fourth.risks.unauthorized.residualConfirmed=true;
+fourth.risks.duplicate={...structuredClone(fourth.risks.details),id:'duplicate',name:'Duplicate wire release',description:'A retry could release the same payment twice.',prior:null,lastConfirmedResidual:null,controls:[],noControlsConfirmed:true,mappingApplicability:{},mappingRationale:{},controlConclusion:{text:'No current control is mapped. The owner assessed this explicitly.'},sources:['test']};
+fourth.risks.duplicate.riskResponse.created=false;assert(sendAssessment(fourth));fourth.role='second';fourth.assessmentView='agree';fourth.reviewerRationale='The four-risk assessment and stated limits are supported.';assert(completeReview(fourth));
+const full=buildReportHtml(data,fourth);assert(full.includes('Duplicate wire release'));assert(full.includes('No previous assessment'));assert.equal(Object.keys(reportContext(data,fourth).projection.risks).length,4);
+const fresh=createInitial(data);fresh.risks.duplicate={...structuredClone(fourth.risks.duplicate),inherent:blankRating(),residual:blankRating(),inherentConfirmed:false,controlsConfirmed:false,residualConfirmed:false};
+const missing=reportsView(data,fresh);assert(missing.includes('Not assessed'));assert(!missing.includes('Low (0)'));
 
-const withinTolerance=seedScene(data,'complete');
-withinTolerance.risks.unauthorized.residual={...withinTolerance.risks.unauthorized.residual,likelihood:2,impact:3};
-assert.equal(decisionBrief(withinTolerance).required,false);
-assert.equal(decisionBrief(withinTolerance).pending,false);
-assert.equal(decisionBrief(withinTolerance).targetDate,'');
-assert(!reportsView(data,withinTolerance).includes('id="report-decision-title"'));
-assert(reportsView(data,withinTolerance).includes('No above-tolerance decision required'));
-
-for(const [strategy,expected] of [['accept','time-bound basis'],['avoid','change or stop'],['transfer','risk-transfer arrangement']]) {
-  const state=seedScene(data,'complete');state.risks.unauthorized.riskResponse.strategy=strategy;
-  const decision=decisionBrief(state), output=reportsView(data,state);
-  assert(decision.question.includes(expected),`${strategy} must request the relevant disposition`);
-  assert.equal(decision.pending,true);
-  assert.equal(decision.targetDate,'2026-11-19');
-  assert(output.includes('Current risk remains unchanged'));
-  if(strategy==='accept') {
-    assert.equal(decision.reviewDate,'2026-11-28');
-    assert(output.includes('<dt>Requested acceptance review date</dt><dd>Nov 28, 2026</dd>'));
-    assert(output.includes('Time-bound acceptance pending'));
-    assert(!output.includes('<dt>Action due date</dt>'),'Acceptance review and testing closure are separate');
-    state.risks.unauthorized.riskResponse.reviewDate='2026-12-04';
-    assert.equal(decisionBrief(state).targetDate,'2026-11-19','Acceptance review is distinct from the target decision date');
-    assert(reportsView(data,state).includes('<dt>Requested acceptance review date</dt><dd>Dec 4, 2026</dd>'));
-    state.submitted=false;state.reviewed=false;
-    assert.equal(decisionBrief(state).pending,false);
-    assert(reportsView(data,state).includes('Draft decision request'));
-  }
-}
-
-console.log('PASS: named-risk report scope, explicit drill-down after supporting-risk selection, decision question/role/forum/date, draft/submitted/within-tolerance guards, response strategies, distinct action/acceptance dates, and render immutability.');
+// Perspective guards protect confirmation and typed edits through the public field handler.
+const readOnly=seedScene(data,'complete');readOnly.role='management';assert.equal(confirmReport(data,readOnly),false);handleOperationsField(readOnly,'report.summary','Unauthorized edit');assert.equal(readOnly.reportWorkspace?.draftSummary,undefined);
+console.log('PASS: all-risk report, named drill-downs, frozen version/source projection, editable text confirmation, operational invalidation, immutable editions, safe standalone HTML, added-risk/missing-prior states and role guards.');

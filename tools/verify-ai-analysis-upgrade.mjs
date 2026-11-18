@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {createInitial,seedScene,sourceRecords,assessmentProjection,assessmentContentKey} from '../src/scripts/demo/model.js';
+import {inlineInsights,insightContext,insightDrawer} from '../src/scripts/demo/inline-insights.js';
+import {ratingProposal,applyProposal,refreshProposal,checkAssessmentClaims} from '../src/scripts/demo/upgrade-model.js';
+import {receiveSignalTest,evidenceUpdateView} from '../src/scripts/demo/evidence-update.js';
+const load=async name=>JSON.parse(await readFile(new URL('../assets/data/'+name,import.meta.url),'utf8'));
+const [workflow,intelligence,context,signals,assistance]=await Promise.all(['workflow-demo.json','risk-intelligence.json','assessment-context.json','assessment-signals.json','control-assistance.json'].map(load));
+const data={...workflow,intelligence,context,signals,assistance,sources:[...workflow.sources,...intelligence.sources,...context.sources,...signals.sources]};
+const s=createInitial(data),before=assessmentContentKey(s),history=JSON.stringify(s.history);
+for(const riskId of ['unauthorized','details','cutoff'])for(const stage of ['inherent','residual']){
+ s.selectedRisk=riskId;
+ const c=insightContext(data,s,stage);assert(c.supported);assert(c.findings.every(f=>f.recommendation));
+ const html=inlineInsights(data,s,stage);assert(html.includes('Suggested next step'));assert(html.includes('Suggested assessment'));
+ assert(insightDrawer(data,s,{stage}).includes('How the trend was calculated'));
+ const proposal=ratingProposal(data,s,riskId,stage);assert(proposal.supported);assert(proposal.analysis);assert(proposal.sourceIds.includes('signals-'+riskId));
+}
+assert.equal(assessmentContentKey(s),before);assert.equal(JSON.stringify(s.history),history);
+s.selectedRisk='unauthorized';
+assert(!sourceRecords(data,s).some(source=>source.id==='signals-urgent-test'));
+const oldRating=JSON.stringify(s.risks.unauthorized.residual),oldText=s.risks.unauthorized.controlConclusion.text;
+ratingProposal(data,s,'unauthorized','residual');
+assert(receiveSignalTest(s,data));assert(!receiveSignalTest(s,data));
+assert.equal(JSON.stringify(s.risks.unauthorized.residual),oldRating);assert.equal(s.risks.unauthorized.controlConclusion.text,oldText);
+assert(sourceRecords(data,s).some(source=>source.id==='signals-urgent-test'));
+assert(inlineInsights(data,s,'residual').includes('2 of 5 urgent files'));
+let proposal=ratingProposal(data,s,'unauthorized','residual');assert.equal(proposal.status,'stale');assert(!proposal.proposed.likelihoodRationale.includes('does not cover the new urgent route'));
+assert.equal(applyProposal(s,data,proposal.id,{fields:['likelihoodRationale']}).ok,false);
+assert(refreshProposal(s,data,proposal.id));proposal=ratingProposal(data,s,'unauthorized','residual');
+assert(applyProposal(s,data,proposal.id,{fields:['likelihoodRationale']}).ok);assert(s.risks.unauthorized.sources.includes('signals-unauthorized'));
+assert.equal(s.risks.unauthorized.residual.likelihood,JSON.parse(oldRating).likelihood);
+s.risks.unauthorized.inherent.likelihoodRationale='Fraud attempts are falling.';
+assert(checkAssessmentClaims(data,s,'unauthorized','inherent').some(f=>f.title.includes('rising')));
+const custom=createInitial(data);custom.evidenceContext.ratingMethod.likelihood[3]='Frequent';
+const customHtml=inlineInsights(data,custom,'inherent');assert(!customHtml.includes('Review likelihood 4'));assert(!customHtml.includes('Suggested assessment'));
+const submitted=seedScene(data,'submitted');assert(!receiveSignalTest(submitted,data));
+const received=createInitial(data);assert(receiveSignalTest(received,data));
+// Use a submitted fixture with the received source and flag to exercise preserved rendering.
+submitted.snapshots[0].sources.push(structuredClone(signals.sources.find(source=>source.id==='signals-urgent-test')));
+submitted.snapshots[0].signalTestReceived=true;
+submitted.signalTestReceived=false;
+const projection=assessmentProjection(submitted,'current',data);assert(projection.sources.some(source=>source.id==='signals-urgent-test'));
+const evidence=evidenceUpdateView(data,submitted,projection.risks.unauthorized,'residual',projection);assert(evidence.includes('data-version="1"'));assert(evidence.includes('New test included'));
+console.log('PASS: derived recommendations across six contexts, calculations behind details, explicit evidence approval, stale proposal protection, selected-field application, custom policy and preserved source versions.');

@@ -24,7 +24,7 @@
       "residual": {
         "likelihood": 3,
         "impact": 4,
-        "likelihoodRationale": "Current testing covers standard wires only. Urgent requests have not been tested, and both checks may rely on the same contact record.",
+        "likelihoodRationale": "Current testing covers standard wires only. Evidence for urgent requests is missing, and both checks may rely on the same contact record.",
         "impactRationale": "The controls do not limit the amount that could be lost if an unauthorized payment is released."
       },
       "controls": [
@@ -99,7 +99,7 @@
       "purpose": "Verify the request",
       "owner": "Payments Operations",
       "design": "A callback to the registered customer contact verifies the request before release. The urgent-route exception requires supervisory approval.",
-      "operation": "Not tested for urgent requests",
+      "operation": "Urgent-route test evidence missing",
       "evidence": "25 standard wires tested. No problems found in that sample.",
       "source": "callback",
       "test": "test",
@@ -111,7 +111,7 @@
       "purpose": "Confirm authorization",
       "owner": "Payments Operations",
       "design": "A separate supervisor reviews the instruction and confirmation against the customer-contact record before authorizing release.",
-      "operation": "Not tested for urgent requests",
+      "operation": "Urgent-route test evidence missing",
       "evidence": "The latest test came before urgent requests were allowed and does not show whether those checks work.",
       "source": "approval",
       "test": "test",
@@ -148,7 +148,7 @@
       "owner": "Payments Operations",
       "design": "The customer confirms beneficiary and amount through the authenticated payment channel before a standard wire is released. This supplements the operator entry check; it does not by itself establish independent identity verification for an urgent request.",
       "operation": "Standard-route confirmations observed in the sample",
-      "evidence": "25 standard-wire customer confirmations were reviewed in October. No beneficiary or amount discrepancies were found in that sample. Urgent-route requests were not tested.",
+      "evidence": "25 standard-wire customer confirmations were reviewed in October. No beneficiary or amount discrepancies were found in that sample. The available test does not cover urgent requests.",
       "source": "customer-confirmation-test",
       "test": "customer-confirmation-test",
       "designConclusion": "Risk-specific coverage requires owner assessment.",
