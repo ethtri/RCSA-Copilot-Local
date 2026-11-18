@@ -1,6 +1,6 @@
-import {prepareManagementRequest} from './operations.js?v=20261116.3';
-import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261116.3';
-import {score,validRating,actionComplete,record} from './model.js?v=20261116.3';
+import {prepareManagementRequest,syncResponseAction} from './operations.js?v=20261118.8';
+import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261118.8';
+import {score,validRating,actionComplete,record} from './model.js?v=20261118.8';
 export const RESPONSE_OPTIONS=[['mitigate','Strengthen controls','Improve protection and close the evidence gap.'],['accept','Ask management to accept the risk','Request a time-limited decision with monitoring.'],['avoid','Change or stop activity','Remove exposure through a process change.'],['transfer','Transfer part of the risk','Assess the arrangement and the risk retained.']];
 export const actionFor=(s,id)=>id==='unauthorized'?s.action:s.risks[id]?.responseAction;
 const dateValid=(value,s)=>/^\d{4}-\d{2}-\d{2}$/.test(value||'')&&!Number.isNaN(Date.parse(value+'T12:00:00Z'))&&new Date(value+'T12:00:00Z').toISOString().slice(0,10)===value&&value>=(s.asOf||'2026-11-14');
@@ -22,17 +22,37 @@ export function responseErrors(s,id=s.selectedRisk){
  }
  return errors;
 }
-export function responseComplete(s,id){const r=s.risks?.[id],v=r?.riskResponse;if(!r||!validRating(r.residual))return false;return score(r.residual)<=thresholdFor(s)&&!v?.needsReview||!!(v?.created&&!v.needsReview&&responseErrors(s,id).length===0);}
+export function responseComplete(s,id){const r=s.risks?.[id],v=r?.riskResponse;if(!r||!validRating(r.residual))return false;return score(r.residual)<=thresholdFor(s)&&(!v?.needsReview||!!r.optionalResponseDraft&&!v.created)||!!(v?.created&&!v.needsReview&&responseErrors(s,id).length===0);}
+export function nextResponseRisk(s){
+ const needsResponse=r=>r&&!r.removed&&r.residualConfirmed&&!responseComplete(s,r.id);
+ const current=s.risks[s.selectedRisk];
+ return needsResponse(current)?current:Object.values(s.risks).find(needsResponse);
+}
 export function setResponseStrategy(s,id,strategy){
  if(s.role!=='first'||s.submitted||!s.risks?.[id]||!RESPONSE_OPTIONS.some(x=>x[0]===strategy))return false;
  const r=s.risks[id],v=r.riskResponse,previous=v.strategy;if(previous===strategy)return true;
+ if(!previous&&!v.created&&!v.needsReview&&score(r.residual)<=thresholdFor(s)){
+  r.optionalResponseDraft={response:structuredClone(v),action:structuredClone(actionFor(s,id))};
+ }
  if(v.created){r.responseHistory??=[];r.responseHistory.push({...structuredClone(v),replacedAt:s.asOf});}
- v.strategy=strategy;v.created=false;v.needsReview=true;r.residualConfirmed=false;s.reportConfirmed='';
+ v.strategy=strategy;v.created=false;v.needsReview=true;s.reportConfirmed='';
  if(s.controlAssistance?.plans?.[id]&&strategy!=='mitigate')s.controlAssistance.plans[id].needsReview=true;
  for(const record of [s.operations?.actions?.[id],s.operations?.decisions?.[id]])if(record)record.needsReview=true;
  record(s,'Alex Morgan',`Changed response approach for ${r.name}.`,`${previous||'No approach'} → ${strategy}. Existing linked work is retained for review.`);return true;
 }
+export function discardOptionalResponse(s,id=s.selectedRisk){
+ const r=s.risks[id],draft=r?.optionalResponseDraft;
+ if(s.role!=='first'||s.submitted||!draft||r.riskResponse.created)return false;
+ r.riskResponse=draft.response;
+ Object.assign(actionFor(s,r.id),draft.action);
+ delete r.optionalResponseDraft;
+ return true;
+}
+
 export function saveRiskResponse(s){
  if(s.role!=='first'||s.submitted||responseErrors(s).length)return false;
- const r=s.risks[s.selectedRisk],v=r.riskResponse;v.created=true;v.needsReview=false;v.recordedStrategy=v.strategy;prepareManagementRequest(s,r.id);s.reportConfirmed='';record(s,'Alex Morgan',`Recorded risk response for ${r.name}: ${RESPONSE_OPTIONS.find(x=>x[0]===v.strategy)[1]}.`,v.rationale);return true;
+ const r=s.risks[s.selectedRisk],v=r.riskResponse;v.created=true;v.needsReview=false;v.recordedStrategy=v.strategy;syncResponseAction(s,r);
+ const plan=actionFor(s,r.id);
+ if(v.strategy!=='accept')r.recordedActionPlan={title:plan.title,owner:plan.owner,due:plan.due,requiredEvidence:plan.evidence};
+ prepareManagementRequest(s,r.id);delete r.optionalResponseDraft;s.reportConfirmed='';record(s,'Alex Morgan',`Recorded risk response for ${r.name}: ${RESPONSE_OPTIONS.find(x=>x[0]===v.strategy)[1]}.`,v.rationale);return true;
 }

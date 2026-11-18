@@ -1,4 +1,5 @@
-import {invalidateRisk,record} from './model.js?v=20261116.3';
+import {invalidateRisk,record,reviewerConflict} from './model.js?v=20261118.8';
+
 
 export const DEFAULT_SCOPE=Object.freeze({process:'Wire transfers',owner:'Alex Morgan',period:'Q4 2026',channels:'Standard and urgent wire payments',systems:'Wire processing platform; customer-contact directory; verification service',inScope:'Payment instructions, contact changes, verification, approval and release before cutoff.',outOfScope:'Settlement-service infrastructure and non-wire payment services.'});
 const coverageKeys=['process','period','channels','systems','inScope','outOfScope'];
@@ -25,6 +26,7 @@ export function saveScope(s,data={}){
  const next=Object.fromEntries(keys.map(key=>[key,String(s.scopeDraft[key]||'').trim()]));
  if(keys.some(key=>!next[key]))return {ok:false,message:'Complete each scope field. Enter None if a boundary or system does not apply.'};
  if(keys.some(key=>next[key].length>2000))return {ok:false,message:'Keep each scope field under 2,000 characters.'};
+ if(reviewerConflict(s,next.owner))return {ok:false,message:'Assign a different owner or change the independent reviewer in Bank setup.'};
  const previous=scopeRecord(s)||DEFAULT_SCOPE,changed=keys.some(key=>next[key]!==previous[key]);
  delete s.scopeDraft;
  if(!changed)return {ok:true,message:'Scope is unchanged.'};

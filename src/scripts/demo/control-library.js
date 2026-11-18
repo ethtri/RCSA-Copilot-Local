@@ -1,5 +1,5 @@
-import {controlsLibrary} from './mappings.js?v=20261116.3';
-import {esc,icon,button} from './ui.js?v=20261116.3';
+import {controlsLibrary} from './mappings.js?v=20261118.8';
+import {esc,icon,button} from './ui.js?v=20261118.8';
 
 export function controlLibraryDialog(data,s){
   const r=s.risks[s.selectedRisk],editable=s.role==='first'&&!s.submitted,owner=s.role==='first';
@@ -12,5 +12,5 @@ export function controlLibraryDialog(data,s){
 
 export function ownerRevisionDialog(data,s,controlId=''){
   const r=s.risks[s.selectedRisk],candidate=controlsLibrary(data,s).find(c=>c.id===controlId);
-  return `<span class="label">${esc(r.name)}</span><h2 id="dialog-title">Start a new assessment draft?</h2><p>Version ${s.versionNumber}, its submitted assessment and review history will remain available. Changes go into a new draft and need your confirmation and a new independent review.</p>${candidate?`<p>You’ll continue by linking <strong>${esc(candidate.name)}</strong> to this risk.</p>`:''}<p class="small muted">Current confirmed risk stays unchanged until you reassess it.</p><div class="button-group">${button('Start new draft','confirm-owner-revision','class="button primary"')}${button('Back to library','control-library','class="button quiet"')}</div>`;
+  return `<span class="label">${esc(r.name)}</span><h2 id="dialog-title">Start a new assessment draft?</h2><p>Version ${s.versionNumber}, its submitted assessment and review history will remain available. Changes go into a new draft and need your confirmation and a new independent review.</p>${candidate?`<p>You’ll continue by linking <strong>${esc(candidate.name)}</strong> to this risk.</p>`:''}<p class="small muted">Current confirmed risk stays unchanged until you reassess it.</p><div class="button-group">${button('Start new draft','confirm-owner-revision','class="button primary"')}${candidate?button('Back to library','control-library','class="button quiet"'):button('Keep submitted version','close-dialog','class="button quiet"')}</div>`;
 }

@@ -1,8 +1,8 @@
-import {preparedScopeMatches,scopeRecord} from './scope-model.js?v=20261116.3';
-import {signalTrend,signalFindings} from './signal-analysis.js?v=20261116.3';
-import {policyFor,defaultPolicy} from './bank-policy.js?v=20261116.3';
+import {preparedScopeMatches,scopeRecord} from './scope-model.js?v=20261118.8';
+import {signalTrend,signalFindings} from './signal-analysis.js?v=20261118.8';
+import {policyFor,defaultPolicy} from './bank-policy.js?v=20261118.8';
 // Prepared local proposal contracts. These are inspectable scenario suggestions, never live model output.
-import {blankRating,emptyResponse,score,validRating,sourceRecords,record,invalidateRisk} from './model.js?v=20261116.3';
+import {blankRating,emptyResponse,score,validRating,sourceRecords,record,invalidateRisk} from './model.js?v=20261118.8';
 const copy=v=>structuredClone(v),editable=s=>s.role==='first'&&!s.submitted;
 const id='duplicate-release';
 const RETRY_SOURCES=[
@@ -58,10 +58,32 @@ function retryAssistance(){
  const candidate={id:'retry-new',riskId:id,kind:'new',title:'Add a stable release key',summary:'Prevent a retry from releasing the same instruction again.',gap:'The recovery procedure does not establish a duplicate-release gate.',addresses:'A stable key and authoritative status check can block repeated release.',limits:'Proposed design. It has not been implemented or tested.',sourceIds,conclusion:'The retry gate is proposed. Current records do not show that it prevents duplicate releases.',designDraft:design,plan};
  return {title:'Prevent duplicate release during recovery',exposure:'A timed-out instruction may already have been accepted when staff retry it.',designGap:candidate.gap,operatingGap:'RT-09 excludes timeouts and retries. No recovery-path operating result is available.',operatingGapTitle:'Retry and recovery testing is outstanding',baselineControlIds:[],knownControlIds:[],sourceIds,qualifiedConclusion:'No retry control is mapped yet. The procedure and ordinary-release sample do not establish that a repeated release is blocked.',overbroadClaim:'Every retry is guaranteed to release only once.',candidates:[candidate],objectives:[{id:'core',label:'Address the risk'},{id:'evidence',label:'Establish the evidence needed'}]};
 }
+function newRiskRecord(s,riskId,value,scenarioId,ids,candidateId=null){
+ return {id:riskId,scenarioId:scenarioId,name:value.name.trim(),description:`${value.cause.trim()} ${value.event.trim()} ${value.harm.trim()}`,cause:value.cause.trim(),event:value.event.trim(),harm:value.harm.trim(),scope:value.scope.trim(),owner:value.owner.trim(),sources:[...ids],controls:[],baselineControls:[],prior:null,lastConfirmedResidual:null,inherent:blankRating(),residual:blankRating(),inherentConfirmed:false,controlsConfirmed:false,residualConfirmed:false,controlConclusion:{text:''},mappingRationale:{},mappingApplicability:{},noControlsConfirmed:false,riskResponse:emptyResponse(value.owner.trim()),responseAction:{id:'action-'+riskId,title:'',owner:value.owner.trim(),due:'',evidence:''},provenance:{candidateId,sourceIds:[...ids],actor:'Alex Morgan',date:s.asOf},status:'Draft'};
+}
+export function addOwnerRisk(s,data,fields,ids){
+ if(!editable(s))return {ok:false,message:'Open an owner draft to add a risk.'};
+ const scope=scopeRecord(s);
+ const value={...fields,scope:scope.channels,owner:scope.owner};
+ if(['name','cause','event','harm'].some(key=>!value[key]?.trim()))return {ok:false,message:'Enter a name, cause, event and consequence.'};
+ const available=sourceRecords(data,s);
+ const sources=[...new Set(ids)].filter(id=>available.some(record=>record.id===id));
+ if(policyFor(s).requireEvidence&&!sources.length)return {ok:false,message:'Select a supporting record for this risk.'};
+ const riskId='risk-'+crypto.randomUUID();
+ s.risks[riskId]=newRiskRecord(s,riskId,value,'owner-defined',sources);
+ s.scope=false;s.selectedRisk=riskId;s.reportConfirmed='';
+ record(s,data.owner,'Added risk to scope.',value.name);
+ return {ok:true,riskId};
+}
 export function addDiscoveredRisk(s,data,candidateId,edits={}){
  if(!editable(s))return {ok:false,message:'Start an owner revision before adding a risk.'};ensureUpgrade(s);const c=discoverRisks(data,s).find(x=>x.id===candidateId);if(!c||s.risks[c.id])return {ok:false,message:'This risk is already present or unavailable.'};
- const value={...c,...edits};for(const key of ['name','cause','event','harm','scope','owner'])if(!String(value[key]||'').trim())return {ok:false,message:'Complete the risk name, cause, event, harm, scope and owner.'};retainSources(s,c);
- const prepared=['cause','event','harm','scope'].every(key=>String(value[key]).trim()===String(c[key]).trim());s.risks[c.id]={id:c.id,scenarioId:prepared?c.id:'owner-defined',name:value.name.trim(),description:`${value.cause.trim()} ${value.event.trim()} ${value.harm.trim()}`,cause:value.cause.trim(),event:value.event.trim(),harm:value.harm.trim(),scope:value.scope.trim(),owner:value.owner.trim(),sources:[...c.sourceIds],controls:[],baselineControls:[],prior:null,lastConfirmedResidual:null,inherent:blankRating(),residual:blankRating(),inherentConfirmed:false,controlsConfirmed:false,residualConfirmed:false,controlConclusion:{text:''},mappingRationale:{},mappingApplicability:{},noControlsConfirmed:false,riskResponse:emptyResponse(value.owner.trim()),responseAction:{id:'action-'+c.id,title:'',owner:value.owner.trim(),due:'',evidence:''},provenance:{candidateId:c.id,sourceIds:[...c.sourceIds],actor:'Alex Morgan',date:s.asOf},status:'Draft'};
+ const value={...c,...edits};for(const key of ['name','cause','event','harm','scope','owner'])if(!String(value[key]||'').trim())return {ok:false,message:'Complete the risk name, cause, event, harm, scope and owner.'};
+ const prepared=['name','cause','event','harm','scope'].every(key=>String(value[key]).trim()===String(c[key]).trim());
+ const available=new Set([...sourceRecords(data,s),...c.sources].map(record=>record.id));
+ const ids=prepared?c.sourceIds:[...new Set(edits.selectedEvidence||[])].filter(id=>available.has(id));
+ if(!prepared&&policyFor(s).requireEvidence&&!ids.length)return {ok:false,message:'Choose the supporting records for your edited risk.'};
+ retainSources(s,{sources:c.sources.filter(source=>ids.includes(source.id))});
+ s.risks[c.id]=newRiskRecord(s,c.id,value,prepared?c.id:'owner-defined',ids,c.id);
  if(prepared)s.preparedAssistance.cases[c.id]=retryAssistance();s.discoveryDecisions.push({candidateId:c.id,disposition:'added',riskId:c.id,actor:'Alex Morgan',date:s.asOf});s.selectedRisk=c.id;s.scope=false;s.reportConfirmed='';record(s,'Alex Morgan',`Added draft risk: ${value.name}.`,'No rating, control or response was automatically confirmed.');return {ok:true,riskId:c.id,message:'Draft risk added. Assess likelihood, impact and controls.'};
 }
 export function disposeDiscoveredRisk(s,data,candidateId,disposition,{reason,owner,due,riskId}={}){

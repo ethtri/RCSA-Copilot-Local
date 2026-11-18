@@ -25,3 +25,54 @@
 .carry-forward-sources .source-link{min-height:44px;text-align:left}
 .carry-forward-notice{padding:14px 16px;background:#fff6e4;border:1px solid #ead5a5;border-radius:6px}
 @media(max-width:600px){.review-version-scope{padding:18px}.review-risk-overview thead{display:none}.review-risk-overview tbody,.review-risk-overview tr,.review-risk-overview th,.review-risk-overview td{display:block}.review-risk-overview tr{padding:12px 0;border-top:1px solid var(--line)}.review-risk-overview th,.review-risk-overview td{padding:5px 0;border:0}.review-risk-overview td::before{content:attr(data-label);display:block;font-size:12px;color:var(--muted);margin-bottom:4px}.carry-forward-ratings{gap:20px;flex-wrap:wrap}}
+
+.sheet.flow-handoff { padding: clamp(18px, 3vw, 30px); margin: 18px 0; }
+.flow-handoff h2 { margin-top: 0; }
+.flow-handoff .response-text { white-space: pre-line; max-width: 78ch; overflow-wrap: anywhere; }
+.flow-tasks { display: grid; gap: 4px; margin: 12px 0; }
+.flow-tasks button { min-height: 44px; justify-content: flex-start; text-align: left; }
+#manual-risk-form .field, #manual-risk-form fieldset { margin: 12px 0; }
+#manual-risk-form fieldset { max-height: 210px; overflow-y: auto; }
+#manual-risk-form .attestation { display: flex; }
+@media (max-width: 800px) {
+ .owner-review-report .review-report-layout { display: flex; flex-direction: column; }
+ .owner-review-report .review-submit { order: -1; position: static; width: 100%; }
+}
+
+#manual-risk-form label[hidden] { display: none; }
+.review-record-note{display:block;margin-top:5px;font-size:13px;line-height:1.5;color:var(--muted)}.review-record-note summary{cursor:pointer;color:var(--brand,#145447)}.review-record-note p{max-width:42ch;margin:8px 0}
+
+.rating-suggestion-inline{display:flex;align-items:center;gap:.6rem 1rem;flex-wrap:wrap;margin:1rem 0;padding:.7rem 0;border-block:1px solid var(--line)}
+.rating-test-note{margin:1rem 0;color:var(--muted);font-size:.9rem;line-height:1.6}
+.rating-test-note strong{color:var(--ink)}
+.rating-test-note .text-link,.rating-suggestion-inline .text-link{font-size:inherit}
+
+.response-risk-select { display:flex; align-items:center; gap:.7rem; margin-block:1rem; font-size:.9rem; color:var(--muted); }
+.response-risk-select select { max-width:100%; min-width:0; padding:.5rem .75rem; color:var(--forest); border:1px solid var(--line); border-radius:5px; background:var(--surface); font:inherit; }
+.response-state { padding:clamp(1.25rem, 3vw, 2rem); }
+.response-state h2 { display:flex; align-items:center; gap:.6rem; }
+.response-state h2 svg { flex-shrink:0; color:var(--forest); }
+.response-state p { margin:.7rem 0; line-height:1.55; }
+
+.acceptance-form {max-width:760px;margin-inline:auto}
+.acceptance-form>.sheet {padding:clamp(18px,3vw,32px)}
+.acceptance-form h2 {display:flex;gap:.55rem;align-items:center}
+.acceptance-form .sheet>p {line-height:1.55}
+.acceptance-form .field {margin-block:.8rem}
+.acceptance-form .field textarea {min-height:3.6rem;height:3.6rem;resize:vertical}
+.acceptance-pair {display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:1rem}
+.response-picker {margin-bottom:1.25rem;border-bottom:1px solid var(--line);padding-bottom:.75rem}
+.response-picker summary {cursor:pointer;font-weight:600}
+.response-picker summary span {white-space:nowrap;font-size:.8rem;font-weight:400;margin-inline-start:.75rem;text-decoration:underline}
+.response-picker fieldset {margin-top:1rem}
+.acceptance-actions,.acceptance-next {display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-top:1rem}
+.acceptance-next {flex-wrap:nowrap;align-items:flex-start;padding:1rem;background:#eef4ef;border-radius:6px}
+.acceptance-next svg {flex:none;margin-top:2px}
+.acceptance-next p {margin:.25rem 0 0;line-height:1.5}
+.request-approver {font-weight:600;color:var(--forest);font-size:1.15rem}
+.request-terms div {padding:.6rem 0;border-top:1px solid var(--line)}
+.request-terms dt {font-size:.8rem;color:var(--muted)}
+.request-terms dd {margin:.2rem 0 0;overflow-wrap:anywhere}
+.request-edit summary {cursor:pointer}
+@media(max-width:580px){.acceptance-pair{grid-template-columns:1fr;gap:0}.acceptance-actions .primary{width:100%}}
+.request-edit[open]+.acceptance-actions {display:none}

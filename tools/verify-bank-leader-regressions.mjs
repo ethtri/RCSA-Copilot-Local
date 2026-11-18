@@ -4,7 +4,7 @@ import {createInitial,seedScene,sourceRecords,migrateSession,startOwnerRevision,
 import {addDiscoveredRisk,ratingProposal,applyProposal} from '../src/scripts/demo/upgrade-model.js';
 import {carryForwardNeedsReview,confirmCarryForward} from '../src/scripts/demo/carry-forward.js';
 import {priorInherent,proposalDialog} from '../src/scripts/demo/upgrade-view.js';
-import {insightContext,inlineInsights} from '../src/scripts/demo/inline-insights.js';
+import {insightContext,ratingSuggestionLink} from '../src/scripts/demo/inline-insights.js';
 import {recommendationSet} from '../src/scripts/demo/control-assistance.js';
 import {saveMapping} from '../src/scripts/demo/mappings.js';
 import {replyIntents,replySuggestion} from '../src/scripts/demo/reply-assistance.js';
@@ -63,7 +63,7 @@ const pending=createInitial(data),pendingRisk=pending.risks.unauthorized;
 assert.equal(pendingRisk.residualConfirmed,false);
 assert.match(responseSummary(pending,pendingRisk),/Draft rating · not confirmed/);
 const pendingHtml=responseWorkspace(data,pending);
-assert(pendingHtml.includes('Draft rating · not confirmed')&&pendingHtml.includes('Back to control review'));
+assert(pendingHtml.includes('Draft rating · not confirmed')&&pendingHtml.includes('Go to scope'));
 assert(!pendingHtml.includes('<strong>Within the threshold</strong>'));
 
 // A report should explain the material change, and retain the remaining work after review.
@@ -81,7 +81,7 @@ for(const stage of ['inherent','residual']){
  const insight=insightContext(data,discovered,stage);
  assert(insight.supported,'Added risk has prepared '+stage+' evidence');
  assert(insight.findings.length>=2&&insight.findings.every(finding=>finding.sourceIds.length));
- assert(inlineInsights(data,discovered,stage).includes('Suggested assessment'));
+ assert(ratingSuggestionLink(data,discovered,insight).includes('Suggested assessment'));
  assert.deepEqual(discovered.risks['duplicate-release'],before);
 }
 const bespoke=structuredClone(discovered);bespoke.risks['duplicate-release'].scenarioId='owner-defined';

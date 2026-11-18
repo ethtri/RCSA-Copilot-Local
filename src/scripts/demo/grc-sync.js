@@ -1,5 +1,5 @@
-import {exchangeState,reviewedPayload,payloadKey,METHOD_PROFILES,deliverConfiguredUpdate,readinessIssues} from './grc-exchange.js?v=20261116.3';
-import {ensureOperations,decisionStatus} from './operations.js?v=20261116.3';
+import {exchangeState,reviewedPayload,payloadKey,METHOD_PROFILES,deliverConfiguredUpdate,readinessIssues} from './grc-exchange.js?v=20261118.8';
+import {ensureOperations,decisionStatus} from './operations.js?v=20261118.8';
 
 const log=(g,actor,action,detail)=>g.events.push({at:new Date().toISOString(),actor,action,detail});
 const issueFor=(g,kind)=>({

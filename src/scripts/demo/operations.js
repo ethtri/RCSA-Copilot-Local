@@ -1,5 +1,5 @@
-import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261116.3';
-import {esc,button,field,formatDate,statusBadge,emptyState,icon} from './ui.js?v=20261116.3';
+import {thresholdFor,policyFor,reviewerFor} from './bank-policy.js?v=20261118.8';
+import {esc,button,field,formatDate,statusBadge,emptyState,icon} from './ui.js?v=20261118.8';
 
 export const OPERATION_ROLES={first:'Alex Morgan',second:'Jordan Lee',assurance:'Avery Patel',management:'Casey Bennett',admin:'Morgan Chen'};
 export const demoAsOf=s=>/^\d{4}-\d{2}-\d{2}$/.test(s.demoAsOf||s.asOf||'')?(s.demoAsOf||s.asOf):'2026-11-14';
@@ -26,11 +26,46 @@ export function ensureOperations(s){
  return ops;
 }
 
+export function syncResponseAction(s,r){
+ const plan=riskAction(s,r),action=s.operations?.actions?.[r.id];
+ if(!action||r.riskResponse.strategy==='accept')return;
+ const values={title:plan.title,owner:plan.owner,due:plan.due,requiredEvidence:plan.evidence};
+ const previous=r.recordedActionPlan;
+ const changes=Object.entries(values).filter(([key,value])=>action[key]!==value&&(!previous||previous[key]!==value));
+ if(!changes.length)return;
+ const history=changes.map(([key,value])=>`${key}: ${action[key]} → ${value}`).join('; ');
+ const draft=s.operations.drafts?.['action.'+r.id];
+ if(draft)for(const [key,value] of changes)draft[key]=value;
+ Object.assign(action,values);
+ if(['closed','evidence-submitted'].includes(action.status)){
+  action.status='returned';
+  if(action.closure){action.priorClosure=clone(action.closure);delete action.closure;}
+ }
+ bump(s,action,'Response plan revised',history);
+}
+
 export function prepareManagementRequest(s,riskId=s.selectedRisk){
  const r=s.risks?.[riskId],response=r?.riskResponse;
  if(s.role!=='first'||s.submitted||!r||!response?.created||!(score(r.residual)>thresholdFor(s)||response.strategy==='accept'))return false;
  const ops=ensureOperations(s);
+ const basis={owner:response.decisionOwner,reviewDate:response.reviewDate,conditions:response.conditions,reason:response.rationale,monitoring:response.monitoring};
+ const previous=ops.decisions[r.id];
+ if(response.strategy==='accept'&&previous?.kind==='acceptance'){
+  const changed=Object.keys(basis).filter(key=>(previous.responseBasis||previous)[key]!==undefined&&basis[key]!== (previous.responseBasis||previous)[key]);
+  if(changed.length){
+   if(['draft','returned'].includes(previous.status)){
+    const draft=ops.drafts['decision.'+r.id];
+    for(const key of changed){previous[key]=basis[key];if(draft)draft[key]=basis[key];}
+    bump(s,previous,'Request details updated','The owner revised the acceptance request.');
+   }else{
+    ops.archivedDecisions??=[];
+    ops.archivedDecisions.push({...clone(previous),superseded:true});
+    delete ops.decisions[r.id];delete ops.drafts['decision.'+r.id];
+   }
+  }
+ }
  if(!ops.decisions[r.id])ops.decisions[r.id]={id:`DEC-${r.id}`,riskId:r.id,assessmentVersion:s.versionNumber||'draft',version:1,kind:response.strategy==='accept'?'acceptance':'continue',status:'draft',owner:response.decisionOwner||OPERATION_ROLES.management,forum:'Payments Risk Committee',targetDate:'2026-11-19',reviewDate:response.reviewDate||'2026-11-28',conditions:response.conditions||'',reason:response.rationale||'',question:response.strategy==='accept'?`May the bank accept ${r.name.toLowerCase()} until the review date?`:`May the activity continue while the plan for ${r.name.toLowerCase()} is completed?`,events:[{version:1,at:stamp(s),actor:'Assessment record',event:'Decision request prepared',detail:'The assessment owner must submit this request. It is not an approval.'}]};
+ if(response.strategy==='accept'){const request=ops.decisions[r.id];request.responseBasis=clone(basis);request.monitoring=basis.monitoring;}
  return !!ops.decisions[r.id];
 }
 
@@ -118,7 +153,20 @@ export function decisionView(data,s,riskId=s.selectedRisk){
  const ops=ensureOperations(s),r=s.risks[riskId],record=ops.decisions[riskId];
  if(!r||!record)return emptyState({title:'No management request is recorded',description:'Review the risk assessment and response before preparing a management request.',action:button('Back to assessment','open-risk',`class="button" data-risk="${esc(riskId||'unauthorized')}" data-stage="residual"`)});
  const key=`decision.${riskId}`,status=decisionStatus(s,record),ownerEdit=s.role==='first'&&['draft','returned','expired'].includes(status),managerEdit=s.role==='management'&&status==='submitted',d=ownerEdit||managerEdit?draftFor(s,'decision',riskId,record):record;
- return `<div class="operations-view"><div class="ri-topline">${button('Back to dashboard','navigate','class="text-link" data-route="work"')}<span>${esc(r.name)} · ${esc(record.id)}</span></div><header class="page-heading"><h1>${record.kind==='acceptance'?'Request temporary risk acceptance':'Request permission to continue'}</h1><p>Request version ${record.version} · As of ${demoAsOf(s)}</p></header>${recordProgressView(s,record,'decision')}<section class="sheet">${errorsView(s,key)}<p class="report-decision-question">${esc(record.question)}</p><div class="two-columns">${input(s,`${key}.owner`,'Decision owner',d.owner,{readOnly:!ownerEdit})}${input(s,`${key}.forum`,'Decision committee or meeting',d.forum,{readOnly:!ownerEdit})}${input(s,`${key}.targetDate`,'Decision due date',d.targetDate,{type:'date',readOnly:!ownerEdit})}${input(s,`${key}.reviewDate`,'Expiry or review date',d.reviewDate,{type:'date',readOnly:!ownerEdit&&!managerEdit})}</div>${input(s,`${key}.reason`,'Why this decision is needed',d.reason,{area:true,readOnly:!ownerEdit})}${input(s,`${key}.conditions`,'Conditions and limits',d.conditions,{area:true,readOnly:!ownerEdit&&!managerEdit})}${ownerEdit?`<div class="button-group">${button('Save request draft','ops-save-decision',`class="button" data-risk="${r.id}"`)}${button('Submit for management decision','ops-submit-decision',`class="button primary" data-risk="${r.id}"`)}</div>`:''}${managerEdit?`${input(s,`${key}.decisionReason`,'Reason for your decision',d.decisionReason||'',{area:true})}<div class="button-group">${button('Approve with conditions','ops-approve-decision',`class="button primary" data-risk="${r.id}"`)}${button('Return for changes','ops-return-decision',`class="button" data-risk="${r.id}"`)}${button('Decline request','ops-decline-decision',`class="button quiet" data-risk="${r.id}"`)}</div>`:''}${record.outcome?`<div class="confirmation"><strong>${esc(labels[status])}</strong> · ${esc(record.outcome.actor)} · ${esc(record.outcome.at)}<p>${esc(record.outcome.reason)}</p></div>`:''}${status==='expired'?'<p class="return-feedback">The approval has expired as of the demo date. The owner must renew the request; there is no continuing approval.</p>':''}<p class="small muted">Only the Management decision owner perspective can approve or decline. A decision does not close actions or lower the confirmed risk rating.</p>${eventsView(record)}</section></div>`;
+ if(record.kind==='acceptance'&&s.role==='first'){
+  const pending=status==='submitted',approver=d.owner||'Approver needed';
+  const title=ownerEdit?'Review your request':pending?'Awaiting management decision':labels[status];
+  const description=ownerEdit?'Check the approver and terms, then send the request. The approver can approve it, ask for changes or decline.':pending?`${approver} has the request. You can continue your assessment while you wait.`:`Decision recorded by ${record.outcome?.actor||approver}.`;
+  const terms=[['Reason',d.reason],['Limits',d.conditions],['Monitoring',record.monitoring||r.riskResponse?.monitoring],['Review or expiry',d.reviewDate?formatDate(d.reviewDate):'To be agreed']];
+  const riskAttr=`data-risk="${esc(r.id)}"`;
+  return `<div class="operations-view acceptance-form"><header class="page-heading"><p>${esc(r.name)}</p><h1>${esc(title)}</h1></header>
+   <section class="sheet"><h2>${icon('shield',20)} Management approver</h2><p class="request-approver">${esc(approver)}</p><p>${esc(description)}</p>${errorsView(s,key)}
+   <dl class="request-terms">${terms.map(([label,value])=>`<div><dt>${label}</dt><dd>${esc(value||'Not recorded')}</dd></div>`).join('')}</dl>
+   ${ownerEdit?`<details class="request-edit" ${s.operations?.errors?.[key]?.length?'open':''}><summary>Edit request details</summary>${input(s,key+'.owner','Management approver',d.owner)}${input(s,key+'.forum','Decision committee or meeting',d.forum)}${input(s,key+'.targetDate','Decision due date',d.targetDate,{type:'date'})}${input(s,key+'.reviewDate','Review or expiry date',d.reviewDate,{type:'date'})}${input(s,key+'.reason','Reason for the request',d.reason,{area:true})}${input(s,key+'.conditions','Conditions and limits',d.conditions,{area:true})}${button('Save request changes','ops-save-decision',`class="button" ${riskAttr}`)}</details>`:''}
+   <div class="acceptance-actions">${ownerEdit?button('Send to management approver','ops-submit-decision',`class="button primary" ${riskAttr}`):''}${button(ownerEdit?'Continue assessment and send later':'Continue assessment','finish-response',ownerEdit?'class="text-link"':'class="button primary"')}</div>
+   ${record.outcome?`<p>${esc(record.outcome.reason)}</p>`:''}${eventsView(record)}</section></div>`;
+ }
+ return `<div class="operations-view"><div class="ri-topline">${button('Back to dashboard','navigate','class="text-link" data-route="work"')}<span>${esc(r.name)} · ${esc(record.id)}</span></div><header class="page-heading"><h1>${record.kind==='acceptance'?'Request temporary risk acceptance':'Request permission to continue'}</h1><p>Request version ${record.version} · As of ${demoAsOf(s)}</p></header>${recordProgressView(s,record,'decision')}<section class="sheet">${errorsView(s,key)}<p class="report-decision-question">${esc(record.question)}</p>${record.monitoring?`<p><strong>Monitoring</strong> · ${esc(record.monitoring)}</p>`:''}<div class="two-columns">${input(s,`${key}.owner`,'Decision owner',d.owner,{readOnly:!ownerEdit})}${input(s,`${key}.forum`,'Decision committee or meeting',d.forum,{readOnly:!ownerEdit})}${input(s,`${key}.targetDate`,'Decision due date',d.targetDate,{type:'date',readOnly:!ownerEdit})}${input(s,`${key}.reviewDate`,'Expiry or review date',d.reviewDate,{type:'date',readOnly:!ownerEdit&&!managerEdit})}</div>${input(s,`${key}.reason`,'Why this decision is needed',d.reason,{area:true,readOnly:!ownerEdit})}${input(s,`${key}.conditions`,'Conditions and limits',d.conditions,{area:true,readOnly:!ownerEdit&&!managerEdit})}${ownerEdit?`<div class="button-group">${button('Save request draft','ops-save-decision',`class="button" data-risk="${r.id}"`)}${button('Submit for management decision','ops-submit-decision',`class="button primary" data-risk="${r.id}"`)}</div>`:''}${managerEdit?`${input(s,`${key}.decisionReason`,'Reason for your decision',d.decisionReason||'',{area:true})}<div class="button-group">${button('Approve with conditions','ops-approve-decision',`class="button primary" data-risk="${r.id}"`)}${button('Return for changes','ops-return-decision',`class="button" data-risk="${r.id}"`)}${button('Decline request','ops-decline-decision',`class="button quiet" data-risk="${r.id}"`)}</div>`:''}${record.outcome?`<div class="confirmation"><strong>${esc(labels[status])}</strong> · ${esc(record.outcome.actor)} · ${esc(record.outcome.at)}<p>${esc(record.outcome.reason)}</p></div>`:''}${status==='expired'?'<p class="return-feedback">The approval has expired as of the demo date. The owner must renew the request; there is no continuing approval.</p>':''}<p class="small muted">Only the Management decision owner perspective can approve or decline. A decision does not close actions or lower the confirmed risk rating.</p>${eventsView(record)}</section></div>`;
 }
 
 export function handleOperationsField(s,key,value){

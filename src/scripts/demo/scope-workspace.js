@@ -1,9 +1,9 @@
-import {scopeRecord,preparedScopeMatches} from './scope-model.js?v=20261116.3';
-import {assessmentProjection,sourceRecords,riskEntries} from './model.js?v=20261116.3';
-import {signalTrend} from './signal-analysis.js?v=20261116.3';
-import {discoverRisks} from './upgrade-model.js?v=20261116.3';
-import {policyFor,thresholdFor} from './bank-policy.js?v=20261116.3';
-import {esc,icon,button,sourceLink,field,aiLabel,formatDate} from './ui.js?v=20261116.3';
+import {scopeRecord,preparedScopeMatches} from './scope-model.js?v=20261118.8';
+import {assessmentProjection,sourceRecords,riskEntries} from './model.js?v=20261118.8';
+import {signalTrend} from './signal-analysis.js?v=20261118.8';
+import {discoverRisks} from './upgrade-model.js?v=20261118.8';
+import {policyFor,thresholdFor} from './bank-policy.js?v=20261118.8';
+import {esc,icon,button,sourceLink,field,aiLabel,formatDate} from './ui.js?v=20261118.8';
 
 const locked=s=>s.role!=='first'||s.submitted;
 const labels={process:'Process',owner:'Assigned owner',period:'Assessment period',channels:'Payment channels',systems:'Systems and information',inScope:'Included activities',outOfScope:'Outside this assessment'};
@@ -46,11 +46,15 @@ export function scopeWorkspace(data,s){
  return `<div class="scope-workspace"><header class="scope-heading"><h1>Scope &amp; changes</h1><p>Check what changed and whether any risks are missing before confirming coverage.</p></header>
  ${scopeSummary(s,scope,projection)}
  ${changeBrief(matched,records,projection)}
- <section class="scope-risk-list" aria-label="Risks in scope"><div class="scope-list-head"><h2>Risks in this assessment</h2><span>${risks.length} included${excluded.length?' · '+excluded.length+' excluded':''}</span></div><div class="scope-inventory-labels" aria-hidden="true"><span>Risk</span><span>Evidence this quarter</span><span>Supporting record</span><span></span></div><ul>${risks.map(risk=>riskRow(s,risk,records,projection,matched,risks.length===1)).join('')}</ul>${excluded.length?`<details class="scope-excluded"><summary>Excluded risks (${excluded.length})</summary>${excluded.map(r=>`<article><strong>${esc(r.name)}</strong><p>${esc(r.scopeExclusion.reason)}</p><span class="small muted">${esc(r.scopeExclusion.actor)} · ${esc(formatDate(r.scopeExclusion.date))}</span>${!locked(s)?button('Include again','scope-restore',`class="button" data-risk="${esc(r.id)}"`):''}</article>`).join('')}</details>`:''}</section>
+ <section class="scope-risk-list" aria-label="Risks in scope"><div class="scope-list-head"><div class="scope-list-title"><h2>Risks in this assessment</h2><span>${risks.length} included${excluded.length?' · '+excluded.length+' excluded':''}</span></div>${!locked(s)?button(`${icon('add',16)} Add a risk`,'manual-risk','class="button"'):''}</div><div class="scope-inventory-labels" aria-hidden="true"><span>Risk</span><span>Evidence this quarter</span><span>Supporting record</span><span></span></div><ul>${risks.map(risk=>riskRow(s,risk,records,projection,matched,risks.length===1)).join('')}</ul>${excluded.length?`<details class="scope-excluded"><summary>Excluded risks (${excluded.length})</summary>${excluded.map(r=>`<article><strong>${esc(r.name)}</strong><p>${esc(r.scopeExclusion.reason)}</p><span class="small muted">${esc(r.scopeExclusion.actor)} · ${esc(formatDate(r.scopeExclusion.date))}</span>${!locked(s)?button('Include again','scope-restore',`class="button" data-risk="${esc(r.id)}"`):''}</article>`).join('')}</details>`:''}</section>
  ${!s.submitted?suggestion(data,s):''}
  ${confirmed?`<p class="confirmation">${icon('check')} Scope confirmed${scope?' · assigned owner '+esc(scope.owner):''}</p>`:''}
  </div>
  <div class="step-footer"><span class="muted small">${confirmed?'Your confirmed coverage and risk list will be kept with the assessment.':'Confirm the coverage and included risks before continuing.'}</span>${!locked(s)?button(`${confirmed?'Continue to risk assessment':'Confirm scope and continue'} ${icon('arrow')}`,'confirm-scope','class="button primary"'):s.role==='first'&&s.submitted?button('Start a new draft','owner-revision','class="button"'):'<span class="quiet-status">Owner assessment · read-only</span>'}</div>`;
+}
+export function manualRiskForm(data,s){
+ const inputs=[['name','Risk name'],['cause','What could cause it?'],['event','What could happen?'],['harm','What would the consequence be?']];
+ return `<form id="manual-risk-form"><h2 id="dialog-title">Add a risk</h2>${inputs.map(([key,label])=>`<label class="field"><span>${label}</span><input name="${key}" required></label>`).join('')}<label class="field"><span>Find a supporting record</span><input type="search" data-source-filter placeholder="Search record titles"></label><fieldset><legend>Supporting records</legend>${sourceRecords(data,s).map(r=>`<label class="attestation"><input type="checkbox" name="source" value="${esc(r.id)}"> ${esc(r.title)}</label>`).join('')}</fieldset><p role="alert"></p><footer class="premium-modal-footer"><button type="submit" class="button primary">Add to scope</button></footer></form>`;
 }
 export function scopeEditor(s){
  const draft=s.scopeDraft||{};

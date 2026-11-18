@@ -1,5 +1,5 @@
-import {esc,button,field,icon} from './ui.js?v=20261116.3';
-import {policyFor,policyChanges,beginPolicyDraft,reviewPolicyDraft,applyPolicyDraft} from './bank-policy.js';
+import {esc,button,field,icon} from './ui.js?v=20261118.8';
+import {policyFor,policyChanges,beginPolicyDraft,reviewPolicyDraft,applyPolicyDraft} from './bank-policy.js?v=20261118.8';
 
 const yesNo=(label,key,value,help='')=>`<label class="field"><span>${esc(label)}</span><select aria-label="${esc(label)}" data-field="bankSetup.${key}"><option value="true" ${value===true?'selected':''}>Yes</option><option value="false" ${value===false?'selected':''}>No</option></select>${help?`<small>${esc(help)}</small>`:''}</label>`;
 function definitionEditor(d){return `<details class="bank-setup-definitions"><summary>Rating labels and definitions</summary><p>Use your bank's wording. This example keeps five levels and a likelihood × impact score.</p>${[['likelihood','Likelihood'],['impact','Impact']].map(([key,label])=>`<section><h3>${label}</h3><ol class="bank-rating-levels">${d[key].map((value,index)=>`<li><span class="bank-rating-number" aria-hidden="true">${index+1}</span><div>${field(`${label} ${index+1} label`,`bankSetup.${key}.${index}`,value)}${field(`${label} ${index+1} definition`,`bankSetup.${key}Definitions.${index}`,d[key+'Definitions'][index],{area:true})}</div></li>`).join('')}</ol></section>`).join('')}</details>`;}
@@ -18,8 +18,8 @@ export function handleBankSetupActions({data,state:s,el,notify,save,render}){
  const action=el.dataset.action;if(!action?.startsWith('bank-setup-'))return false;
  let result;
  if(action==='bank-setup-edit')result=beginPolicyDraft(s);
- else if(action==='bank-setup-review')result=reviewPolicyDraft(s,{ownerName:data?.owner||'Alex Morgan'});
- else if(action==='bank-setup-apply')result=applyPolicyDraft(s,{ownerName:data?.owner||'Alex Morgan'});
+ else if(action==='bank-setup-review')result=reviewPolicyDraft(s,{ownerName:s.assessmentScope?.owner||data?.owner||'Alex Morgan'});
+ else if(action==='bank-setup-apply')result=applyPolicyDraft(s,{ownerName:s.assessmentScope?.owner||data?.owner||'Alex Morgan'});
  else if(action==='bank-setup-cancel'){delete s.bankSetup;result={ok:true};}
  else if(action==='bank-setup-back'){if(s.bankSetup)s.bankSetup.reviewed=false;result={ok:true};}
  else return false;

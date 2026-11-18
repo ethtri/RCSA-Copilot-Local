@@ -17,7 +17,9 @@ assert(state.history.some(h=>h.detail===returnReason),'Return rationale must sur
 assert(assessmentView(data,state,'review').includes(returnReason),'The retained history remains inspectable');
 const acceptance=seedScene(data,'submitted');acceptance.submitted=false;acceptance.role='first';acceptance.risks.unauthorized.riskResponse.strategy='accept';
 assert.equal(acceptanceStatus(acceptance),'Draft acceptance request');
-for(const stage of ['residual','review']){const html=assessmentView(data,acceptance,stage);assert(html.includes('Draft acceptance request'));assert(!/acceptance decision pending|acceptance request · decision pending/i.test(html));}
+assert(assessmentView(data,acceptance,'review').includes('Draft acceptance request'));
+assert(assessmentView(data,acceptance,'residual').includes('href="#/assessment/response"'));
+for(const stage of ['residual','review']){const html=assessmentView(data,acceptance,stage);assert(!/acceptance decision pending|acceptance request · decision pending/i.test(html));}
 assert(draftHandoff(acceptance).includes('Draft acceptance request'));
 acceptance.submitted=true;assert.equal(acceptanceStatus(acceptance),'Acceptance decision pending');assert(draftHandoff(acceptance).includes('Acceptance decision pending'));
 const noAction=seedScene(data,'submitted');noAction.role='second';noAction.selectedRisk='cutoff';noAction.question='Who owns the testing action and when is it due?';assert(sendChallenge(noAction));noAction.role='first';

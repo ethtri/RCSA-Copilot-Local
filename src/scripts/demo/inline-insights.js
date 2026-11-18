@@ -1,12 +1,11 @@
 import {relatedResearch} from './research-context.js?v=20261116.3';
-import {preparedScopeMatches} from './scope-model.js?v=20261116.3';
-import {policyFor,defaultPolicy} from './bank-policy.js?v=20261116.3';
-import {signalTrend,signalFindings} from './signal-analysis.js?v=20261116.3';
-import {evidenceUpdateView} from './evidence-update.js?v=20261116.3';
+import {preparedScopeMatches} from './scope-model.js?v=20261118.8';
+import {policyFor,defaultPolicy} from './bank-policy.js?v=20261118.8';
+import {signalTrend,signalFindings} from './signal-analysis.js?v=20261118.8';
 import {decisionInsights} from './decision-insights.js?v=20261116.3';
-import {esc,button,sourceLink,aiLabel,ratingBadge} from './ui.js?v=20261116.3';
-import {assessmentProjection,sourceRecords} from './model.js?v=20261116.3';
-import {ratingProposal} from './upgrade-model.js?v=20261116.3';
+import {esc,button,sourceLink,aiLabel,ratingBadge} from './ui.js?v=20261118.8';
+import {assessmentProjection,sourceRecords} from './model.js?v=20261118.8';
+import {ratingProposal} from './upgrade-model.js?v=20261118.8';
 
 export function insightContext(data,s,kind='inherent'){
  const stage=kind==='inherent'?'inherent':'residual',projection=s.submitted?assessmentProjection(s,'current',data):null,risk=projection?.risks?.[s.selectedRisk]||s.risks[s.selectedRisk];
@@ -20,11 +19,15 @@ export function insightContext(data,s,kind='inherent'){
  const findings=supported?prepared:[{title:'Review the evidence for this assessment',text:'No prepared insight covers this scope and source version. Use the linked records and enter your own judgment.',why:'Changes to the risk or its evidence need a fresh assessment. Earlier suggestions have not been applied.',limit:'No rating, control or work record has been changed.',sourceIds:risk.sources||[]}];
  return {stage,risk,records,findings,projection,supported};
 }
-export function inlineInsights(data,s,kind,c=insightContext(data,s,kind)){
+export function ratingSuggestionLink(data,s,c){
  const p=ratingProposal(data,s,c.risk.id,c.stage);
- const review=p?.supported?button('Review suggested assessment','upgrade-review-proposal',`class="button" data-proposal="${esc(p.id)}"`):'';
+ if(!c.supported||!p?.supported)return '';
+ const same=Number(c.risk[c.stage]?.likelihood)===Number(p.proposed.likelihood)&&Number(c.risk[c.stage]?.impact)===Number(p.proposed.impact);
+ return `<div class="rating-suggestion-inline"><span class="label">AI · Suggested assessment</span>${ratingBadge(p.proposed)}${button(same?'Review suggested explanation':'Review suggested rating','upgrade-review-proposal',`class="text-link" data-proposal="${esc(p.id)}"`)}</div>`;
+}
+export function inlineInsights(data,s,kind,c=insightContext(data,s,kind)){
  const action=f=>f.action?.kind==='controls'?button(f.action.label||'Compare control options','navigate','class="text-link" data-route="assessment/controls"'):f.action?.kind==='evidence'?button(f.action.label||'Request evidence','request-evidence',`class="text-link" data-risk="${esc(c.risk.id)}" data-source="${esc(f.sourceIds?.[0]||'')}"`):'';
- return `<section class="inline-insights" aria-label="AI insights"><div class="inline-insights-head"><h3>${aiLabel()}</h3><span>For your review</span></div><ul>${c.findings.map((f,i)=>`<li><div><strong>${esc(f.title)}</strong><p>${esc(f.text)}</p>${f.recommendation?`<p class="insight-recommendation"><span>Suggested next step</span> ${esc(f.recommendation)}</p>`:''}${action(f)}</div>${button('Why & sources','insight-details',`class="text-link" data-stage="${c.stage}" data-insight="${i}" aria-label="Why and sources: ${esc(f.title)}"`)}</li>`).join('')}</ul>${c.supported&&p?.supported?`<div class="insight-assessment-proposal"><div><span class="label">Suggested assessment</span>${ratingBadge(p.proposed)}<p>${Number(c.risk[c.stage]?.likelihood)===Number(p.proposed.likelihood)&&Number(c.risk[c.stage]?.impact)===Number(p.proposed.impact)?'Keep the score; review the updated explanation.':'Review the suggested score and explanation.'}</p></div>${review}</div>`:''}<div class="inline-insights-actions">${button('Related research','insight-details',`class="text-link" data-stage="${c.stage}" data-pane="research"`)}${button('Check my explanation','upgrade-check-rating',`class="text-link" data-kind="${c.stage}"`)}</div><p class="inline-insights-boundary">Only you can apply changes. Findings are based on the available records.</p></section>${evidenceUpdateView(data,s,c.risk,c.stage,c.projection)}`;
+ return `<section class="inline-insights" aria-label="AI insights"><div class="inline-insights-head"><h3>${aiLabel()}</h3><span>For your review</span></div><ul>${c.findings.map((f,i)=>`<li><div><strong>${esc(f.title)}</strong><p>${esc(f.text)}</p>${f.recommendation?`<p class="insight-recommendation"><span>Suggested next step</span> ${esc(f.recommendation)}</p>`:''}${action(f)}</div>${button('Why & sources','insight-details',`class="text-link" data-stage="${c.stage}" data-insight="${i}" aria-label="Why and sources: ${esc(f.title)}"`)}</li>`).join('')}</ul>${kind==='inherent'?ratingSuggestionLink(data,s,c):''}<div class="inline-insights-actions">${button('Related research','insight-details',`class="text-link" data-stage="${c.stage}" data-pane="research"`)}${button('Check my explanation','upgrade-check-rating',`class="text-link" data-kind="${c.stage}"`)}</div><p class="inline-insights-boundary">Only you can apply changes. Findings are based on the available records.</p></section>`;
 }
 function trendEvidenceTable(risk,records){
  const trend=signalTrend(risk,records);if(!trend)return '';

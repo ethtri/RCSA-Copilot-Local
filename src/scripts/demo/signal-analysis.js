@@ -1,5 +1,5 @@
-import {formatDate} from './ui.js?v=20261116.3';
-import {preparedScopeMatches} from './scope-model.js?v=20261116.3';
+import {formatDate} from './ui.js?v=20261118.8';
+import {preparedScopeMatches} from './scope-model.js?v=20261118.8';
 // All figures come from the source records passed to this view, including saved submissions.
 // This module does not add evidence, apply ratings or create work records.
 const clone=value=>structuredClone(value);

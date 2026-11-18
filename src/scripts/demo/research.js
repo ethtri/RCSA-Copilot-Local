@@ -1,5 +1,5 @@
-import {esc,button,sourceLink,field} from './ui.js?v=20261116.3';
-import {record,startOwnerRevision} from './model.js?v=20261116.3';
+import {esc,button,sourceLink,field} from './ui.js?v=20261118.8';
+import {record,startOwnerRevision} from './model.js?v=20261118.8';
 const tabs=[['event','The full event'],['claims','The assessment'],['research','Research'],['options','Response options'],['evidence','New evidence']];
 import {controlDefaults} from './assessment-content.js?v=20261116.3';
 export {controlDefaults};

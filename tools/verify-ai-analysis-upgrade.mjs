@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
+import {assessmentView} from '../src/scripts/demo/assessment.js';
 import {createInitial,seedScene,sourceRecords,assessmentProjection,assessmentContentKey} from '../src/scripts/demo/model.js';
-import {inlineInsights,insightContext,insightDrawer} from '../src/scripts/demo/inline-insights.js';
+import {inlineInsights,insightContext,insightDrawer,ratingSuggestionLink} from '../src/scripts/demo/inline-insights.js';
 import {ratingProposal,applyProposal,refreshProposal,checkAssessmentClaims} from '../src/scripts/demo/upgrade-model.js';
 import {receiveSignalTest,evidenceUpdateView} from '../src/scripts/demo/evidence-update.js';
 const load=async name=>JSON.parse(await readFile(new URL('../assets/data/'+name,import.meta.url),'utf8'));
@@ -11,10 +12,20 @@ const s=createInitial(data),before=assessmentContentKey(s),history=JSON.stringif
 for(const riskId of ['unauthorized','details','cutoff'])for(const stage of ['inherent','residual']){
  s.selectedRisk=riskId;
  const c=insightContext(data,s,stage);assert(c.supported);assert(c.findings.every(f=>f.recommendation));
- const html=inlineInsights(data,s,stage);assert(html.includes('Suggested next step'));assert(html.includes('Suggested assessment'));
+ const html=inlineInsights(data,s,stage);assert(html.includes('Suggested next step'));assert(ratingSuggestionLink(data,s,c).includes('Suggested assessment'));
  assert(insightDrawer(data,s,{stage}).includes('How the trend was calculated'));
  const proposal=ratingProposal(data,s,riskId,stage);assert(proposal.supported);assert(proposal.analysis);assert(proposal.sourceIds.includes('signals-'+riskId));
 }
+const draft=createInitial(data);
+draft.scope=true;
+draft.selectedRisk='unauthorized';
+draft.risks.unauthorized.inherentConfirmed=true;
+const ratingPage=assessmentView(data,draft,'residual');
+assert(ratingPage.includes('Complete control review'));
+assert(!ratingPage.includes('Review risk response'));
+assert(ratingPage.includes('View test results'));
+assert(ratingPage.indexOf('rating-suggestion-inline')<ratingPage.indexOf('data-field="risk.residual.likelihood"'));
+assert(ratingPage.includes('<summary>Explore rating guidance and sources</summary>'));
 assert.equal(assessmentContentKey(s),before);assert.equal(JSON.stringify(s.history),history);
 s.selectedRisk='unauthorized';
 assert(!sourceRecords(data,s).some(source=>source.id==='signals-urgent-test'));
