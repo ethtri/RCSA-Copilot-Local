@@ -1,4 +1,4 @@
-import {icon} from './ui.js?v=20261116.3';
+import {icon} from './ui.js?v=20261118.8';
 
 const chapters = [
   {

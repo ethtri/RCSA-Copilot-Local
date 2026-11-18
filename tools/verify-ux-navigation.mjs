@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createInitial,requirements,seedScene} from '../src/scripts/demo/model.js';
-import {assessmentLaunch} from '../src/scripts/demo/dashboard.js';
+import {assessmentLaunch,dashboardView} from '../src/scripts/demo/dashboard.js';
 import {assessmentView} from '../src/scripts/demo/assessment.js';
 import {analysisWorkspace} from '../src/scripts/demo/analysis-workspace.js';
 import {handleControlAssistanceAction} from '../src/scripts/demo/control-assistance-actions.js';
@@ -15,8 +15,14 @@ state.scope=true;assert.equal(assessmentLaunch(state).stage,'inherent');
 main.inherentConfirmed=true;assert.equal(assessmentLaunch(state).stage,'controls');
 main.controlsConfirmed=true;assert.equal(assessmentLaunch(state).stage,'discovery');
 state.dependency='qualified';assert.equal(assessmentLaunch(state).stage,'residual');
-main.residualConfirmed=true;state.risks.details.controlsConfirmed=false;
-assert.deepEqual(assessmentLaunch(state),{label:'Continue assessment refresh',risk:'details',stage:'controls'},'Resume must carry the next risk as well as the stage');
+main.residualConfirmed=true;main.residual.likelihoodRationale='Standard wires were sampled.';main.residual.impactRationale='A release error could cause a loss.';state.risks.details.controlsConfirmed=false;
+assert.deepEqual(assessmentLaunch(state),{label:'Review control evidence',risk:'details',stage:'controls'},'Resume must carry the next risk as well as the stage');
+const excluded=structuredClone(state);
+excluded.risks.unauthorized.removed=true;
+const scopedDashboard=dashboardView(data,excluded);
+assert(!scopedDashboard.includes('Inspect shared source'));
+assert(!scopedDashboard.includes('The September test predates'));
+assert.equal(assessmentLaunch(excluded).risk,'details');
 const blocker=requirements(state).find(item=>item.risk==='details'&&item.key!=='carry-forward'&&!item.done);
 assert.equal(blocker.stage,'controls');
 state.risks.details.mappingApplicability={sample:{conclusion:'unassessed'}};
@@ -24,14 +30,14 @@ state.risks.details.controlsConfirmed=true;
 assert.equal(requirements(state).find(item=>item.risk==='details'&&item.key!=='carry-forward'&&!item.done).stage,'controls','Unassessed mappings must link to coverage assessment');
 const review=assessmentView(data,state,'review');
 const detailBlocker=requirements(state).find(item=>item.risk==='details'&&item.key!=='carry-forward'&&!item.done);
-assert(review.includes(`aria-label="Review: ${detailBlocker.label}"`),'Owner review exposes the current requirement as an accessible repair action');
+assert(review.includes('Review control evidence · '+state.risks[detailBlocker.risk].name),'Owner review exposes the current requirement as an accessible repair action');
 assert(review.includes('data-risk="details" data-stage="controls"'));
 const carryForward=requirements(state).find(item=>item.risk==='details'&&item.key==='carry-forward');assert(carryForward&&!carryForward.done,'Unreviewed starting judgments remain an explicit owner requirement.');assert.match(review,/<button[^>]*data-action="carry-forward-review"[^>]*data-risk="details"/,'Starting-assessment requirements open the owner review dialog.');
 for(const scene of ['submitted','challenge','response','complete']){
  const s=seedScene(data,scene);assert.equal(assessmentLaunch(s).stage,'review');
  s.role='second';assert.equal(assessmentLaunch(s).stage,'review');
 }
-for(const [origin,stage] of [['response','residual'],['discovery','controls'],['review','review']]){
+for(const [origin,stage] of [['response','response'],['discovery','controls'],['review','review']]){
  const s=createInitial(data);s.analysisReturn=origin;s.analysisPane='sources';
  const html=assessmentView(data,s,'analysis');
  assert(html.includes(`<option value="${stage}" selected>`),'Analysis must retain its originating assessment step');

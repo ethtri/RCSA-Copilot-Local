@@ -1,7 +1,7 @@
-import {riskEntries} from './model.js?v=20261116.3';
-import {esc,button} from './ui.js?v=20261116.3';
-import {riskAnalysisBody,intelligenceSummary} from './risk-intelligence.js?v=20261116.3';
-import {investigationBody} from './research.js?v=20261116.3';
+import {riskEntries} from './model.js?v=20261118.8';
+import {esc,button} from './ui.js?v=20261118.8';
+import {riskAnalysisBody,intelligenceSummary} from './risk-intelligence.js?v=20261118.8';
+import {investigationBody} from './research.js?v=20261118.8';
 export function analysisWorkspace(data,s){
  const risk=s.risks[s.selectedRisk],main=risk.id==='unauthorized'&&!risk.extensions?.length&&risk.scenarioId!=='owner-defined',stage=s.analysisStage||'inherent';
  const summary=intelligenceSummary(data,s,stage);

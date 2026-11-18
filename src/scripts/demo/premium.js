@@ -1,17 +1,23 @@
-import {insightContext} from './inline-insights.js?v=20261116.3';
-import {esc,button,sourceLink,ratingBadge,aiLabel} from './ui.js?v=20261116.3';
-import {currentRating} from './model.js?v=20261116.3';
+import {insightContext} from './inline-insights.js?v=20261118.8';
+import {esc,button,sourceLink,ratingBadge,aiLabel} from './ui.js?v=20261118.8';
+import {currentRating} from './model.js?v=20261118.8';
 export function finding(s,origin='changes'){
  const pair=['callback','approval'].every(id=>s.risks.unauthorized.controls.includes(id));
  const title=!pair?'The control pair changed. Revisit the evidence.':s.dependency==='dismissed'?'The owner dismissed the shared-source finding.':s.dependency==='qualified'?'The owner added a caveat about the shared record.':s.dependency==='confirmed'?'Two checks share one contact record.':'Two checks may rely on one contact record.';
  return `<section class="premium-finding"><div class="premium-finding-copy"><span class="premium-eyebrow">AI · evidence summary</span><h2>${title}</h2><p>Both checks refer to customer contact details. The latest test covered standard payments before urgent requests were allowed.</p><div class="button-group">${button('Show how we know','research-open',`class="button primary" data-tab="event" data-origin="${origin}"`)}${sourceLink('Inspect the test scope','test')}</div></div><div class="premium-evidence-map" role="img" aria-label="Callback verification and supervisory approval both reference a customer-contact record; owner review needed"><span>Callback verification</span><i aria-hidden="true">↘</i><strong>Customer-contact record</strong><i aria-hidden="true">↗</i><span>Supervisory approval</span><small>4 records · possibly the same event<br>${!pair?'Original pair no longer mapped together':s.dependency==='confirmed'?'Shared source confirmed by owner':s.dependency==='dismissed'?'Owner dismissed the suggested relationship':s.dependency==='qualified'?'Owner caveat recorded':'Owner needs to confirm the shared record'}</small></div></section>`;
 }
-export function reviewBrief(data,s,{compact=false}={}){
- const c=insightContext(data,{...s,selectedRisk:'unauthorized'},'residual'),r=c.risk;
+export function reviewPriority(s){
+ const risks=Object.values(s.risks).filter(r=>!r.removed);
+ const movement=r=>(r.residual?.likelihood*r.residual?.impact||0)-(r.prior?.likelihood*r.prior?.impact||0);
+ return risks.filter(r=>movement(r)>0||r.id==='unauthorized'||r.riskResponse?.created).sort((a,b)=>movement(b)-movement(a)||(b.residual?.likelihood*b.residual?.impact||0)-(a.residual?.likelihood*a.residual?.impact||0))[0];
+}
+export function reviewBrief(data,s,{compact=false,riskId=reviewPriority(s)?.id}={}){
+ if(!riskId)return '';
+ const c=insightContext(data,{...s,selectedRisk:riskId},'residual'),r=c.risk;
  if(!r||r.removed)return '';
- const f=c.findings[0],test=c.records.find(source=>source.id==='signals-urgent-test'),refs=[...(test?[test.id]:[]),...(f.sourceIds||[])].filter((id,i,ids)=>ids.indexOf(id)===i).slice(0,2);
+ const f=c.findings[0]||{text:'Inspect the submitted evidence for this risk.'},test=r.id==='unauthorized'&&c.records.find(source=>source.id==='signals-urgent-test'),refs=[...(test?[test.id]:[]),...(f.sourceIds||[])].filter((id,i,ids)=>ids.indexOf(id)===i).slice(0,2);
  const source=id=>{const record=c.records.find(item=>item.id===id);return record?sourceLink(record.title,id).replace('data-action="source"',`data-action="source" ${c.projection?`data-version="${c.projection.version}"`:''}`):'';};
- return `<section class="premium-review-brief ${compact?'is-compact':''}"><span class="premium-eyebrow">${aiLabel('AI review brief · '+r.name)}</span><h2>${esc(c.supported?f.title:'Review the recorded conclusion and evidence.')}</h2><div class="premium-review-facts"><div><span class="label">Owner conclusion</span><p>${esc(r.controlConclusion?.text||r.residual.likelihoodRationale||'No conclusion recorded.')}</p>${ratingBadge(r.residualConfirmed?r.residual:r.lastConfirmedResidual||r.prior)}</div><div><span class="label">Evidence to weigh</span><p>${esc(f.text)}</p>${refs.map(source).join('')}</div><div><span class="label">Point to resolve</span><p>${esc(f.recommendation||'Compare the recorded judgment with its sources and resolve the open evidence questions.')}</p>${button('Review the evidence','insight-details','class="text-link" data-risk="unauthorized" data-stage="residual" data-insight="0"')}</div></div>${compact?button(s.reviewed?'View reviewed assessment':s.challengeStatus==='responded'?'Review owner response':'Open review workspace','open-risk','class="button primary" data-risk="unauthorized" data-stage="review"'):''}</section>`;
+ return `<section class="premium-review-brief ${compact?'is-compact':''}"><span class="premium-eyebrow">${aiLabel('AI review brief · '+r.name)}</span><h2>${esc(c.supported?f.title:'Review the recorded conclusion and evidence.')}</h2><div class="premium-review-facts"><div><span class="label">Owner conclusion</span><p>${esc(r.controlConclusion?.text||r.residual.likelihoodRationale||'No conclusion recorded.')}</p>${ratingBadge(r.residualConfirmed?r.residual:r.lastConfirmedResidual||r.prior)}</div><div><span class="label">Evidence to weigh</span><p>${esc(f.text)}</p>${refs.map(source).join('')}</div><div><span class="label">Point to resolve</span><p>${esc(f.recommendation||'Compare the recorded judgment with its sources and resolve the open evidence questions.')}</p>${button('Review the evidence','insight-details',`class="text-link" data-risk="${esc(r.id)}" data-stage="residual" data-insight="0"`)}</div></div>${compact?button(s.reviewed?'View reviewed assessment':s.challengeStatus==='responded'?'Review owner response':'Open review workspace','open-risk',`class="button primary" data-risk="${esc(r.id)}" data-stage="review"`):''}</section>`;
 }
 export function valueCard(title,value,meta='',edit=''){
  return `<article class="premium-value-card"><div class="section-head"><h3>${title}</h3>${edit}</div><p>${esc(value||'Awaiting your input')}</p>${meta?`<small>${esc(meta)}</small>`:''}</article>`;

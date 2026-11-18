@@ -1,7 +1,7 @@
-import {assistanceRecord} from './control-assistance-view.js?v=20261116.3';
-import {esc} from './ui.js?v=20261116.3';
-import {score,band} from './model.js?v=20261116.3';
-import {mappingApplicability} from './mappings.js?v=20261116.3';
+import {assistanceRecord} from './control-assistance-view.js?v=20261118.8';
+import {esc} from './ui.js?v=20261118.8';
+import {score,band} from './model.js?v=20261118.8';
+import {mappingApplicability} from './mappings.js?v=20261118.8';
 
 function submittedMappings(data,version,risk){
  const library=[...data.controls,...(version.customControls||[])];

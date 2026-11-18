@@ -1,8 +1,8 @@
-import {policyFor} from './bank-policy.js?v=20261116.3';
-import {esc,button,sourceLink,field,aiLabel} from './ui.js?v=20261116.3';
-import {sourceRecords,score,band,riskEntries,assessmentProjection} from './model.js?v=20261116.3';
-import {ensureUpgrade,refreshProposals,ratingProposal,applyProposal,refreshProposal,dismissProposal,discoverRisks,suggestionSources,addDiscoveredRisk,disposeDiscoveredRisk,checkAssessmentClaims} from './upgrade-model.js?v=20261116.3';
-import {responseOptionsDialog} from './response-view.js?v=20261116.3';
+import {policyFor} from './bank-policy.js?v=20261118.8';
+import {esc,button,sourceLink,field,aiLabel} from './ui.js?v=20261118.8';
+import {sourceRecords,score,band,riskEntries,assessmentProjection} from './model.js?v=20261118.8';
+import {ensureUpgrade,refreshProposals,ratingProposal,applyProposal,refreshProposal,dismissProposal,discoverRisks,suggestionSources,addDiscoveredRisk,disposeDiscoveredRisk,checkAssessmentClaims} from './upgrade-model.js?v=20261118.8';
+import {responseOptionsDialog} from './response-view.js?v=20261118.8';
 const locked=s=>s.role!=='first'||s.submitted;
 const disabled=s=>locked(s)?'disabled':'';
 const refs=(data,s,ids)=>{const sources=[...sourceRecords(data,s),...suggestionSources()];return `<div class="button-group upgrade-sources">${ids.map(id=>sourceLink(sources.find(x=>x.id===id)?.title||'Source record',id)).join('')}</div>`;};
@@ -46,7 +46,7 @@ export function proposalDialog(data,s,proposalId){
 }
 export function discoveryDialog(data,s,candidateId){
  const c=discoverRisks(data,s).find(x=>x.id===candidateId);if(!c)return '<h2 id="dialog-title">Suggestion unavailable</h2>';const d=s.upgradeDraft?.candidateId===c.id?s.upgradeDraft:c;
- return `<div class="upgrade-risk-editor"><span class="label">AI-prepared risk suggestion</span><h2 id="dialog-title">Add a distinct risk, or extend an existing one.</h2><p>${esc(c.overlap)}</p>${[['name','Risk name'],['cause','What could cause it?'],['event','What could happen?'],['harm','How could customers or the bank be affected?'],['scope','Process scope'],['owner','Assessment owner']].map(([key,label])=>field(label,'upgradeDraft.'+key,d[key]||'',{area:['cause','event','harm'].includes(key),readOnly:locked(s)})).join('')}<details><summary>Read the supporting records</summary>${refs(data,s,c.sourceIds)}${c.sources.map(x=>`<h3>${esc(x.title)}</h3><p>${esc(x.excerpt)}</p>`).join('')}</details><details><summary>Extend, defer or dismiss instead</summary><label class="field"><span>Existing risk to extend</span><select data-field="upgradeDraft.extendRiskId" aria-label="Existing risk to extend">${riskEntries(s).map(r=>`<option value="${r.id}" ${d.extendRiskId===r.id?'selected':''}>${esc(r.name)}</option>`).join('')}</select></label>${field('Reason for this decision','upgradeDraft.reason',d.reason||'',{area:true,readOnly:locked(s)})}${field('Follow-up owner if deferred','upgradeDraft.deferOwner',d.deferOwner||'',{readOnly:locked(s)})}${field('Follow-up date if deferred','upgradeDraft.deferDue',d.deferDue||'',{type:'date',readOnly:locked(s)})}<div class="button-group">${[['extend','Extend existing risk'],['defer','Defer with follow-up'],['dismiss','Dismiss suggestion']].map(([id,label])=>button(label,'upgrade-risk-disposition',`class="button" data-candidate="${c.id}" data-disposition="${id}" ${disabled(s)}`)).join('')}</div></details><footer class="premium-modal-footer">${button('Add draft risk','upgrade-add-risk',`class="button primary" data-candidate="${c.id}" ${disabled(s)}`)}</footer></div>`;
+ return `<div class="upgrade-risk-editor"><span class="label">AI-prepared risk suggestion</span><h2 id="dialog-title">Add a distinct risk, or extend an existing one.</h2><p>${esc(c.overlap)}</p>${[['name','Risk name'],['cause','What could cause it?'],['event','What could happen?'],['harm','How could customers or the bank be affected?'],['scope','Process scope'],['owner','Assessment owner']].map(([key,label])=>field(label,'upgradeDraft.'+key,d[key]||'',{area:['cause','event','harm'].includes(key),readOnly:locked(s)})).join('')}<details class="edited-risk-sources"><summary>Choose supporting records for an edited risk</summary><p>Select which records support your wording.</p>${[...new Map([...sourceRecords(data,s),...c.sources].map(r=>[r.id,r])).values()].map(r=>`<label class="attestation"><input type="checkbox" data-edited-risk-source value="${esc(r.id)}"> ${esc(r.title)}</label>`).join('')}</details><details><summary>Read the supporting records</summary>${refs(data,s,c.sourceIds)}${c.sources.map(x=>`<h3>${esc(x.title)}</h3><p>${esc(x.excerpt)}</p>`).join('')}</details><details><summary>Extend, defer or dismiss instead</summary><label class="field"><span>Existing risk to extend</span><select data-field="upgradeDraft.extendRiskId" aria-label="Existing risk to extend">${riskEntries(s).map(r=>`<option value="${r.id}" ${d.extendRiskId===r.id?'selected':''}>${esc(r.name)}</option>`).join('')}</select></label>${field('Reason for this decision','upgradeDraft.reason',d.reason||'',{area:true,readOnly:locked(s)})}${field('Follow-up owner if deferred','upgradeDraft.deferOwner',d.deferOwner||'',{readOnly:locked(s)})}${field('Follow-up date if deferred','upgradeDraft.deferDue',d.deferDue||'',{type:'date',readOnly:locked(s)})}<div class="button-group">${[['extend','Extend existing risk'],['defer','Defer with follow-up'],['dismiss','Dismiss suggestion']].map(([id,label])=>button(label,'upgrade-risk-disposition',`class="button" data-candidate="${c.id}" data-disposition="${id}" ${disabled(s)}`)).join('')}</div></details><footer class="premium-modal-footer">${button('Add draft risk','upgrade-add-risk',`class="button primary" data-candidate="${c.id}" ${disabled(s)}`)}</footer></div>`;
 }
 export function mutateUpgradeField(s,key,value){if(!key.startsWith('upgradeDraft.'))return false;if(locked(s))return true;ensureUpgrade(s);s.upgradeDraft[key.slice('upgradeDraft.'.length)]=value;return true;}
 export function handleUpgradeActions(ctx){
@@ -67,7 +67,19 @@ export function handleUpgradeActions(ctx){
  }
  if(action==='upgrade-dismiss-proposal'){const ok=dismissProposal(s,el.dataset.proposal,s.upgradeDraft.reason?.trim()||'Suggestion not applied. Current assessment retained.');return done({ok,message:ok?'Your assessment is kept and the note is saved.':'Add a short note explaining why you kept the current assessment.'});}
  if(action==='upgrade-review-risk'){const c=discoverRisks(data,s).find(x=>x.id===el.dataset.candidate);if(!c){notify('This suggestion is unavailable.');return true;}s.upgradeDraft={candidateId:c.id,...structuredClone(c),extendRiskId:riskEntries(s)[0]?.id||'',reason:'',deferOwner:'',deferDue:''};showDialog(discoveryDialog(data,s,c.id));return true;}
- if(action==='upgrade-add-risk'){const result=addDiscoveredRisk(s,data,el.dataset.candidate,s.upgradeDraft);if(!result.ok)return done(result);save();closeDialog();if(route==='assessment/changes')render();else navigate('assessment/inherent');notify(result.message);return true;}
+ if(action==='upgrade-add-risk'){
+  const editor=el.closest?.('.upgrade-risk-editor');
+  const selectedEvidence=Array.from(editor?.querySelectorAll('[data-edited-risk-source]:checked')||[],input=>input.value);
+  const result=addDiscoveredRisk(s,data,el.dataset.candidate,{...s.upgradeDraft,selectedEvidence});
+  if(!result.ok){
+   const choices=editor?.querySelector('.edited-risk-sources');
+   if(choices){choices.open=true;choices.querySelector('input')?.focus();}
+   return done(result);
+  }
+  save();closeDialog();
+  if(route==='assessment/changes')render();else navigate('assessment/inherent');
+  notify(result.message);return true;
+ }
  if(action==='upgrade-risk-disposition')return done(disposeDiscoveredRisk(s,data,el.dataset.candidate,el.dataset.disposition,{reason:s.upgradeDraft.reason,owner:s.upgradeDraft.deferOwner,due:s.upgradeDraft.deferDue,riskId:s.upgradeDraft.extendRiskId}));
  if(action==='upgrade-check-rating'){const findings=checkAssessmentClaims(data,s,s.selectedRisk,el.dataset.kind||'residual');showDialog(`<h2 id="dialog-title">Check your explanation against the evidence.</h2><div class="upgrade-claim-results">${findings.map(f=>`<article><span class="label">${esc(({missing:'Missing information',unsupported:'Unsupported claim',contradicted:'Conflicting statement',unknown:'Limited check'})[f.status])}</span><h3>${esc(f.title)}</h3><p>${esc(f.detail||'')}</p>${refs(data,s,f.sourceIds)}</article>`).join('')}</div>`);return true;}
  if(action==='upgrade-response-options'){showDialog(responseOptionsDialog(data,s));return true;}

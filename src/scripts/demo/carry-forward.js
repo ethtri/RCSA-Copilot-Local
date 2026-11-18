@@ -1,6 +1,6 @@
-import {assessmentProjection,record,score,sourceRecords,validRating} from './model.js?v=20261116.3';
-import {signalFindings} from './signal-analysis.js?v=20261116.3';
-import {esc,button,ratingBadge,sourceLink} from './ui.js?v=20261116.3';
+import {assessmentProjection,record,score,sourceRecords,validRating} from './model.js?v=20261118.8';
+import {signalFindings} from './signal-analysis.js?v=20261118.8';
+import {esc,button,ratingBadge,sourceLink} from './ui.js?v=20261118.8';
 
 export function carryForwardNeedsReview(s,risk){
  return !s.submitted&&!risk?.removed&&['details','cutoff'].includes(risk?.id)&&!!risk.preparedBaseline&&!risk.preparedBaseline.reviewed&&!['inherent','controls','residual'].every(stage=>risk.preparedBaseline.reviewedStages?.includes(stage));

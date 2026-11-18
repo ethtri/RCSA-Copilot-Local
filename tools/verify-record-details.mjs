@@ -29,7 +29,7 @@ const missing=structuredClone(submitted);missing.snapshots=[];assert(controlDeta
 const changed=structuredClone(data);changed.controls[0].design='Later replacement';changed.sources.find(x=>x.id==='test').scope='Later test scope';
 assert(!controlDetails(changed,submitted,changed.controls[0]).includes('Later replacement'));assert(!controlDetails(changed,submitted,changed.controls[0]).includes('Later test scope'));
 const html=controlsWorkspace(data,createInitial(data));assert(html.includes('risk-record-details'));assert(html.includes('control-record-details'));
-const discovered=createInitial(data),candidate=discoverRisks(data,discovered)[0],entered={...candidate,cause:'An owner-entered cause.',event:'An owner-entered event.',harm:'Owner-entered customer harm.',scope:'Owner-entered process scope.',owner:'Owner-entered risk owner'};
+const discovered=createInitial(data),candidate=discoverRisks(data,discovered)[0],entered={...candidate,selectedEvidence:['incident'],cause:'An owner-entered cause.',event:'An owner-entered event.',harm:'Owner-entered customer harm.',scope:'Owner-entered process scope.',owner:'Owner-entered risk owner'};
 assert(addDiscoveredRisk(discovered,data,candidate.id,entered).ok);
 const enteredRisk=discovered.risks[candidate.id],enteredHtml=riskDetails(data,discovered,enteredRisk);
 for(const value of ['An owner-entered cause.','An owner-entered event.','Owner-entered customer harm.','Owner-entered process scope.','Owner-entered risk owner'])assert(enteredHtml.includes(value));

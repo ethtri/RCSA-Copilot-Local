@@ -1,5 +1,5 @@
-import {CONTROL_RATING_DIMENSIONS,CONTROL_RATING_LABELS,isKeyControl} from './model.js?v=20261116.3';
-import {button,esc,icon,sourceLink} from './ui.js?v=20261116.3';
+import {CONTROL_RATING_DIMENSIONS,CONTROL_RATING_LABELS,isKeyControl} from './model.js?v=20261118.8';
+import {button,esc,icon,sourceLink} from './ui.js?v=20261118.8';
 
 const prompts={
  design:'Does the control address this risk?',

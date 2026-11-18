@@ -1,39 +1,40 @@
-import {homeView} from './home-view.js';
-import {carryForwardDialog,confirmCarryForward} from './carry-forward.js?v=20261116.3';
-import {scopeRecord,preparedScopeMatches,beginScopeEdit,mutateScopeField,saveScope,cancelScopeEdit,confirmScope,excludeScopeRisk,restoreScopeRisk} from './scope-model.js?v=20261116.3';
-import {scopeEditor,scopeExclusionDialog} from './scope-workspace.js?v=20261116.3';
-import {mutateControlFit} from './control-fit.js?v=20261116.3';
-import {incomingTestDialog,receiveSignalTest} from './evidence-update.js?v=20261116.3';
-import {insightDrawer} from './inline-insights.js?v=20261116.3';
-import {bankSetupView,handleBankSetupActions} from './bank-setup.js?v=20261116.3';
-import {policyFor,thresholdFor,reviewerFor,mutateBankSetupField} from './bank-policy.js?v=20261116.3';
-import {suggestionSources} from './upgrade-model.js?v=20261116.3';
-import {handleUpgradeActions,mutateUpgradeField} from './upgrade-view.js';
-import {actionView,decisionView,operationsSummary,reconcileResponseRecords,ensureOperations,handleOperations,handleOperationsField} from './operations.js';
-import {focusBookmark,restoreBookmark,showValidation,clearFieldError} from './interactions.js';
-import {heatmapGroupDialog} from './visuals.js?v=20261116.3';
-import {integrationSettingsView,syncStatusLine,pilotText,handleGrcActions} from './grc-view.js?v=20261116.3';
-import {exchangeState} from './grc-exchange.js?v=20261116.3';
-import {refreshAutomaticSync,finishAutomaticSync,retryAutomaticSync,resolveSyncConflict} from './grc-sync.js?v=20261116.3';
-import {replySuggestion,replyCoverage} from './reply-assistance.js?v=20261116.3';
-import {ensureAssistance} from './control-assistance.js?v=20261116.3';
-import {handleControlAssistanceAction,markAssistancePlanForReview,syncAssistancePlanField} from './control-assistance-actions.js?v=20261116.3';
-import {historyInsight} from './assessment-context.js?v=20261116.3';
-import {receiveEvidence,reviseFromEvidence,controlDefaults} from './research.js?v=20261116.3';
-import {versionDialog} from './versions.js?v=20261116.3';
-import {controlLibraryDialog,ownerRevisionDialog} from './control-library.js?v=20261116.3';
-import {dashboardView,assessmentLaunch} from './dashboard.js?v=20261116.3';
-import {mappingDialog,removalDialog} from './controls.js?v=20261116.3';
-import {controlRatingDialog,controlRatingEvidence} from './control-ratings.js';
-import {controlsLibrary,saveMapping,removeMapping,sharedPair,mappingNeedsReview} from './mappings.js?v=20261116.3';
-import {responseComplete,saveRiskResponse,responseErrors,setResponseStrategy,actionFor} from './responses.js?v=20261116.3';
-import {responseDraft,responseDraftDialog,applyResponseDraft} from './response-view.js?v=20261116.3';
-import {createInitial,migrateSession,sourceRecords,assessmentProjection,validRating,score,band,record,sendAssessment,sendChallenge,respond,completeReview,seedScene,startOwnerRevision,LIKELIHOOD,IMPACT,responseCoverage,reportSignature,actionComplete,isKeyControl,incompleteKeyControl,saveControlRatings} from './model.js?v=20261116.3';
-import {esc,icon,button,emptyState,loadingState,BADGE_CSS} from './ui.js?v=20261116.3';
-import {assessmentView} from './assessment.js?v=20261118.2';
-import {analysisPrompts} from './risk-intelligence.js?v=20261116.3';
-import {workView} from './work.js?v=20261116.3';
-import {reportsView,handleReportActions} from './reports.js?v=20261116.3';
+import {homeView} from './home-view.js?v=20261118.8';
+import {carryForwardDialog,confirmCarryForward} from './carry-forward.js?v=20261118.8';
+import {scopeRecord,preparedScopeMatches,beginScopeEdit,mutateScopeField,saveScope,cancelScopeEdit,confirmScope,excludeScopeRisk,restoreScopeRisk} from './scope-model.js?v=20261118.8';
+import {manualRiskForm,scopeEditor,scopeExclusionDialog} from './scope-workspace.js?v=20261118.8';
+import {mutateControlFit} from './control-fit.js?v=20261118.8';
+import {incomingTestDialog,receiveSignalTest} from './evidence-update.js?v=20261118.8';
+import {insightDrawer} from './inline-insights.js?v=20261118.8';
+import {bankSetupView,handleBankSetupActions} from './bank-setup.js?v=20261118.8';
+import {policyFor,thresholdFor,reviewerFor,mutateBankSetupField} from './bank-policy.js?v=20261118.8';
+import {addOwnerRisk,suggestionSources} from './upgrade-model.js?v=20261118.8';
+import {handleUpgradeActions,mutateUpgradeField} from './upgrade-view.js?v=20261118.8';
+import {actionView,decisionView,operationsSummary,reconcileResponseRecords,ensureOperations,handleOperations,handleOperationsField} from './operations.js?v=20261118.8';
+import {focusBookmark,restoreBookmark,showValidation,clearFieldError,focusFieldError} from './interactions.js?v=20261118.7';
+import {heatmapGroupDialog} from './visuals.js?v=20261118.8';
+import {integrationSettingsView,syncStatusLine,pilotText,handleGrcActions} from './grc-view.js?v=20261118.8';
+import {exchangeState} from './grc-exchange.js?v=20261118.8';
+import {refreshAutomaticSync,finishAutomaticSync,retryAutomaticSync,resolveSyncConflict} from './grc-sync.js?v=20261118.8';
+import {replySuggestion,replyCoverage} from './reply-assistance.js?v=20261118.8';
+import {ensureAssistance} from './control-assistance.js?v=20261118.8';
+import {handleControlAssistanceAction,markAssistancePlanForReview,syncAssistancePlanField} from './control-assistance-actions.js?v=20261118.8';
+import {historyInsight} from './assessment-context.js?v=20261118.8';
+import {receiveEvidence,reviseFromEvidence,controlDefaults} from './research.js?v=20261118.8';
+import {versionDialog} from './versions.js?v=20261118.8';
+import {controlLibraryDialog,ownerRevisionDialog} from './control-library.js?v=20261118.8';
+import {dashboardView,assessmentLaunch} from './dashboard.js?v=20261118.8';
+import {mappingDialog,removalDialog} from './controls.js?v=20261118.8';
+import {controlRatingDialog,controlRatingEvidence} from './control-ratings.js?v=20261118.8';
+import {controlsLibrary,saveMapping,removeMapping,sharedPair,mappingNeedsReview} from './mappings.js?v=20261118.8';
+import {nextResponseRisk,discardOptionalResponse,saveRiskResponse,responseErrors,setResponseStrategy,actionFor} from './responses.js?v=20261118.8';
+import {responseDraft,responseDraftDialog,applyResponseDraft} from './response-view.js?v=20261118.8';
+import {askFollowup,requirements,ratingReasonsComplete,createInitial,migrateSession,sourceRecords,assessmentProjection,validRating,score,band,record,sendAssessment,sendChallenge,respond,completeReview,seedScene,startOwnerRevision,LIKELIHOOD,IMPACT,responseCoverage,reportSignature,actionComplete,isKeyControl,incompleteKeyControl,saveControlRatings} from './model.js?v=20261118.8';
+import {esc,icon,button,emptyState,loadingState,BADGE_CSS} from './ui.js?v=20261118.8';
+import {earlierStep} from './assessment-navigation.js?v=20261118.8';
+import {assessmentView} from './assessment.js?v=20261118.8';
+import {analysisPrompts} from './risk-intelligence.js?v=20261118.8';
+import {workView} from './work.js?v=20261118.8';
+import {reportsView,handleReportActions} from './reports.js?v=20261118.8';
 const STORAGE='rcsa-workflow-demo-v1', app=document.getElementById('app'), dialog=document.getElementById('detail-dialog');
 let data,state,lastFocus,dialogOrigin,toastTimer,syncTimer,registerRequested=false,storageWarning=false,recoveryAvailable=false,route;
 const dialogParents=[];
@@ -42,16 +43,17 @@ function readRoute(){
  const raw=location.hash.replace(/^#\/?/,'');
  if(!raw)return new URLSearchParams(location.search).get('presenter')==='1'?'work':'home';
  if(raw==='handoff'||raw==='assessment/analysis'||raw==='assessment/research'){
-  const stage=['inherent','controls','residual','review','changes','response'].includes(state?.analysisReturn)?state.analysisReturn:'inherent';
+  const origin=raw==='assessment/research'?state?.researchReturn:state?.analysisReturn;
+  const stage=['inherent','controls','discovery','residual','review','changes','response'].includes(origin)?origin:'inherent';
   const next=raw==='handoff'?'assessment/review':'assessment/'+stage;
-  history.replaceState(null,'','#/'+next);
+  if(state)history.replaceState(history.state,'','#/'+next);
   return next;
  }
  return /^(home|work|reports|settings\/(integrations|bank)|assessment\/(changes|inherent|controls|discovery|residual|response|review|action|decision))$/.test(raw)?raw:'work';
 }
 function save(){try{sessionStorage.setItem(STORAGE,JSON.stringify({...state,scopeDraft:undefined,scopeRiskDraft:undefined}));}catch{storageWarning=true;}const indicator=document.getElementById('draft-status');if(indicator)indicator.textContent=storageWarning?'Draft is only in memory; reload will lose changes.':state.submitted?'Recorded version '+state.versionNumber:'Draft saved in this session';}
 function notify(text){if(/^(Complete|Add |Choose |Confirm |Check |Only |No |A submitted|Record your|Assess coverage|Enter )/.test(text)){showValidation(text,dialog.open?dialog:document.getElementById('main'));return;}const t=document.getElementById('toast');clearTimeout(toastTimer);t.textContent=text;t.classList.add('visible');toastTimer=setTimeout(()=>t.classList.remove('visible'),3500);}
-function navigate(next){if(route===next){render(true);return;}location.hash='/'+next;}
+function navigate(next){const hash='#/'+next;if(location.hash===hash){if(route===next)render(true);return;}location.hash=hash;}
 function header(){const scope=scopeRecord(state),current=route.split('/')[0],launch=assessmentLaunch(state),assessmentRoute=current==='assessment'?route:'assessment/'+launch.stage;return `<header class="app-header"><div class="header-inner"><a href="#/home" class="wordmark" aria-label="RCSA home">RCSA</a><nav aria-label="Primary navigation">${[['work','Dashboard'],['assessment','Assessments'],['reports','Reports']].map(([id,label])=>`<a href="#/${id==='assessment'?assessmentRoute:id}" ${id==='assessment'&&current!=='assessment'?`data-action="resume-assessment" data-risk="${esc(launch.risk)}" data-route="${assessmentRoute}"`:''} ${current===id?'aria-current="page"':''}>${label}</a>`).join('')}</nav><details class="workspace-disclosure"><summary>Demo workspace</summary><p>Synthetic records. AI suggestions and incoming replies are prepared for this example. Connections can be configured for a bank; this demo uses local records. No external system is contacted. No live search is performed. Changes remain in this browser session.</p></details>${recoveryAvailable?button('Download preserved draft','recover-draft','class="button quiet"'):''}<div class="header-user"><span class="header-period">${esc(scope?.period||'Recorded assessment')}</span><span class="avatar">${({first:'AM',second:reviewerFor(state).trim().split(/\s+/).map(part=>part[0]).slice(0,2).join(''),assurance:'AP',management:'CB',admin:'MC'})[state.role]||'AM'}</span></div></div></header>`;}
 function presenter(){if(new URLSearchParams(location.search).get('presenter')!=='1')return '';return `<details class="presentation-tools" data-edit="presenter" ${state.editPanels?.presenter?'open':''}><summary>Presentation controls</summary><div class="sample-disclosure">Presenter tools replace this tab’s draft with a selected scenario. Changes remain in this browser session.</div><footer class="demo-footer"><div class="presenter-controls"><label>Perspective<select id="demo-role" aria-label="Demo perspective"><option value="first" ${state.role==='first'?'selected':''}>Assessment owner</option><option value="second" ${state.role==='second'?'selected':''}>Independent reviewer</option>${[['assurance','Control assurance'],['management','Management decision owner'],['admin','Bank administrator']].map(([id,label])=>`<option value="${id}" ${state.role===id?'selected':''}>${label}</option>`).join('')}</select></label><label>Jump to<select id="demo-scene" aria-label="Jump to demo scene"><option value="">Choose a scene</option><option value="start">Start of refresh</option><option value="discovery">Shared-source discovery</option><option value="submitted">Submitted for review</option><option value="challenge">Open challenge</option><option value="response">Response received</option><option value="complete">Review completed</option><option value="new-evidence">New evidence received</option></select></label><label>Demo as-of date<input id="demo-as-of" type="date" aria-label="Demo as-of date" data-ops-field="demo.asOf" value="${esc(state.asOf||'2026-11-14')}" required></label><label>Next GRC update<select aria-label="Next GRC update" data-sync-scenario><option value="none" ${exchangeState(state).fault==='none'?'selected':''}>Normal sync</option><option value="stale" ${exchangeState(state).fault==='stale'?'selected':''}>GRC record changes</option><option value="transport" ${exchangeState(state).fault==='transport'?'selected':''}>Connection interruption</option></select></label>${button(`${icon('reset',15)} Reset`,'reset','class="reset-button"')}</div></footer></details>`;}
 function runtimeData(){
@@ -81,6 +83,9 @@ function focusPageHeading(){
  window.scrollTo({top:0,behavior:'instant'});
 }
 function render(focus=false){
+ if(route.startsWith('assessment/')&&state.risks[state.selectedRisk]&&history.state?.assessmentRisk!==state.selectedRisk){
+  history.replaceState({...history.state,assessmentRisk:state.selectedRisk},'');
+ }
  const bookmark=focus?null:focusBookmark(app);
  refreshAutomaticSync(state);save();
  document.title='RCSA · '+(route==='work'?'Dashboard':route==='reports'?'Reports':route==='settings/bank'?'Bank setup':route==='settings/integrations'?'Connections':scopeRecord(state)?.process||'Assessment');
@@ -99,6 +104,14 @@ function render(focus=false){
  if(state.grc.status==='pending'&&!syncTimer)syncTimer=setTimeout(()=>{syncTimer=null;finishAutomaticSync(state);save();if(route==='settings/integrations')render();},650);
 }
 function mutateField(key,value){
+ if(key==='returnTarget'){
+  if(state.role==='second'&&state.submitted){state.returnTarget=value;save();}
+  return;
+ }
+ if(key==='revisionAnswer'){
+  if(state.role==='first'&&!state.submitted&&state.revisionRequest){state.revisionAnswer=value;save();}
+  return;
+ }
  if(key.startsWith('control-rating.'))return;
  if(mutateScopeField(state,key,value)){save();return;}
   if(mutateControlFit(state,key,value)){save();return;}
@@ -110,17 +123,18 @@ function mutateField(key,value){
   if(key.startsWith('caPlanDraft.')){if(state.role!=='first'||state.submitted)return;ensureAssistance(state).planDraft??={};state.controlAssistance.planDraft[key.slice(12)]=value;state.controlAssistance.planDraft.ownerEdited=true;save();return;}
   if(key.startsWith('caPlanTask.')){if(state.role!=='first'||state.submitted)return;const [,kind,index,field]=key.split('.'),draft=state.controlAssistance?.planDraft;if(!draft||!['implementation','validation'].includes(kind)||!['title','owner','due','evidence'].includes(field)||!draft[kind+'Tasks']?.[Number(index)])return;draft[kind+'Tasks'][Number(index)][field]=value;delete draft[kind+'Text'];draft.ownerEdited=true;save();return;}
   if(key.startsWith('mapping.')){state.mappingDraft??={};if(key==='mapping.controlId')state.mappingDraft.applicability='unassessed';state.mappingDraft[key.slice(8)]=value;return;}
-  if(key.startsWith('riskResponse.')){if(state.role!=='first'||state.submitted)return;const r=state.risks[state.selectedRisk];if(key==='riskResponse.strategy'){const previous=r.riskResponse.strategy;if(previous&&previous!==value&&(state.operations?.actions?.[r.id]||state.operations?.decisions?.[r.id])){state.pendingStrategy={riskId:r.id,previous,next:value};render();showDialog(`<h2 id="dialog-title">Change response approach?</h2><p>The previous linked action and decision request will be kept in history and replaced by the new approach. Their history remains available.</p>${button('Change approach and retain history','confirm-strategy','class="button primary"')}${button('Keep current approach','close-dialog','class="button"')}`);return;}setResponseStrategy(state,r.id,value);reconcileResponseRecords(state,r.id,previous,value);save();return;}r.riskResponse[key.slice(13)]=value;r.riskResponse.needsReview=true;r.residualConfirmed=false;}
-  else if(key.startsWith('responseAction.')){if(state.role!=='first'||state.submitted)return;actionFor(state,state.selectedRisk)[key.slice(15)]=value;state.risks[state.selectedRisk].riskResponse.needsReview=true;state.risks[state.selectedRisk].residualConfirmed=false;}
-  else if(key.startsWith('risk.')){if(state.role!=='first'||state.submitted)return;const [,kind,name]=key.split('.');if(!['inherent','residual','responseAction','controlConclusion'].includes(kind))return;const r=state.risks[state.selectedRisk];r[kind]??={};if(name==='rating')Object.assign(r[kind],value);else r[kind][name]=['likelihood','impact'].includes(name)?Math.max(1,Math.min(5,Number(value)||1)):value;r[kind==='controlConclusion'?'controlsConfirmed':kind==='responseAction'?'residualConfirmed':kind+'Confirmed']=false;if(kind==='controlConclusion'){r.residualConfirmed=false;if(r.riskResponse.created)r.riskResponse.needsReview=true;}if(r.riskResponse.created)r.riskResponse.needsReview=true;}
+  if(key.startsWith('riskResponse.')){if(state.role!=='first'||state.submitted)return;const r=state.risks[state.selectedRisk];if(key==='riskResponse.strategy'){const previous=r.riskResponse.strategy;if(previous&&previous!==value&&(state.operations?.actions?.[r.id]||state.operations?.decisions?.[r.id])){state.pendingStrategy={riskId:r.id,previous,next:value};render();showDialog(`<h2 id="dialog-title">Change response approach?</h2><p>The previous linked action and decision request will be kept in history and replaced by the new approach. Their history remains available.</p>${button('Change approach and retain history','confirm-strategy','class="button primary"')}${button('Keep current approach','close-dialog','class="button"')}`);return;}setResponseStrategy(state,r.id,value);reconcileResponseRecords(state,r.id,previous,value);save();return;}r.riskResponse[key.slice(13)]=value;r.riskResponse.needsReview=true;}
+  else if(key.startsWith('responseAction.')){if(state.role!=='first'||state.submitted)return;actionFor(state,state.selectedRisk)[key.slice(15)]=value;state.risks[state.selectedRisk].riskResponse.needsReview=true;}
+  else if(key.startsWith('risk.')){if(state.role!=='first'||state.submitted)return;const [,kind,name]=key.split('.');if(!['inherent','residual','responseAction','controlConclusion'].includes(kind))return;const r=state.risks[state.selectedRisk];r[kind]??={};if(name==='rating')Object.assign(r[kind],value);else r[kind][name]=['likelihood','impact'].includes(name)?Math.max(1,Math.min(5,Number(value)||1)):value;if(kind!=='responseAction')r[kind==='controlConclusion'?'controlsConfirmed':kind+'Confirmed']=false;if(kind==='controlConclusion'){r.residualConfirmed=false;if(r.riskResponse.created)r.riskResponse.needsReview=true;}if(r.riskResponse.created)r.riskResponse.needsReview=true;}
   else if(key.startsWith('action.')){if(state.role!=='first'||(state.submitted&&state.challengeStatus!=='open'))return;state.action[key.slice(7)]=value;}
-  else if(['qualification','handoff','question','response','reviewerRationale','responseSufficient','assessmentView'].includes(key)){const reviewer=['question','reviewerRationale','responseSufficient','assessmentView'].includes(key);if(reviewer?state.role!=='second':state.role!=='first')return;state[key]=value;if(key==='response'||key==='question'){if(key==='question')state.replyRiskId='';delete state.replyUndo;delete state.replyDraft;}}
+  else if(['qualification','handoff','question','response','reviewerRationale','responseSufficient','assessmentView'].includes(key)){const reviewer=['question','reviewerRationale','responseSufficient','assessmentView'].includes(key);if(reviewer?state.role!=='second':state.role!=='first')return;state[key]=value;if(key==='responseSufficient'&&value==='return')state.assessmentView='';
+  if(key==='response'||key==='question'){if(key==='question')state.replyRiskId='';delete state.replyUndo;delete state.replyDraft;}}
   if(key.startsWith('risk.controlConclusion.'))markAssistancePlanForReview(state,state.selectedRisk);
   syncAssistancePlanField(state,key,value);
   state.reportConfirmed='';save();
 }
 function focusRegister(){const heading=document.getElementById('dash-register-heading');if(heading){heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});heading.scrollIntoView({block:'start',behavior:'instant'});}}
-function currentRiskValid(kind){const r=state.risks[state.selectedRisk][kind];return validRating(r)&&r.likelihoodRationale?.trim()&&r.impactRationale?.trim();}
+function currentRiskValid(kind){const r=state.risks[state.selectedRisk][kind];return validRating(r)&&ratingReasonsComplete(r);}
 function showDialog(body){
  dialog.classList.remove('source-drawer','insight-drawer');
   const open=dialog.open,oldTitle=dialog.querySelector('#dialog-title')?.textContent,scrollTop=dialog.scrollTop;
@@ -172,9 +186,20 @@ function highlightMap(event){
  }
 }
 for(const event of ['pointerover','pointerout','focusin','focusout'])app.addEventListener(event,highlightMap);
+document.addEventListener('toggle',e=>{
+ if(e.target.matches?.('details.request-edit')&&!e.target.open&&e.target.isConnected){
+  render();app.querySelector('.request-edit summary')?.focus({preventScroll:true});
+ }
+},true);
 document.addEventListener('toggle',e=>{if(e.target.matches?.('details[data-edit]')&&state){state.editPanels??={};state.editPanels[e.target.dataset.edit]=e.target.open;save();}},true);
 dialog.addEventListener('submit',e=>{
  const form=e.target;
+ if(form.id==='manual-risk-form'){
+  e.preventDefault();const fields=new FormData(form);
+  const result=addOwnerRisk(state,data,Object.fromEntries(fields),fields.getAll('source'));
+  if(!result.ok){form.querySelector('[role="alert"]').textContent=result.message;return;}
+  closeDialog();save();render(true);notify('Risk added. Review the inventory and confirm scope.');return;
+ }
  if(form.id!=='control-rating-form')return;
  e.preventDefault();
  const values=new FormData(form);
@@ -185,7 +210,13 @@ dialog.addEventListener('submit',e=>{
  closeDialog();save();render();
  notify(changed?'Ratings saved. Review your control and risk conclusions before confirming.':'Ratings saved.');
 });
-document.addEventListener('input',e=>{clearFieldError(e.target);if(e.target.dataset.opsField&&handleOperationsField(state,e.target.dataset.opsField,e.target.value)){save();return;}if(e.target.dataset.field)mutateField(e.target.dataset.field,e.target.value);if(e.target.dataset.field==='response'){document.querySelector('[data-action="undo-reply"]')?.remove();const list=document.querySelector('.coverage-list');if(list)list.innerHTML=replyCoverage(data,state,responseCoverage).map(c=>`<li>${icon(c.done?'check':'info',17)}<span>${c.label}</span><small>${c.done?'Mentioned in draft':'Not mentioned'}</small></li>`).join('');}});
+document.addEventListener('input',e=>{
+ if(e.target.matches('[data-source-filter]')){
+  const term=e.target.value.trim().toLowerCase();
+  for(const label of e.target.form.querySelectorAll('fieldset label'))label.hidden=!label.textContent.toLowerCase().includes(term)&&!label.querySelector('input').checked;
+  return;
+ }
+ clearFieldError(e.target);if(e.target.dataset.opsField&&handleOperationsField(state,e.target.dataset.opsField,e.target.value)){save();return;}if(e.target.dataset.field)mutateField(e.target.dataset.field,e.target.value);if(e.target.dataset.field==='response'){document.querySelector('[data-action="undo-reply"]')?.remove();const list=document.querySelector('.coverage-list');if(list)list.innerHTML=replyCoverage(data,state,responseCoverage).map(c=>`<li>${icon(c.done?'check':'info',17)}<span>${c.label}</span><small>${c.done?'Mentioned in draft':'Not mentioned'}</small></li>`).join('');}});
 document.addEventListener('change',e=>{
   dialogOrigin=null;
   if(e.target.id==='demo-as-of'){
@@ -196,10 +227,11 @@ document.addEventListener('change',e=>{
   if(e.target.dataset.opsField&&handleOperationsField(state,e.target.dataset.opsField,e.target.value)){save();return;}
   if(e.target.matches('[data-risk-select]')){state.selectedRisk=e.target.value;state.analysisPane='overview';save();return render();}
   if(e.target.matches('[data-sync-scenario]')){if(['none','stale','transport'].includes(e.target.value))exchangeState(state).fault=e.target.value;save();return;}
+  if(e.target.matches('[data-response-risk]')){state.selectedRisk=e.target.value;delete state.responseEditor;save();return render(true);}
   if(e.target.matches('[data-assessment-step]'))return navigate('assessment/'+e.target.value);
   if(e.target.matches('[data-analysis-pane]')){state.analysisPane=e.target.value;state.intelligenceTab=e.target.value;state.researchTab=e.target.value;save();return render();}
   if(e.target.matches('[data-control-assistance-view]')){const ca=ensureAssistance(state);ca.openByRisk[state.selectedRisk]=true;ca.tabByRisk[state.selectedRisk]=e.target.value;save();render();document.getElementById('control-assistance-view')?.focus({preventScroll:true});return;}
-  if(e.target.id==='demo-role'){if(new URLSearchParams(location.search).get('presenter')!=='1')return;state.role=e.target.value;save();if(['assurance','management','admin'].includes(state.role)){navigate(state.role==='admin'?'settings/bank':'assessment/'+(state.role==='management'?'decision':'action'));}else render(true);notify(({first:'Assessment owner',second:'Independent reviewer',assurance:'Control assurance',management:'Management decision owner',admin:'Bank administrator'})[state.role]+' view');}
+  if(e.target.id==='demo-role'){if(new URLSearchParams(location.search).get('presenter')!=='1')return;state.role=e.target.value;save();if(['assurance','management','admin'].includes(state.role)){navigate(state.role==='admin'?'settings/bank':'assessment/'+(state.role==='management'?'decision':'action'));}else if(route==='work'||route==='reports'){render(true);}else{const launch=assessmentLaunch(state);state.selectedRisk=launch.risk;save();navigate('assessment/'+launch.stage);}notify(({first:'Assessment owner',second:'Independent reviewer',assurance:'Control assurance',management:'Management decision owner',admin:'Bank administrator'})[state.role]+' view');}
   else if(e.target.id==='demo-scene'&&e.target.value){const scene=e.target.value,exchange=state.grc;state=seedScene(data,scene==='new-evidence'?'submitted':scene);if(exchange)state.grc=exchange;if(scene==='new-evidence'){receiveEvidence(state);state.researchTab='evidence';state.researchReturn='review';state.analysisPane='evidence';state.analysisStage='residual';state.analysisReturn='review';}save();navigate(scene==='new-evidence'?'assessment/analysis':scene==='start'?'work':scene==='discovery'?'assessment/discovery':scene==='complete'?'reports':'assessment/review');notify('Scene loaded');}
   else if(e.target.dataset.field?.startsWith('control-rating.')){
    const preview=dialog.querySelector(`[data-rating-preview="${e.target.dataset.ratingSource}"]`);
@@ -235,12 +267,15 @@ document.addEventListener('keydown',e=>{
 });
 document.addEventListener('click',e=>{
   if(e.target.closest('.skip-link')){e.preventDefault();document.getElementById('main')?.focus();return;}
+  const toast=document.getElementById('toast');
+  if(toast.classList.contains('visible')){clearTimeout(toastTimer);toast.classList.remove('visible');}
   const el=e.target.closest('[data-action]');if(!el||el.disabled||!state)return;const action=el.dataset.action;
   if(action==='pick-risk-rating')return pickRiskRating(el);
   dialogOrigin=el;
   const ctx={data:runtimeData(),state,el,showDialog,closeDialog,showValidation,notify,save,render,navigate,route};
   if(action==='signal-review-test'){showDialog(incomingTestDialog(data,state));dialog.classList.add('source-drawer','insight-drawer');return;}
    if(action==='signal-add-test'){if(!receiveSignalTest(state,data))return notify('Only the assessment owner can add new evidence to a draft.');save();closeDialog();render();return notify('Test added. AI analysis updated; review your control and risk conclusions.');}
+   if(action==='manual-risk'&&state.role==='first'&&!state.submitted)return showDialog(manualRiskForm(data,state));
    if(action==='scope-edit'){if(beginScopeEdit(state)){save();showDialog(scopeEditor(state));}return;}
    if(action==='scope-cancel'){cancelScopeEdit(state);save();closeDialog();return;}
    if(action==='scope-save'){const result=saveScope(state,data);if(!result.ok)return notify(result.message);save();closeDialog();render();return notify(result.message);}
@@ -319,7 +354,16 @@ document.addEventListener('click',e=>{
   if(action==='heatmap-group')return showDialog(heatmapGroupDialog(state,Number(el.dataset.likelihood),Number(el.dataset.impact)));
   if(action==='open-risk'){if(!state.risks[el.dataset.risk]||state.risks[el.dataset.risk].removed)return;if(dialog.open)closeDialog();state.selectedRisk=el.dataset.risk;save();return navigate('assessment/'+(el.dataset.stage||'residual'));}
   if(action==='open-response'){state.selectedRisk=el.dataset.risk||state.selectedRisk;save();return navigate('assessment/response');}
-  if(action==='save-risk-response'){if(!saveRiskResponse(state))return showValidation(responseErrors(state,state.selectedRisk),document.getElementById('main'));save();navigate('assessment/residual');return notify('Risk response recorded. Confirm the residual assessment when ready.');}
+  if(action==='edit-response'&&state.role==='first'&&!state.submitted){state.responseEditor=state.selectedRisk;save();return render(true);}
+  if(action==='finish-response'||action==='discard-response'){
+   if(action==='discard-response'){discardOptionalResponse(state);delete state.responseEditor;}
+   const next=nextResponseRisk(state);if(next)state.selectedRisk=next.id;
+   save();return navigate(next?'assessment/response':'assessment/review');
+  }
+  if(action==='save-risk-response'){
+   if(!saveRiskResponse(state))return showValidation(responseErrors(state,state.selectedRisk),document.getElementById('main'));delete state.responseEditor;
+   if(state.risks[state.selectedRisk].riskResponse.strategy==='accept'){save();return navigate('assessment/decision');}
+   const next=nextResponseRisk(state);if(next)state.selectedRisk=next.id;save();navigate(next?'assessment/response':'assessment/review');return notify(next?'Response recorded. Review the next risk.':'Response recorded. Review the assessment before sending.');}
   if(action==='ai-response')return showDialog(responseDraftDialog(runtimeData(),state));
   if(action==='use-response-draft'&&state.role==='first'&&!state.submitted){if(!applyResponseDraft(runtimeData(),state,{replace:el.dataset.replace==='true'}))return notify('Choose a response approach before drafting.');closeDialog();save();render(true);return notify('Draft added. Review and record the response.');}
   if(action==='ai-change-brief')return showDialog(`<span class="label">AI change briefing · 2 sources</span><h2 id="dialog-title">The process changed after the test.</h2><div class="brief-timeline"><article><strong>September 15 · Control test</strong><p>25 standard-wire samples. The urgent route was outside the tested population.</p></article><article><strong>October 5 · Procedure change</strong><p>A new urgent exception route was introduced with supervisory approval.</p></article></div><p>Review the control conclusion and response before relying on the standard-route result for urgent requests.</p><div class="button-group">${button('Inspect control test','source','class="button" data-source="test"')}${button('Inspect procedure','source','class="button" data-source="procedure"')}</div>`);
@@ -338,19 +382,28 @@ document.addEventListener('click',e=>{
   if(action==='open-process'){state.selectedRisk=el.dataset.risk;save();return navigate(el.dataset.risk==='unauthorized'?(state.submitted?'assessment/review':'assessment/changes'):'assessment/inherent');}
   if(['role-review','role-first','role-response'].includes(action)){if(new URLSearchParams(location.search).get('presenter')!=='1')return;state.role=action==='role-review'?'second':'first';save();return navigate('assessment/review');}
   if(action==='qualify'){const d=document.getElementById('qualification-details');d.open=true;d.querySelector('textarea').focus();return;}
-  if(action==='confirm-scope'){const result=confirmScope(state,data);if(!result.ok)return notify(result.message);save();return navigate('assessment/inherent');}
-  if(action==='confirm-inherent'&&state.role==='first'&&!state.submitted){if(!currentRiskValid('inherent'))return notify('Explain the likelihood and impact before confirming.');const r=state.risks[state.selectedRisk];r.inherentConfirmed=true;if(r.preparedBaseline)r.preparedBaseline.reviewedStages=[...new Set([...(r.preparedBaseline.reviewedStages||[]),'inherent'])];record(state,data.owner,`Confirmed inherent assessment for ${r.name}: ${band(score(r.inherent))} (${score(r.inherent)}).`);save();return navigate('assessment/controls');}
+  if(action==='confirm-scope'){const result=confirmScope(state,data);if(!result.ok)return notify(result.message);save();return navigate(earlierStep(state)?.route||'assessment/residual');}
+  if(action==='confirm-inherent'&&state.role==='first'&&!state.submitted){if(!currentRiskValid('inherent'))return notify('Explain the likelihood and impact before confirming.');const r=state.risks[state.selectedRisk];r.inherentConfirmed=true;if(r.preparedBaseline)r.preparedBaseline.reviewedStages=[...new Set([...(r.preparedBaseline.reviewedStages||[]),'inherent'])];record(state,data.owner,`Confirmed inherent assessment for ${r.name}: ${band(score(r.inherent))} (${score(r.inherent)}).`);save();return navigate(earlierStep(state)?.route||'assessment/residual');}
   if(action==='confirm-controls'&&state.role==='first'&&!state.submitted){
    const r=state.risks[state.selectedRisk];
    if(mappingNeedsReview(data,state,r.id))return notify('Assess coverage for each newly mapped control before confirming. Use Edit mapping.');
    const missingRating=incompleteKeyControl(state,r);
    if(missingRating)return openControlRatings(missingRating.id);
    if(!r.controls.length&&!document.getElementById('no-controls-attest')?.checked)return notify('Confirm that no controls are mapped before continuing.');
-   r.noControlsConfirmed=!r.controls.length;r.controlConclusion??={text:controlDefaults[r.id]};if(!r.controlConclusion.text.trim())return notify('Record your control conclusion before confirming.');r.controlsConfirmed=true;if(r.preparedBaseline)r.preparedBaseline.reviewedStages=[...new Set([...(r.preparedBaseline.reviewedStages||[]),'controls'])];record(state,data.owner,'Confirmed the control assessment and its evidence limitations.');save();return navigate(state.selectedRisk==='unauthorized'&&sharedPair(state)?'assessment/discovery':'assessment/residual');
+   r.noControlsConfirmed=!r.controls.length;r.controlConclusion??={text:controlDefaults[r.id]};if(!r.controlConclusion.text.trim())return notify('Record your control conclusion before confirming.');r.controlsConfirmed=true;if(r.preparedBaseline)r.preparedBaseline.reviewedStages=[...new Set([...(r.preparedBaseline.reviewedStages||[]),'controls'])];record(state,data.owner,'Confirmed the control assessment and its evidence limitations.');save();return navigate(earlierStep(state)?.route||'assessment/residual');
   }
   if(action==='dependency'&&state.role==='first'&&!state.submitted){const value=el.dataset.decision;if(value==='qualified'&&state.qualification.trim().length<5)return notify('Add a short note or explain what is still unknown.');state.dependency=value;record(state,data.owner,`${value==='confirmed'?'Confirmed':value==='qualified'?'Qualified':'Dismissed'} the suggested shared-source relationship. Ratings unchanged.`);save();render();return notify('Your judgment is recorded. Risk ratings are unchanged.');}
-  if(action==='confirm-residual'&&state.role==='first'&&!state.submitted){if(!currentRiskValid('residual'))return notify('Explain the likelihood and impact before confirming.');if(!responseComplete(state,state.selectedRisk)){notify('Create or review the required risk response before confirming.');return navigate('assessment/response');}const r=state.risks[state.selectedRisk];r.residualConfirmed=true;if(r.preparedBaseline)r.preparedBaseline.reviewedStages=[...new Set([...(r.preparedBaseline.reviewedStages||[]),'residual'])];r.lastConfirmedResidual=structuredClone(r.residual);record(state,data.owner,`Confirmed residual assessment for ${r.name}: ${band(score(r.residual))} (${score(r.residual)}).`);save();return navigate('assessment/review');}
-  if(action==='submit'){if(!document.getElementById('owner-attest')?.checked)return notify('Check the confirmation box before sending.');if(!sendAssessment(state))return notify('Complete the assessment confirmations before sending.');save();render(true);return notify('Assessment submitted for independent review.');}
+  if(action==='confirm-residual'&&state.role==='first'&&!state.submitted){const basis=earlierStep(state);
+    if(basis){navigate(basis.route);return notify('Confirm this step before confirming the remaining risk.');}
+    if(!validRating(state.risks[state.selectedRisk].residual))return notify('Choose likelihood and impact before confirming the risk rating.');
+    if(!currentRiskValid('residual')){const rating=state.risks[state.selectedRisk].residual;return showValidation(['likelihood','impact'].filter(d=>!rating[d+'Rationale']?.trim()||rating[d+'Rationale'].startsWith('Carried forward from the previous assessment. Review ')).map(d=>({field:'risk.residual.'+d+'Rationale',message:'Explain the '+d+' using the current evidence.'})),document.getElementById('main'));}
+    const r=state.risks[state.selectedRisk];r.residualConfirmed=true;if(r.preparedBaseline)r.preparedBaseline.reviewedStages=[...new Set([...(r.preparedBaseline.reviewedStages||[]),'residual'])];r.lastConfirmedResidual=structuredClone(r.residual);record(state,data.owner,`Confirmed residual assessment for ${r.name}: ${band(score(r.residual))} (${score(r.residual)}).`);
+    const next=nextResponseRisk(state);
+    if(next)state.selectedRisk=next.id;
+    save();
+    return navigate(next?'assessment/response':'assessment/review');
+  }
+  if(action==='submit'){if(!document.getElementById('owner-attest')?.checked)return focusFieldError(document.getElementById('owner-attest'),'Confirm the assessment before sending it.');if(!sendAssessment(state))return notify('Complete the assessment confirmations before sending.');save();render(true);return notify('Assessment submitted for independent review.');}
   if(action==='challenge'){if(!sendChallenge(state))return notify('A submitted assessment and a review question are needed.');save();render();return notify('Review question recorded. The owner can now respond.');}
   if(action==='prepared-response'&&state.role==='first'&&state.challengeStatus==='open'){
     const suggestion=replySuggestion(data,state);if(!suggestion)return notify('No response suggestion is available for this question.');
@@ -359,8 +412,20 @@ document.addEventListener('click',e=>{
   }
   if(action==='insert-reply'&&state.role==='first'&&state.challengeStatus==='open'&&state.replyDraft?.question===state.question&&(state.replyDraft.clarification||'')===(state.reviewReturn?.rationale||'')){state.replyUndo={before:state.response,question:state.question};state.response=el.dataset.mode==='append'?[state.response,state.replyDraft.text].filter(Boolean).join('\n\n'):state.replyDraft.text;delete state.replyDraft;state.reportConfirmed='';closeDialog();save();return render();}
   if(action==='undo-reply'&&state.role==='first'&&state.challengeStatus==='open'&&state.replyUndo?.question===state.question){state.response=state.replyUndo.before;delete state.replyUndo;state.reportConfirmed='';save();return render();}
-  if(action==='respond'){if(!document.getElementById('response-attest')?.checked)return notify('Confirm your revision and response before sending.');if(!respond(state))return notify(state.ownerRevisionRequired?'Complete a new assessment draft and send it for review before replying.':'Enter your reply before sending.');save();render(true);return notify('Reply and owner confirmation recorded.');}
-  if(action==='complete-review'){if(!document.getElementById('reviewer-attest')?.checked)return notify('Confirm your review decision before recording it.');if(!completeReview(state))return notify('Add the rationale for your review conclusion.');save();render(true);return notify(state.reviewed?'Review complete. Response follow-up remains open.':'Returned to the owner for clarification.');}
+  if(action==='respond'){if(!document.getElementById('response-attest')?.checked)return focusFieldError(document.getElementById('response-attest'),'Confirm your reply before sending it.');if(!respond(state))return notify(state.ownerRevisionRequired?'Complete a new assessment draft and send it for review before replying.':'Enter your reply before sending.');save();render(true);return notify('Reply and owner confirmation recorded.');}
+  if(action==='ask-followup'){
+    if(!askFollowup(state))return notify('Enter the question you want the owner to answer.');
+    save();render(true);return notify('Follow-up sent. The owner will reply.');
+  }
+  if(action==='jump-decision'){const target=document.getElementById('decision-heading');target?.focus();target?.scrollIntoView({block:'start'});return;}
+  if(action==='save-revision-answer'){save();render(true);return notify(state.revisionAnswer?.trim()?'Response saved. Review your summary and send the revised version.':'Enter a response to the reviewer.');}
+  if(action==='jump-revision'){document.querySelector('[data-field="revisionAnswer"]')?.focus();return;}
+  if(action==='complete-review'){
+   const decision=document.querySelector('select[data-field="assessmentView"]');
+   if(decision&&!state.assessmentView){decision.id||='assessment-decision';return focusFieldError(decision,'Choose your decision.');}
+   const reason=document.querySelector('textarea[data-field="reviewerRationale"]');
+   if(reason&&!state.reviewerRationale?.trim()){reason.id||='decision-reason';return focusFieldError(reason,'Explain what led to your decision.');}
+   if(!document.getElementById('reviewer-attest')?.checked)return focusFieldError(document.getElementById('reviewer-attest'),'Confirm your decision before recording it.');if(!completeReview(state))return notify(!state.assessmentView?'Choose your assessment decision.':!state.reviewerRationale.trim()?'Explain your decision.':'Check the reply assessment and reviewer assignment before recording your decision.');save();render(true);return notify(state.reviewed?'Independent review complete. View the report for the recorded decision.':'Returned to the owner for clarification.');}
 });
 dialog.addEventListener('click',e=>{if(e.target===dialog)closeDialog();});
 dialog.addEventListener('cancel',e=>{e.preventDefault();closeDialog();});
@@ -416,6 +481,9 @@ async function showRoute(focus=false){
    await workspaceLoad;
   }
   if(visit!==navigationId)return;
+  route=readRoute();
+  const previousRisk=history.state?.assessmentRisk;
+  if(route.startsWith('assessment/')&&state.risks[previousRisk]&&!state.risks[previousRisk].removed)state.selectedRisk=previousRisk;
   render(focus);
   if(registerRequested&&route==='work'){registerRequested=false;focusRegister();}
  }catch(error){
@@ -425,7 +493,7 @@ async function showRoute(focus=false){
  }
 }
 window.addEventListener('hashchange',()=>{
- if(dialog.open){dialogParents.length=0;dialog.close();}
+ if(dialog.open){dialogParents.length=0;cancelScopeEdit(state);dialog.close();}
  showRoute(true);
 });
 showRoute();

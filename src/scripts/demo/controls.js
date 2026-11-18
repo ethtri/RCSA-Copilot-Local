@@ -1,11 +1,12 @@
-import {controlDetails,riskDetails} from './record-details.js?v=20261116.3';
-import {riskEntries,assessmentProjection} from './model.js?v=20261116.3';
-import {controlAssistanceView} from './control-assistance-view.js?v=20261116.3';
-import {controlConclusion} from './research.js?v=20261116.3';
-import {contextualPrompt} from './risk-intelligence.js?v=20261116.3';
-import {esc,icon,button,link,sourceLink} from './ui.js?v=20261116.3';
-import {controlsLibrary,mappingApplicability,mappingNeedsReview} from './mappings.js?v=20261116.3';
-import {controlRatingRow} from './control-ratings.js';
+import {earlierStep} from './assessment-navigation.js?v=20261118.8';
+import {controlDetails,riskDetails} from './record-details.js?v=20261118.8';
+import {riskEntries,assessmentProjection} from './model.js?v=20261118.8';
+import {controlAssistanceView} from './control-assistance-view.js?v=20261118.8';
+import {controlConclusion} from './research.js?v=20261118.8';
+import {contextualPrompt} from './risk-intelligence.js?v=20261118.8';
+import {esc,icon,button,link,sourceLink} from './ui.js?v=20261118.8';
+import {controlsLibrary,mappingApplicability,mappingNeedsReview} from './mappings.js?v=20261118.8';
+import {controlRatingRow} from './control-ratings.js?v=20261118.8';
 
 const locked=s=>s.role!=='first'||s.submitted;
 const disabled=s=>locked(s)?'disabled':'';
@@ -41,6 +42,7 @@ function mappedControlsOverview(data,s,r,controls){
  ${!controls.length?'<p class="mapped-controls-note">No controls are mapped to this risk. Use <strong>Add a control</strong> to link an existing control or propose a new one.</p>':'<p class="mapped-controls-note">A risk link shows which controls to assess. It does not prove that they work.</p>'}</section>`;
 }
 export function controlsWorkspace(data,s){
+  const prior=earlierStep(s,'controls');
   // Recorded control records resolve from the submitted context; incoming evidence is handled elsewhere.
   const recorded=s.submitted?assessmentProjection(s,'current',data):null;
   if(s.submitted&&!recorded)return `<section class="cm-workspace"><header class="page-heading"><h1>Recorded controls unavailable</h1><p>This submission has no preserved control context. It has not been reconstructed from the current library.</p></header></section>`;
@@ -61,7 +63,7 @@ export function controlsWorkspace(data,s){
   <div class="controls-working-grid controls-streamlined">${controlAssistanceView(data,s,{relationships:controls.length?controlRelationshipMap(r,controls,shared,s.dependency,s.selectedControl):''})}
   <section class="sheet control-owner-assessment"><h2>Your assessment</h2>${controlConclusion(data,s)}${mappingNeedsReview(data,s,r.id)?'<p class="cm-coverage-notice" role="status">Some risk links need your judgment. Use Manage → Edit risk link beside each control before confirming.</p>':''}${!controls.length?`<label class="attestation cm-empty-attest"><input id="no-controls-attest" type="checkbox" ${r.noControlsConfirmed?'checked':''} ${readonly?'disabled':''}> I confirm that no controls are currently mapped and will reflect this in the assessment.</label>`:''}</section></div>
   ${c?controlDetails(data,s,c):''}
-  ${contextualPrompt(data,s,'controls')}<div class="step-footer">${link('Back to risk before controls','navigate','data-route="assessment/inherent"')}${readonly?'<span class="quiet-status">Assessment record · read-only</span>':action(`Confirm control assessment ${icon('arrow',16)}`,'confirm-controls',s,'',true)}</div></section>`;
+  ${contextualPrompt(data,s,'controls')}<div class="step-footer">${link('Back to risk before controls','navigate','data-route="assessment/inherent"')}${readonly?'<span class="quiet-status">Assessment record · read-only</span>':prior?action(prior.label,'navigate',s,`data-route="${prior.route}"`,true):action(`Confirm control assessment ${icon('arrow',16)}`,'confirm-controls',s,'',true)}</div></section>`;
   return recorded?html.replaceAll('data-action="source"',`data-action="source" data-version="${Number(recorded.version)}"`):html;
 }
 function dialogField(label,key,value,{area=false,required=true,readOnly=false}={}){

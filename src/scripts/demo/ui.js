@@ -1,4 +1,4 @@
-import {band, score} from './model.js?v=20261116.3';
+import {band, score} from './model.js?v=20261118.8';
 export const esc = value => String(value ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ICON_PATHS = Object.freeze({
   insight:'<path d="m12 3 2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4L12 3Z"/><path d="M20 2v4m-2-2h4"/>',

@@ -1,12 +1,12 @@
-import {esc,button,sourceLink} from './ui.js?v=20261116.3';
-import {record,invalidateRisk} from './model.js?v=20261116.3';
+import {esc,button,sourceLink} from './ui.js?v=20261118.8';
+import {record,invalidateRisk} from './model.js?v=20261118.8';
 
 export const incomingTest=data=>(data.signals?.sources||[]).find(source=>source.id==='signals-urgent-test');
 export function evidenceUpdateView(data,s,risk,stage,projection=null){
  if(risk.id!=='unauthorized'||risk.scenarioId==='owner-defined'||risk.extensions?.length||stage!=='residual'||!incomingTest(data))return '';
  const included=projection?!!projection.signalTestReceived:!!s.signalTestReceived;
- if(included)return `<div class="evidence-update evidence-update--received"><div><strong>New test included in the analysis</strong><p>The AI has reviewed the new sample. Your rating stays as recorded until you apply a change.</p></div>${sourceLink('Read new test','signals-urgent-test').replace('data-action="source"',`data-action="source" ${projection?`data-version="${Number(projection.version)}"`:''}`)}</div>`;
- return `<div class="evidence-update"><div><strong>New urgent-payment test available</strong><p>A November 12 review covers five completed urgent payments. Review it before adding it to this assessment.</p></div>${button('Review new test results','signal-review-test','class="button"')}</div>`;
+ if(included)return `<p class="rating-test-note"><strong>New test included.</strong> Five completed urgent payments were reviewed. ${sourceLink('View test results','signals-urgent-test').replace('data-action="source"',`data-action="source" ${projection?`data-version="${Number(projection.version)}"`:''}`)}</p>`;
+ return `<p class="rating-test-note"><strong>New evidence.</strong> A November 12 test covered five urgent payments. ${button('View test results','signal-review-test','class="text-link"')}</p>`;
 }
 export function incomingTestDialog(data,s){
  const source=incomingTest(data);if(!source)return '<h2 id="dialog-title">Test result unavailable</h2>';

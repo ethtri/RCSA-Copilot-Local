@@ -1,6 +1,6 @@
-import {preparedScopeMatches,scopeRecord} from './scope-model.js?v=20261116.3';
-import {assessmentProjection,sourceRecords} from './model.js?v=20261116.3';
-import {esc,icon,sourceLink} from './ui.js?v=20261116.3';
+import {preparedScopeMatches,scopeRecord} from './scope-model.js?v=20261118.8';
+import {assessmentProjection,sourceRecords} from './model.js?v=20261118.8';
+import {esc,icon,sourceLink} from './ui.js?v=20261118.8';
 
 // Prepared classifications describe these sample records, not a bank's configured taxonomy.
 const RISK_CONTEXT=Object.freeze({
