@@ -16,7 +16,7 @@ for(const id of Object.keys(state.risks))for(const stage of ['inherent','residua
  assert(html.includes('aria-label="Risk heatmap"'));
 }
 const scope=assessmentView(data,state,'changes');
-assert(scope.includes('Confirm what you are assessing'));
+assert(scope.includes('Scope &amp; changes'));
 assert(scope.includes('aria-label="Assessment scope"'));
 assert(scope.includes('whether any risks are missing'));
 assert(!scope.includes('data-action="upgrade-review-proposal"'));

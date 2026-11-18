@@ -56,7 +56,14 @@ export function handleUpgradeActions(ctx){
  if(action==='upgrade-refresh-proposal'){if(!refreshProposal(s,data,el.dataset.proposal)){notify('Start a new assessment draft before refreshing.');return true;}const p=s.proposals[el.dataset.proposal];s.upgradeDraft={proposalId:p.id,...structuredClone(p.proposed||{}),reason:''};save();showDialog(proposalDialog(data,s,p.id));return true;}
  if(action==='upgrade-apply-proposal'){
   const choices=typeof document!=='undefined'?[...document.querySelectorAll('[data-upgrade-apply-field]:checked')].map(x=>x.dataset.upgradeApplyField):undefined;
-  return done(applyProposal(s,data,el.dataset.proposal,{fields:choices,values:s.upgradeDraft}));
+  const proposal=s.proposals[el.dataset.proposal];
+  const before={...s.risks[proposal?.riskId]?.[proposal?.kind]};
+  const result=applyProposal(s,data,el.dataset.proposal,{fields:choices,values:s.upgradeDraft});
+  done(result);
+  if(result.ok)for(const key of choices||[]){
+   if(before[key]!==s.risks[proposal.riskId][proposal.kind][key])document.querySelector(`[data-field="risk.${proposal.kind}.${key}"]`)?.classList.add('applied-field');
+  }
+  return true;
  }
  if(action==='upgrade-dismiss-proposal'){const ok=dismissProposal(s,el.dataset.proposal,s.upgradeDraft.reason?.trim()||'Suggestion not applied. Current assessment retained.');return done({ok,message:ok?'Your assessment is kept and the note is saved.':'Add a short note explaining why you kept the current assessment.'});}
  if(action==='upgrade-review-risk'){const c=discoverRisks(data,s).find(x=>x.id===el.dataset.candidate);if(!c){notify('This suggestion is unavailable.');return true;}s.upgradeDraft={candidateId:c.id,...structuredClone(c),extendRiskId:riskEntries(s)[0]?.id||'',reason:'',deferOwner:'',deferDue:''};showDialog(discoveryDialog(data,s,c.id));return true;}

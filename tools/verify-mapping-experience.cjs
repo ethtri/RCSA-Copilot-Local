@@ -8,7 +8,7 @@ const path=require('node:path');
  const click=async name=>page.getByRole('button',{name,exact:true}).first().click();
  const presentation=async()=>{if(await page.locator('.presentation-tools').getAttribute('open')===null)await page.locator('.presentation-tools>summary').click();};
  try{
-  await page.goto('http://127.0.0.1:8000/src/');await presentation();await page.getByLabel('Jump to demo scene',{exact:true}).selectOption('complete');await presentation();await page.getByLabel('Demo perspective',{exact:true}).selectOption('first');
+  await page.goto('http://127.0.0.1:8000/src/?presenter=1#/work');await presentation();await page.getByLabel('Jump to demo scene',{exact:true}).selectOption('complete');await presentation();await page.getByLabel('Demo perspective',{exact:true}).selectOption('first');
   await page.goto('http://127.0.0.1:8000/src/#/assessment/controls');await page.getByRole('button',{name:'Incorrect payment details',exact:true}).click();
   const prior=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('rcsa-workflow-demo-v1')).snapshots);
   await click('Browse control library');assert(await page.getByRole('heading',{name:'Control library',exact:true}).isVisible());

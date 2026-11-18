@@ -11,13 +11,13 @@ From the repository root:
 python -m http.server 8000 --bind 127.0.0.1
 ```
 
-Open `http://127.0.0.1:8000/src/`. Presentation controls are absent from normal client pages. For rehearsal controls, open `http://127.0.0.1:8000/src/?presenter=1` in the same tab to retain its draft; remove `?presenter=1` for the client presentation. No package installation, API key or backend is required. Use a separate testing tab for rehearsals. Do not reset a working user tab. Stop a task-owned server with Ctrl+C after testing.
+Open `http://127.0.0.1:8000/src/`. Enter the demo from the home page to reach Dashboard. The RCSA wordmark returns to the home page and preserves the draft. For rehearsal controls, open `http://127.0.0.1:8000/src/?presenter=1` in the same tab to retain its draft; remove `?presenter=1` for the client presentation. No package installation, API key or backend is required. Use a separate testing tab for rehearsals. Do not reset a working user tab. Stop a task-owned server with Ctrl+C after testing.
 
 The app uses synthetic bank records and prepared AI output. The **Demo workspace** disclosure states the boundaries. **Presentation controls** is separate from banking work and contains role perspectives, prepared scenes, the demo as-of date, sync fault examples and confirmed reset.
 
 ## Flagship owner-to-reviewer story
 
-1. On **Dashboard**, open **Refresh wire-transfer RCSA**. **Scope & changes** establishes the process, owner, period and included risks. The AI review brief compares dated event counts with payment volume and explains why each existing risk deserves attention. Open **Why & sources** to inspect the records. No scope or rating changes on viewing.
+1. On **Dashboard**, open **Start assessment refresh**. **Scope & changes** establishes the process, owner, period and included risks. Each risk row shows its evidence change and a **View evidence** action. Open the supporting record, then close it to return to the same risk. No scope or rating changes on viewing.
 2. Review the possible missing retry/recovery risk if useful. Add, extend, defer or dismiss it explicitly; otherwise keep the existing risk list. Confirm scope and continue.
 3. In **Risk before controls**, inspect **Risk details**, likelihood, impact and their reasons. The AI insights sit below the assessment. **Review suggested assessment** compares the previous cycle, current draft and suggestion using the bank’s rating labels. Apply selected fields or keep your assessment; confirmation remains separate.
 4. In **Controls**, compare the improvement options and inspect the owner’s conclusion. Review a proposed design, edit it if needed and explicitly add it. The proposal provides no current protection. Review the shared-source finding separately; it records a relationship judgment without deciding effectiveness.

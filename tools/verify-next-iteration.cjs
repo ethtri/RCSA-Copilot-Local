@@ -10,7 +10,7 @@ const assert=require('node:assert/strict');
  const role=async value=>{if(await page.locator('.presentation-tools').getAttribute('open')===null)await page.locator('.presentation-tools>summary').click();await page.getByLabel('Demo perspective',{exact:true}).selectOption(value);};
  const capture=async name=>{await page.locator('.toast').evaluate(e=>e.classList.remove('visible'));await page.screenshot({path:'assets/screenshots/iteration-'+name+'.png',fullPage:true,animations:'disabled'});};
  try{
-  await page.goto('http://127.0.0.1:8000/src/');await click('Refresh wire-transfer RCSA');await click('Show how we know');assert((await page.locator('main').innerText()).includes('missing request identifier')||(await page.locator('main').innerText()).includes('no W-204'));
+  await page.goto('http://127.0.0.1:8000/src/#/work');await click('Refresh wire-transfer RCSA');await click('Show how we know');assert((await page.locator('main').innerText()).includes('missing request identifier')||(await page.locator('main').innerText()).includes('no W-204'));
   const before=await stored();await click('Keep provisional');assert.equal((await stored()).eventMatch,'Keep provisional');assert.deepEqual((await stored()).risks,before.risks);await capture('event');
   await click('The assessment');assert((await page.locator('main').innerText()).includes('two independent tests'));await capture('claims');
   await click('Research');assert((await page.locator('main').innerText()).includes('Records reviewed:'));await click('Response options');await page.getByText('Explore a longer verification outage',{exact:true}).click();assert((await page.locator('main').innerText()).includes('45-minute'));

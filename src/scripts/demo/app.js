@@ -1,3 +1,4 @@
+import {homeView} from './home-view.js';
 import {carryForwardDialog,confirmCarryForward} from './carry-forward.js?v=20261116.3';
 import {scopeRecord,preparedScopeMatches,beginScopeEdit,mutateScopeField,saveScope,cancelScopeEdit,confirmScope,excludeScopeRisk,restoreScopeRisk} from './scope-model.js?v=20261116.3';
 import {scopeEditor,scopeExclusionDialog} from './scope-workspace.js?v=20261116.3';
@@ -33,18 +34,50 @@ import {analysisPrompts} from './risk-intelligence.js?v=20261116.3';
 import {workView} from './work.js?v=20261116.3';
 import {reportsView,handleReportActions} from './reports.js?v=20261116.3';
 const STORAGE='rcsa-workflow-demo-v1', app=document.getElementById('app'), dialog=document.getElementById('detail-dialog');
-let data,state,lastFocus,dialogOrigin,toastTimer,syncTimer,registerRequested=false,storageWarning=false,recoveryAvailable=false,route=readRoute();
+let data,state,lastFocus,dialogOrigin,toastTimer,syncTimer,registerRequested=false,storageWarning=false,recoveryAvailable=false,route;
 const dialogParents=[];
 const badgeStyle=document.createElement('style');badgeStyle.dataset.productVisuals='badges';badgeStyle.textContent=BADGE_CSS;document.head.append(badgeStyle);
-function readRoute(){const raw=location.hash.replace(/^#\/?/,'');const r=raw==='assessment/analysis'||raw==='assessment/research'?'assessment/'+(['inherent','controls','residual','review','changes','response'].includes(state?.analysisReturn)?state.analysisReturn:'inherent'):raw==='handoff'?'assessment/review':raw==='assessment/research'?'assessment/analysis':raw;if(raw==='handoff'||raw==='assessment/analysis'||raw==='assessment/research')history.replaceState(null,'','#/'+r);return /^(work|reports|settings\/(integrations|bank)|assessment\/(changes|inherent|controls|discovery|residual|response|review|analysis|research|action|decision))$/.test(r)?r:'work';}
+function readRoute(){
+ const raw=location.hash.replace(/^#\/?/,'');
+ if(!raw)return new URLSearchParams(location.search).get('presenter')==='1'?'work':'home';
+ if(raw==='handoff'||raw==='assessment/analysis'||raw==='assessment/research'){
+  const stage=['inherent','controls','residual','review','changes','response'].includes(state?.analysisReturn)?state.analysisReturn:'inherent';
+  const next=raw==='handoff'?'assessment/review':'assessment/'+stage;
+  history.replaceState(null,'','#/'+next);
+  return next;
+ }
+ return /^(home|work|reports|settings\/(integrations|bank)|assessment\/(changes|inherent|controls|discovery|residual|response|review|action|decision))$/.test(raw)?raw:'work';
+}
 function save(){try{sessionStorage.setItem(STORAGE,JSON.stringify({...state,scopeDraft:undefined,scopeRiskDraft:undefined}));}catch{storageWarning=true;}const indicator=document.getElementById('draft-status');if(indicator)indicator.textContent=storageWarning?'Draft is only in memory; reload will lose changes.':state.submitted?'Recorded version '+state.versionNumber:'Draft saved in this session';}
 function notify(text){if(/^(Complete|Add |Choose |Confirm |Check |Only |No |A submitted|Record your|Assess coverage|Enter )/.test(text)){showValidation(text,dialog.open?dialog:document.getElementById('main'));return;}const t=document.getElementById('toast');clearTimeout(toastTimer);t.textContent=text;t.classList.add('visible');toastTimer=setTimeout(()=>t.classList.remove('visible'),3500);}
 function navigate(next){if(route===next){render(true);return;}location.hash='/'+next;}
-function header(){const scope=scopeRecord(state),current=route.split('/')[0],launch=assessmentLaunch(state),assessmentRoute=current==='assessment'?route:'assessment/'+launch.stage;return `<header class="app-header"><div class="header-inner"><a href="#/work" class="wordmark" aria-label="RCSA home">RCSA</a><nav aria-label="Primary navigation">${[['work','Dashboard'],['assessment','Assessments'],['reports','Reports']].map(([id,label])=>`<a href="#/${id==='assessment'?assessmentRoute:id}" ${id==='assessment'&&current!=='assessment'?`data-action="resume-assessment" data-risk="${esc(launch.risk)}" data-route="${assessmentRoute}"`:''} ${current===id?'aria-current="page"':''}>${label}</a>`).join('')}</nav><details class="workspace-disclosure"><summary>Demo workspace</summary><p>Synthetic records. AI suggestions and incoming replies are prepared for this example. Connections can be configured for a bank; this demo uses local records. No external system is contacted. No live search is performed. Changes remain in this browser session.</p></details>${recoveryAvailable?button('Download preserved draft','recover-draft','class="button quiet"'):''}<div class="header-user"><span class="header-period">${esc(scope?.period||'Recorded assessment')}</span><span class="avatar">${({first:'AM',second:reviewerFor(state).trim().split(/\s+/).map(part=>part[0]).slice(0,2).join(''),assurance:'AP',management:'CB',admin:'MC'})[state.role]||'AM'}</span></div></div></header>`;}
+function header(){const scope=scopeRecord(state),current=route.split('/')[0],launch=assessmentLaunch(state),assessmentRoute=current==='assessment'?route:'assessment/'+launch.stage;return `<header class="app-header"><div class="header-inner"><a href="#/home" class="wordmark" aria-label="RCSA home">RCSA</a><nav aria-label="Primary navigation">${[['work','Dashboard'],['assessment','Assessments'],['reports','Reports']].map(([id,label])=>`<a href="#/${id==='assessment'?assessmentRoute:id}" ${id==='assessment'&&current!=='assessment'?`data-action="resume-assessment" data-risk="${esc(launch.risk)}" data-route="${assessmentRoute}"`:''} ${current===id?'aria-current="page"':''}>${label}</a>`).join('')}</nav><details class="workspace-disclosure"><summary>Demo workspace</summary><p>Synthetic records. AI suggestions and incoming replies are prepared for this example. Connections can be configured for a bank; this demo uses local records. No external system is contacted. No live search is performed. Changes remain in this browser session.</p></details>${recoveryAvailable?button('Download preserved draft','recover-draft','class="button quiet"'):''}<div class="header-user"><span class="header-period">${esc(scope?.period||'Recorded assessment')}</span><span class="avatar">${({first:'AM',second:reviewerFor(state).trim().split(/\s+/).map(part=>part[0]).slice(0,2).join(''),assurance:'AP',management:'CB',admin:'MC'})[state.role]||'AM'}</span></div></div></header>`;}
 function presenter(){if(new URLSearchParams(location.search).get('presenter')!=='1')return '';return `<details class="presentation-tools" data-edit="presenter" ${state.editPanels?.presenter?'open':''}><summary>Presentation controls</summary><div class="sample-disclosure">Presenter tools replace this tab’s draft with a selected scenario. Changes remain in this browser session.</div><footer class="demo-footer"><div class="presenter-controls"><label>Perspective<select id="demo-role" aria-label="Demo perspective"><option value="first" ${state.role==='first'?'selected':''}>Assessment owner</option><option value="second" ${state.role==='second'?'selected':''}>Independent reviewer</option>${[['assurance','Control assurance'],['management','Management decision owner'],['admin','Bank administrator']].map(([id,label])=>`<option value="${id}" ${state.role===id?'selected':''}>${label}</option>`).join('')}</select></label><label>Jump to<select id="demo-scene" aria-label="Jump to demo scene"><option value="">Choose a scene</option><option value="start">Start of refresh</option><option value="discovery">Shared-source discovery</option><option value="submitted">Submitted for review</option><option value="challenge">Open challenge</option><option value="response">Response received</option><option value="complete">Review completed</option><option value="new-evidence">New evidence received</option></select></label><label>Demo as-of date<input id="demo-as-of" type="date" aria-label="Demo as-of date" data-ops-field="demo.asOf" value="${esc(state.asOf||'2026-11-14')}" required></label><label>Next GRC update<select aria-label="Next GRC update" data-sync-scenario><option value="none" ${exchangeState(state).fault==='none'?'selected':''}>Normal sync</option><option value="stale" ${exchangeState(state).fault==='stale'?'selected':''}>GRC record changes</option><option value="transport" ${exchangeState(state).fault==='transport'?'selected':''}>Connection interruption</option></select></label>${button(`${icon('reset',15)} Reset`,'reset','class="reset-button"')}</div></footer></details>`;}
 function runtimeData(){
  const casesFor=cases=>!preparedScopeMatches(state)?{}:Object.fromEntries(Object.entries(cases||{}).filter(([id,entry])=>{const risk=state.risks[id];if(!risk||risk.removed||risk.scenarioId==='owner-defined')return false;return !(risk.extensions||[]).some(extension=>!entry.coveredExtensionIds?.includes(extension.candidateId));}));
  return {...data,presenterEnabled:new URLSearchParams(location.search).get('presenter')==='1',reviewer:reviewerFor(state),risks:Object.values(state.risks).filter(r=>!r.removed),sources:sourceRecords(data,state),assistance:{...data.assistance,cases:casesFor({...data.assistance?.cases,...state.preparedAssistance?.cases})},intelligence:{...data.intelligence,cases:casesFor({...data.intelligence?.cases,...state.preparedIntelligence?.cases})}};
+}
+// Measure the actual cards so connector ends remain attached after reflow.
+const mapLayout=new ResizeObserver(entries=>{
+  const map=entries[0]?.target.closest('.record-relationship-map');
+  if(!map?.isConnected)return;
+  const lines=map.querySelector('.record-map-wires');
+  const source=map.querySelector('.record-map-sources');
+  const bounds=map.getBoundingClientRect();
+  if(!bounds.width||!source||!lines)return;
+  const dest=source.getBoundingClientRect(),endX=dest.left-bounds.left,endY=dest.top-bounds.top+dest.height/2;
+  lines.replaceChildren();
+  for(const row of map.querySelectorAll('[data-shared-control]')){
+    const box=row.getBoundingClientRect(),x=box.right-bounds.left,y=box.top-bounds.top+box.height/2;
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d',`M${x} ${y} H${(x+endX)/2} V${endY} H${endX}`);
+    lines.append(path);
+  }
+});
+function focusPageHeading(){
+ const heading=app.querySelector('h1');
+ if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}
+ window.scrollTo({top:0,behavior:'instant'});
 }
 function render(focus=false){
  const bookmark=focus?null:focusBookmark(app);
@@ -54,7 +87,13 @@ function render(focus=false){
  const content=route==='work'?dashboardView(runtimeData(),state):route==='reports'?reportsView(runtimeData(),state):route==='assessment/action'?actionView(runtimeData(),state):route==='assessment/decision'?decisionView(runtimeData(),state):route==='settings/bank'?bankSetupView(data,state):route==='settings/integrations'?integrationSettingsView(runtimeData(),state):assessmentView(runtimeData(),state,route.split('/')[1]);
  const syncVisible=false; // Connection configuration is secondary to the assessment story.
  app.innerHTML=header()+`<main id="main" tabindex="-1" class="workspace ${route==='assessment/discovery'?'discovery-workspace':''}${['assessment/action','assessment/decision'].includes(route)?' record-workspace':''}"><div id="draft-status" class="draft-status" role="status">${storageWarning?'Draft is only in memory; reload will lose changes.':state.submitted?'Recorded version '+state.versionNumber:'Draft saved in this session'}</div>${syncVisible?syncStatusLine(state):''}${content}</main><footer class="product-footer"><span>${esc(scopeRecord(state)?.process||'Assessment')} · ${esc(scopeRecord(state)?.period||'Period not preserved')}</span><span class="footer-settings"><span>Assigned owner: ${esc(scopeRecord(state)?.owner||'Not preserved')}</span><a href="#/settings/bank">Bank setup</a></span></footer>`+presenter();
- if(focus){document.querySelector('h1')?.setAttribute('tabindex','-1');document.querySelector('h1')?.focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});}
+ mapLayout.disconnect();
+ const relationship=app.querySelector('.record-relationship-map.has-shared-source');
+ if(relationship && relationship.dataset.judgment!=='dismissed'){
+   mapLayout.observe(relationship);
+   for(const node of relationship.querySelectorAll('[data-shared-control],.record-map-sources'))mapLayout.observe(node);
+ }
+ if(focus)focusPageHeading();
  if(!focus)restoreBookmark(bookmark,app);
  if(state.grc.status==='pending'&&!syncTimer)syncTimer=setTimeout(()=>{syncTimer=null;finishAutomaticSync(state);save();if(route==='settings/integrations')render();},650);
 }
@@ -83,7 +122,11 @@ function currentRiskValid(kind){const r=state.risks[state.selectedRisk][kind];re
 function showDialog(body){
  dialog.classList.remove('source-drawer','insight-drawer');
   const open=dialog.open,oldTitle=dialog.querySelector('#dialog-title')?.textContent,scrollTop=dialog.scrollTop;
-  if(!open){lastFocus=dialogOrigin||document.activeElement;dialogParents.length=0;}
+  if(!open){
+    lastFocus=dialogOrigin||document.activeElement;
+    lastFocus?.closest('.scope-risk-row')?.classList.add('is-inspecting');
+    dialogParents.length=0;
+  }
   dialog.innerHTML=`<button class="dialog-close icon-button" data-action="close-dialog" aria-label="Close details">${icon('close',22)}</button>${body}`;
   if(!open)dialog.showModal();
   else if(oldTitle===dialog.querySelector('#dialog-title')?.textContent)dialog.scrollTop=scrollTop;
@@ -99,7 +142,7 @@ function sourceDialog(id,version){
     dialogParents.push(parent);
   }
   const back=dialogParents.length?button(`${icon('arrow',15)} ${esc(dialogParents.at(-1).returnLabel)}`,'dialog-back','class="text-link dialog-back"'):'';
-  showDialog(`${back}<span class="label">${recordedSource?'Source evidence':'AI suggestion source'}</span><h2 id="dialog-title">${esc(source.title)}</h2>${!recordedSource?'<p class="small muted">Not linked to this assessment. These records are added only if you choose to add or extend the suggested risk.</p>':''}<p class="muted">${esc(source.reference)} · ${esc(source.date)}</p><h3>Scope</h3><p>${esc(source.scope)}</p><blockquote class="source-quote">${esc(source.excerpt)}</blockquote>${source.url?.startsWith('https://')?`<a class="text-link" href="${esc(source.url)}" target="_blank" rel="noopener">Read the original public source</a>`:''}`);
+  showDialog(`${back}<span class="label">${recordedSource?'Source evidence':'AI suggestion source'}</span><h2 id="dialog-title">${esc(source.title)}</h2>${!recordedSource?'<p class="small muted">Not linked to this assessment. These records are added only if you choose to add or extend the suggested risk.</p>':''}<p class="source-reference">${[source.reference,source.date].filter(Boolean).map(esc).join(' · ')}</p><blockquote class="source-quote cited-passage">${esc(source.excerpt||'Excerpt unavailable').replace(/^(.*?[.!?])(?=\s|$)/,'<strong>$1</strong>')}</blockquote><h3>Scope</h3><p>${esc(source.scope||'Scope unavailable')}</p>${source.url?.startsWith('https://')?`<a class="text-link" href="${esc(source.url)}" target="_blank" rel="noopener">Read the original public source</a>`:''}`);
   dialog.classList.add('source-drawer');
   (dialog.querySelector('.dialog-back')||dialog.querySelector('.dialog-close'))?.focus({preventScroll:true});
 }
@@ -111,6 +154,16 @@ function closeDialog(){
   dialog.close();
 }
 dialog.addEventListener('cancel',()=>{if(dialog.querySelector('.scope-editor,.scope-exclusion-editor')){cancelScopeEdit(state);save();}});
+function highlightMap(event){
+ const target=event.target.closest?.('.map-key-row,.portfolio-marker');
+ if(!target)return;
+ const map=target.closest('.portfolio-map');
+ const active=event.type==='focusin'||event.type==='pointerover';
+ for(const item of map.querySelectorAll('[data-likelihood][data-impact]')){
+  item.classList.toggle('map-highlight',active && !!target.dataset.likelihood && item.dataset.likelihood===target.dataset.likelihood && item.dataset.impact===target.dataset.impact);
+ }
+}
+for(const event of ['pointerover','pointerout','focusin','focusout'])app.addEventListener(event,highlightMap);
 document.addEventListener('toggle',e=>{if(e.target.matches?.('details[data-edit]')&&state){state.editPanels??={};state.editPanels[e.target.dataset.edit]=e.target.open;save();}},true);
 document.addEventListener('input',e=>{clearFieldError(e.target);if(e.target.dataset.opsField&&handleOperationsField(state,e.target.dataset.opsField,e.target.value)){save();return;}if(e.target.dataset.field)mutateField(e.target.dataset.field,e.target.value);if(e.target.dataset.field==='response'){document.querySelector('[data-action="undo-reply"]')?.remove();const list=document.querySelector('.coverage-list');if(list)list.innerHTML=replyCoverage(data,state,responseCoverage).map(c=>`<li>${icon(c.done?'check':'info',17)}<span>${c.label}</span><small>${c.done?'Mentioned in draft':'Not mentioned'}</small></li>`).join('');}});
 document.addEventListener('change',e=>{
@@ -155,6 +208,10 @@ document.addEventListener('click',e=>{
   if(action==='sync-retry'){if(!retryAutomaticSync(state))return notify('Open sync details to review the current status.');save();return render();}
   if(action==='sync-keep-reviewed'){const resolved=resolveSyncConflict(state,el.dataset.sourceVersion);save();render();if(!resolved)notify('The source or review changed. Compare the latest records before continuing.');return;}
   if(handleControlAssistanceAction({data:runtimeData(),state,el,showDialog,closeDialog,notify,save,render,navigate}))return;
+  if(action==='highlight-shared-source'){
+    el.setAttribute('aria-pressed',String(el.getAttribute('aria-pressed')!=='true'));
+    return;
+  }
   if(action==='navigate'){if(el.dataset.route==='reports'&&el.dataset.version){state.reportWorkspace??={};state.reportWorkspace.selectedVersion=el.dataset.version==='current'?'current':Number(el.dataset.version);save();}if(dialog.open)closeDialog();return navigate(el.dataset.route);}
   if(action==='source')return sourceDialog(el.dataset.source,el.dataset.version||(route==='reports'?state.reportWorkspace?.selectedVersion:null));
   if(action==='history-rationale'){
@@ -250,9 +307,66 @@ dialog.addEventListener('click',e=>{if(e.target===dialog)closeDialog();});
 dialog.addEventListener('cancel',e=>{e.preventDefault();closeDialog();});
 dialog.addEventListener('close',()=>{
   const target=lastFocus?.isConnected?lastFocus:lastFocus?.dataset?.action?[...app.querySelectorAll('[data-action]')].find(node=>Object.entries(lastFocus.dataset).every(([key,value])=>node.dataset[key]===value)):null;
+  app.querySelector('.scope-risk-row.is-inspecting')?.classList.remove('is-inspecting');
   target?.focus({preventScroll:true});dialogOrigin=null;
 });
-window.addEventListener('hashchange',()=>{route=readRoute();render(true);if(registerRequested&&route==='work'){registerRequested=false;focusRegister();}});
-app.innerHTML=`<main id="main" class="startup-state">${loadingState({title:'Preparing your workspace',description:'Loading assessment records.',heading:'h1'})}</main>`;
-try{const responses=await Promise.all(['/assets/data/workflow-demo.json','/assets/data/risk-intelligence.json','/assets/data/research-demo.json','/assets/data/assessment-context.json','/assets/data/control-assistance.json','/assets/data/assessment-signals.json'].map(url=>fetch(url+'?v=20261116.3')));if(responses.some(response=>!response.ok))throw new Error('Assessment records unavailable');const [workflow,intelligence,research,context,assistance,signals]=await Promise.all(responses.map(response=>response.json()));data={...workflow,intelligence,research,context,assistance,signals,sources:[...workflow.sources,...intelligence.sources,...research.sources,...context.sources,...signals.sources]};state=createInitial(data);try{const raw=sessionStorage.getItem(STORAGE);if(raw){const result=migrateSession(JSON.parse(raw),data);if(result.error){sessionStorage.setItem(STORAGE+'-preserved',raw);recoveryAvailable=true;}else state=result.state;}}catch{try{const raw=sessionStorage.getItem(STORAGE);if(raw){sessionStorage.setItem(STORAGE+'-preserved',raw);recoveryAvailable=true;}}catch{storageWarning=true;}}if(!state.submitted){const known=new Set(state.evidenceContext.sources.map(source=>source.id));for(const source of signals.sources)if(!known.has(source.id))state.evidenceContext.sources.push(structuredClone(source));}ensureAssistance(state);render();}
-catch(error){app.innerHTML=`<main id="main" class="startup-state">${emptyState({title:'The workspace could not load',heading:'h1',description:'The assessment records are unavailable. Try loading the workspace again.',icon:'error',tone:'error',action:'<a class="button primary" href="/src/">Try again</a>',details:error.message})}</main>`;}
+const recordFiles=['workflow-demo','risk-intelligence','research-demo','assessment-context','control-assistance','assessment-signals'];
+let workspaceLoad, navigationId=0;
+async function loadWorkspace(){
+ const records=await Promise.all(recordFiles.map(async name=>{
+  const response=await fetch('/assets/data/'+name+'.json?v=20261116.3');
+  if(!response.ok)throw new Error('Assessment records unavailable');
+  return response.json();
+ }));
+ const [workflow,intelligence,research,context,assistance,signals]=records;
+ data={...workflow,intelligence,research,context,assistance,signals,sources:[...workflow.sources,...intelligence.sources,...research.sources,...context.sources,...signals.sources]};
+ state=createInitial(data);
+ try{
+  const raw=sessionStorage.getItem(STORAGE);
+  if(raw){
+   const result=migrateSession(JSON.parse(raw),data);
+   if(result.error){sessionStorage.setItem(STORAGE+'-preserved',raw);recoveryAvailable=true;}
+   else state=result.state;
+  }
+ }catch{
+  try{
+   const raw=sessionStorage.getItem(STORAGE);
+   if(raw){sessionStorage.setItem(STORAGE+'-preserved',raw);recoveryAvailable=true;}
+  }catch{storageWarning=true;}
+ }
+ if(!state.submitted){
+  const known=new Set(state.evidenceContext.sources.map(source=>source.id));
+  for(const source of signals.sources)if(!known.has(source.id))state.evidenceContext.sources.push(structuredClone(source));
+ }
+ ensureAssistance(state);
+}
+async function showRoute(focus=false){
+ const visit=++navigationId;
+ route=readRoute();
+ if(route==='home'){
+  mapLayout.disconnect();
+  document.title='RCSA Accelerator · Overview';
+  app.innerHTML=homeView();
+  if(focus)focusPageHeading();
+  return;
+ }
+ try{
+  if(!state){
+   app.innerHTML=`<main id="main" class="startup-state">${loadingState({title:'Preparing your workspace',description:'Loading assessment records.',heading:'h1'})}</main>`;
+   workspaceLoad??=loadWorkspace().catch(error=>{workspaceLoad=null;state=null;throw error;});
+   await workspaceLoad;
+  }
+  if(visit!==navigationId)return;
+  render(focus);
+  if(registerRequested&&route==='work'){registerRequested=false;focusRegister();}
+ }catch(error){
+  if(visit!==navigationId)return;
+  app.innerHTML=`<main id="main" tabindex="-1" class="startup-state">${emptyState({title:'The workspace could not load',heading:'h1',description:'The assessment records are unavailable. Try loading the workspace again.',icon:'error',tone:'error',action:'<button type="button" class="button primary" data-retry-workspace>Try again</button>',details:error.message})}</main>`;
+  app.querySelector('[data-retry-workspace]').addEventListener('click',()=>showRoute(true));
+ }
+}
+window.addEventListener('hashchange',()=>{
+ if(dialog.open){dialogParents.length=0;dialog.close();}
+ showRoute(true);
+});
+showRoute();

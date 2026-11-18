@@ -1,0 +1,80 @@
+/* Portfolio workspace: pine masthead, warm paper, a single map and briefing spread. */
+:root {
+  --masthead: #092e23;
+  --portfolio-paper: #faf9f5;
+  --portfolio-ink: #182c23;
+  --portfolio-rule: #c5cec2;
+  --brief-paper: #f4f0e6;
+}
+.app-header { background: var(--masthead); border-color: #244c3d; }
+.app-header .wordmark { color: #fbfaf4; border-color: #5c786a; }
+.app-header nav a,.app-header .header-period { color: #e3ebe3; }
+.app-header nav a:hover { color: #fff; background: #163e30; }
+.app-header nav a[aria-current] { color: #fff; border-color: #c8a76b; }
+.app-header .workspace-disclosure > summary { background: transparent; color: #e3ebe3; border-color: #698174; }
+.app-header .avatar { background: #eef2e8; color: #173b2a; }
+.app-header :focus-visible { outline-color: #e5c589; }
+@media(min-width: 901px) { .app-header .header-inner { height: 53px; min-height: 53px; } }
+body:has(.dashboard-view) { background: var(--portfolio-paper); }
+.dashboard-view { color: var(--portfolio-ink); }
+.dashboard-view .dash-heading h1 { color: var(--portfolio-ink); font-size: clamp(36px,3.2vw,52px); line-height: 1.05; letter-spacing: -.045em; }
+.dashboard-view .dash-heading p { margin-top: 8px; }
+.dashboard-view .dash-metrics { border-color: #97a99a; }
+.dashboard-view .dash-metric-value { font-size: clamp(30px,2.8vw,43px); }
+.dashboard-view .dash-metric-copy small { display: none; }
+.dashboard-view .dash-heatmap-panel,.dashboard-view .dash-queue,.dashboard-view .dash-register { background: transparent; border: 0; border-radius: 0; box-shadow: none; padding: 0; }
+.dashboard-view .dash-insight-grid { gap: 0; align-items: stretch; }
+.dashboard-view .dash-section-head h2 { font: 650 clamp(21px,1.7vw,27px)/1.2 var(--ui); letter-spacing: -.035em; }
+.dashboard-view .dash-heatmap-panel .map-risk-key { border: 0; padding: 0; }
+.dashboard-view .dash-heatmap-panel .map-key-row { border-bottom: 1px solid var(--portfolio-rule); border-radius: 0; padding: 8px 4px; }
+.dashboard-view .dash-heatmap-panel .map-key-row strong { font-size: 15px; }
+.dashboard-view .dash-heatmap-panel .map-initial { background: transparent; border: 1px solid #9cac9f; width: 30px; height: 30px; font-size: 13px; }
+.dashboard-view .dash-heatmap-panel .map-bands { display: flex; flex-wrap: wrap; gap: 5px 12px; border: 0; margin: 10px 0 0; padding: 0; }
+.dashboard-view .dash-ai-panel { align-items: flex-start; background: var(--brief-paper); border: 0; border-radius: 0; box-shadow: none; color: var(--portfolio-ink); padding: clamp(18px,1.7vw,28px); }
+.dashboard-view .dash-ai-top { width: 100%; margin: 0 0 6px; }
+.dashboard-view .dash-ai-label { font: 650 14px/1.4 var(--ui); color: var(--forest); }
+.dashboard-view .dash-ai-symbol { display: none; }
+.dashboard-view .dash-ai-info { color: var(--forest); width: 32px; height: 32px; min-height: 32px; }
+.dashboard-view .dash-ai-panel h2 { color: var(--portfolio-ink); font: 500 clamp(25px,2.05vw,35px)/1.14 var(--display); letter-spacing: -.036em; }
+.dashboard-view .dash-ai-basis,.dashboard-view .dash-ai-support p { color: #4b584e; }
+.dashboard-view .dash-ai-primary.button { background: var(--forest); color: white; border-color: var(--forest); }
+.dashboard-view .dash-ai-primary.button:hover { background: var(--forest-hover); }
+.dashboard-view .dash-ai-link { color: var(--forest); }
+.dashboard-view .dash-ai-panel :focus-visible { outline-color: var(--forest); }
+.dashboard-view .dash-ai-actions { margin: 8px 0; }
+.dashboard-view .dash-ai-support { width: 100%; margin: auto 0 0; padding-top: 10px; border-color: var(--portfolio-rule); }
+.dashboard-view .dash-ai-support-dot { background: #a07430; }
+.dashboard-view .quiet-brief { justify-content: center; gap: 12px; }
+.briefing-dates { width: 100%; margin: 8px 0 0; font: 14px/1.5 var(--ui); }
+.briefing-dates > div { display: flex; align-items: baseline; padding: 4px 0; border-bottom: 1px solid var(--portfolio-rule); }
+.briefing-dates dt { min-width: 65px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.briefing-dates dd { margin: 0; padding-left: 12px; border-left: 1px solid var(--portfolio-rule); }
+.dashboard-view :is(.dash-queue,.dash-register) { border-top: 1px solid #97a99a; margin-top: 16px; padding-top: 16px; }
+.dashboard-view .dash-work-table,.dashboard-view .dash-register-table { font: 14px/1.5 var(--ui); }
+.dashboard-view .dash-work-table th,.dashboard-view .dash-register-table th { background: #ebeee6; }
+@media(min-width: 901px) {
+  .dashboard-view .dash-insight-grid { grid-template-columns: minmax(0,1.55fr) minmax(0,1fr); }
+  .dashboard-view .dash-insight-grid .dash-heatmap-panel { padding: 0 clamp(20px,2.4vw,40px) 0 0; }
+  .dashboard-view .dash-insight-grid .dash-ai-panel { border-left: 1px solid var(--portfolio-rule); }
+  .dashboard-view .dash-heatmap-panel .portfolio-map { grid-template-columns: minmax(0,1.12fr) minmax(0,1fr); gap: 18px; }
+  .dashboard-view .portfolio-map-plot { max-width: 370px; }
+}
+@media(min-width: 1100px) and (max-height: 850px) {
+  .workspace:has(.dashboard-view) { padding-top: 8px; }
+  .dashboard-view .dash-queue { margin-top: 9px; padding-top: 10px; }
+  .dashboard-view .dash-work-table td { padding-block: 10px; }
+  .dashboard-view .dash-metrics { padding: 8px 0; }
+  .dashboard-view .dash-insight-grid .portfolio-map-plot { max-width: 282px; }
+  .dashboard-view .dash-ai-panel { padding: 10px 18px; }
+  .dashboard-view .dash-ai-panel .dash-ai-support { padding-top: 5px; }
+  .dashboard-view .dash-ai-link { min-height: 32px; }
+}
+@media(max-width: 900px) {
+  .dashboard-view .dash-insight-grid { grid-template-columns: minmax(0,1fr); gap: 18px; }
+  .dashboard-view .dash-ai-panel { grid-row: 1; }
+}
+@media(max-width: 600px) {
+  .dashboard-view .dash-heading h1 { font-size: 34px; }
+  .dashboard-view .dash-ai-panel { padding: 18px; }
+  .dashboard-view .dash-queue-heading { gap: 12px; }
+}

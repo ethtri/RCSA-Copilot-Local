@@ -16,7 +16,7 @@ From the repository root:
 python -m http.server 8000 --bind 127.0.0.1
 ```
 
-Open **http://127.0.0.1:8000/src/**. Python 3 is the runtime prerequisite. Stop the server with Ctrl+C. The root URL and legacy entry points redirect to the current workspace.
+Open **http://127.0.0.1:8000/src/**. Python 3 is the runtime prerequisite. Stop the server with Ctrl+C. The root URL opens the product home page. For a direct dashboard link, use **http://127.0.0.1:8000/src/#/work**.
 
 ## Current experience
 
@@ -30,7 +30,7 @@ Open **http://127.0.0.1:8000/src/**. Python 3 is the runtime prerequisite. Stop 
 - Secondary GRC connection settings describe configurable delivery. Optional presenter scenarios retain simulated mapping and delivery diagnostics.
 - Plain task language, inspectable evidence, source drawers, larger editors, persistent validation, saved-state feedback and reduced-motion support.
 
-Start on **Dashboard** and choose **Refresh wire-transfer RCSA**. Follow the [current runbook](docs/operations/demo-runbook.md). Rehearsal-only **Presentation controls**, enabled with `?presenter=1`, contains role perspectives, prepared scenes, an explicit demo as-of date, sync fault examples and confirmed reset.
+Enter the demo from the home page. On **Dashboard**, choose **Start assessment refresh**. Follow the [current runbook](docs/operations/demo-runbook.md). Rehearsal-only **Presentation controls**, enabled with `?presenter=1`, contains role perspectives, prepared scenes, an explicit demo as-of date, sync fault examples and confirmed reset.
 
 Current ratings, proposed protection, completed work, completed assessment review and accepted risk remain separate. None automatically lowers the risk rating. There are no real approvals, messages, uploads, live research, live AI calls or external GRC requests.
 
