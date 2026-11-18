@@ -64,17 +64,19 @@ export function field(label, key, value, {area=false, help='', type='text', read
 }
 export const aiLabel=(label='AI insights')=>`<span class="ai-section-label">${icon('insight',19)}<span>${esc(label)}</span></span>`;
 export const aiNote=(text,source='procedure')=>`<div class="ai-note"><span class="ai-mark" aria-hidden="true">${icon('insight',18)}</span><div><span class="attribution">AI insight</span><p>${esc(text)}</p></div>${sourceLink('View basis',source)}</div>`;
-export function matrix(likelihood,impact) {
+export function matrix(likelihood,impact,{editable=false}={}) {
   const l=Number(likelihood), p=Number(impact);
   const selected=Number.isInteger(l)&&l>=1&&l<=5&&Number.isInteger(p)&&p>=1&&p<=5;
   const summary=`Risk matrix. Likelihood increases from 1 at the left to 5 at the right. Impact increases from 1 at the bottom to 5 at the top. ${selected?`Selected likelihood ${l} of 5, impact ${p} of 5; score ${l*p}, ${band(l*p)} risk.`:'No rating selected.'} Low: 1–4. Moderate: 5–9. Elevated: 10–15. High: 16–25.`;
   // Every cell has fixed vector geometry; the score marker is a separate overlay.
   const cells=Array.from({length:25},(_,i)=>{
     const y=5-Math.floor(i/5), x=i%5+1;
-    return `<rect class="rmx-cell rmx-cell--${band(x*y).toLowerCase()}" data-likelihood="${x}" data-impact="${y}" x="${45+(x-1)*29}" y="${8+(5-y)*29}" width="27" height="27" rx="2"/>`;
+    const current=selected&&x===l&&y===p;
+    const action=editable?` data-action="pick-risk-rating" role="button" tabindex="${current||!selected&&i===0?0:-1}" aria-pressed="${current}" aria-label="Likelihood ${x}, impact ${y}, ${band(x*y)} ${x*y}"`:'';
+    return `<rect class="rmx-cell rmx-cell--${band(x*y).toLowerCase()}" data-likelihood="${x}" data-impact="${y}" x="${45+(x-1)*29}" y="${8+(5-y)*29}" width="27" height="27" rx="2"${action}/>`;
   }).join('');
   const ticks=Array.from({length:5},(_,i)=>`<text class="rmx-tick rmx-tick--likelihood" x="${58.5+i*29}" y="170">${i+1}</text><text class="rmx-tick rmx-tick--impact" x="30" y="${137.5-i*29}" dominant-baseline="central">${i+1}</text>`).join('');
   const marker=selected?`<g class="rmx-selection" data-score="${l*p}" transform="translate(${58.5+(l-1)*29} ${21.5+(5-p)*29})"><circle r="11.5"/><text dominant-baseline="central">${l*p}</text></g>`:'';
-  return `<div class="rmx-chart"><svg class="rmx-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="${esc(summary)}"><g aria-hidden="true">${cells}<path class="rmx-axis" d="M45 157H188m-4-3 4 3-4 3M38 151V8m-3 4 3-4 3 4"/>${ticks}<text class="rmx-axis-label" x="116.5" y="190">Likelihood</text><text class="rmx-axis-label" transform="translate(13 79.5) rotate(-90)" dominant-baseline="central">Impact</text>${marker}</g></svg></div>`;
+  return `<div class="rmx-chart"><svg class="rmx-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="${editable?'group':'img'}" aria-label="${esc(summary)}"${editable?' aria-describedby="risk-heatmap-hint"':''}><g${editable?'':' aria-hidden="true"'}>${cells}</g><g aria-hidden="true"><path class="rmx-axis" d="M45 157H188m-4-3 4 3-4 3M38 151V8m-3 4 3-4 3 4"/>${ticks}<text class="rmx-axis-label" x="116.5" y="190">Likelihood</text><text class="rmx-axis-label" transform="translate(13 79.5) rotate(-90)" dominant-baseline="central">Impact</text>${marker}</g></svg></div>`;
 }
 export function formatDate(value) { return new Date(value+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
