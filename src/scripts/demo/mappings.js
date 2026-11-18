@@ -35,7 +35,7 @@ export function saveMapping(data,s,{mode='add',oldId='',controlId='',rationale='
   if(!newControl&&!controlsLibrary(data,s).some(c=>c.id===controlId))return false;
   if(mode==='replace'){
     if(!r.controls.includes(oldId)||r.controls.some(id=>id===controlId&&id!==oldId))return false;
-    r.controls=r.controls.map(id=>id===oldId?controlId:id);delete r.mappingRationale?.[oldId];delete r.mappingApplicability?.[oldId];
+    r.controls=r.controls.map(id=>id===oldId?controlId:id);delete r.mappingRationale?.[oldId];delete r.mappingApplicability?.[oldId];if(oldId!==controlId)delete r.controlEffectiveness?.[oldId];
   }else if(mode==='edit'){
     if(!r.controls.includes(controlId))return false;
   }else {if(r.controls.includes(controlId))return false;r.controls.push(controlId);}
@@ -49,6 +49,6 @@ export function saveMapping(data,s,{mode='add',oldId='',controlId='',rationale='
 export function removeMapping(s,id){
   if(s.role!=='first'||s.submitted)return false;
   const r=s.risks[s.selectedRisk];if(!r.controls.includes(id))return false;
-  r.controls=r.controls.filter(c=>c!==id);delete r.mappingRationale?.[id];delete r.mappingApplicability?.[id];
+  r.controls=r.controls.filter(c=>c!==id);delete r.mappingRationale?.[id];delete r.mappingApplicability?.[id];delete r.controlEffectiveness?.[id];
   invalidateMapping(s,r.id,`Removed control mapping ${id} from ${r.name}; the control remains in the library.`);return true;
 }

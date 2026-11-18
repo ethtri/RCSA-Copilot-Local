@@ -14,6 +14,7 @@ import {researchEntry,researchView,evidenceEntry} from './research.js?v=20261116
 import {intelligenceView,intelligenceEntry,contextualPrompt} from './risk-intelligence.js?v=20261116.3';
 import {decisionBrief} from './decision-brief.js?v=20261116.3';
 import {controlsWorkspace} from './controls.js?v=20261116.3';
+import {recordedControlRatings} from './control-ratings.js';
 import {responseWorkspace,responseSummary} from './response-view.js?v=20261116.3';
 import {sharedPair} from './mappings.js?v=20261116.3';
 import {trajectory} from './visuals.js?v=20261116.3';
@@ -56,11 +57,21 @@ function riskAssessment(data,s,kind) {
   return `<header class="page-heading"><h1>${residual?'Assess risk after controls.':'Assess risk before controls.'}</h1><p>${residual?'Rate the risk using existing controls and the evidence that they work.':'Rate likelihood and impact before considering controls.'}</p></header>
   <div class="sheet assessment-sheet">${riskSelector(s)}<section class="risk-content"><div class="section-head"><h2>${esc(r.name)}</h2>${confirmed?'<span class="confirmed-small">'+icon('check',15)+' Confirmed</span>':'<span class="small muted">Draft assessment</span>'}</div><p class="muted">${esc(r.description)}</p>${r.preparedBaseline?'<details class="baseline-note"><summary>About the starting assessment</summary><p>Prepared example records. Earlier approvals are outside this demo. New decisions appear in the decision history.</p></details>':''}${residual&&r.id!=='unauthorized'?`<p class="research-limit">Control conclusion: ${esc(r.controlConclusion?.text||'No conclusion recorded. Review the available evidence.')}</p>`:''}
   ${residual?`<div class="task-context"><strong>${r.prior?band(score(r.prior))+' '+score(r.prior):'No previous assessment'} → ${score(r.residual)?band(score(r.residual))+' '+score(r.residual):'Unrated draft'}</strong> · ${confirmed?'Confirmed assessment':'Owner draft; not yet confirmed'}</div>`+`<div class="prior-current"><div><span class="label">Prior residual risk</span>${r.prior?ratingBadge(r.prior):'<span class="no-rating">No previous assessment</span>'}</div><div><span class="label">Current assessment</span><span id="live-rating">${ratingBadge(r.residual)}</span></div></div>`:''}
-  ${riskDetails(data,s,r)}${ratingForm(s,r,kind,context)}${inlineInsights(data,s,kind,context)}<details class="assessment-history-fold"><summary>Compare prior cycles and evidence</summary>${assessmentHistory(data,s,r,kind)}</details>
+  ${riskDetails(data,s,r)}${residual?controlRatingBasis(data,s,r):''}${ratingForm(s,r,kind,context)}${inlineInsights(data,s,kind,context)}<details class="assessment-history-fold"><summary>Compare prior cycles and evidence</summary>${assessmentHistory(data,s,r,kind)}</details>
 
   </section><aside class="rating-aside"><div class="rating-draft-position"><span class="label">${residual?'Risk after controls':'Risk before controls'} · ${confirmed?'Confirmed':'Draft'}</span><div id="guide-rating">${ratingBadge(r[kind])}</div>${score(r[kind])?`<p class="rating-equation">Likelihood ${esc(r[kind].likelihood)} × Impact ${esc(r[kind].impact)}</p>`:''}</div><section class="rating-heatmap" aria-label="Risk heatmap"><span class="label">Risk heatmap</span><div id="guide-matrix">${matrix(r[kind].likelihood,r[kind].impact)}</div></section><details class="rating-guide"><summary>Rating definitions and sources</summary>${link('View rating definitions','definitions')}<hr><span class="label">Evidence to consider</span>${r.sources.map(id=>sourceLink(sourceRecords(data,s).find(x=>x.id===id)?.title||'Read source evidence',id)).join('')}${residual?`<hr><p class="small">${score(r.residual)>thresholdFor(s)?(r.riskResponse.created&&!r.riskResponse.needsReview?'Above tolerance. Response recorded; linked follow-up remains open.':'Above tolerance. Complete the risk response before confirming.'):'Within the bank’s response threshold.'}</p>`:''}</details></aside></div>
   ${residual?responseSummary(s,r):''}
   ${stepFooter(s,residual?'confirm-residual':'confirm-inherent','Confirm assessment',residual?'controls':'changes')}`;
+}
+function controlRatingBasis(data,s,risk){
+ if(!risk.controlEffectiveness||!Object.keys(risk.controlEffectiveness).length)return '';
+ const p=assessmentProjection(s,'current',data),r=p?.risks[risk.id];
+ if(!r)return '';
+ const controls=p.controls.filter(c=>r.controls.includes(c.id)&&r.controlEffectiveness?.[c.id]);
+ if(!controls.length)return '';
+ return `<details class="assessment-history-fold control-rating-basis"><summary>Control ratings and evidence</summary>
+ ${controls.map(c=>`<section><h3>${esc(c.name)}</h3>${recordedControlRatings(r,c,p.sources,{version:p.draft?null:p.version})}</section>`).join('')}
+ </details>`;
 }
 function discovery(data,s) {
   const locked=s.role!=='first'||s.submitted;

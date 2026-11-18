@@ -24,10 +24,11 @@ import {versionDialog} from './versions.js?v=20261116.3';
 import {controlLibraryDialog,ownerRevisionDialog} from './control-library.js?v=20261116.3';
 import {dashboardView,assessmentLaunch} from './dashboard.js?v=20261116.3';
 import {mappingDialog,removalDialog} from './controls.js?v=20261116.3';
+import {controlRatingDialog,controlRatingEvidence} from './control-ratings.js';
 import {controlsLibrary,saveMapping,removeMapping,sharedPair,mappingNeedsReview} from './mappings.js?v=20261116.3';
 import {responseComplete,saveRiskResponse,responseErrors,setResponseStrategy,actionFor} from './responses.js?v=20261116.3';
 import {responseDraft,responseDraftDialog,applyResponseDraft} from './response-view.js?v=20261116.3';
-import {createInitial,migrateSession,sourceRecords,assessmentProjection,validRating,score,band,record,sendAssessment,sendChallenge,respond,completeReview,seedScene,startOwnerRevision,LIKELIHOOD,IMPACT,responseCoverage,reportSignature,actionComplete} from './model.js?v=20261116.3';
+import {createInitial,migrateSession,sourceRecords,assessmentProjection,validRating,score,band,record,sendAssessment,sendChallenge,respond,completeReview,seedScene,startOwnerRevision,LIKELIHOOD,IMPACT,responseCoverage,reportSignature,actionComplete,isKeyControl,incompleteKeyControl,saveControlRatings} from './model.js?v=20261116.3';
 import {esc,icon,button,emptyState,loadingState,BADGE_CSS} from './ui.js?v=20261116.3';
 import {assessmentView} from './assessment.js?v=20261116.3';
 import {analysisPrompts} from './risk-intelligence.js?v=20261116.3';
@@ -98,6 +99,7 @@ function render(focus=false){
  if(state.grc.status==='pending'&&!syncTimer)syncTimer=setTimeout(()=>{syncTimer=null;finishAutomaticSync(state);save();if(route==='settings/integrations')render();},650);
 }
 function mutateField(key,value){
+ if(key.startsWith('control-rating.'))return;
  if(mutateScopeField(state,key,value)){save();return;}
   if(mutateControlFit(state,key,value)){save();return;}
  if(key==='replyRiskId'){if(state.role==='first'&&state.challengeStatus==='open'&&state.risks[value])state.replyRiskId=value;save();return;}
@@ -132,12 +134,18 @@ function showDialog(body){
   else if(oldTitle===dialog.querySelector('#dialog-title')?.textContent)dialog.scrollTop=scrollTop;
   else dialog.scrollTop=0;
 }
+function openControlRatings(controlId){
+ const projection=assessmentProjection(state,'current',data),risk=projection?.risks[state.selectedRisk];
+ const control=projection?.controls.find(c=>c.id===controlId);
+ if(!risk||!risk.controls?.includes(controlId)||!isKeyControl(risk,control))return;
+ showDialog(controlRatingDialog(risk,control,projection.sources,{readOnly:state.submitted||state.role!=='first',version:state.submitted?projection.version:null}));
+}
 function sourceDialog(id,version){
   const sources=route==='reports'||version?assessmentProjection(state,version||'current',runtimeData())?.sources||[]:sourceRecords(data,state);
   const recordedSource=sources.find(x=>x.id===id),source=recordedSource||(route!=='reports'&&!version?suggestionSources().find(x=>x.id===id):null);if(!source)return showDialog('<h2 id="dialog-title">Source unavailable for this version</h2><p>This record was not available in the selected assessment. Choose another linked source or assessment version.</p>');
   if(dialog.open){
     // Keep the live editor nodes: values, listeners and focus survive evidence inspection.
-    const title=dialog.querySelector('#dialog-title')?.textContent||'',returnLabel=dialog.querySelector('.insight-detail')?'Back to insight':dialog.querySelector('.ca-plan-dialog')?'Back to implementation plan':dialog.querySelector('.ca-recommendation-dialog')?'Back to control design':'Back to '+(title.toLowerCase().includes('plan')?'implementation plan':'draft');
+    const title=dialog.querySelector('#dialog-title')?.textContent||'',returnLabel=dialog.querySelector('.control-rating-dialog')?'Back to ratings':dialog.querySelector('.insight-detail')?'Back to insight':dialog.querySelector('.ca-plan-dialog')?'Back to implementation plan':dialog.querySelector('.ca-recommendation-dialog')?'Back to control design':'Back to '+(title.toLowerCase().includes('plan')?'implementation plan':'draft');
     const parent={nodes:[...dialog.childNodes],focus:document.activeElement,scrollTop:dialog.scrollTop,className:dialog.className,returnLabel};
     dialogParents.push(parent);
   }
@@ -165,6 +173,18 @@ function highlightMap(event){
 }
 for(const event of ['pointerover','pointerout','focusin','focusout'])app.addEventListener(event,highlightMap);
 document.addEventListener('toggle',e=>{if(e.target.matches?.('details[data-edit]')&&state){state.editPanels??={};state.editPanels[e.target.dataset.edit]=e.target.open;save();}},true);
+dialog.addEventListener('submit',e=>{
+ const form=e.target;
+ if(form.id!=='control-rating-form')return;
+ e.preventDefault();
+ const values=new FormData(form);
+ const ratings=Object.fromEntries(['design','operation'].map(d=>[d,Object.fromEntries(['rating','sourceId','rationale'].map(key=>[key,values.get(d+'.'+key)]))]));
+ const {ok,errors,changed}=saveControlRatings(state,form.dataset.risk,form.dataset.control,ratings);
+ if(!ok)return showValidation(errors||'These ratings can only be edited in an owner draft.',dialog);
+ if(changed)markAssistancePlanForReview(state,form.dataset.risk);
+ closeDialog();save();render();
+ notify(changed?'Ratings saved. Review your control and risk conclusions before confirming.':'Ratings saved.');
+});
 document.addEventListener('input',e=>{clearFieldError(e.target);if(e.target.dataset.opsField&&handleOperationsField(state,e.target.dataset.opsField,e.target.value)){save();return;}if(e.target.dataset.field)mutateField(e.target.dataset.field,e.target.value);if(e.target.dataset.field==='response'){document.querySelector('[data-action="undo-reply"]')?.remove();const list=document.querySelector('.coverage-list');if(list)list.innerHTML=replyCoverage(data,state,responseCoverage).map(c=>`<li>${icon(c.done?'check':'info',17)}<span>${c.label}</span><small>${c.done?'Mentioned in draft':'Not mentioned'}</small></li>`).join('');}});
 document.addEventListener('change',e=>{
   dialogOrigin=null;
@@ -181,6 +201,10 @@ document.addEventListener('change',e=>{
   if(e.target.matches('[data-control-assistance-view]')){const ca=ensureAssistance(state);ca.openByRisk[state.selectedRisk]=true;ca.tabByRisk[state.selectedRisk]=e.target.value;save();render();document.getElementById('control-assistance-view')?.focus({preventScroll:true});return;}
   if(e.target.id==='demo-role'){if(new URLSearchParams(location.search).get('presenter')!=='1')return;state.role=e.target.value;save();if(['assurance','management','admin'].includes(state.role)){navigate(state.role==='admin'?'settings/bank':'assessment/'+(state.role==='management'?'decision':'action'));}else render(true);notify(({first:'Assessment owner',second:'Independent reviewer',assurance:'Control assurance',management:'Management decision owner',admin:'Bank administrator'})[state.role]+' view');}
   else if(e.target.id==='demo-scene'&&e.target.value){const scene=e.target.value,exchange=state.grc;state=seedScene(data,scene==='new-evidence'?'submitted':scene);if(exchange)state.grc=exchange;if(scene==='new-evidence'){receiveEvidence(state);state.researchTab='evidence';state.researchReturn='review';state.analysisPane='evidence';state.analysisStage='residual';state.analysisReturn='review';}save();navigate(scene==='new-evidence'?'assessment/analysis':scene==='start'?'work':scene==='discovery'?'assessment/discovery':scene==='complete'?'reports':'assessment/review');notify('Scene loaded');}
+  else if(e.target.dataset.field?.startsWith('control-rating.')){
+   const preview=dialog.querySelector(`[data-rating-preview="${e.target.dataset.ratingSource}"]`);
+   if(preview)preview.innerHTML=controlRatingEvidence(sourceRecords(data,state).find(source=>source.id===e.target.value),{preview:true});
+  }
   else if(e.target.dataset.field){mutateField(e.target.dataset.field,e.target.value);if(e.target.dataset.field.startsWith('mapping.')){if(e.target.dataset.field==='mapping.controlId')showDialog(mappingDialog(data,state,state.mappingContext));}else if(e.target.tagName==='SELECT'||e.target.name==='risk-response-strategy')render();}
 });
 document.addEventListener('click',e=>{
@@ -283,12 +307,20 @@ document.addEventListener('click',e=>{
   if(action==='confirm-reset'){state=createInitial(data);save();closeDialog();navigate('work');return notify('Workspace restored.');}
   if(action==='risk'){state.selectedRisk=el.dataset.risk;if(state.selectedRisk!=='unauthorized'&&['event','claims','options','evidence','research'].includes(state.analysisPane))state.analysisPane='overview';state.intelligenceSource='';state.intelligenceSignal='';save();return render();}
   if(action==='control'){state.selectedControl=el.dataset.control;save();render();const detail=document.querySelector('.cm-evidence');if(detail){detail.open=true;const parent=detail.closest('.ca-current-controls');if(parent)parent.open=true;detail.querySelector('summary')?.focus({preventScroll:true});detail.scrollIntoView({block:'nearest',behavior:'instant'});}return;}
+  if(action==='control-rating-open')return openControlRatings(el.dataset.control);
   if(action==='open-process'){state.selectedRisk=el.dataset.risk;save();return navigate(el.dataset.risk==='unauthorized'?(state.submitted?'assessment/review':'assessment/changes'):'assessment/inherent');}
   if(['role-review','role-first','role-response'].includes(action)){if(new URLSearchParams(location.search).get('presenter')!=='1')return;state.role=action==='role-review'?'second':'first';save();return navigate('assessment/review');}
   if(action==='qualify'){const d=document.getElementById('qualification-details');d.open=true;d.querySelector('textarea').focus();return;}
   if(action==='confirm-scope'){const result=confirmScope(state,data);if(!result.ok)return notify(result.message);save();return navigate('assessment/inherent');}
   if(action==='confirm-inherent'&&state.role==='first'&&!state.submitted){if(!currentRiskValid('inherent'))return notify('Explain the likelihood and impact before confirming.');const r=state.risks[state.selectedRisk];r.inherentConfirmed=true;if(r.preparedBaseline)r.preparedBaseline.reviewedStages=[...new Set([...(r.preparedBaseline.reviewedStages||[]),'inherent'])];record(state,data.owner,`Confirmed inherent assessment for ${r.name}: ${band(score(r.inherent))} (${score(r.inherent)}).`);save();return navigate('assessment/controls');}
-  if(action==='confirm-controls'&&state.role==='first'&&!state.submitted){const r=state.risks[state.selectedRisk];if(mappingNeedsReview(data,state,r.id))return notify('Assess coverage for each newly mapped control before confirming. Use Edit mapping.');if(!r.controls.length&&!document.getElementById('no-controls-attest')?.checked)return notify('Confirm that no controls are mapped before continuing.');r.noControlsConfirmed=!r.controls.length;r.controlConclusion??={text:controlDefaults[r.id]};if(!r.controlConclusion.text.trim())return notify('Record your control conclusion before confirming.');r.controlsConfirmed=true;if(r.preparedBaseline)r.preparedBaseline.reviewedStages=[...new Set([...(r.preparedBaseline.reviewedStages||[]),'controls'])];record(state,data.owner,'Confirmed the control assessment and its evidence limitations.');save();return navigate(state.selectedRisk==='unauthorized'&&sharedPair(state)?'assessment/discovery':'assessment/residual');}
+  if(action==='confirm-controls'&&state.role==='first'&&!state.submitted){
+   const r=state.risks[state.selectedRisk];
+   if(mappingNeedsReview(data,state,r.id))return notify('Assess coverage for each newly mapped control before confirming. Use Edit mapping.');
+   const missingRating=incompleteKeyControl(state,r);
+   if(missingRating)return openControlRatings(missingRating.id);
+   if(!r.controls.length&&!document.getElementById('no-controls-attest')?.checked)return notify('Confirm that no controls are mapped before continuing.');
+   r.noControlsConfirmed=!r.controls.length;r.controlConclusion??={text:controlDefaults[r.id]};if(!r.controlConclusion.text.trim())return notify('Record your control conclusion before confirming.');r.controlsConfirmed=true;if(r.preparedBaseline)r.preparedBaseline.reviewedStages=[...new Set([...(r.preparedBaseline.reviewedStages||[]),'controls'])];record(state,data.owner,'Confirmed the control assessment and its evidence limitations.');save();return navigate(state.selectedRisk==='unauthorized'&&sharedPair(state)?'assessment/discovery':'assessment/residual');
+  }
   if(action==='dependency'&&state.role==='first'&&!state.submitted){const value=el.dataset.decision;if(value==='qualified'&&state.qualification.trim().length<5)return notify('Add a short note or explain what is still unknown.');state.dependency=value;record(state,data.owner,`${value==='confirmed'?'Confirmed':value==='qualified'?'Qualified':'Dismissed'} the suggested shared-source relationship. Ratings unchanged.`);save();render();return notify('Your judgment is recorded. Risk ratings are unchanged.');}
   if(action==='confirm-residual'&&state.role==='first'&&!state.submitted){if(!currentRiskValid('residual'))return notify('Explain the likelihood and impact before confirming.');if(!responseComplete(state,state.selectedRisk)){notify('Create or review the required risk response before confirming.');return navigate('assessment/response');}const r=state.risks[state.selectedRisk];r.residualConfirmed=true;if(r.preparedBaseline)r.preparedBaseline.reviewedStages=[...new Set([...(r.preparedBaseline.reviewedStages||[]),'residual'])];r.lastConfirmedResidual=structuredClone(r.residual);record(state,data.owner,`Confirmed residual assessment for ${r.name}: ${band(score(r.residual))} (${score(r.residual)}).`);save();return navigate('assessment/review');}
   if(action==='submit'){if(!document.getElementById('owner-attest')?.checked)return notify('Check the confirmation box before sending.');if(!sendAssessment(state))return notify('Complete the assessment confirmations before sending.');save();render(true);return notify('Assessment submitted for independent review.');}
@@ -314,7 +346,7 @@ const recordFiles=['workflow-demo','risk-intelligence','research-demo','assessme
 let workspaceLoad, navigationId=0;
 async function loadWorkspace(){
  const records=await Promise.all(recordFiles.map(async name=>{
-  const response=await fetch('/assets/data/'+name+'.json?v=20261116.3');
+  const response=await fetch('/assets/data/'+name+'.json?v=20261118.1');
   if(!response.ok)throw new Error('Assessment records unavailable');
   return response.json();
  }));

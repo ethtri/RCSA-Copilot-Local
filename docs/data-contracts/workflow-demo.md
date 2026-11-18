@@ -30,6 +30,8 @@ The illustrative rating method uses 1–5 likelihood × 1–5 impact: Low 1–4,
 
 Control definitions remain separate from risk-to-control relationships. A mapping records rationale and an explicit owner applicability judgment: unassessed, expected design coverage, limited coverage or no current coverage. New unassessed mappings block confirmation. Replacing a mapping is atomic; removing a mapping retains the library definition. An empty mapping requires an explicit owner conclusion and confirmation that no controls are mapped.
 
+`controlEffectiveness` stores separate design and operating ratings by risk and mapped key control. Each rating records a rationale and the source reviewed. An Insufficient evidence rating can omit the source and must explain the gap. Changes in an owner draft require renewed confirmation of the control and residual assessments. Submitted versions preserve the ratings and their evidence. Residual risk remains the owner's likelihood × impact assessment.
+
 New control designs remain Proposed and unimplemented. Current/proposed counts distinguish them. A design judgment is not an operating-effectiveness conclusion. Evidence scope and dates remain tied to the source that actually supports them.
 
 ## AI proposals and discovery
