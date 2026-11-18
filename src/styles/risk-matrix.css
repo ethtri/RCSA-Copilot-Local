@@ -54,3 +54,11 @@
   font-weight: 650;
   text-anchor: middle;
 }
+
+.rmx-chart .rmx-selection { pointer-events: none; }
+.rmx-chart [data-action="pick-risk-rating"] { cursor: pointer; }
+.rmx-chart [data-action="pick-risk-rating"]:is(:hover, :focus-visible) {
+  stroke: var(--forest, #124d3b);
+  stroke-width: 2;
+}
+.rating-heatmap .rmx-hint { margin: 4px 0 8px; color: var(--muted); font-size: 13px; }

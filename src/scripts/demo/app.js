@@ -30,7 +30,7 @@ import {responseComplete,saveRiskResponse,responseErrors,setResponseStrategy,act
 import {responseDraft,responseDraftDialog,applyResponseDraft} from './response-view.js?v=20261116.3';
 import {createInitial,migrateSession,sourceRecords,assessmentProjection,validRating,score,band,record,sendAssessment,sendChallenge,respond,completeReview,seedScene,startOwnerRevision,LIKELIHOOD,IMPACT,responseCoverage,reportSignature,actionComplete,isKeyControl,incompleteKeyControl,saveControlRatings} from './model.js?v=20261116.3';
 import {esc,icon,button,emptyState,loadingState,BADGE_CSS} from './ui.js?v=20261116.3';
-import {assessmentView} from './assessment.js?v=20261116.3';
+import {assessmentView} from './assessment.js?v=20261118.2';
 import {analysisPrompts} from './risk-intelligence.js?v=20261116.3';
 import {workView} from './work.js?v=20261116.3';
 import {reportsView,handleReportActions} from './reports.js?v=20261116.3';
@@ -112,7 +112,7 @@ function mutateField(key,value){
   if(key.startsWith('mapping.')){state.mappingDraft??={};if(key==='mapping.controlId')state.mappingDraft.applicability='unassessed';state.mappingDraft[key.slice(8)]=value;return;}
   if(key.startsWith('riskResponse.')){if(state.role!=='first'||state.submitted)return;const r=state.risks[state.selectedRisk];if(key==='riskResponse.strategy'){const previous=r.riskResponse.strategy;if(previous&&previous!==value&&(state.operations?.actions?.[r.id]||state.operations?.decisions?.[r.id])){state.pendingStrategy={riskId:r.id,previous,next:value};render();showDialog(`<h2 id="dialog-title">Change response approach?</h2><p>The previous linked action and decision request will be kept in history and replaced by the new approach. Their history remains available.</p>${button('Change approach and retain history','confirm-strategy','class="button primary"')}${button('Keep current approach','close-dialog','class="button"')}`);return;}setResponseStrategy(state,r.id,value);reconcileResponseRecords(state,r.id,previous,value);save();return;}r.riskResponse[key.slice(13)]=value;r.riskResponse.needsReview=true;r.residualConfirmed=false;}
   else if(key.startsWith('responseAction.')){if(state.role!=='first'||state.submitted)return;actionFor(state,state.selectedRisk)[key.slice(15)]=value;state.risks[state.selectedRisk].riskResponse.needsReview=true;state.risks[state.selectedRisk].residualConfirmed=false;}
-  else if(key.startsWith('risk.')){if(state.role!=='first'||state.submitted)return;const [,kind,name]=key.split('.');if(!['inherent','residual','responseAction','controlConclusion'].includes(kind))return;const r=state.risks[state.selectedRisk];r[kind]??={};r[kind][name]=['likelihood','impact'].includes(name)?Math.max(1,Math.min(5,Number(value)||1)):value;r[kind==='controlConclusion'?'controlsConfirmed':kind==='responseAction'?'residualConfirmed':kind+'Confirmed']=false;if(kind==='controlConclusion'){r.residualConfirmed=false;if(r.riskResponse.created)r.riskResponse.needsReview=true;}if(r.riskResponse.created)r.riskResponse.needsReview=true;}
+  else if(key.startsWith('risk.')){if(state.role!=='first'||state.submitted)return;const [,kind,name]=key.split('.');if(!['inherent','residual','responseAction','controlConclusion'].includes(kind))return;const r=state.risks[state.selectedRisk];r[kind]??={};if(name==='rating')Object.assign(r[kind],value);else r[kind][name]=['likelihood','impact'].includes(name)?Math.max(1,Math.min(5,Number(value)||1)):value;r[kind==='controlConclusion'?'controlsConfirmed':kind==='responseAction'?'residualConfirmed':kind+'Confirmed']=false;if(kind==='controlConclusion'){r.residualConfirmed=false;if(r.riskResponse.created)r.riskResponse.needsReview=true;}if(r.riskResponse.created)r.riskResponse.needsReview=true;}
   else if(key.startsWith('action.')){if(state.role!=='first'||(state.submitted&&state.challengeStatus!=='open'))return;state.action[key.slice(7)]=value;}
   else if(['qualification','handoff','question','response','reviewerRationale','responseSufficient','assessmentView'].includes(key)){const reviewer=['question','reviewerRationale','responseSufficient','assessmentView'].includes(key);if(reviewer?state.role!=='second':state.role!=='first')return;state[key]=value;if(key==='response'||key==='question'){if(key==='question')state.replyRiskId='';delete state.replyUndo;delete state.replyDraft;}}
   if(key.startsWith('risk.controlConclusion.'))markAssistancePlanForReview(state,state.selectedRisk);
@@ -207,9 +207,36 @@ document.addEventListener('change',e=>{
   }
   else if(e.target.dataset.field){mutateField(e.target.dataset.field,e.target.value);if(e.target.dataset.field.startsWith('mapping.')){if(e.target.dataset.field==='mapping.controlId')showDialog(mappingDialog(data,state,state.mappingContext));}else if(e.target.tagName==='SELECT'||e.target.name==='risk-response-strategy')render();}
 });
+function pickRiskRating(cell){
+ const kind=route?.split('/')[1];
+ if(!state||state.role!=='first'||state.submitted||!['inherent','residual'].includes(kind))return;
+ const rating={likelihood:Number(cell.dataset.likelihood),impact:Number(cell.dataset.impact)};
+ if(!validRating(rating))return;
+ const current=state.risks[state.selectedRisk][kind];
+ if(Number(current.likelihood)===rating.likelihood&&Number(current.impact)===rating.impact)return;
+ cell.focus({preventScroll:true});
+ mutateField('risk.'+kind+'.rating',rating);
+ render();
+}
+document.addEventListener('keydown',e=>{
+ const cell=e.target.closest?.('[data-action="pick-risk-rating"]');
+ if(!cell)return;
+ if(e.key==='Enter'||e.key===' '){e.preventDefault();return pickRiskRating(cell);}
+ const offsets={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,1],ArrowDown:[0,-1]};
+ const offset=offsets[e.key];
+ if(!Array.isArray(offset))return;
+ e.preventDefault();
+ const likelihood=Number(cell.dataset.likelihood)+offset[0],impact=Number(cell.dataset.impact)+offset[1];
+ const next=cell.parentElement.querySelector(`[data-likelihood="${likelihood}"][data-impact="${impact}"]`);
+ if(!next)return;
+ cell.setAttribute('tabindex','-1');
+ next.setAttribute('tabindex','0');
+ next.focus();
+});
 document.addEventListener('click',e=>{
   if(e.target.closest('.skip-link')){e.preventDefault();document.getElementById('main')?.focus();return;}
   const el=e.target.closest('[data-action]');if(!el||el.disabled||!state)return;const action=el.dataset.action;
+  if(action==='pick-risk-rating')return pickRiskRating(el);
   dialogOrigin=el;
   const ctx={data:runtimeData(),state,el,showDialog,closeDialog,showValidation,notify,save,render,navigate,route};
   if(action==='signal-review-test'){showDialog(incomingTestDialog(data,state));dialog.classList.add('source-drawer','insight-drawer');return;}
