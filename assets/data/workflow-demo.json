@@ -31,6 +31,16 @@
         "callback",
         "approval"
       ],
+      "controlEffectiveness": {
+        "callback": {
+          "design": {"rating": "partially-effective", "sourceId": "callback", "rationale": "The standard route verifies the request. The urgent exception relies on supervisory approval."},
+          "operation": {"rating": "insufficient-evidence", "sourceId": "test", "rationale": "The review covered 25 standard wires before the urgent route was introduced."}
+        },
+        "approval": {
+          "design": {"rating": "partially-effective", "sourceId": "approval", "rationale": "A separate supervisor checks the request, but both checks rely on the same contact record."},
+          "operation": {"rating": "insufficient-evidence", "sourceId": "test", "rationale": "The standard-wire review did not test supervisory approval for urgent releases."}
+        }
+      },
       "sources": [
         "procedure",
         "test",
@@ -60,6 +70,12 @@
       "controls": [
         "details-check"
       ],
+      "controlEffectiveness": {
+        "details-check": {
+          "design": {"rating": "effective", "sourceId": "details-test", "rationale": "A second operator compares the beneficiary and amount against the verified instruction."},
+          "operation": {"rating": "insufficient-evidence", "sourceId": "details-test", "rationale": "The check worked in the 25 standard samples. The test does not show whether amendments are rechecked."}
+        }
+      },
       "sources": [
         "details-test"
       ]
@@ -87,6 +103,12 @@
       "controls": [
         "queue"
       ],
+      "controlEffectiveness": {
+        "queue": {
+          "design": {"rating": "effective", "sourceId": "queue-review", "rationale": "Monitoring and escalation address queue delays before cutoff."},
+          "operation": {"rating": "effective", "sourceId": "queue-review", "rationale": "The October review found timely escalation on the days sampled."}
+        }
+      },
       "sources": [
         "queue-review"
       ]
@@ -96,6 +118,7 @@
     {
       "id": "callback",
       "name": "Callback verification",
+      "keyControl": true,
       "purpose": "Verify the request",
       "owner": "Payments Operations",
       "design": "A callback to the registered customer contact verifies the request before release. The urgent-route exception requires supervisory approval.",
@@ -108,6 +131,7 @@
     {
       "id": "approval",
       "name": "Supervisory approval",
+      "keyControl": true,
       "purpose": "Confirm authorization",
       "owner": "Payments Operations",
       "design": "A separate supervisor reviews the instruction and confirmation against the customer-contact record before authorizing release.",
@@ -120,6 +144,7 @@
     {
       "id": "details-check",
       "name": "Payment detail check",
+      "keyControl": true,
       "purpose": "Check beneficiary and amount",
       "owner": "Payments Operations",
       "design": "A second operator compares entered beneficiary and amount against the verified instruction.",
@@ -132,6 +157,7 @@
     {
       "id": "queue",
       "name": "Cutoff monitoring",
+      "keyControl": true,
       "purpose": "Identify and escalate queue delays",
       "owner": "Payments Operations",
       "design": "The queue is monitored before cutoff; delayed items are escalated to the duty supervisor.",

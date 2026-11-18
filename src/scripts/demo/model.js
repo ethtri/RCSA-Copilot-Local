@@ -18,6 +18,45 @@ export const riskEntries=s=>Object.values(s.risks||{}).filter(r=>!r.removed);
 // The authored service reply is not available until its explicit receipt event.
 export const sourceAvailable=(source,s)=>source.id==='signals-urgent-test'?!!s.signalTestReceived:source.id!=='service-clarification'||!!s.newEvidenceReceived;
 export const sourceRecords=(data,s)=>[...(data?.sources||s.evidenceContext?.sources||[]),...(s.additionalSources||[])].filter((r,i,rows)=>sourceAvailable(r,s)&&rows.findIndex(x=>x.id===r.id)===i);
+export const CONTROL_RATING_LABELS=Object.freeze({
+ 'effective':'Effective',
+ 'partially-effective':'Partially effective',
+ 'ineffective':'Ineffective',
+ 'insufficient-evidence':'Insufficient evidence'
+});
+export const CONTROL_RATING_DIMENSIONS=Object.freeze({design:'Design effectiveness',operation:'Operating effectiveness'});
+export const isKeyControl=(risk,control)=>!!control&&!control.definitionUnavailable&&!control.proposed&&String(control.status||'').toLowerCase()!=='proposed'&&(control.keyControl??!!risk.baselineControls?.includes(control.id));
+function controlRatingErrors(ratings,sources){
+ const errors=[];
+ for(const [dimension,label] of Object.entries(CONTROL_RATING_DIMENSIONS)){
+  const {rating,sourceId,rationale}=ratings?.[dimension]||{};
+  const field=name=>`control-rating.${dimension}.${name}`;
+  if(!Object.hasOwn(CONTROL_RATING_LABELS,rating))errors.push({field:field('rating'),message:`Choose a rating for ${label.toLowerCase()}.`});
+  if(sourceId?!sources.some(source=>source.id===sourceId):rating&&rating!=='insufficient-evidence')errors.push({field:field('sourceId'),message:`Choose a source for ${label.toLowerCase()}.`});
+  if(!rationale?.trim())errors.push({field:field('rationale'),message:`Explain the ${label.toLowerCase()} rating.`});
+ }
+ return errors;
+}
+export function incompleteKeyControl(s,risk,controls=s.evidenceContext?.controls||[]){
+ const sources=sourceRecords(null,s);
+ return controls.find(control=>risk.controls?.includes(control.id)&&isKeyControl(risk,control)&&controlRatingErrors(risk.controlEffectiveness?.[control.id],sources).length);
+}
+export function saveControlRatings(s,riskId,controlId,ratings){
+ const risk=s.risks?.[riskId],control=s.evidenceContext?.controls?.find(c=>c.id===controlId);
+ if(s.role!=='first'||s.submitted||!risk||risk.removed||!risk.controls?.includes(controlId)||!isKeyControl(risk,control))return {ok:false};
+ const errors=controlRatingErrors(ratings,sourceRecords(null,s));
+ if(errors.length)return {ok:false,errors};
+ const next=Object.fromEntries(Object.keys(CONTROL_RATING_DIMENSIONS).map(d=>[d,{
+  rating:ratings[d].rating,sourceId:ratings[d].sourceId||'',rationale:ratings[d].rationale.trim()
+ }]));
+ if(JSON.stringify(risk.controlEffectiveness?.[controlId])===JSON.stringify(next))return {ok:true,changed:false};
+ risk.controlEffectiveness??={};
+ risk.controlEffectiveness[controlId]=next;
+ invalidateRisk(s,riskId,{controls:true});
+ s.handoff='';
+ record(s,'Alex Morgan',`Saved effectiveness ratings for ${control.name}.`,`Design: ${CONTROL_RATING_LABELS[next.design.rating]}. Operation: ${CONTROL_RATING_LABELS[next.operation.rating]}.`);
+ return {ok:true,changed:true};
+}
 export const DEFAULT_METHOD=defaultPolicy();
 export function emptyResponse(owner=''){return {created:false,needsReview:false,strategy:'',rationale:'',owner,reviewDate:'',protection:'',protectionOwner:owner,protectionDue:'',protectionStatus:'proposed',conditions:'',monitoring:'',decisionOwner:'',customerImpact:'',retainedExposure:'',counterpartyEvidence:''};}
 function initialRisk(r,data){
@@ -49,7 +88,7 @@ export function requirements(s){
   if(carryForwardNeedsReview(s,r))rows.push({key:'carry-forward',label:`${r.name}: starting assessment reviewed for this cycle`,done:false,risk:r.id,stage:'review'});
   if(evidenceRequired(s))rows.push({label:`${r.name}: supporting records linked`,done:(r.sources||[]).length>0&&(r.sources||[]).every(id=>sourceRecords(null,s).some(source=>source.id===id)),risk:r.id,stage:'inherent'});
   rows.push({label:`${r.name}: risk before controls confirmed`,done:!!r.inherentConfirmed&&validRating(r.inherent),risk:r.id,stage:'inherent'});
-  rows.push({label:`${r.name}: controls assessed`,done:!!r.controlsConfirmed&&!Object.values(r.mappingApplicability||{}).some(x=>x.conclusion==='unassessed')&&!!r.controlConclusion?.text?.trim()&&((r.controls||[]).length>0||r.noControlsConfirmed),risk:r.id,stage:'controls'});
+  rows.push({label:`${r.name}: controls assessed`,done:!!r.controlsConfirmed&&(s.submitted||!r.controlEffectiveness||!incompleteKeyControl(s,r))&&!Object.values(r.mappingApplicability||{}).some(x=>x.conclusion==='unassessed')&&!!r.controlConclusion?.text?.trim()&&((r.controls||[]).length>0||r.noControlsConfirmed),risk:r.id,stage:'controls'});
   if(r.id==='unauthorized'&&['callback','approval'].every(id=>r.controls.includes(id)))rows.push({label:'Shared information source reviewed',done:!!s.dependency,risk:r.id,stage:'discovery'});
   rows.push({label:`${r.name}: risk after controls confirmed`,done:!!r.residualConfirmed&&validRating(r.residual),risk:r.id,stage:'residual'});
   rows.push({label:`${r.name}: required response recorded`,done:responseComplete(s,r.id),risk:r.id,stage:'response'});

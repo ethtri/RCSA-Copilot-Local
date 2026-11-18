@@ -5,6 +5,7 @@ import {controlConclusion} from './research.js?v=20261116.3';
 import {contextualPrompt} from './risk-intelligence.js?v=20261116.3';
 import {esc,icon,button,link,sourceLink} from './ui.js?v=20261116.3';
 import {controlsLibrary,mappingApplicability,mappingNeedsReview} from './mappings.js?v=20261116.3';
+import {controlRatingRow} from './control-ratings.js';
 
 const locked=s=>s.role!=='first'||s.submitted;
 const disabled=s=>locked(s)?'disabled':'';
@@ -23,8 +24,21 @@ function coverageLabel(data,s,r,c){
  return label?`<p class="mapped-coverage ${value==='unassessed'?'cm-coverage-pending':''}">${esc(label)}</p>`:'';
 }
 function mappedControlsOverview(data,s,r,controls){
- const groups=[{label:'Current controls',items:controls.filter(c=>!proposed(c))},{label:'Proposed controls',items:controls.filter(proposed)}];
- return `<section class="mapped-controls-overview" aria-label="Controls mapped to ${esc(r.name)}"><div class="mapped-controls-heading"><h2>Controls mapped to this risk</h2>${locked(s)?'':action('Add a control','mapping-add',s)}</div>${groups.map(group=>group.items.length?`<div class="mapped-controls-group"><h3>${group.label} <span>(${group.items.length})</span></h3>${group.label==='Proposed controls'?'<p class="mapped-controls-note">Not implemented or tested. These provide no current protection.</p>':''}<ul>${group.items.map(c=>`<li><div><h4>${esc(c.name)}</h4><p>${esc(c.purpose||'Open the control record to review its purpose.')}</p>${coverageLabel(data,s,r,c)}</div><div class="mapped-control-actions">${button('View details','control',`class="button quiet" data-control="${esc(c.id)}" aria-label="View details: ${esc(c.name)}"`)}${locked(s)?'':`<details class="mapped-control-menu"><summary aria-label="Manage ${esc(c.name)}">Manage</summary><div>${action('Edit risk link','mapping-edit',s,`data-control="${esc(c.id)}"`)}${action('Replace','mapping-replace',s,`data-control="${esc(c.id)}"`)}${action('Remove','mapping-remove-review',s,`data-control="${esc(c.id)}"`)}</div></details>`}</div></li>`).join('')}</ul></div>`:'').join('')}${!controls.length?'<p class="mapped-controls-note">No controls are mapped to this risk. Use <strong>Add a control</strong> to link an existing control or propose a new one.</p>':'<p class="mapped-controls-note">A risk link shows which controls to assess. It does not prove that they work.</p>'}</section>`;
+ const readOnly=locked(s),groups=[{label:'Current controls',items:controls.filter(c=>!proposed(c))},{label:'Proposed controls',items:controls.filter(proposed)}];
+ return `<section class="mapped-controls-overview" aria-label="Controls mapped to ${esc(r.name)}">
+ <div class="mapped-controls-heading"><h2>Controls mapped to this risk</h2>${readOnly?'':action('Add a control','mapping-add',s)}</div>
+ ${groups.filter(group=>group.items.length).map(group=>`<div class="mapped-controls-group"><h3>${group.label} <span>(${group.items.length})</span></h3>
+ ${group.label==='Proposed controls'?'<p class="mapped-controls-note">Not implemented or tested. These provide no current protection.</p>':''}
+ <ul>${group.items.map(c=>{
+  const attrs=`data-control="${esc(c.id)}"`;
+  return `<li><div><h4>${esc(c.name)}</h4><p>${esc(c.purpose||'Open the control record to review its purpose.')}</p>
+  ${coverageLabel(data,s,r,c)}</div>
+  <div class="mapped-control-actions">${button('View details','control',`class="button quiet" ${attrs} aria-label="View details: ${esc(c.name)}"`)}
+  ${readOnly?'':`<details class="mapped-control-menu"><summary aria-label="Manage ${esc(c.name)}">Manage</summary><div>
+   ${action('Edit risk link','mapping-edit',s,attrs)}${action('Replace','mapping-replace',s,attrs)}${action('Remove','mapping-remove-review',s,attrs)}
+  </div></details>`}</div>${controlRatingRow(r,c,readOnly)}</li>`;
+ }).join('')}</ul></div>`).join('')}
+ ${!controls.length?'<p class="mapped-controls-note">No controls are mapped to this risk. Use <strong>Add a control</strong> to link an existing control or propose a new one.</p>':'<p class="mapped-controls-note">A risk link shows which controls to assess. It does not prove that they work.</p>'}</section>`;
 }
 export function controlsWorkspace(data,s){
   // Recorded control records resolve from the submitted context; incoming evidence is handled elsewhere.
